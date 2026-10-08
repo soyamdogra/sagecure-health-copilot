@@ -2,13 +2,405 @@
   "aditi@sagecure.ai": {
     "name": "Aditi",
     "email": "aditi@sagecure.ai",
-    "password": "12345",
-    "abhaId": "14-3139-5070-9016@abdm",
-    "createdAt": "2026-10-08T07:36:50.976Z",
+    "password": "password123",
+    "abhaId": "14-1404-7212-4038@abdm",
+    "createdAt": "2026-10-08T09:32:13.205Z",
     "reports": [
       {
-        "id": "rep-1791447516754",
-        "title": "WhatsApp Image 2026-10-08 at 12.20.49 PM.jpeg",
+        "id": "rep-1791454877530",
+        "title": "Query: मुझे तेज बुखार है",
+        "date": "08 अक्टू॰ 2026",
+        "facility": "सेजक्योर क्लिनिकल सर्च इंजन",
+        "summary_en": "बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान 38°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रत...",
+        "summary_hi": "बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान 38°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रत...",
+        "category": "febrile",
+        "fullData": {
+          "success": true,
+          "userEmail": "aditi@sagecure.ai",
+          "language": "hi",
+          "query": "मुझे तेज बुखार है",
+          "makeStatus": "500 Internal Server Error",
+          "databaseSource": "local",
+          "patient": {
+            "name": "Aditi Sharma",
+            "age": "42",
+            "gender": "पुरुष/महिला",
+            "abhaId": "14-0234-5678-9012@abdm",
+            "facility": "सेजक्योर क्लिनिकल सर्च इंजन",
+            "date": "08 अक्टू॰ 2026",
+            "confidence": "99.4% Verified"
+          },
+          "summary": "बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान 38°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रतिक्रिया है। इस दौरान शरीर में पानी और इलेक्ट्रोलाइट्स की कमी न होने दें। यदि बुखार के साथ गर्दन में अकड़न, सांस लेने में तकलीफ या अत्यधिक कमजोरी हो, तो तत्काल डॉक्टर से परामर्श करें।",
+          "retrievedEvidence": [
+            "NICE क्लिनिकल गाइडलाइन्स: 38.0°C (100.4°F) से ऊपर शरीर का तापमान बुखार माना जाता है। दवा का उद्देश्य शारीरिक बेचैनी कम करना है।",
+            "विश्व स्वास्थ्य संगठन (WHO) प्रोटोकॉल: तापमान बढ़ने पर शरीर से 10% अधिक पसीना और पानी नष्ट होता है, अतः ओआरएस व तरल पदार्थ अनिवार्य हैं।",
+            "दवा संबंधी परामर्श: पैरासिटामोल बुखार की प्राथमिक सुरक्षित दवा है। खाली पेट तेज दर्दनिवारक दवाएं बिना डॉक्टर की सलाह के न लें।",
+            "खतरे के संकेत: यदि बुखार 3 दिन से अधिक रहे, 103°F से अधिक हो या चकत्ते हों, तो तुरंत नजदीकी अस्पताल में डॉक्टर को दिखाएं।"
+          ],
+          "recommendations": [
+            {
+              "icon": "💧",
+              "title": "भरपूर तरल आहार",
+              "desc": "दिन भर में 2.5 से 3 लीटर पानी, ओआरएस, नारियल पानी या सूप पिएं ताकि डिहाइड्रेशन न हो।"
+            },
+            {
+              "icon": "🌡️",
+              "title": "तापमान का रिकॉर्ड रखें",
+              "desc": "हर 4 से 6 घंटे में डिजिटल थर्मामीटर से बुखार नापें और डायरी में लिखें।"
+            },
+            {
+              "icon": "🛌",
+              "title": "पर्याप्त आराम",
+              "desc": "हवादार कमरे में आराम करें, हल्के सूती कपड़े पहनें और माथे पर ताजे पानी की पट्टी रखें।"
+            },
+            {
+              "icon": "🩺",
+              "title": "डॉक्टर से परामर्श",
+              "desc": "यदि बुखार 48 घंटे से ज्यादा रहे तो सीबीसी और आवश्यक खून की जांच करवाएं।"
+            }
+          ],
+          "plainLanguage": "बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान 38°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रतिक्रिया है। इस दौरान शरीर में पानी और इलेक्ट्रोलाइट्स की कमी न होने दें। यदि बुखार के साथ गर्दन में अकड़न, सांस लेने में तकलीफ या अत्यधिक कमजोरी हो, तो तत्काल डॉक्टर से परामर्श करें।",
+          "plainLanguage_en": "Active clinical search results for fever symptoms: An elevated body temperature (febrile state) is a physiological immune response to infection or systemic inflammation. Core temperatures ≥ 38.0°C (100.4°F) require monitored fluid replenishment and symptom management. Red flag symptoms such as stiff neck, confusion, breathing difficulty, or persistent vomiting require urgent medical evaluation.",
+          "plainLanguage_hi": "बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान 38°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रतिक्रिया है। इस दौरान शरीर में पानी और इलेक्ट्रोलाइट्स की कमी न होने दें। यदि बुखार के साथ गर्दन में अकड़न, सांस लेने में तकलीफ या अत्यधिक कमजोरी हो, तो तत्काल डॉक्टर से परामर्श करें।",
+          "audioText": "नमस्ते Aditi Sharma। बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान 38°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रतिक्रिया है। इस दौरान शरीर में पानी और इलेक्ट्रोलाइट्स की कमी न होने दें। यदि बुखार के साथ गर्दन में अकड़न, सांस लेने में तकलीफ या अत्यधिक कमजोरी हो, तो तत्काल डॉक्टर से परामर्श करें।",
+          "audioText_en": "नमस्ते Aditi Sharma। बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान 38°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रतिक्रिया है। इस दौरान शरीर में पानी और इलेक्ट्रोलाइट्स की कमी न होने दें। यदि बुखार के साथ गर्दन में अकड़न, सांस लेने में तकलीफ या अत्यधिक कमजोरी हो, तो तत्काल डॉक्टर से परामर्श करें।",
+          "audioText_hi": "नमस्ते Aditi Sharma। बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान 38°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रतिक्रिया है। इस दौरान शरीर में पानी और इलेक्ट्रोलाइट्स की कमी न होने दें। यदि बुखार के साथ गर्दन में अकड़न, सांस लेने में तकलीफ या अत्यधिक कमजोरी हो, तो तत्काल डॉक्टर से परामर्श करें।",
+          "takeaways": [
+            "NICE क्लिनिकल गाइडलाइन्स: 38.0°C (100.4°F) से ऊपर शरीर का तापमान बुखार माना जाता है। दवा का उद्देश्य शारीरिक बेचैनी कम करना है।",
+            "विश्व स्वास्थ्य संगठन (WHO) प्रोटोकॉल: तापमान बढ़ने पर शरीर से 10% अधिक पसीना और पानी नष्ट होता है, अतः ओआरएस व तरल पदार्थ अनिवार्य हैं।",
+            "दवा संबंधी परामर्श: पैरासिटामोल बुखार की प्राथमिक सुरक्षित दवा है। खाली पेट तेज दर्दनिवारक दवाएं बिना डॉक्टर की सलाह के न लें।"
+          ],
+          "questions": [
+            "क्या मुझे इस लक्षण के लिए तुरंत डॉक्टर को दिखाना चाहिए?",
+            "मुझे कौन सी दवा या जांच की आवश्यकता हो सकती है?",
+            "घर पर आराम और देखभाल के क्या उपाय हैं?"
+          ],
+          "actions": [
+            {
+              "icon": "💧",
+              "title": "भरपूर तरल आहार",
+              "desc": "दिन भर में 2.5 से 3 लीटर पानी, ओआरएस, नारियल पानी या सूप पिएं ताकि डिहाइड्रेशन न हो।"
+            },
+            {
+              "icon": "🌡️",
+              "title": "तापमान का रिकॉर्ड रखें",
+              "desc": "हर 4 से 6 घंटे में डिजिटल थर्मामीटर से बुखार नापें और डायरी में लिखें।"
+            },
+            {
+              "icon": "🛌",
+              "title": "पर्याप्त आराम",
+              "desc": "हवादार कमरे में आराम करें, हल्के सूती कपड़े पहनें और माथे पर ताजे पानी की पट्टी रखें।"
+            },
+            {
+              "icon": "🩺",
+              "title": "डॉक्टर से परामर्श",
+              "desc": "यदि बुखार 48 घंटे से ज्यादा रहे तो सीबीसी और आवश्यक खून की जांच करवाएं।"
+            }
+          ],
+          "biomarkers": [
+            {
+              "name": "शारीरिक तापमान",
+              "value": "38.6",
+              "unit": "°C (101.5°F)",
+              "range": "36.5 - 37.5",
+              "status": "elevated",
+              "statusLabel": "बढ़ा हुआ (बुखार)",
+              "percent": 85
+            },
+            {
+              "name": "अनुमानित हृदय गति",
+              "value": "98",
+              "unit": "bpm",
+              "range": "60 - 100",
+              "status": "normal",
+              "statusLabel": "सामान्य सीमा",
+              "percent": 65
+            },
+            {
+              "name": "श्वसन दर",
+              "value": "18",
+              "unit": "breaths/min",
+              "range": "12 - 20",
+              "status": "normal",
+              "statusLabel": "सामान्य",
+              "percent": 50
+            },
+            {
+              "name": "ऑक्सीजन सेचुरेशन (SpO2)",
+              "value": "98",
+              "unit": "%",
+              "range": "95 - 100",
+              "status": "normal",
+              "statusLabel": "उत्कृष्ट",
+              "percent": 95
+            }
+          ]
+        }
+      },
+      {
+        "id": "rep-1791454868041",
+        "title": "Query: High blood pressure 140/90",
+        "date": "08 Oct 2026",
+        "facility": "SageCure Clinical Retrieval Engine",
+        "summary_en": "Active clinical evidence retrieval for blood pressure and cardiovascular query: Blood pressure readings reflect arterial vascular resistance...",
+        "summary_hi": "ब्लड प्रेशर (BP) और हृदय स्वास्थ्य पर सक्रिय क्लिनिकल खोज सारांश: रक्तचाप धमनियों में रक्त के प्रवाह के दबाव को दर्शाता है। अमेरिकन हार्ट एस...",
+        "category": "cardiovascular",
+        "fullData": {
+          "success": true,
+          "userEmail": "aditi@sagecure.ai",
+          "language": "en",
+          "query": "High blood pressure 140/90",
+          "makeStatus": "500 Internal Server Error",
+          "databaseSource": "local",
+          "patient": {
+            "name": "Aditi Sharma",
+            "age": "42",
+            "gender": "Adult",
+            "abhaId": "14-0234-5678-9012@abdm",
+            "facility": "SageCure Clinical Retrieval Engine",
+            "date": "08 Oct 2026",
+            "confidence": "99.4% Verified"
+          },
+          "summary": "Active clinical evidence retrieval for blood pressure and cardiovascular query: Blood pressure readings reflect arterial vascular resistance. Consistent systolic pressure ≥ 130 mmHg or diastolic ≥ 80 mmHg meets Stage 1 Hypertension criteria under AHA/ACC guidelines. Lifestyle sodium reduction (< 2,000 mg/day) and potassium-rich nutrition are frontline interventions.",
+          "retrievedEvidence": [
+            "AHA/ACC 2024 Hypertension Guidelines: Normal BP is defined as < 120/80 mmHg. Stage 1 Hypertension begins at 130-139 systolic or 80-89 diastolic. Ambulatory monitoring confirms true readings.",
+            "DASH Dietary Clinical Trials: Dietary Approaches to Stop Hypertension (rich in fruits, vegetables, and low-fat dairy) lowers systolic BP by 8–14 mmHg without medication.",
+            "Emergency Red Flag Warning: BP readings exceeding 180/120 mmHg accompanied by chest pain, shortness of breath, or visual disturbances represent a hypertensive crisis requiring immediate emergency care."
+          ],
+          "recommendations": [
+            {
+              "icon": "🧂",
+              "title": "Sodium Restriction",
+              "desc": "Reduce table salt to less than 1 level teaspoon (2,000 mg sodium) daily."
+            },
+            {
+              "icon": "📉",
+              "title": "BP Diary Logging",
+              "desc": "Log blood pressure twice daily (morning and evening) in a seated, relaxed state."
+            },
+            {
+              "icon": "🏃",
+              "title": "Cardio Exercise",
+              "desc": "Engage in 30 minutes of moderate aerobic activity like brisk walking 5 days a week."
+            },
+            {
+              "icon": "🩺",
+              "title": "Cardiology Review",
+              "desc": "Consult a physician for anti-hypertensive regimen review if readings stay consistently elevated."
+            }
+          ],
+          "plainLanguage": "Active clinical evidence retrieval for blood pressure and cardiovascular query: Blood pressure readings reflect arterial vascular resistance. Consistent systolic pressure ≥ 130 mmHg or diastolic ≥ 80 mmHg meets Stage 1 Hypertension criteria under AHA/ACC guidelines. Lifestyle sodium reduction (< 2,000 mg/day) and potassium-rich nutrition are frontline interventions.",
+          "plainLanguage_en": "Active clinical evidence retrieval for blood pressure and cardiovascular query: Blood pressure readings reflect arterial vascular resistance. Consistent systolic pressure ≥ 130 mmHg or diastolic ≥ 80 mmHg meets Stage 1 Hypertension criteria under AHA/ACC guidelines. Lifestyle sodium reduction (< 2,000 mg/day) and potassium-rich nutrition are frontline interventions.",
+          "plainLanguage_hi": "ब्लड प्रेशर (BP) और हृदय स्वास्थ्य पर सक्रिय क्लिनिकल खोज सारांश: रक्तचाप धमनियों में रक्त के प्रवाह के दबाव को दर्शाता है। अमेरिकन हार्ट एसोसिएशन के अनुसार 130/80 mmHg से अधिक माप हाइपरटेंशन का संकेत है। दैनिक नमक की मात्रा कम करना (5 ग्राम से कम) और नियमित जांच अत्यंत आवश्यक है।",
+          "audioText": "Hello Aditi Sharma. Active clinical evidence retrieval for blood pressure and cardiovascular query: Blood pressure readings reflect arterial vascular resistance. Consistent systolic pressure ≥ 130 mmHg or diastolic ≥ 80 mmHg meets Stage 1 Hypertension criteria under AHA/ACC guidelines. Lifestyle sodium reduction (< 2,000 mg/day) and potassium-rich nutrition are frontline interventions.",
+          "audioText_en": "Hello Aditi Sharma. Active clinical evidence retrieval for blood pressure and cardiovascular query: Blood pressure readings reflect arterial vascular resistance. Consistent systolic pressure ≥ 130 mmHg or diastolic ≥ 80 mmHg meets Stage 1 Hypertension criteria under AHA/ACC guidelines. Lifestyle sodium reduction (< 2,000 mg/day) and potassium-rich nutrition are frontline interventions.",
+          "audioText_hi": "ब्लड प्रेशर (BP) और हृदय स्वास्थ्य पर सक्रिय क्लिनिकल खोज सारांश: रक्तचाप धमनियों में रक्त के प्रवाह के दबाव को दर्शाता है। अमेरिकन हार्ट एसोसिएशन के अनुसार 130/80 mmHg से अधिक माप हाइपरटेंशन का संकेत है। दैनिक नमक की मात्रा कम करना (5 ग्राम से कम) और नियमित जांच अत्यंत आवश्यक है।",
+          "takeaways": [
+            "AHA/ACC 2024 Hypertension Guidelines: Normal BP is defined as < 120/80 mmHg. Stage 1 Hypertension begins at 130-139 systolic or 80-89 diastolic. Ambulatory monitoring confirms true readings.",
+            "DASH Dietary Clinical Trials: Dietary Approaches to Stop Hypertension (rich in fruits, vegetables, and low-fat dairy) lowers systolic BP by 8–14 mmHg without medication.",
+            "Emergency Red Flag Warning: BP readings exceeding 180/120 mmHg accompanied by chest pain, shortness of breath, or visual disturbances represent a hypertensive crisis requiring immediate emergency care."
+          ],
+          "questions": [
+            "Should I see a doctor immediately for these symptoms?",
+            "What diagnostic tests or medication might be recommended?",
+            "What self-care and monitoring measures are advised?"
+          ],
+          "actions": [
+            {
+              "icon": "🧂",
+              "title": "Sodium Restriction",
+              "desc": "Reduce table salt to less than 1 level teaspoon (2,000 mg sodium) daily."
+            },
+            {
+              "icon": "📉",
+              "title": "BP Diary Logging",
+              "desc": "Log blood pressure twice daily (morning and evening) in a seated, relaxed state."
+            },
+            {
+              "icon": "🏃",
+              "title": "Cardio Exercise",
+              "desc": "Engage in 30 minutes of moderate aerobic activity like brisk walking 5 days a week."
+            },
+            {
+              "icon": "🩺",
+              "title": "Cardiology Review",
+              "desc": "Consult a physician for anti-hypertensive regimen review if readings stay consistently elevated."
+            }
+          ],
+          "biomarkers": [
+            {
+              "name": "Systolic BP",
+              "value": "138",
+              "unit": "mmHg",
+              "range": "< 120",
+              "status": "elevated",
+              "statusLabel": "Elevated (Stage 1)",
+              "percent": 75
+            },
+            {
+              "name": "Diastolic BP",
+              "value": "88",
+              "unit": "mmHg",
+              "range": "< 80",
+              "status": "elevated",
+              "statusLabel": "Elevated",
+              "percent": 70
+            },
+            {
+              "name": "Pulse Rate",
+              "value": "78",
+              "unit": "bpm",
+              "range": "60 - 100",
+              "status": "normal",
+              "statusLabel": "Normal",
+              "percent": 50
+            },
+            {
+              "name": "SpO2 (Oxygen)",
+              "value": "98",
+              "unit": "%",
+              "range": "95 - 100",
+              "status": "normal",
+              "statusLabel": "Optimal",
+              "percent": 95
+            }
+          ]
+        }
+      },
+      {
+        "id": "rep-1791454838376",
+        "title": "Query: I have fever",
+        "date": "08 Oct 2026",
+        "facility": "SageCure Clinical Retrieval Engine",
+        "summary_en": "Active clinical search results for fever symptoms: An elevated body temperature (febrile state) is a physiological immune response to infect...",
+        "summary_hi": "बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान 38°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रत...",
+        "category": "febrile",
+        "fullData": {
+          "success": true,
+          "userEmail": "aditi@sagecure.ai",
+          "language": "en",
+          "query": "I have fever",
+          "makeStatus": "500 Internal Server Error",
+          "databaseSource": "local",
+          "patient": {
+            "name": "Aditi Sharma",
+            "age": "42",
+            "gender": "Adult",
+            "abhaId": "14-0234-5678-9012@abdm",
+            "facility": "SageCure Clinical Retrieval Engine",
+            "date": "08 Oct 2026",
+            "confidence": "99.4% Verified"
+          },
+          "summary": "Active clinical search results for fever symptoms: An elevated body temperature (febrile state) is a physiological immune response to infection or systemic inflammation. Core temperatures ≥ 38.0°C (100.4°F) require monitored fluid replenishment and symptom management. Red flag symptoms such as stiff neck, confusion, breathing difficulty, or persistent vomiting require urgent medical evaluation.",
+          "retrievedEvidence": [
+            "NICE Guidelines (CG160): Core body temperature exceeding 38.0°C (100.4°F) constitutes fever. Antipyretic therapy is indicated for physical distress rather than sole suppression.",
+            "WHO Infectious Protocol: Insensible fluid losses increase by ~10% for every 1°C increase above normal body temperature; continuous electrolyte replenishment is primary care.",
+            "Pharmacology Review: Paracetamol (Acetaminophen) remains first-line antipyretic (500–650 mg every 4–6 hours, max 4g/24h). Avoid combining multiple NSAIDs simultaneously.",
+            "Clinical Red Flags: Seek emergency clinical triage if fever lasts > 72 hours, exceeds 39.5°C (103°F), or presents with petechial rash or shortness of breath."
+          ],
+          "recommendations": [
+            {
+              "icon": "💧",
+              "title": "Electrolyte Rehydration",
+              "desc": "Drink 2.5 to 3 liters of water, ORS solution, clear broths, or coconut water throughout the day."
+            },
+            {
+              "icon": "🌡️",
+              "title": "Temperature Tracking",
+              "desc": "Record your temperature every 4 to 6 hours before administering antipyretics."
+            },
+            {
+              "icon": "🛌",
+              "title": "Rest & Ventilation",
+              "desc": "Rest in a well-ventilated, ambient temperature room wearing light, breathable clothing."
+            },
+            {
+              "icon": "🩺",
+              "title": "Physician Evaluation",
+              "desc": "Schedule a medical consultation for CBC, dengue, or malarial screening if fever persists over 48 hours."
+            }
+          ],
+          "plainLanguage": "Active clinical search results for fever symptoms: An elevated body temperature (febrile state) is a physiological immune response to infection or systemic inflammation. Core temperatures ≥ 38.0°C (100.4°F) require monitored fluid replenishment and symptom management. Red flag symptoms such as stiff neck, confusion, breathing difficulty, or persistent vomiting require urgent medical evaluation.",
+          "plainLanguage_en": "Active clinical search results for fever symptoms: An elevated body temperature (febrile state) is a physiological immune response to infection or systemic inflammation. Core temperatures ≥ 38.0°C (100.4°F) require monitored fluid replenishment and symptom management. Red flag symptoms such as stiff neck, confusion, breathing difficulty, or persistent vomiting require urgent medical evaluation.",
+          "plainLanguage_hi": "बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान 38°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रतिक्रिया है। इस दौरान शरीर में पानी और इलेक्ट्रोलाइट्स की कमी न होने दें। यदि बुखार के साथ गर्दन में अकड़न, सांस लेने में तकलीफ या अत्यधिक कमजोरी हो, तो तत्काल डॉक्टर से परामर्श करें।",
+          "audioText": "Hello Aditi Sharma. Active clinical search results for fever symptoms: An elevated body temperature (febrile state) is a physiological immune response to infection or systemic inflammation. Core temperatures ≥ 38.0°C (100.4°F) require monitored fluid replenishment and symptom management. Red flag symptoms such as stiff neck, confusion, breathing difficulty, or persistent vomiting require urgent medical evaluation.",
+          "audioText_en": "Hello Aditi Sharma. Active clinical search results for fever symptoms: An elevated body temperature (febrile state) is a physiological immune response to infection or systemic inflammation. Core temperatures ≥ 38.0°C (100.4°F) require monitored fluid replenishment and symptom management. Red flag symptoms such as stiff neck, confusion, breathing difficulty, or persistent vomiting require urgent medical evaluation.",
+          "audioText_hi": "बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान 38°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रतिक्रिया है। इस दौरान शरीर में पानी और इलेक्ट्रोलाइट्स की कमी न होने दें। यदि बुखार के साथ गर्दन में अकड़न, सांस लेने में तकलीफ या अत्यधिक कमजोरी हो, तो तत्काल डॉक्टर से परामर्श करें।",
+          "takeaways": [
+            "NICE Guidelines (CG160): Core body temperature exceeding 38.0°C (100.4°F) constitutes fever. Antipyretic therapy is indicated for physical distress rather than sole suppression.",
+            "WHO Infectious Protocol: Insensible fluid losses increase by ~10% for every 1°C increase above normal body temperature; continuous electrolyte replenishment is primary care.",
+            "Pharmacology Review: Paracetamol (Acetaminophen) remains first-line antipyretic (500–650 mg every 4–6 hours, max 4g/24h). Avoid combining multiple NSAIDs simultaneously."
+          ],
+          "questions": [
+            "Should I see a doctor immediately for these symptoms?",
+            "What diagnostic tests or medication might be recommended?",
+            "What self-care and monitoring measures are advised?"
+          ],
+          "actions": [
+            {
+              "icon": "💧",
+              "title": "Electrolyte Rehydration",
+              "desc": "Drink 2.5 to 3 liters of water, ORS solution, clear broths, or coconut water throughout the day."
+            },
+            {
+              "icon": "🌡️",
+              "title": "Temperature Tracking",
+              "desc": "Record your temperature every 4 to 6 hours before administering antipyretics."
+            },
+            {
+              "icon": "🛌",
+              "title": "Rest & Ventilation",
+              "desc": "Rest in a well-ventilated, ambient temperature room wearing light, breathable clothing."
+            },
+            {
+              "icon": "🩺",
+              "title": "Physician Evaluation",
+              "desc": "Schedule a medical consultation for CBC, dengue, or malarial screening if fever persists over 48 hours."
+            }
+          ],
+          "biomarkers": [
+            {
+              "name": "Body Temperature",
+              "value": "38.6",
+              "unit": "°C (101.5°F)",
+              "range": "36.5 - 37.5",
+              "status": "elevated",
+              "statusLabel": "Elevated (Fever)",
+              "percent": 85
+            },
+            {
+              "name": "Heart Rate (Pulse)",
+              "value": "98",
+              "unit": "bpm",
+              "range": "60 - 100",
+              "status": "normal",
+              "statusLabel": "Borderline Optimal",
+              "percent": 65
+            },
+            {
+              "name": "Respiratory Rate",
+              "value": "18",
+              "unit": "breaths/min",
+              "range": "12 - 20",
+              "status": "normal",
+              "statusLabel": "Normal",
+              "percent": 50
+            },
+            {
+              "name": "Oxygen Saturation (SpO2)",
+              "value": "98",
+              "unit": "%",
+              "range": "95 - 100",
+              "status": "normal",
+              "statusLabel": "Optimal",
+              "percent": 95
+            }
+          ]
+        }
+      },
+      {
+        "id": "rep-1791453006171",
+        "title": "diabetic_panel_report.pdf",
         "date": "08 Oct 2026",
         "facility": "Apollo Diagnostics Central Lab",
         "summary_en": "Your blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is ...",
@@ -18,17 +410,18 @@
           "success": true,
           "userEmail": "aditi@sagecure.ai",
           "language": "en",
-          "makeStatus": "200 OK",
+          "makeStatus": "500 Internal Server Error",
+          "databaseSource": "local",
           "patient": {
             "name": "Aditi",
             "age": "48",
             "gender": "Female",
-            "abhaId": "14-3139-5070-9016@abdm",
+            "abhaId": "14-1404-7212-4038@abdm",
             "facility": "Apollo Diagnostics Central Lab",
             "date": "08 Oct 2026",
             "confidence": "99.4%"
           },
-          "plainLanguage": "Regarding your inquiry \"Are any values critical or dangerously high in this report?\":\n\nYour blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is 8.4%, reflecting higher average glucose levels over the last 90 days. Concurrently, your LDL cholesterol is at 162 mg/dL. Your kidney filtration is strong and preserved with an eGFR of 92 mL/min. We advise scheduling an appointment with your physician to evaluate your glycemic management and lipid regimen.",
+          "plainLanguage": "Regarding your inquiry \"I have fever\":\n\nYour blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is 8.4%, reflecting higher average glucose levels over the last 90 days. Concurrently, your LDL cholesterol is at 162 mg/dL. Your kidney filtration is strong and preserved with an eGFR of 92 mL/min. We advise scheduling an appointment with your physician to evaluate your glycemic management and lipid regimen.",
           "plainLanguage_en": "Your blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is 8.4%, reflecting higher average glucose levels over the last 90 days. Concurrently, your LDL cholesterol is at 162 mg/dL. Your kidney filtration is strong and preserved with an eGFR of 92 mL/min. We advise scheduling an appointment with your physician to evaluate your glycemic management and lipid regimen.",
           "plainLanguage_hi": "आपकी खून की जांच से पता चलता है कि आपके शुगर और कोलेस्ट्रॉल स्तर पर विशेष ध्यान देने की जरूरत है। आपका एचबीए1सी (HbA1c) 8.4% है, जो पिछले 3 महीनों में शुगर का स्तर अधिक रहने का संकेत है। साथ ही एलडीएल (खराब) कोलेस्ट्रॉल 162 mg/dL पर है। अच्छी खबर यह है कि आपकी किडनी बहुत स्वस्थ काम कर रही है (eGFR 92)। कृपया अपने डॉक्टर से परामर्श कर दवा और परहेज की योजना बनाएं।",
           "audioText": "Regarding your inquiry: Hello Aditi. Your blood test report has been analyzed. Your HbA1c is 8.4 percent, indicating higher than target blood sugar levels over the past 3 months. In addition, your LDL cholesterol is 162 milligrams per deciliter, which is above the optimal range. The good news is your kidney and liver markers are in healthy ranges. We recommend sharing these observations with your doctor.",
@@ -192,7 +585,193 @@
         }
       },
       {
-        "id": "rep-1791445083649",
+        "id": "rep-1791452806048",
+        "title": "WhatsApp Image 2026-10-08 at 12.20.49 PM.jpeg",
+        "date": "08 Oct 2026",
+        "facility": "Apollo Diagnostics Central Lab",
+        "summary_en": "Your blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is ...",
+        "summary_hi": "आपकी खून की जांच से पता चलता है कि आपके शुगर और कोलेस्ट्रॉल स्तर पर विशेष ध्यान देने की जरूरत है। आपका एचबीए1सी (HbA1c) ...",
+        "category": "metabolic",
+        "fullData": {
+          "success": true,
+          "userEmail": "aditi@sagecure.ai",
+          "language": "en",
+          "makeStatus": "500 Internal Server Error",
+          "databaseSource": "local",
+          "patient": {
+            "name": "Aditi",
+            "age": "48",
+            "gender": "Female",
+            "abhaId": "14-1404-7212-4038@abdm",
+            "facility": "Apollo Diagnostics Central Lab",
+            "date": "08 Oct 2026",
+            "confidence": "99.4%"
+          },
+          "plainLanguage": "Regarding your inquiry \"fever\":\n\nYour blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is 8.4%, reflecting higher average glucose levels over the last 90 days. Concurrently, your LDL cholesterol is at 162 mg/dL. Your kidney filtration is strong and preserved with an eGFR of 92 mL/min. We advise scheduling an appointment with your physician to evaluate your glycemic management and lipid regimen.",
+          "plainLanguage_en": "Your blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is 8.4%, reflecting higher average glucose levels over the last 90 days. Concurrently, your LDL cholesterol is at 162 mg/dL. Your kidney filtration is strong and preserved with an eGFR of 92 mL/min. We advise scheduling an appointment with your physician to evaluate your glycemic management and lipid regimen.",
+          "plainLanguage_hi": "आपकी खून की जांच से पता चलता है कि आपके शुगर और कोलेस्ट्रॉल स्तर पर विशेष ध्यान देने की जरूरत है। आपका एचबीए1सी (HbA1c) 8.4% है, जो पिछले 3 महीनों में शुगर का स्तर अधिक रहने का संकेत है। साथ ही एलडीएल (खराब) कोलेस्ट्रॉल 162 mg/dL पर है। अच्छी खबर यह है कि आपकी किडनी बहुत स्वस्थ काम कर रही है (eGFR 92)। कृपया अपने डॉक्टर से परामर्श कर दवा और परहेज की योजना बनाएं।",
+          "audioText": "Regarding your inquiry: Hello Aditi. Your blood test report has been analyzed. Your HbA1c is 8.4 percent, indicating higher than target blood sugar levels over the past 3 months. In addition, your LDL cholesterol is 162 milligrams per deciliter, which is above the optimal range. The good news is your kidney and liver markers are in healthy ranges. We recommend sharing these observations with your doctor.",
+          "audioText_en": "Hello Aditi. Your blood test report has been analyzed. Your HbA1c is 8.4 percent, indicating higher than target blood sugar levels over the past 3 months. In addition, your LDL cholesterol is 162 milligrams per deciliter, which is above the optimal range. The good news is your kidney and liver markers are in healthy ranges. We recommend sharing these observations with your doctor.",
+          "audioText_hi": "नमस्ते Aditi। आपकी खून की जांच का विश्लेषण कर लिया गया है। आपका एचबीए1सी 8.4 प्रतिशत है, जो पिछले तीन महीनों में शुगर बढ़ने का संकेत देता है। साथ ही एलडीएल कोलेस्ट्रॉल भी बढ़ा हुआ है। राहत की बात यह है कि आपकी किडनी सुरक्षित है। कृपया अपने डॉक्टर से मिलकर परामर्श लें।",
+          "takeaways": [
+            "Glycemic control is above recommended targets (HbA1c: 8.4%).",
+            "Lipid panel shows elevated LDL (162 mg/dL) and borderline HDL (44 mg/dL).",
+            "Renal function is healthy and normal with eGFR > 90."
+          ],
+          "takeaways_en": [
+            "Glycemic control is above recommended targets (HbA1c: 8.4%).",
+            "Lipid panel shows elevated LDL (162 mg/dL) and borderline HDL (44 mg/dL).",
+            "Renal function is healthy and normal with eGFR > 90."
+          ],
+          "takeaways_hi": [
+            "तीन महीने का औसत शुगर स्तर बढ़ा हुआ है (HbA1c: 8.4%)।",
+            "कोलेस्ट्रॉल प्रोफाइल में एलडीएल (162 mg/dL) बढ़ा हुआ है।",
+            "किडनी की कार्यप्रणाली (eGFR > 90) बिल्कुल सामान्य और सुरक्षित है।"
+          ],
+          "questions": [
+            "Should my diabetes medication dose be adjusted based on this 8.4% HbA1c?",
+            "Do you recommend starting a cholesterol-lowering medication such as a statin?",
+            "When should we re-test my lipid profile and blood sugar?"
+          ],
+          "questions_en": [
+            "Should my diabetes medication dose be adjusted based on this 8.4% HbA1c?",
+            "Do you recommend starting a cholesterol-lowering medication such as a statin?",
+            "When should we re-test my lipid profile and blood sugar?"
+          ],
+          "questions_hi": [
+            "क्या 8.4% एचबीए1सी को देखते हुए मेरी दवाओं की खुराक बदलने की जरूरत है?",
+            "क्या मुझे कोलेस्ट्रॉल घटाने के लिए स्टेटिन जैसी दवा शुरू करनी चाहिए?",
+            "अगली बार लिपिड और शुगर टेस्ट कब कराना चाहिए?"
+          ],
+          "actions": [
+            {
+              "icon": "🥗",
+              "title": "Low Glycemic Index Nutrition",
+              "desc": "Prioritize legumes, leafy greens, and cut simple carbohydrates."
+            },
+            {
+              "icon": "🏃",
+              "title": "Daily Physical Activity",
+              "desc": "Aim for 30 minutes of aerobic exercise 5 days a week."
+            },
+            {
+              "icon": "🩺",
+              "title": "Clinical Follow-up",
+              "desc": "Schedule an endocrinologist evaluation within the next 7 to 10 days."
+            }
+          ],
+          "actions_en": [
+            {
+              "icon": "🥗",
+              "title": "Low Glycemic Index Nutrition",
+              "desc": "Prioritize legumes, leafy greens, and cut simple carbohydrates."
+            },
+            {
+              "icon": "🏃",
+              "title": "Daily Physical Activity",
+              "desc": "Aim for 30 minutes of aerobic exercise 5 days a week."
+            },
+            {
+              "icon": "🩺",
+              "title": "Clinical Follow-up",
+              "desc": "Schedule an endocrinologist evaluation within the next 7 to 10 days."
+            }
+          ],
+          "actions_hi": [
+            {
+              "icon": "🥗",
+              "title": "कम ग्लाइसेमिक इंडेक्स आहार",
+              "desc": "दालें, हरी पत्तेदार सब्जियां और सलाद खाएं; मीठा और मैदा बंद करें।"
+            },
+            {
+              "icon": "🏃",
+              "title": "नियमित 30 मिनट सैर",
+              "desc": "हफ्ते में 5 दिन कम से कम 30 मिनट तेज सैर इंसुलिन सुधारती है।"
+            },
+            {
+              "icon": "🩺",
+              "title": "डॉक्टर से परामर्श",
+              "desc": "अगले 7 से 10 दिनों में विशेषज्ञ डॉक्टर से मिलकर रिपोर्ट दिखाएं।"
+            }
+          ],
+          "biomarkers": [
+            {
+              "name": "HbA1c (Glycated Hemoglobin)",
+              "value": 8.4,
+              "unit": "%",
+              "range": "< 5.7",
+              "status": "elevated",
+              "statusLabel": "High (Diabetic)",
+              "percent": 84
+            },
+            {
+              "name": "Fasting Blood Glucose (FBS)",
+              "value": 168,
+              "unit": "mg/dL",
+              "range": "70 - 99",
+              "status": "elevated",
+              "statusLabel": "Elevated",
+              "percent": 80
+            },
+            {
+              "name": "Total Cholesterol",
+              "value": 235,
+              "unit": "mg/dL",
+              "range": "< 200",
+              "status": "elevated",
+              "statusLabel": "High",
+              "percent": 78
+            },
+            {
+              "name": "LDL Cholesterol (Bad)",
+              "value": 162,
+              "unit": "mg/dL",
+              "range": "< 100",
+              "status": "elevated",
+              "statusLabel": "High",
+              "percent": 82
+            },
+            {
+              "name": "HDL Cholesterol (Good)",
+              "value": 44,
+              "unit": "mg/dL",
+              "range": "> 50",
+              "status": "low",
+              "statusLabel": "Borderline Low",
+              "percent": 35
+            },
+            {
+              "name": "Serum Creatinine",
+              "value": 0.85,
+              "unit": "mg/dL",
+              "range": "0.5 - 1.1",
+              "status": "normal",
+              "statusLabel": "Normal",
+              "percent": 50
+            },
+            {
+              "name": "eGFR (Kidney Filtration)",
+              "value": 92,
+              "unit": "mL/min/1.73m²",
+              "range": "> 90",
+              "status": "normal",
+              "statusLabel": "Optimal",
+              "percent": 65
+            },
+            {
+              "name": "Estimated Avg Glucose (eAG)",
+              "value": 194,
+              "unit": "mg/dL",
+              "range": "90 - 120",
+              "status": "elevated",
+              "statusLabel": "Elevated",
+              "percent": 82
+            }
+          ]
+        }
+      },
+      {
+        "id": "rep-1791452308232",
         "title": "WhatsApp Image 2026-10-08 at 12.20.49 PM.jpeg",
         "date": "08 Oct 2026",
         "facility": "Apollo Diagnostics Central Lab",
@@ -204,16 +783,17 @@
           "userEmail": "aditi@sagecure.ai",
           "language": "en",
           "makeStatus": "200 OK",
+          "databaseSource": "local",
           "patient": {
             "name": "Aditi",
             "age": "48",
             "gender": "Female",
-            "abhaId": "14-3139-5070-9016@abdm",
+            "abhaId": "14-1404-7212-4038@abdm",
             "facility": "Apollo Diagnostics Central Lab",
             "date": "08 Oct 2026",
             "confidence": "99.4%"
           },
-          "plainLanguage": "Regarding your inquiry \"Are any values critical or dangerously high in this report?\":\n\nYour blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is 8.4%, reflecting higher average glucose levels over the last 90 days. Concurrently, your LDL cholesterol is at 162 mg/dL. Your kidney filtration is strong and preserved with an eGFR of 92 mL/min. We advise scheduling an appointment with your physician to evaluate your glycemic management and lipid regimen.",
+          "plainLanguage": "Regarding your inquiry \"Explain my HbA1c and lipid levels in simple terms.\":\n\nYour blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is 8.4%, reflecting higher average glucose levels over the last 90 days. Concurrently, your LDL cholesterol is at 162 mg/dL. Your kidney filtration is strong and preserved with an eGFR of 92 mL/min. We advise scheduling an appointment with your physician to evaluate your glycemic management and lipid regimen.",
           "plainLanguage_en": "Your blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is 8.4%, reflecting higher average glucose levels over the last 90 days. Concurrently, your LDL cholesterol is at 162 mg/dL. Your kidney filtration is strong and preserved with an eGFR of 92 mL/min. We advise scheduling an appointment with your physician to evaluate your glycemic management and lipid regimen.",
           "plainLanguage_hi": "आपकी खून की जांच से पता चलता है कि आपके शुगर और कोलेस्ट्रॉल स्तर पर विशेष ध्यान देने की जरूरत है। आपका एचबीए1सी (HbA1c) 8.4% है, जो पिछले 3 महीनों में शुगर का स्तर अधिक रहने का संकेत है। साथ ही एलडीएल (खराब) कोलेस्ट्रॉल 162 mg/dL पर है। अच्छी खबर यह है कि आपकी किडनी बहुत स्वस्थ काम कर रही है (eGFR 92)। कृपया अपने डॉक्टर से परामर्श कर दवा और परहेज की योजना बनाएं।",
           "audioText": "Regarding your inquiry: Hello Aditi. Your blood test report has been analyzed. Your HbA1c is 8.4 percent, indicating higher than target blood sugar levels over the past 3 months. In addition, your LDL cholesterol is 162 milligrams per deciliter, which is above the optimal range. The good news is your kidney and liver markers are in healthy ranges. We recommend sharing these observations with your doctor.",
