@@ -2936,55 +2936,100 @@
       const abhaId = document.getElementById('auth-abha').value.trim();
 
       if (!email || !password) {
-        showToast("Please enter email and password", "warning");
+        showToast("Please enter email and password.", "warning");
         return;
       }
 
-      // Try server auth first, fallback to LocalStorage
+      if (authMode === 'signup' && !name) {
+        showToast("Please enter your full name to create an account.", "warning");
+        document.getElementById('auth-name')?.focus();
+        return;
+      }
+
       let user = null;
+      let serverContacted = false;
+
+      // 1. Authenticate with backend API
       try {
         const endpoint = authMode === 'signup' ? 'http://localhost:5000/api/auth/signup' : 'http://localhost:5000/api/auth/login';
         const res = await fetch(endpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password, name: name || email.split('@')[0], abhaId })
+          body: JSON.stringify({ email, password, name, abhaId })
         });
-        if (res.ok) {
-          const data = await res.json();
+        serverContacted = true;
+        const data = await res.json().catch(() => ({}));
+
+        if (res.ok && data.success && data.user) {
           user = data.user;
+        } else {
+          // Explicit error from server (404 Account does not exist, 401 Incorrect password, 409 Account already exists)
+          const errorMsg = data.error || (authMode === 'login' 
+            ? "Account does not exist. Please create an account first." 
+            : "Failed to create account. Please try again.");
+
+          showToast(errorMsg, "error");
+
+          // Smart redirect between tabs based on error
+          if (authMode === 'login' && (res.status === 404 || errorMsg.includes('does not exist'))) {
+            switchAuthTab('signup');
+            const emailInput = document.getElementById('auth-email');
+            const passInput = document.getElementById('auth-password');
+            if (emailInput) emailInput.value = email;
+            if (passInput) passInput.value = password;
+            setTimeout(() => document.getElementById('auth-name')?.focus(), 150);
+          } else if (authMode === 'signup' && (res.status === 409 || errorMsg.includes('already exists'))) {
+            switchAuthTab('login');
+            const emailInput = document.getElementById('auth-email');
+            const passInput = document.getElementById('auth-password');
+            if (emailInput) emailInput.value = email;
+            if (passInput) passInput.value = password;
+            setTimeout(() => document.getElementById('auth-password')?.focus(), 150);
+          }
+          return; // CRITICAL: Stop immediately! Do not fall through to auto-login or create ghost account!
         }
       } catch (e) {
-        console.warn("Backend auth offline, using LocalStorage auth");
+        console.warn("Backend auth offline, checking LocalStorage auth store:", e);
       }
 
-      // Local fallback
-      if (!user) {
+      // 2. Local fallback ONLY if server was completely unreachable (e.g. network down)
+      if (!serverContacted) {
         const db = getLocalUserDB();
         if (authMode === 'login') {
-          if (db[email] && db[email].password === password) {
-            user = db[email];
-          } else {
-            user = {
-              name: (name || email.split('@')[0].replace(/[._]/g, ' ')).trim(),
-              email,
-              password,
-              abhaId: abhaId || "",
-              reports: []
-            };
-            db[email] = user;
-            localStorage.setItem(STORAGE_KEY_USERS, JSON.stringify(db));
+          if (!db[email]) {
+            showToast("Account does not exist. Please create an account first.", "error");
+            switchAuthTab('signup');
+            setTimeout(() => document.getElementById('auth-name')?.focus(), 150);
+            return;
           }
+          if (db[email].password !== password) {
+            showToast("Incorrect password. Please verify your credentials and try again.", "error");
+            return;
+          }
+          user = db[email];
         } else {
+          // Signup mode
+          if (db[email]) {
+            showToast("An account with this email already exists. Please sign in instead.", "warning");
+            switchAuthTab('login');
+            return;
+          }
           user = {
-            name: (name || email.split('@')[0]).trim(),
+            name: name.trim(),
             email,
             password,
-            abhaId: abhaId || "",
+            abhaId: abhaId || `14-${Math.floor(1000 + Math.random() * 9000)}-${Math.floor(1000 + Math.random() * 9000)}-${Math.floor(1000 + Math.random() * 9000)}@abdm`,
+            createdAt: new Date().toISOString(),
             reports: []
           };
           db[email] = user;
           localStorage.setItem(STORAGE_KEY_USERS, JSON.stringify(db));
         }
+      }
+
+      if (!user) {
+        showToast("Authentication failed. Please verify credentials.", "error");
+        return;
       }
 
       currentUser = user;
@@ -2993,7 +3038,11 @@
       applyAuthenticatedUser(user);
       closeAuthModal();
 
-      showToast(currentLang === 'hi' ? `स्वागत है, ${user.name}!` : `Welcome, ${user.name}!`, "success");
+      showToast(authMode === 'signup' 
+        ? (currentLang === 'hi' ? `नया खाता बन गया! स्वागत है, ${user.name}` : `Account created successfully! Welcome, ${user.name}.`) 
+        : (currentLang === 'hi' ? `सफलतापूर्वक लॉगिन किया गया! स्वागत है, ${user.name}` : `Signed in successfully. Welcome back, ${user.name}!`), 
+        "success"
+      );
     }
 
     async function fetchLiveUserReports(email) {

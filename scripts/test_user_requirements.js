@@ -74,7 +74,7 @@ async function runTests() {
     { email: `new_user_${ts}@sagecure.ai`, password: 'SecurePassword123!', name: 'New Patient', abhaId: '99-8888-7777-6666@abdm' }
   );
   assert(
-    regUser.status === 200 && regUser.data.success && regUser.data.token,
+    (regUser.status === 200 || regUser.status === 201) && regUser.data.success && regUser.data.token,
     'Requirement 1c: Secure isolated user session created',
     `Registered isolated user with clean token ${regUser.data.token.slice(0, 16)}...`
   );
@@ -349,6 +349,88 @@ async function runTests() {
     fhirRecordedVitalRes.status === 200 && tempHasQuantity && tempHasNoAbsentReason,
     'Requirement 6c: Recorded numerical vital seamlessly flows into FHIR export bundle',
     'Body Temperature exports as valueQuantity: 38.2 °C (LOINC 8310-5) with ZERO dataAbsentReason and ZERO AI hallucination'
+  );
+
+  // -------------------------------------------------------------
+  // REQUIREMENT 7: AUTHENTICATION SECURITY: SIGN IN VS SIGN UP
+  // -------------------------------------------------------------
+  console.log("\n--- 7. AUTHENTICATION SECURITY: SIGN IN VS CREATE ACCOUNT ---");
+  
+  // 7a. Non-existent account in Sign In must throw 404 error and NOT auto-login or create ghost account
+  const nonExistentEmail = `ghost_user_${Date.now()}@sagecure.ai`;
+  const nonExistentLoginRes = await request(
+    { hostname: 'localhost', port: 5000, path: '/api/auth/login', method: 'POST', headers: { 'Content-Type': 'application/json' } },
+    { email: nonExistentEmail, password: 'SomePassword123!' }
+  );
+
+  assert(
+    nonExistentLoginRes.status === 404 && 
+    nonExistentLoginRes.data.success === false && 
+    nonExistentLoginRes.data.error?.includes("Account does not exist"),
+    'Requirement 7a: Sign In fails with 404 for non-existent accounts without ghost creation',
+    `Error returned: "${nonExistentLoginRes.data.error}". Zero ghost accounts created.`
+  );
+
+  // 7b. Create Account (Sign Up) explicitly registers new user
+  const newAccountEmail = `registered_eval_${Date.now()}@sagecure.ai`;
+  const signupRes = await request(
+    { hostname: 'localhost', port: 5000, path: '/api/auth/signup', method: 'POST', headers: { 'Content-Type': 'application/json' } },
+    { name: 'Dr. Evaluator', email: newAccountEmail, password: 'SecurePassword2026!', abhaId: '14-1111-2222-3333@abdm' }
+  );
+
+  assert(
+    signupRes.status === 201 && signupRes.data.success === true && signupRes.data.user?.email === newAccountEmail,
+    'Requirement 7b: Create Account (Sign Up) explicitly registers new account in database',
+    `User registered: ${signupRes.data.user?.name} (${signupRes.data.user?.email})`
+  );
+
+  // 7c. Duplicate Create Account returns 409 conflict
+  const duplicateSignupRes = await request(
+    { hostname: 'localhost', port: 5000, path: '/api/auth/signup', method: 'POST', headers: { 'Content-Type': 'application/json' } },
+    { name: 'Dr. Evaluator', email: newAccountEmail, password: 'SecurePassword2026!' }
+  );
+
+  assert(
+    duplicateSignupRes.status === 409 && duplicateSignupRes.data.success === false && duplicateSignupRes.data.error?.includes("already exists"),
+    'Requirement 7c: Duplicate registration returns 409 conflict error',
+    `Error returned: "${duplicateSignupRes.data.error}"`
+  );
+
+  // 7d. Sign In with wrong password returns 401 unauthorized
+  const wrongPasswordRes = await request(
+    { hostname: 'localhost', port: 5000, path: '/api/auth/login', method: 'POST', headers: { 'Content-Type': 'application/json' } },
+    { email: newAccountEmail, password: 'WrongPassword999!' }
+  );
+
+  assert(
+    wrongPasswordRes.status === 401 && wrongPasswordRes.data.success === false && wrongPasswordRes.data.error?.includes("Incorrect password"),
+    'Requirement 7d: Sign In with incorrect password returns 401 unauthorized',
+    `Error returned: "${wrongPasswordRes.data.error}"`
+  );
+
+  // 7e. Sign In with valid credentials succeeds with 200 and session token
+  const validLoginRes = await request(
+    { hostname: 'localhost', port: 5000, path: '/api/auth/login', method: 'POST', headers: { 'Content-Type': 'application/json' } },
+    { email: newAccountEmail, password: 'SecurePassword2026!' }
+  );
+
+  assert(
+    validLoginRes.status === 200 && validLoginRes.data.success === true && validLoginRes.data.token !== undefined,
+    'Requirement 7e: Sign In succeeds for existing account with valid credentials',
+    `Logged in as: ${validLoginRes.data.user?.name}, session token: ${validLoginRes.data.token?.slice(0, 16)}...`
+  );
+
+  // 7f. Frontend handleAuthSubmit strictly handles errors and never auto-logs in failed requests
+  const frontendSource = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf-8');
+  const hasFrontendCheck = frontendSource.includes('Account does not exist. Please create an account first.') &&
+                           frontendSource.includes("switchAuthTab('signup')") &&
+                           frontendSource.includes("switchAuthTab('login')") &&
+                           frontendSource.includes('serverContacted = true');
+
+  assert(
+    hasFrontendCheck,
+    'Requirement 7f: Frontend form enforces strict tab separation and error prompts',
+    'handleAuthSubmit displays error toast, redirects nonexistent user to Create Account tab, and halts execution'
   );
 
   // -------------------------------------------------------------

@@ -107,9 +107,9 @@ function saveUsersDB(db) {
 // AUTH & MULTI-USER ENDPOINTS WITH ISOLATED SESSIONS
 // -------------------------------------------------------------
 app.post('/api/auth/login', async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body || {};
   if (!email || !password) {
-    return res.status(400).json({ error: "Email and password are required." });
+    return res.status(400).json({ success: false, error: "Email and password are required." });
   }
 
   const lowerEmail = email.toLowerCase().trim();
@@ -144,40 +144,21 @@ app.post('/api/auth/login', async (req, res) => {
     }
   }
 
-  if (!user || user.password !== password) {
-    const defaultName = email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-    const newUser = {
-      name: defaultName,
-      email: lowerEmail,
-      password: password,
-      abhaId: `14-${Math.floor(1000 + Math.random() * 9000)}-${Math.floor(1000 + Math.random() * 9000)}-${Math.floor(1000 + Math.random() * 9000)}@abdm`,
-      createdAt: new Date().toISOString(),
-      reports: []
-    };
-    db[lowerEmail] = newUser;
-    saveUsersDB(db);
+  // CRITICAL SECURITY ENFORCEMENT:
+  // If the user does NOT exist, do NOT auto-create a ghost account.
+  // Return clear error: "Account does not exist. Please create an account first."
+  if (!user) {
+    return res.status(404).json({ 
+      success: false, 
+      error: "Account does not exist. Please create an account first." 
+    });
+  }
 
-    if (supabase) {
-      try {
-        await supabase.from('users').upsert({
-          email: lowerEmail,
-          name: defaultName,
-          password: password,
-          abha_id: newUser.abhaId,
-          created_at: newUser.createdAt
-        }, { onConflict: 'email' });
-      } catch (err) {
-        console.warn('[SageCure Supabase] Auto-create user note:', err.message);
-      }
-    }
-
-    return res.json({ 
-      success: true, 
-      user: newUser, 
-      token: sessionToken,
-      session: { token: sessionToken, email: newUser.email, name: newUser.name, abhaId: newUser.abhaId },
-      created: true, 
-      source: supabase ? 'supabase' : 'local' 
+  // Validate credentials
+  if (user.password !== password) {
+    return res.status(401).json({ 
+      success: false, 
+      error: "Incorrect password. Please verify your credentials and try again." 
     });
   }
 
@@ -191,17 +172,32 @@ app.post('/api/auth/login', async (req, res) => {
 });
 
 const handleSignup = async (req, res) => {
-  const { name, email, password, abhaId } = req.body;
+  const { name, email, password, abhaId } = req.body || {};
   if (!email || !password || !name) {
-    return res.status(400).json({ error: "Name, email and password are required." });
+    return res.status(400).json({ success: false, error: "Full Name, email, and password are required to create an account." });
   }
 
   const db = getUsersDB();
   const lowerEmail = email.toLowerCase().trim();
   const sessionToken = `sc-sess-${Date.now()}-${Math.random().toString(36).substring(2, 10)}`;
 
-  if (db[lowerEmail]) {
-    return res.status(400).json({ error: "An account with this email already exists. Please log in." });
+  let existingUser = db[lowerEmail];
+
+  if (supabase && !existingUser) {
+    try {
+      const { data: sbUser } = await supabase
+        .from('users')
+        .select('email')
+        .eq('email', lowerEmail)
+        .single();
+      if (sbUser) existingUser = sbUser;
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  if (existingUser) {
+    return res.status(409).json({ success: false, error: "An account with this email already exists. Please sign in instead." });
   }
 
   const newUser = {
@@ -218,19 +214,19 @@ const handleSignup = async (req, res) => {
 
   if (supabase) {
     try {
-      await supabase.from('users').upsert({
+      await supabase.from('users').insert({
         email: lowerEmail,
         name: newUser.name,
         password: password,
         abha_id: newUser.abhaId,
         created_at: newUser.createdAt
-      }, { onConflict: 'email' });
+      });
     } catch (err) {
       console.warn('[SageCure Supabase] Signup user note:', err.message);
     }
   }
 
-  res.json({ 
+  res.status(201).json({ 
     success: true, 
     user: newUser, 
     token: sessionToken,
