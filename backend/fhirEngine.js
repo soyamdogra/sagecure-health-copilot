@@ -45,11 +45,15 @@ const LOINC_DICTIONARY = {
   // Vitals
   'systolic bp': { code: '8480-6', display: 'Systolic blood pressure', system: 'http://loinc.org', unit: 'mmHg' },
   'diastolic bp': { code: '8462-4', display: 'Diastolic blood pressure', system: 'http://loinc.org', unit: 'mmHg' },
+  'blood pressure': { code: '85354-9', display: 'Blood pressure panel with all children optional', system: 'http://loinc.org', unit: 'mmHg' },
   'heart rate': { code: '8867-4', display: 'Heart rate', system: 'http://loinc.org', unit: 'bpm' },
   'pulse rate': { code: '8867-4', display: 'Heart rate', system: 'http://loinc.org', unit: 'bpm' },
+  'pulse': { code: '8867-4', display: 'Heart rate', system: 'http://loinc.org', unit: 'bpm' },
+  'respiratory rate': { code: '9279-1', display: 'Respiratory rate', system: 'http://loinc.org', unit: 'breaths/min' },
   'oxygen saturation': { code: '59408-5', display: 'Oxygen saturation in Arterial blood by Pulse oximetry', system: 'http://loinc.org', unit: '%' },
   'spo2': { code: '59408-5', display: 'Oxygen saturation in Arterial blood by Pulse oximetry', system: 'http://loinc.org', unit: '%' },
-  'body temperature': { code: '8310-5', display: 'Body temperature', system: 'http://loinc.org', unit: '°C' }
+  'body temperature': { code: '8310-5', display: 'Body temperature', system: 'http://loinc.org', unit: '°C' },
+  'temperature': { code: '8310-5', display: 'Body temperature', system: 'http://loinc.org', unit: '°C' }
 };
 
 /**

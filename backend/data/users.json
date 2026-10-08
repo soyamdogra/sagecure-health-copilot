@@ -12204,5 +12204,2970 @@
         }
       }
     ]
+  },
+  "soyam@gmail.com": {
+    "name": "soyam",
+    "email": "soyam@gmail.com",
+    "password": "123",
+    "abhaId": "14-4514-2473-6290@abdm",
+    "createdAt": "2026-10-08T18:20:17.976Z",
+    "reports": [
+      {
+        "id": "rep-1791483677570",
+        "title": "Query: I have fever and chills, what should I d",
+        "date": "08 Oct 2026",
+        "facility": "SageCure Clinical Retrieval Engine",
+        "summary_en": "⚠️ Clinical Measurement Safety Notice: You reported fever symptoms without providing a calibrated numerical measurement. SageCure enforces s...",
+        "summary_hi": "⚠️ क्लिनिकल माप सुरक्षा सूचना: आपने बुखार के लक्षण दर्ज किए हैं लेकिन कोई संख्यात्मक शारीरिक तापमान (जैसे 38°C या 100.4°F) प्रदान नहीं किया ...",
+        "category": "febrile",
+        "biomarkers": [
+          {
+            "name": "Body Temperature",
+            "value": "Unknown / Not Provided",
+            "unit": "°C / °F",
+            "range": "36.5 - 37.5 °C (97.7 - 99.5 °F)",
+            "status": "unknown",
+            "statusLabel": "Unknown / Not Provided (Please Measure)",
+            "percent": 0,
+            "missing": true,
+            "clinicalSafetyNote": "Exact numerical reading not provided. Please measure with a thermometer."
+          },
+          {
+            "name": "Heart Rate (Pulse)",
+            "value": "Unknown / Not Provided",
+            "unit": "bpm",
+            "range": "60 - 100 bpm",
+            "status": "unknown",
+            "statusLabel": "Unknown / Not Provided (Please Measure)",
+            "percent": 0,
+            "missing": true,
+            "clinicalSafetyNote": "Resting pulse rate not provided. Please check resting pulse."
+          },
+          {
+            "name": "Respiratory Rate",
+            "value": "Unknown / Not Provided",
+            "unit": "breaths/min",
+            "range": "12 - 20",
+            "status": "unknown",
+            "statusLabel": "Unknown / Not Provided (Please Measure)",
+            "percent": 0,
+            "missing": true
+          },
+          {
+            "name": "Oxygen Saturation (SpO2)",
+            "value": "Unknown / Not Provided",
+            "unit": "%",
+            "range": "95 - 100 %",
+            "status": "unknown",
+            "statusLabel": "Unknown / Not Provided (Please Measure)",
+            "percent": 0,
+            "missing": true,
+            "clinicalSafetyNote": "Resting SpO2 not provided. Please measure using a pulse oximeter."
+          }
+        ],
+        "fhirBundle": {
+          "resourceType": "Bundle",
+          "id": "sagecure-bundle-1791483677569",
+          "meta": {
+            "versionId": "1.0",
+            "lastUpdated": "2026-10-08T18:21:17.569Z",
+            "profile": [
+              "https://nrces.in/ndhm/fhir/r4/StructureDefinition/DiagnosticReportRecord"
+            ]
+          },
+          "identifier": {
+            "system": "https://sagecure.ai/fhir/bundles",
+            "value": "sagecure-bundle-1791483677569"
+          },
+          "type": "document",
+          "timestamp": "2026-10-08T18:21:17.569Z",
+          "entry": [
+            {
+              "fullUrl": "urn:uuid:Composition-rep-1791483677569",
+              "resource": {
+                "resourceType": "Composition",
+                "id": "Composition-rep-1791483677569",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/DiagnosticReportRecord"
+                  ]
+                },
+                "status": "final",
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "11502-2",
+                      "display": "Laboratory report"
+                    }
+                  ],
+                  "text": "Diagnostic Laboratory Report"
+                },
+                "subject": {
+                  "reference": "Patient/Patient-ABDM-14451424736290abdm",
+                  "display": "soyam"
+                },
+                "date": "2026-10-08T18:21:17.569Z",
+                "author": [
+                  {
+                    "reference": "Organization/Org-SageCure-IN070001842",
+                    "display": "SageCure Clinical Retrieval Engine"
+                  }
+                ],
+                "title": "SageCure Clinical Diagnostic Health Record",
+                "custodian": {
+                  "reference": "Organization/Org-SageCure-IN070001842",
+                  "display": "SageCure Clinical Retrieval Engine"
+                },
+                "section": [
+                  {
+                    "title": "Diagnostic Findings & Observations",
+                    "code": {
+                      "coding": [
+                        {
+                          "system": "http://loinc.org",
+                          "code": "24323-8",
+                          "display": "Comprehensive laboratory panel"
+                        }
+                      ]
+                    },
+                    "entry": [
+                      {
+                        "reference": "urn:uuid:Observation-rep-1791483677569-1",
+                        "display": "Body Temperature: Unknown / Not Provided °C / °F"
+                      },
+                      {
+                        "reference": "urn:uuid:Observation-rep-1791483677569-2",
+                        "display": "Heart Rate (Pulse): Unknown / Not Provided bpm"
+                      },
+                      {
+                        "reference": "urn:uuid:Observation-rep-1791483677569-3",
+                        "display": "Respiratory Rate: Unknown / Not Provided breaths/min"
+                      },
+                      {
+                        "reference": "urn:uuid:Observation-rep-1791483677569-4",
+                        "display": "Oxygen Saturation (SpO2): Unknown / Not Provided %"
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:Patient-ABDM-14451424736290abdm",
+              "resource": {
+                "resourceType": "Patient",
+                "id": "Patient-ABDM-14451424736290abdm",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Patient"
+                  ]
+                },
+                "identifier": [
+                  {
+                    "type": {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                          "code": "MR",
+                          "display": "Medical Record Number"
+                        }
+                      ]
+                    },
+                    "system": "https://healthid.ndhm.gov.in",
+                    "value": "14-4514-2473-6290@abdm"
+                  }
+                ],
+                "name": [
+                  {
+                    "use": "official",
+                    "text": "soyam"
+                  }
+                ],
+                "gender": "female"
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:Org-SageCure-IN070001842",
+              "resource": {
+                "resourceType": "Organization",
+                "id": "Org-SageCure-IN070001842",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Organization"
+                  ]
+                },
+                "identifier": [
+                  {
+                    "system": "https://facility.ndhm.gov.in",
+                    "value": "IN070001842"
+                  }
+                ],
+                "name": "SageCure Clinical Retrieval Engine",
+                "telecom": [
+                  {
+                    "system": "phone",
+                    "value": "+91-11-2659-4500"
+                  },
+                  {
+                    "system": "url",
+                    "value": "https://sagecure.ai"
+                  }
+                ]
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:Practitioner-MCI-48291",
+              "resource": {
+                "resourceType": "Practitioner",
+                "id": "Practitioner-MCI-48291",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Practitioner"
+                  ]
+                },
+                "identifier": [
+                  {
+                    "system": "https://doctor.ndhm.gov.in",
+                    "value": "MCI-48291"
+                  }
+                ],
+                "name": [
+                  {
+                    "text": "Dr. Alok Sen, MD"
+                  }
+                ],
+                "qualification": [
+                  {
+                    "code": {
+                      "text": "MBBS, MD (Internal Medicine & Clinical Diabetology)"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:DiagnosticReport-rep-1791483677569",
+              "resource": {
+                "resourceType": "DiagnosticReport",
+                "id": "DiagnosticReport-rep-1791483677569",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/DiagnosticReportLab"
+                  ]
+                },
+                "status": "final",
+                "category": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                        "code": "LAB",
+                        "display": "Laboratory"
+                      }
+                    ]
+                  }
+                ],
+                "code": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "24323-8",
+                      "display": "Comprehensive Laboratory Findings Panel"
+                    }
+                  ],
+                  "text": "Comprehensive Clinical Lab Report"
+                },
+                "subject": {
+                  "reference": "Patient/Patient-ABDM-14451424736290abdm",
+                  "display": "soyam"
+                },
+                "effectiveDateTime": "2026-10-08T18:21:17.569Z",
+                "issued": "2026-10-08T18:21:17.569Z",
+                "performer": [
+                  {
+                    "reference": "Organization/Org-SageCure-IN070001842",
+                    "display": "SageCure Clinical Retrieval Engine"
+                  },
+                  {
+                    "reference": "Practitioner/Practitioner-MCI-48291",
+                    "display": "Dr. Alok Sen, MD"
+                  }
+                ],
+                "result": [
+                  {
+                    "reference": "urn:uuid:Observation-rep-1791483677569-1",
+                    "display": "Body Temperature: Unknown / Not Provided °C / °F"
+                  },
+                  {
+                    "reference": "urn:uuid:Observation-rep-1791483677569-2",
+                    "display": "Heart Rate (Pulse): Unknown / Not Provided bpm"
+                  },
+                  {
+                    "reference": "urn:uuid:Observation-rep-1791483677569-3",
+                    "display": "Respiratory Rate: Unknown / Not Provided breaths/min"
+                  },
+                  {
+                    "reference": "urn:uuid:Observation-rep-1791483677569-4",
+                    "display": "Oxygen Saturation (SpO2): Unknown / Not Provided %"
+                  }
+                ],
+                "conclusion": "⚠️ Clinical Measurement Safety Notice: You reported fever symptoms without providing a calibrated numerical measurement. SageCure enforces strict zero-hallucination clinical safety: we NEVER assume, guess, or fabricate vital health values (such as 38°C, 38.4°C, or 98.6°F). Body temperature, heart rate, and oxygen saturation are recorded as \"Unknown / Not Provided\". Please measure your body temperature using a digital thermometer and input the exact reading. Core body temperature ≥ 38.0°C (100.4°F) defines fever. If fever exceeds 39.5°C (103°F), persists beyond 72 hours, or is accompanied by stiff neck, confusion, or breathing distress, seek urgent hospital emergency evaluation immediately."
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:Observation-rep-1791483677569-1",
+              "resource": {
+                "resourceType": "Observation",
+                "id": "Observation-rep-1791483677569-1",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                  ]
+                },
+                "status": "final",
+                "category": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                        "code": "laboratory",
+                        "display": "Laboratory"
+                      }
+                    ]
+                  }
+                ],
+                "code": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "8310-5",
+                      "display": "Body temperature"
+                    }
+                  ],
+                  "text": "Body Temperature"
+                },
+                "subject": {
+                  "reference": "Patient/Patient-ABDM-14451424736290abdm",
+                  "display": "soyam"
+                },
+                "effectiveDateTime": "2026-10-08T18:21:17.569Z",
+                "issued": "2026-10-08T18:21:17.569Z",
+                "performer": [
+                  {
+                    "reference": "Organization/Org-SageCure-IN070001842",
+                    "display": "SageCure Clinical Retrieval Engine"
+                  }
+                ],
+                "dataAbsentReason": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                      "code": "unknown",
+                      "display": "Unknown / Not Provided"
+                    }
+                  ]
+                },
+                "valueString": "Unknown / Not Provided",
+                "interpretation": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                        "code": "N",
+                        "display": "Normal"
+                      }
+                    ],
+                    "text": "Unknown / Not Provided (Please Measure)"
+                  }
+                ],
+                "referenceRange": [
+                  {
+                    "text": "36.5 - 37.5 °C (97.7 - 99.5 °F)"
+                  }
+                ]
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:Observation-rep-1791483677569-2",
+              "resource": {
+                "resourceType": "Observation",
+                "id": "Observation-rep-1791483677569-2",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                  ]
+                },
+                "status": "final",
+                "category": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                        "code": "laboratory",
+                        "display": "Laboratory"
+                      }
+                    ]
+                  }
+                ],
+                "code": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "8867-4",
+                      "display": "Heart rate"
+                    }
+                  ],
+                  "text": "Heart Rate (Pulse)"
+                },
+                "subject": {
+                  "reference": "Patient/Patient-ABDM-14451424736290abdm",
+                  "display": "soyam"
+                },
+                "effectiveDateTime": "2026-10-08T18:21:17.569Z",
+                "issued": "2026-10-08T18:21:17.569Z",
+                "performer": [
+                  {
+                    "reference": "Organization/Org-SageCure-IN070001842",
+                    "display": "SageCure Clinical Retrieval Engine"
+                  }
+                ],
+                "dataAbsentReason": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                      "code": "unknown",
+                      "display": "Unknown / Not Provided"
+                    }
+                  ]
+                },
+                "valueString": "Unknown / Not Provided",
+                "interpretation": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                        "code": "N",
+                        "display": "Normal"
+                      }
+                    ],
+                    "text": "Unknown / Not Provided (Please Measure)"
+                  }
+                ],
+                "referenceRange": [
+                  {
+                    "text": "60 - 100 bpm"
+                  }
+                ]
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:Observation-rep-1791483677569-3",
+              "resource": {
+                "resourceType": "Observation",
+                "id": "Observation-rep-1791483677569-3",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                  ]
+                },
+                "status": "final",
+                "category": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                        "code": "laboratory",
+                        "display": "Laboratory"
+                      }
+                    ]
+                  }
+                ],
+                "code": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "30745-4",
+                      "display": "Respiratory Rate - Clinical Chemistry Marker"
+                    }
+                  ],
+                  "text": "Respiratory Rate"
+                },
+                "subject": {
+                  "reference": "Patient/Patient-ABDM-14451424736290abdm",
+                  "display": "soyam"
+                },
+                "effectiveDateTime": "2026-10-08T18:21:17.569Z",
+                "issued": "2026-10-08T18:21:17.569Z",
+                "performer": [
+                  {
+                    "reference": "Organization/Org-SageCure-IN070001842",
+                    "display": "SageCure Clinical Retrieval Engine"
+                  }
+                ],
+                "dataAbsentReason": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                      "code": "unknown",
+                      "display": "Unknown / Not Provided"
+                    }
+                  ]
+                },
+                "valueString": "Unknown / Not Provided",
+                "interpretation": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                        "code": "N",
+                        "display": "Normal"
+                      }
+                    ],
+                    "text": "Unknown / Not Provided (Please Measure)"
+                  }
+                ],
+                "referenceRange": [
+                  {
+                    "text": "12 - 20"
+                  }
+                ]
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:Observation-rep-1791483677569-4",
+              "resource": {
+                "resourceType": "Observation",
+                "id": "Observation-rep-1791483677569-4",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                  ]
+                },
+                "status": "final",
+                "category": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                        "code": "laboratory",
+                        "display": "Laboratory"
+                      }
+                    ]
+                  }
+                ],
+                "code": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "59408-5",
+                      "display": "Oxygen saturation in Arterial blood by Pulse oximetry"
+                    }
+                  ],
+                  "text": "Oxygen Saturation (SpO2)"
+                },
+                "subject": {
+                  "reference": "Patient/Patient-ABDM-14451424736290abdm",
+                  "display": "soyam"
+                },
+                "effectiveDateTime": "2026-10-08T18:21:17.569Z",
+                "issued": "2026-10-08T18:21:17.569Z",
+                "performer": [
+                  {
+                    "reference": "Organization/Org-SageCure-IN070001842",
+                    "display": "SageCure Clinical Retrieval Engine"
+                  }
+                ],
+                "dataAbsentReason": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                      "code": "unknown",
+                      "display": "Unknown / Not Provided"
+                    }
+                  ]
+                },
+                "valueString": "Unknown / Not Provided",
+                "interpretation": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                        "code": "N",
+                        "display": "Normal"
+                      }
+                    ],
+                    "text": "Unknown / Not Provided (Please Measure)"
+                  }
+                ],
+                "referenceRange": [
+                  {
+                    "text": "95 - 100 %"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "prescription": {
+          "prescriptionId": "SC-RX-677570",
+          "date": "08 Oct 2026",
+          "timestamp": "2026-10-08T18:21:17.570Z",
+          "clinic": {
+            "name": "SageCure Digital Health Clinic & Diagnostic Center",
+            "tagline": "ABDM Verified Telemedicine & Clinical Diagnostics Hub",
+            "abdmFacilityId": "IN070001842",
+            "licenseNumber": "DL-2026-MED-4912",
+            "address": "Suite 402, Healthcare Innovation Wing, South Extension II, New Delhi - 110049",
+            "telecom": "+91-11-2659-4500",
+            "email": "clinical@sagecure.ai",
+            "website": "https://sagecure.ai"
+          },
+          "doctor": {
+            "name": "Dr. Alok Sen",
+            "qualification": "MBBS, MD (Internal Medicine), PGD Diabetology",
+            "registrationNumber": "MCI-48291 (Medical Council of India)",
+            "designation": "Senior Consultant Physician & Diabetologist",
+            "signatureText": "Dr. Alok Sen, MD (Digitally Signed)",
+            "verificationHash": "ABDM-SIG-1A11CBF8B82-48291"
+          },
+          "patient": {
+            "name": "soyam",
+            "age": "42",
+            "gender": "Adult",
+            "abhaId": "14-4514-2473-6290@abdm",
+            "facility": "Apollo Diagnostics"
+          },
+          "clinicalEvaluation": {
+            "diagnosis": "Type 2 Diabetes Mellitus with Dyslipidemia (Elevated HbA1c 8.4% & LDL 162 mg/dL)",
+            "icd10": "E11.69 (Type 2 Diabetes Mellitus with Other Specified Complications)",
+            "summary": "⚠️ Clinical Measurement Safety Notice: You reported fever symptoms without providing a calibrated numerical measurement. SageCure enforces strict zero-hallucination clinical safety: we NEVER assume, guess, or fabricate vital health values (such as 38°C, 38.4°C, or 98.6°F). Body temperature, heart rate, and oxygen saturation are recorded as \"Unknown / Not Provided\". Please measure your body temperature using a digital thermometer and input the exact reading. Core body temperature ≥ 38.0°C (100.4°F) defines fever. If fever exceeds 39.5°C (103°F), persists beyond 72 hours, or is accompanied by stiff neck, confusion, or breathing distress, seek urgent hospital emergency evaluation immediately."
+          },
+          "diagnosis": {
+            "text": "Type 2 Diabetes Mellitus with Dyslipidemia (Elevated HbA1c 8.4% & LDL 162 mg/dL)",
+            "icd10": "E11.69 (Type 2 Diabetes Mellitus with Other Specified Complications)",
+            "code": "E11.69"
+          },
+          "digitalSignature": {
+            "verified": true,
+            "doctorName": "Dr. Alok Sen, MD",
+            "registrationNo": "MCI-48291",
+            "hash": "ABDM-SIG-1A11CBF8B82-48291",
+            "timestamp": "2026-10-08T18:21:17.570Z"
+          },
+          "medications": [
+            {
+              "name": "Tab. Metformin Hydrochloride Sustained Release",
+              "strength": "500 mg",
+              "dosage": "1 Tablet Twice Daily (BD)",
+              "timing": "Immediately After Breakfast & Dinner",
+              "duration": "90 Days",
+              "instructions": "Helps sensitize peripheral insulin receptors. Swallow whole, do not crush."
+            },
+            {
+              "name": "Tab. Atorvastatin Calcium",
+              "strength": "10 mg",
+              "dosage": "1 Tablet Once Daily (HS)",
+              "timing": "At Bedtime",
+              "duration": "90 Days",
+              "instructions": "Cardioprotective lipid regulation. Lowers atherogenic LDL cholesterol."
+            },
+            {
+              "name": "Cap. Vitamin D3 (Cholecalciferol)",
+              "strength": "60,000 IU",
+              "dosage": "1 Capsule Once Weekly",
+              "timing": "Sunday Morning with Milk",
+              "duration": "8 Weeks",
+              "instructions": "Immune and metabolic supportive therapy."
+            }
+          ],
+          "dietaryDirectives": [
+            "Adopt a strict Low Glycemic Index (GI) meal pattern: prioritize raw salads, whole pulses, and millets.",
+            "Completely eliminate refined sugars, sweetened fruit beverages, and packaged ultra-processed snacks.",
+            "Maintain 30 minutes of moderate-intensity aerobic brisk walking at least 5 days a week."
+          ],
+          "followUp": "Repeat Fasting Blood Sugar in 4 weeks. Repeat HbA1c & Lipid Profile in 90 days.",
+          "statutoryNotice": "This electronic prescription complies with the Telemedicine Practice Guidelines issued by NMC India & ABDM EHR Standards 2026."
+        },
+        "fullData": {
+          "success": true,
+          "userEmail": "soyam@gmail.com",
+          "language": "en",
+          "query": "I have fever and chills, what should I do?",
+          "makeStatus": "500 Internal Server Error",
+          "databaseSource": "local",
+          "patient": {
+            "name": "soyam",
+            "age": "42",
+            "gender": "Adult",
+            "abhaId": "14-4514-2473-6290@abdm",
+            "facility": "SageCure Clinical Retrieval Engine",
+            "date": "08 Oct 2026",
+            "confidence": "99.4% Verified"
+          },
+          "summary": "⚠️ Clinical Measurement Safety Notice: You reported fever symptoms without providing a calibrated numerical measurement. SageCure enforces strict zero-hallucination clinical safety: we NEVER assume, guess, or fabricate vital health values (such as 38°C, 38.4°C, or 98.6°F). Body temperature, heart rate, and oxygen saturation are recorded as \"Unknown / Not Provided\". Please measure your body temperature using a digital thermometer and input the exact reading. Core body temperature ≥ 38.0°C (100.4°F) defines fever. If fever exceeds 39.5°C (103°F), persists beyond 72 hours, or is accompanied by stiff neck, confusion, or breathing distress, seek urgent hospital emergency evaluation immediately.",
+          "retrievedEvidence": [
+            "NICE Guidelines (CG160): Core body temperature exceeding 38.0°C (100.4°F) constitutes fever. Antipyretic therapy is indicated for physical distress rather than sole suppression.",
+            "Clinical Measurement Protocol: Never estimate fever severity by touch alone. Digital oral, axillary, or tympanic thermometry is required to establish baseline.",
+            "WHO Infectious Protocol: Insensible fluid losses increase by ~10% for every 1°C increase above normal body temperature; continuous electrolyte replenishment is primary care.",
+            "Clinical Red Flags: Seek emergency clinical triage if fever lasts > 72 hours, exceeds 39.5°C (103°F), or presents with petechial rash or shortness of breath."
+          ],
+          "recommendations": [
+            {
+              "icon": "🌡️",
+              "title": "Measure Exact Temperature",
+              "desc": "Use a calibrated digital oral or axillary thermometer to record your exact numerical reading before taking medication."
+            },
+            {
+              "icon": "💧",
+              "title": "Electrolyte Rehydration",
+              "desc": "Drink 2.5 to 3 liters of water, ORS solution, clear broths, or coconut water throughout the day."
+            },
+            {
+              "icon": "🛌",
+              "title": "Rest & Ambient Ventilation",
+              "desc": "Rest in a well-ventilated, ambient temperature room wearing light, breathable clothing."
+            },
+            {
+              "icon": "🩺",
+              "title": "Physician Consultation",
+              "desc": "Schedule a medical consultation for CBC, dengue, or malarial screening if fever persists over 48 hours."
+            }
+          ],
+          "plainLanguage": "⚠️ Clinical Measurement Safety Notice: You reported fever symptoms without providing a calibrated numerical measurement. SageCure enforces strict zero-hallucination clinical safety: we NEVER assume, guess, or fabricate vital health values (such as 38°C, 38.4°C, or 98.6°F). Body temperature, heart rate, and oxygen saturation are recorded as \"Unknown / Not Provided\". Please measure your body temperature using a digital thermometer and input the exact reading. Core body temperature ≥ 38.0°C (100.4°F) defines fever. If fever exceeds 39.5°C (103°F), persists beyond 72 hours, or is accompanied by stiff neck, confusion, or breathing distress, seek urgent hospital emergency evaluation immediately.",
+          "plainLanguage_en": "⚠️ Clinical Measurement Safety Notice: You reported fever symptoms without providing a calibrated numerical measurement. SageCure enforces strict zero-hallucination clinical safety: we NEVER assume, guess, or fabricate vital health values (such as 38°C, 38.4°C, or 98.6°F). Body temperature, heart rate, and oxygen saturation are recorded as \"Unknown / Not Provided\". Please measure your body temperature using a digital thermometer and input the exact reading. Core body temperature ≥ 38.0°C (100.4°F) defines fever. If fever exceeds 39.5°C (103°F), persists beyond 72 hours, or is accompanied by stiff neck, confusion, or breathing distress, seek urgent hospital emergency evaluation immediately.",
+          "plainLanguage_hi": "⚠️ क्लिनिकल माप सुरक्षा सूचना: आपने बुखार के लक्षण दर्ज किए हैं लेकिन कोई संख्यात्मक शारीरिक तापमान (जैसे 38°C या 100.4°F) प्रदान नहीं किया है। सेजक्योर क्लिनिकल सुरक्षा नियमों का कड़ाई से पालन करता है: हम कभी भी शारीरिक मापों का अनुमान या मनगढ़ंत आंकड़े नहीं बनाते। तापमान, हृदय गति और ऑक्सीजन स्तर को \"अज्ञात / दर्ज नहीं\" के रूप में चिन्हित किया गया है। कृपया डिजिटल थर्मामीटर से अपना तापमान नापें और सही मान दर्ज करें। यदि बुखार 103°F से अधिक हो या 3 दिन से ज्यादा रहे, तो तुरंत डॉक्टर से परामर्श लें।",
+          "audioText": "Hello soyam. ⚠️ Clinical Measurement Safety Notice: You reported fever symptoms without providing a calibrated numerical measurement. SageCure enforces strict zero-hallucination clinical safety: we NEVER assume, guess, or fabricate vital health values (such as 38°C, 38.4°C, or 98.6°F). Body temperature, heart rate, and oxygen saturation are recorded as \"Unknown / Not Provided\". Please measure your body temperature using a digital thermometer and input the exact reading. Core body temperature ≥ 38.0°C (100.4°F) defines fever. If fever exceeds 39.5°C (103°F), persists beyond 72 hours, or is accompanied by stiff neck, confusion, or breathing distress, seek urgent hospital emergency evaluation immediately.",
+          "audioText_en": "Hello soyam. ⚠️ Clinical Measurement Safety Notice: You reported fever symptoms without providing a calibrated numerical measurement. SageCure enforces strict zero-hallucination clinical safety: we NEVER assume, guess, or fabricate vital health values (such as 38°C, 38.4°C, or 98.6°F). Body temperature, heart rate, and oxygen saturation are recorded as \"Unknown / Not Provided\". Please measure your body temperature using a digital thermometer and input the exact reading. Core body temperature ≥ 38.0°C (100.4°F) defines fever. If fever exceeds 39.5°C (103°F), persists beyond 72 hours, or is accompanied by stiff neck, confusion, or breathing distress, seek urgent hospital emergency evaluation immediately.",
+          "audioText_hi": "⚠️ क्लिनिकल माप सुरक्षा सूचना: आपने बुखार के लक्षण दर्ज किए हैं लेकिन कोई संख्यात्मक शारीरिक तापमान (जैसे 38°C या 100.4°F) प्रदान नहीं किया है। सेजक्योर क्लिनिकल सुरक्षा नियमों का कड़ाई से पालन करता है: हम कभी भी शारीरिक मापों का अनुमान या मनगढ़ंत आंकड़े नहीं बनाते। तापमान, हृदय गति और ऑक्सीजन स्तर को \"अज्ञात / दर्ज नहीं\" के रूप में चिन्हित किया गया है। कृपया डिजिटल थर्मामीटर से अपना तापमान नापें और सही मान दर्ज करें। यदि बुखार 103°F से अधिक हो या 3 दिन से ज्यादा रहे, तो तुरंत डॉक्टर से परामर्श लें।",
+          "takeaways": [
+            "NICE Guidelines (CG160): Core body temperature exceeding 38.0°C (100.4°F) constitutes fever. Antipyretic therapy is indicated for physical distress rather than sole suppression.",
+            "Clinical Measurement Protocol: Never estimate fever severity by touch alone. Digital oral, axillary, or tympanic thermometry is required to establish baseline.",
+            "WHO Infectious Protocol: Insensible fluid losses increase by ~10% for every 1°C increase above normal body temperature; continuous electrolyte replenishment is primary care."
+          ],
+          "questions": [
+            "Should I see a doctor immediately for these symptoms?",
+            "What diagnostic tests or medication might be recommended?",
+            "What self-care and monitoring measures are advised?"
+          ],
+          "actions": [
+            {
+              "icon": "🌡️",
+              "title": "Measure Exact Temperature",
+              "desc": "Use a calibrated digital oral or axillary thermometer to record your exact numerical reading before taking medication."
+            },
+            {
+              "icon": "💧",
+              "title": "Electrolyte Rehydration",
+              "desc": "Drink 2.5 to 3 liters of water, ORS solution, clear broths, or coconut water throughout the day."
+            },
+            {
+              "icon": "🛌",
+              "title": "Rest & Ambient Ventilation",
+              "desc": "Rest in a well-ventilated, ambient temperature room wearing light, breathable clothing."
+            },
+            {
+              "icon": "🩺",
+              "title": "Physician Consultation",
+              "desc": "Schedule a medical consultation for CBC, dengue, or malarial screening if fever persists over 48 hours."
+            }
+          ],
+          "biomarkers": [
+            {
+              "name": "Body Temperature",
+              "value": "Unknown / Not Provided",
+              "unit": "°C / °F",
+              "range": "36.5 - 37.5 °C (97.7 - 99.5 °F)",
+              "status": "unknown",
+              "statusLabel": "Unknown / Not Provided (Please Measure)",
+              "percent": 0,
+              "missing": true,
+              "clinicalSafetyNote": "Exact numerical reading not provided. Please measure with a thermometer."
+            },
+            {
+              "name": "Heart Rate (Pulse)",
+              "value": "Unknown / Not Provided",
+              "unit": "bpm",
+              "range": "60 - 100 bpm",
+              "status": "unknown",
+              "statusLabel": "Unknown / Not Provided (Please Measure)",
+              "percent": 0,
+              "missing": true,
+              "clinicalSafetyNote": "Resting pulse rate not provided. Please check resting pulse."
+            },
+            {
+              "name": "Respiratory Rate",
+              "value": "Unknown / Not Provided",
+              "unit": "breaths/min",
+              "range": "12 - 20",
+              "status": "unknown",
+              "statusLabel": "Unknown / Not Provided (Please Measure)",
+              "percent": 0,
+              "missing": true
+            },
+            {
+              "name": "Oxygen Saturation (SpO2)",
+              "value": "Unknown / Not Provided",
+              "unit": "%",
+              "range": "95 - 100 %",
+              "status": "unknown",
+              "statusLabel": "Unknown / Not Provided (Please Measure)",
+              "percent": 0,
+              "missing": true,
+              "clinicalSafetyNote": "Resting SpO2 not provided. Please measure using a pulse oximeter."
+            }
+          ],
+          "isEmergency": false,
+          "triageLevel": "STANDARD",
+          "fhirBundle": {
+            "resourceType": "Bundle",
+            "id": "sagecure-bundle-1791483677569",
+            "meta": {
+              "versionId": "1.0",
+              "lastUpdated": "2026-10-08T18:21:17.569Z",
+              "profile": [
+                "https://nrces.in/ndhm/fhir/r4/StructureDefinition/DiagnosticReportRecord"
+              ]
+            },
+            "identifier": {
+              "system": "https://sagecure.ai/fhir/bundles",
+              "value": "sagecure-bundle-1791483677569"
+            },
+            "type": "document",
+            "timestamp": "2026-10-08T18:21:17.569Z",
+            "entry": [
+              {
+                "fullUrl": "urn:uuid:Composition-rep-1791483677569",
+                "resource": {
+                  "resourceType": "Composition",
+                  "id": "Composition-rep-1791483677569",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/DiagnosticReportRecord"
+                    ]
+                  },
+                  "status": "final",
+                  "type": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "11502-2",
+                        "display": "Laboratory report"
+                      }
+                    ],
+                    "text": "Diagnostic Laboratory Report"
+                  },
+                  "subject": {
+                    "reference": "Patient/Patient-ABDM-14451424736290abdm",
+                    "display": "soyam"
+                  },
+                  "date": "2026-10-08T18:21:17.569Z",
+                  "author": [
+                    {
+                      "reference": "Organization/Org-SageCure-IN070001842",
+                      "display": "SageCure Clinical Retrieval Engine"
+                    }
+                  ],
+                  "title": "SageCure Clinical Diagnostic Health Record",
+                  "custodian": {
+                    "reference": "Organization/Org-SageCure-IN070001842",
+                    "display": "SageCure Clinical Retrieval Engine"
+                  },
+                  "section": [
+                    {
+                      "title": "Diagnostic Findings & Observations",
+                      "code": {
+                        "coding": [
+                          {
+                            "system": "http://loinc.org",
+                            "code": "24323-8",
+                            "display": "Comprehensive laboratory panel"
+                          }
+                        ]
+                      },
+                      "entry": [
+                        {
+                          "reference": "urn:uuid:Observation-rep-1791483677569-1",
+                          "display": "Body Temperature: Unknown / Not Provided °C / °F"
+                        },
+                        {
+                          "reference": "urn:uuid:Observation-rep-1791483677569-2",
+                          "display": "Heart Rate (Pulse): Unknown / Not Provided bpm"
+                        },
+                        {
+                          "reference": "urn:uuid:Observation-rep-1791483677569-3",
+                          "display": "Respiratory Rate: Unknown / Not Provided breaths/min"
+                        },
+                        {
+                          "reference": "urn:uuid:Observation-rep-1791483677569-4",
+                          "display": "Oxygen Saturation (SpO2): Unknown / Not Provided %"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:Patient-ABDM-14451424736290abdm",
+                "resource": {
+                  "resourceType": "Patient",
+                  "id": "Patient-ABDM-14451424736290abdm",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Patient"
+                    ]
+                  },
+                  "identifier": [
+                    {
+                      "type": {
+                        "coding": [
+                          {
+                            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                            "code": "MR",
+                            "display": "Medical Record Number"
+                          }
+                        ]
+                      },
+                      "system": "https://healthid.ndhm.gov.in",
+                      "value": "14-4514-2473-6290@abdm"
+                    }
+                  ],
+                  "name": [
+                    {
+                      "use": "official",
+                      "text": "soyam"
+                    }
+                  ],
+                  "gender": "female"
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:Org-SageCure-IN070001842",
+                "resource": {
+                  "resourceType": "Organization",
+                  "id": "Org-SageCure-IN070001842",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Organization"
+                    ]
+                  },
+                  "identifier": [
+                    {
+                      "system": "https://facility.ndhm.gov.in",
+                      "value": "IN070001842"
+                    }
+                  ],
+                  "name": "SageCure Clinical Retrieval Engine",
+                  "telecom": [
+                    {
+                      "system": "phone",
+                      "value": "+91-11-2659-4500"
+                    },
+                    {
+                      "system": "url",
+                      "value": "https://sagecure.ai"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:Practitioner-MCI-48291",
+                "resource": {
+                  "resourceType": "Practitioner",
+                  "id": "Practitioner-MCI-48291",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Practitioner"
+                    ]
+                  },
+                  "identifier": [
+                    {
+                      "system": "https://doctor.ndhm.gov.in",
+                      "value": "MCI-48291"
+                    }
+                  ],
+                  "name": [
+                    {
+                      "text": "Dr. Alok Sen, MD"
+                    }
+                  ],
+                  "qualification": [
+                    {
+                      "code": {
+                        "text": "MBBS, MD (Internal Medicine & Clinical Diabetology)"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:DiagnosticReport-rep-1791483677569",
+                "resource": {
+                  "resourceType": "DiagnosticReport",
+                  "id": "DiagnosticReport-rep-1791483677569",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/DiagnosticReportLab"
+                    ]
+                  },
+                  "status": "final",
+                  "category": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                          "code": "LAB",
+                          "display": "Laboratory"
+                        }
+                      ]
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "24323-8",
+                        "display": "Comprehensive Laboratory Findings Panel"
+                      }
+                    ],
+                    "text": "Comprehensive Clinical Lab Report"
+                  },
+                  "subject": {
+                    "reference": "Patient/Patient-ABDM-14451424736290abdm",
+                    "display": "soyam"
+                  },
+                  "effectiveDateTime": "2026-10-08T18:21:17.569Z",
+                  "issued": "2026-10-08T18:21:17.569Z",
+                  "performer": [
+                    {
+                      "reference": "Organization/Org-SageCure-IN070001842",
+                      "display": "SageCure Clinical Retrieval Engine"
+                    },
+                    {
+                      "reference": "Practitioner/Practitioner-MCI-48291",
+                      "display": "Dr. Alok Sen, MD"
+                    }
+                  ],
+                  "result": [
+                    {
+                      "reference": "urn:uuid:Observation-rep-1791483677569-1",
+                      "display": "Body Temperature: Unknown / Not Provided °C / °F"
+                    },
+                    {
+                      "reference": "urn:uuid:Observation-rep-1791483677569-2",
+                      "display": "Heart Rate (Pulse): Unknown / Not Provided bpm"
+                    },
+                    {
+                      "reference": "urn:uuid:Observation-rep-1791483677569-3",
+                      "display": "Respiratory Rate: Unknown / Not Provided breaths/min"
+                    },
+                    {
+                      "reference": "urn:uuid:Observation-rep-1791483677569-4",
+                      "display": "Oxygen Saturation (SpO2): Unknown / Not Provided %"
+                    }
+                  ],
+                  "conclusion": "⚠️ Clinical Measurement Safety Notice: You reported fever symptoms without providing a calibrated numerical measurement. SageCure enforces strict zero-hallucination clinical safety: we NEVER assume, guess, or fabricate vital health values (such as 38°C, 38.4°C, or 98.6°F). Body temperature, heart rate, and oxygen saturation are recorded as \"Unknown / Not Provided\". Please measure your body temperature using a digital thermometer and input the exact reading. Core body temperature ≥ 38.0°C (100.4°F) defines fever. If fever exceeds 39.5°C (103°F), persists beyond 72 hours, or is accompanied by stiff neck, confusion, or breathing distress, seek urgent hospital emergency evaluation immediately."
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:Observation-rep-1791483677569-1",
+                "resource": {
+                  "resourceType": "Observation",
+                  "id": "Observation-rep-1791483677569-1",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                    ]
+                  },
+                  "status": "final",
+                  "category": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                          "code": "laboratory",
+                          "display": "Laboratory"
+                        }
+                      ]
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "8310-5",
+                        "display": "Body temperature"
+                      }
+                    ],
+                    "text": "Body Temperature"
+                  },
+                  "subject": {
+                    "reference": "Patient/Patient-ABDM-14451424736290abdm",
+                    "display": "soyam"
+                  },
+                  "effectiveDateTime": "2026-10-08T18:21:17.569Z",
+                  "issued": "2026-10-08T18:21:17.569Z",
+                  "performer": [
+                    {
+                      "reference": "Organization/Org-SageCure-IN070001842",
+                      "display": "SageCure Clinical Retrieval Engine"
+                    }
+                  ],
+                  "dataAbsentReason": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                        "code": "unknown",
+                        "display": "Unknown / Not Provided"
+                      }
+                    ]
+                  },
+                  "valueString": "Unknown / Not Provided",
+                  "interpretation": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                          "code": "N",
+                          "display": "Normal"
+                        }
+                      ],
+                      "text": "Unknown / Not Provided (Please Measure)"
+                    }
+                  ],
+                  "referenceRange": [
+                    {
+                      "text": "36.5 - 37.5 °C (97.7 - 99.5 °F)"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:Observation-rep-1791483677569-2",
+                "resource": {
+                  "resourceType": "Observation",
+                  "id": "Observation-rep-1791483677569-2",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                    ]
+                  },
+                  "status": "final",
+                  "category": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                          "code": "laboratory",
+                          "display": "Laboratory"
+                        }
+                      ]
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "8867-4",
+                        "display": "Heart rate"
+                      }
+                    ],
+                    "text": "Heart Rate (Pulse)"
+                  },
+                  "subject": {
+                    "reference": "Patient/Patient-ABDM-14451424736290abdm",
+                    "display": "soyam"
+                  },
+                  "effectiveDateTime": "2026-10-08T18:21:17.569Z",
+                  "issued": "2026-10-08T18:21:17.569Z",
+                  "performer": [
+                    {
+                      "reference": "Organization/Org-SageCure-IN070001842",
+                      "display": "SageCure Clinical Retrieval Engine"
+                    }
+                  ],
+                  "dataAbsentReason": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                        "code": "unknown",
+                        "display": "Unknown / Not Provided"
+                      }
+                    ]
+                  },
+                  "valueString": "Unknown / Not Provided",
+                  "interpretation": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                          "code": "N",
+                          "display": "Normal"
+                        }
+                      ],
+                      "text": "Unknown / Not Provided (Please Measure)"
+                    }
+                  ],
+                  "referenceRange": [
+                    {
+                      "text": "60 - 100 bpm"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:Observation-rep-1791483677569-3",
+                "resource": {
+                  "resourceType": "Observation",
+                  "id": "Observation-rep-1791483677569-3",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                    ]
+                  },
+                  "status": "final",
+                  "category": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                          "code": "laboratory",
+                          "display": "Laboratory"
+                        }
+                      ]
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "30745-4",
+                        "display": "Respiratory Rate - Clinical Chemistry Marker"
+                      }
+                    ],
+                    "text": "Respiratory Rate"
+                  },
+                  "subject": {
+                    "reference": "Patient/Patient-ABDM-14451424736290abdm",
+                    "display": "soyam"
+                  },
+                  "effectiveDateTime": "2026-10-08T18:21:17.569Z",
+                  "issued": "2026-10-08T18:21:17.569Z",
+                  "performer": [
+                    {
+                      "reference": "Organization/Org-SageCure-IN070001842",
+                      "display": "SageCure Clinical Retrieval Engine"
+                    }
+                  ],
+                  "dataAbsentReason": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                        "code": "unknown",
+                        "display": "Unknown / Not Provided"
+                      }
+                    ]
+                  },
+                  "valueString": "Unknown / Not Provided",
+                  "interpretation": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                          "code": "N",
+                          "display": "Normal"
+                        }
+                      ],
+                      "text": "Unknown / Not Provided (Please Measure)"
+                    }
+                  ],
+                  "referenceRange": [
+                    {
+                      "text": "12 - 20"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:Observation-rep-1791483677569-4",
+                "resource": {
+                  "resourceType": "Observation",
+                  "id": "Observation-rep-1791483677569-4",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                    ]
+                  },
+                  "status": "final",
+                  "category": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                          "code": "laboratory",
+                          "display": "Laboratory"
+                        }
+                      ]
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "59408-5",
+                        "display": "Oxygen saturation in Arterial blood by Pulse oximetry"
+                      }
+                    ],
+                    "text": "Oxygen Saturation (SpO2)"
+                  },
+                  "subject": {
+                    "reference": "Patient/Patient-ABDM-14451424736290abdm",
+                    "display": "soyam"
+                  },
+                  "effectiveDateTime": "2026-10-08T18:21:17.569Z",
+                  "issued": "2026-10-08T18:21:17.569Z",
+                  "performer": [
+                    {
+                      "reference": "Organization/Org-SageCure-IN070001842",
+                      "display": "SageCure Clinical Retrieval Engine"
+                    }
+                  ],
+                  "dataAbsentReason": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                        "code": "unknown",
+                        "display": "Unknown / Not Provided"
+                      }
+                    ]
+                  },
+                  "valueString": "Unknown / Not Provided",
+                  "interpretation": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                          "code": "N",
+                          "display": "Normal"
+                        }
+                      ],
+                      "text": "Unknown / Not Provided (Please Measure)"
+                    }
+                  ],
+                  "referenceRange": [
+                    {
+                      "text": "95 - 100 %"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "prescription": {
+            "prescriptionId": "SC-RX-677570",
+            "date": "08 Oct 2026",
+            "timestamp": "2026-10-08T18:21:17.570Z",
+            "clinic": {
+              "name": "SageCure Digital Health Clinic & Diagnostic Center",
+              "tagline": "ABDM Verified Telemedicine & Clinical Diagnostics Hub",
+              "abdmFacilityId": "IN070001842",
+              "licenseNumber": "DL-2026-MED-4912",
+              "address": "Suite 402, Healthcare Innovation Wing, South Extension II, New Delhi - 110049",
+              "telecom": "+91-11-2659-4500",
+              "email": "clinical@sagecure.ai",
+              "website": "https://sagecure.ai"
+            },
+            "doctor": {
+              "name": "Dr. Alok Sen",
+              "qualification": "MBBS, MD (Internal Medicine), PGD Diabetology",
+              "registrationNumber": "MCI-48291 (Medical Council of India)",
+              "designation": "Senior Consultant Physician & Diabetologist",
+              "signatureText": "Dr. Alok Sen, MD (Digitally Signed)",
+              "verificationHash": "ABDM-SIG-1A11CBF8B82-48291"
+            },
+            "patient": {
+              "name": "soyam",
+              "age": "42",
+              "gender": "Adult",
+              "abhaId": "14-4514-2473-6290@abdm",
+              "facility": "Apollo Diagnostics"
+            },
+            "clinicalEvaluation": {
+              "diagnosis": "Type 2 Diabetes Mellitus with Dyslipidemia (Elevated HbA1c 8.4% & LDL 162 mg/dL)",
+              "icd10": "E11.69 (Type 2 Diabetes Mellitus with Other Specified Complications)",
+              "summary": "⚠️ Clinical Measurement Safety Notice: You reported fever symptoms without providing a calibrated numerical measurement. SageCure enforces strict zero-hallucination clinical safety: we NEVER assume, guess, or fabricate vital health values (such as 38°C, 38.4°C, or 98.6°F). Body temperature, heart rate, and oxygen saturation are recorded as \"Unknown / Not Provided\". Please measure your body temperature using a digital thermometer and input the exact reading. Core body temperature ≥ 38.0°C (100.4°F) defines fever. If fever exceeds 39.5°C (103°F), persists beyond 72 hours, or is accompanied by stiff neck, confusion, or breathing distress, seek urgent hospital emergency evaluation immediately."
+            },
+            "diagnosis": {
+              "text": "Type 2 Diabetes Mellitus with Dyslipidemia (Elevated HbA1c 8.4% & LDL 162 mg/dL)",
+              "icd10": "E11.69 (Type 2 Diabetes Mellitus with Other Specified Complications)",
+              "code": "E11.69"
+            },
+            "digitalSignature": {
+              "verified": true,
+              "doctorName": "Dr. Alok Sen, MD",
+              "registrationNo": "MCI-48291",
+              "hash": "ABDM-SIG-1A11CBF8B82-48291",
+              "timestamp": "2026-10-08T18:21:17.570Z"
+            },
+            "medications": [
+              {
+                "name": "Tab. Metformin Hydrochloride Sustained Release",
+                "strength": "500 mg",
+                "dosage": "1 Tablet Twice Daily (BD)",
+                "timing": "Immediately After Breakfast & Dinner",
+                "duration": "90 Days",
+                "instructions": "Helps sensitize peripheral insulin receptors. Swallow whole, do not crush."
+              },
+              {
+                "name": "Tab. Atorvastatin Calcium",
+                "strength": "10 mg",
+                "dosage": "1 Tablet Once Daily (HS)",
+                "timing": "At Bedtime",
+                "duration": "90 Days",
+                "instructions": "Cardioprotective lipid regulation. Lowers atherogenic LDL cholesterol."
+              },
+              {
+                "name": "Cap. Vitamin D3 (Cholecalciferol)",
+                "strength": "60,000 IU",
+                "dosage": "1 Capsule Once Weekly",
+                "timing": "Sunday Morning with Milk",
+                "duration": "8 Weeks",
+                "instructions": "Immune and metabolic supportive therapy."
+              }
+            ],
+            "dietaryDirectives": [
+              "Adopt a strict Low Glycemic Index (GI) meal pattern: prioritize raw salads, whole pulses, and millets.",
+              "Completely eliminate refined sugars, sweetened fruit beverages, and packaged ultra-processed snacks.",
+              "Maintain 30 minutes of moderate-intensity aerobic brisk walking at least 5 days a week."
+            ],
+            "followUp": "Repeat Fasting Blood Sugar in 4 weeks. Repeat HbA1c & Lipid Profile in 90 days.",
+            "statutoryNotice": "This electronic prescription complies with the Telemedicine Practice Guidelines issued by NMC India & ABDM EHR Standards 2026."
+          }
+        }
+      }
+    ]
+  },
+  "new_user_1791484846826@sagecure.ai": {
+    "name": "New Patient",
+    "email": "new_user_1791484846826@sagecure.ai",
+    "password": "SecurePassword123!",
+    "abhaId": "99-8888-7777-6666@abdm",
+    "createdAt": "2026-10-08T18:40:47.037Z",
+    "reports": [
+      {
+        "id": "rx-1791484848733",
+        "title": "Prescription: Type 2 Diabetes Mellitus with Hypertension (SC-RX-848669)",
+        "date": "09 Oct 2026",
+        "facility": "SageCure Telemedicine Clinic",
+        "summary_en": "Prescribed 2 medications for Type 2 Diabetes Mellitus with Hypertension. Signed by Dr. Alok Sen.",
+        "summary_hi": "Dr. Alok Sen द्वारा 2 दवाएं निर्धारित की गईं।",
+        "category": "prescription",
+        "prescription": {
+          "prescriptionId": "SC-RX-848669",
+          "date": "09 Oct 2026",
+          "timestamp": "2026-10-08T18:40:48.677Z",
+          "clinic": {
+            "name": "SageCure Digital Health Clinic & Diagnostic Center",
+            "tagline": "ABDM Verified Telemedicine & Clinical Diagnostics Hub",
+            "abdmFacilityId": "IN070001842",
+            "licenseNumber": "DL-2026-MED-4912",
+            "address": "Suite 402, Healthcare Innovation Wing, South Extension II, New Delhi - 110049",
+            "telecom": "+91-11-2659-4500",
+            "email": "clinical@sagecure.ai",
+            "website": "https://sagecure.ai"
+          },
+          "doctor": {
+            "name": "Dr. Alok Sen",
+            "qualification": "MBBS, MD (Internal Medicine), PGD Diabetology",
+            "registrationNumber": "MCI-48291 (Medical Council of India)",
+            "designation": "Senior Consultant Physician & Diabetologist",
+            "signatureText": "Dr. Alok Sen (Digitally Signed)",
+            "verificationHash": "ABDM-SIG-1A11CD16A25-48291"
+          },
+          "patient": {
+            "name": "Kavita Iyer",
+            "age": "52",
+            "gender": "Female",
+            "abhaId": "22-4444-5555-6666@abdm",
+            "facility": "SageCure Telemedicine Outpatient Clinic"
+          },
+          "vitals": {
+            "bp": "Unknown / Not Provided",
+            "pulse": "78 bpm",
+            "temp": "Unknown / Not Provided"
+          },
+          "clinicalEvaluation": {
+            "diagnosis": "Type 2 Diabetes Mellitus with Hypertension",
+            "icd10": "E11.9, I10"
+          },
+          "diagnosis": {
+            "text": "Type 2 Diabetes Mellitus with Hypertension",
+            "icd10": "E11.9, I10",
+            "code": "E11.9,"
+          },
+          "digitalSignature": {
+            "verified": true,
+            "doctorName": "Dr. Alok Sen",
+            "registrationNo": "MCI-48291 (Medical Council of India)",
+            "hash": "ABDM-SIG-1A11CD16A25-48291",
+            "timestamp": "2026-10-08T18:40:48.677Z"
+          },
+          "medications": [
+            {
+              "name": "Tab. Metformin 500mg",
+              "dosage": "1 Tab BD",
+              "duration": "30 Days",
+              "instructions": "With meals"
+            },
+            {
+              "name": "Tab. Telmisartan 40mg",
+              "dosage": "1 Tab OD",
+              "duration": "30 Days",
+              "instructions": "Morning"
+            }
+          ],
+          "dietaryDirectives": [
+            "Maintain adequate hydration with 2.5-3 liters of clean water daily.",
+            "Take prescribed medications at scheduled times in accordance with meal advice.",
+            "Report any adverse reactions or new symptoms immediately."
+          ],
+          "followUp": "Review after 14 days or as clinically indicated.",
+          "statutoryNotice": "This electronic prescription complies with the Telemedicine Practice Guidelines issued by NMC India & ABDM EHR Standards 2026."
+        }
+      },
+      {
+        "id": "rep-1791484848559",
+        "title": "Query: I have severe fever and chills since mor",
+        "date": "09 Oct 2026",
+        "facility": "SageCure Clinical Retrieval Engine",
+        "summary_en": "⚠️ Clinical Measurement Safety Notice: You reported fever symptoms without providing a calibrated numerical measurement. SageCure enforces s...",
+        "summary_hi": "⚠️ क्लिनिकल माप सुरक्षा सूचना: आपने बुखार के लक्षण दर्ज किए हैं लेकिन कोई संख्यात्मक शारीरिक तापमान (जैसे 38°C या 100.4°F) प्रदान नहीं किया ...",
+        "category": "febrile",
+        "biomarkers": [
+          {
+            "name": "Body Temperature",
+            "value": "Unknown / Not Provided",
+            "unit": "°C / °F",
+            "range": "36.5 - 37.5 °C (97.7 - 99.5 °F)",
+            "status": "unknown",
+            "statusLabel": "Unknown / Not Provided (Please Measure)",
+            "percent": 0,
+            "missing": true,
+            "clinicalSafetyNote": "Exact numerical reading not provided. Please measure with a thermometer."
+          },
+          {
+            "name": "Heart Rate (Pulse)",
+            "value": "Unknown / Not Provided",
+            "unit": "bpm",
+            "range": "60 - 100 bpm",
+            "status": "unknown",
+            "statusLabel": "Unknown / Not Provided (Please Measure)",
+            "percent": 0,
+            "missing": true,
+            "clinicalSafetyNote": "Resting pulse rate not provided. Please check resting pulse."
+          },
+          {
+            "name": "Respiratory Rate",
+            "value": "Unknown / Not Provided",
+            "unit": "breaths/min",
+            "range": "12 - 20",
+            "status": "unknown",
+            "statusLabel": "Unknown / Not Provided (Please Measure)",
+            "percent": 0,
+            "missing": true
+          },
+          {
+            "name": "Oxygen Saturation (SpO2)",
+            "value": "Unknown / Not Provided",
+            "unit": "%",
+            "range": "95 - 100 %",
+            "status": "unknown",
+            "statusLabel": "Unknown / Not Provided (Please Measure)",
+            "percent": 0,
+            "missing": true,
+            "clinicalSafetyNote": "Resting SpO2 not provided. Please measure using a pulse oximeter."
+          }
+        ],
+        "fhirBundle": {
+          "resourceType": "Bundle",
+          "id": "sagecure-bundle-1791484848550",
+          "meta": {
+            "versionId": "1.0",
+            "lastUpdated": "2026-10-08T18:40:48.549Z",
+            "profile": [
+              "https://nrces.in/ndhm/fhir/r4/StructureDefinition/DiagnosticReportRecord"
+            ]
+          },
+          "identifier": {
+            "system": "https://sagecure.ai/fhir/bundles",
+            "value": "sagecure-bundle-1791484848550"
+          },
+          "type": "document",
+          "timestamp": "2026-10-08T18:40:48.549Z",
+          "entry": [
+            {
+              "fullUrl": "urn:uuid:Composition-rep-1791484848550",
+              "resource": {
+                "resourceType": "Composition",
+                "id": "Composition-rep-1791484848550",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/DiagnosticReportRecord"
+                  ]
+                },
+                "status": "final",
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "11502-2",
+                      "display": "Laboratory report"
+                    }
+                  ],
+                  "text": "Diagnostic Laboratory Report"
+                },
+                "subject": {
+                  "reference": "Patient/Patient-ABDM-99888877776666abdm",
+                  "display": "New Patient"
+                },
+                "date": "2026-10-08T18:40:48.549Z",
+                "author": [
+                  {
+                    "reference": "Organization/Org-SageCure-IN070001842",
+                    "display": "SageCure Clinical Retrieval Engine"
+                  }
+                ],
+                "title": "SageCure Clinical Diagnostic Health Record",
+                "custodian": {
+                  "reference": "Organization/Org-SageCure-IN070001842",
+                  "display": "SageCure Clinical Retrieval Engine"
+                },
+                "section": [
+                  {
+                    "title": "Diagnostic Findings & Observations",
+                    "code": {
+                      "coding": [
+                        {
+                          "system": "http://loinc.org",
+                          "code": "24323-8",
+                          "display": "Comprehensive laboratory panel"
+                        }
+                      ]
+                    },
+                    "entry": [
+                      {
+                        "reference": "urn:uuid:Observation-rep-1791484848550-1",
+                        "display": "Body Temperature: Unknown / Not Provided °C / °F"
+                      },
+                      {
+                        "reference": "urn:uuid:Observation-rep-1791484848550-2",
+                        "display": "Heart Rate (Pulse): Unknown / Not Provided bpm"
+                      },
+                      {
+                        "reference": "urn:uuid:Observation-rep-1791484848550-3",
+                        "display": "Respiratory Rate: Unknown / Not Provided breaths/min"
+                      },
+                      {
+                        "reference": "urn:uuid:Observation-rep-1791484848550-4",
+                        "display": "Oxygen Saturation (SpO2): Unknown / Not Provided %"
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:Patient-ABDM-99888877776666abdm",
+              "resource": {
+                "resourceType": "Patient",
+                "id": "Patient-ABDM-99888877776666abdm",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Patient"
+                  ]
+                },
+                "identifier": [
+                  {
+                    "type": {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                          "code": "MR",
+                          "display": "Medical Record Number"
+                        }
+                      ]
+                    },
+                    "system": "https://healthid.ndhm.gov.in",
+                    "value": "99-8888-7777-6666@abdm"
+                  }
+                ],
+                "name": [
+                  {
+                    "use": "official",
+                    "text": "New Patient"
+                  }
+                ],
+                "gender": "female"
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:Org-SageCure-IN070001842",
+              "resource": {
+                "resourceType": "Organization",
+                "id": "Org-SageCure-IN070001842",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Organization"
+                  ]
+                },
+                "identifier": [
+                  {
+                    "system": "https://facility.ndhm.gov.in",
+                    "value": "IN070001842"
+                  }
+                ],
+                "name": "SageCure Clinical Retrieval Engine",
+                "telecom": [
+                  {
+                    "system": "phone",
+                    "value": "+91-11-2659-4500"
+                  },
+                  {
+                    "system": "url",
+                    "value": "https://sagecure.ai"
+                  }
+                ]
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:Practitioner-MCI-48291",
+              "resource": {
+                "resourceType": "Practitioner",
+                "id": "Practitioner-MCI-48291",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Practitioner"
+                  ]
+                },
+                "identifier": [
+                  {
+                    "system": "https://doctor.ndhm.gov.in",
+                    "value": "MCI-48291"
+                  }
+                ],
+                "name": [
+                  {
+                    "text": "Dr. Alok Sen, MD"
+                  }
+                ],
+                "qualification": [
+                  {
+                    "code": {
+                      "text": "MBBS, MD (Internal Medicine & Clinical Diabetology)"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:DiagnosticReport-rep-1791484848550",
+              "resource": {
+                "resourceType": "DiagnosticReport",
+                "id": "DiagnosticReport-rep-1791484848550",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/DiagnosticReportLab"
+                  ]
+                },
+                "status": "final",
+                "category": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                        "code": "LAB",
+                        "display": "Laboratory"
+                      }
+                    ]
+                  }
+                ],
+                "code": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "24323-8",
+                      "display": "Comprehensive Laboratory Findings Panel"
+                    }
+                  ],
+                  "text": "Comprehensive Clinical Lab Report"
+                },
+                "subject": {
+                  "reference": "Patient/Patient-ABDM-99888877776666abdm",
+                  "display": "New Patient"
+                },
+                "effectiveDateTime": "2026-10-08T18:40:48.549Z",
+                "issued": "2026-10-08T18:40:48.549Z",
+                "performer": [
+                  {
+                    "reference": "Organization/Org-SageCure-IN070001842",
+                    "display": "SageCure Clinical Retrieval Engine"
+                  },
+                  {
+                    "reference": "Practitioner/Practitioner-MCI-48291",
+                    "display": "Dr. Alok Sen, MD"
+                  }
+                ],
+                "result": [
+                  {
+                    "reference": "urn:uuid:Observation-rep-1791484848550-1",
+                    "display": "Body Temperature: Unknown / Not Provided °C / °F"
+                  },
+                  {
+                    "reference": "urn:uuid:Observation-rep-1791484848550-2",
+                    "display": "Heart Rate (Pulse): Unknown / Not Provided bpm"
+                  },
+                  {
+                    "reference": "urn:uuid:Observation-rep-1791484848550-3",
+                    "display": "Respiratory Rate: Unknown / Not Provided breaths/min"
+                  },
+                  {
+                    "reference": "urn:uuid:Observation-rep-1791484848550-4",
+                    "display": "Oxygen Saturation (SpO2): Unknown / Not Provided %"
+                  }
+                ],
+                "conclusion": "⚠️ Clinical Measurement Safety Notice: You reported fever symptoms without providing a calibrated numerical measurement. SageCure enforces strict zero-hallucination clinical safety: we NEVER assume, guess, or fabricate vital health values (such as 38°C, 38.4°C, or 98.6°F). Body temperature, heart rate, and oxygen saturation are recorded as \"Unknown / Not Provided\". Please measure your body temperature using a digital thermometer and input the exact reading. Core body temperature ≥ 38.0°C (100.4°F) defines fever. If fever exceeds 39.5°C (103°F), persists beyond 72 hours, or is accompanied by stiff neck, confusion, or breathing distress, seek urgent hospital emergency evaluation immediately."
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:Observation-rep-1791484848550-1",
+              "resource": {
+                "resourceType": "Observation",
+                "id": "Observation-rep-1791484848550-1",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                  ]
+                },
+                "status": "final",
+                "category": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                        "code": "laboratory",
+                        "display": "Laboratory"
+                      }
+                    ]
+                  }
+                ],
+                "code": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "8310-5",
+                      "display": "Body temperature"
+                    }
+                  ],
+                  "text": "Body Temperature"
+                },
+                "subject": {
+                  "reference": "Patient/Patient-ABDM-99888877776666abdm",
+                  "display": "New Patient"
+                },
+                "effectiveDateTime": "2026-10-08T18:40:48.549Z",
+                "issued": "2026-10-08T18:40:48.549Z",
+                "performer": [
+                  {
+                    "reference": "Organization/Org-SageCure-IN070001842",
+                    "display": "SageCure Clinical Retrieval Engine"
+                  }
+                ],
+                "dataAbsentReason": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                      "code": "unknown",
+                      "display": "Unknown / Not Provided"
+                    }
+                  ]
+                },
+                "valueString": "Unknown / Not Provided",
+                "interpretation": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                        "code": "N",
+                        "display": "Normal"
+                      }
+                    ],
+                    "text": "Unknown / Not Provided (Please Measure)"
+                  }
+                ],
+                "referenceRange": [
+                  {
+                    "text": "36.5 - 37.5 °C (97.7 - 99.5 °F)"
+                  }
+                ]
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:Observation-rep-1791484848550-2",
+              "resource": {
+                "resourceType": "Observation",
+                "id": "Observation-rep-1791484848550-2",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                  ]
+                },
+                "status": "final",
+                "category": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                        "code": "laboratory",
+                        "display": "Laboratory"
+                      }
+                    ]
+                  }
+                ],
+                "code": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "8867-4",
+                      "display": "Heart rate"
+                    }
+                  ],
+                  "text": "Heart Rate (Pulse)"
+                },
+                "subject": {
+                  "reference": "Patient/Patient-ABDM-99888877776666abdm",
+                  "display": "New Patient"
+                },
+                "effectiveDateTime": "2026-10-08T18:40:48.549Z",
+                "issued": "2026-10-08T18:40:48.549Z",
+                "performer": [
+                  {
+                    "reference": "Organization/Org-SageCure-IN070001842",
+                    "display": "SageCure Clinical Retrieval Engine"
+                  }
+                ],
+                "dataAbsentReason": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                      "code": "unknown",
+                      "display": "Unknown / Not Provided"
+                    }
+                  ]
+                },
+                "valueString": "Unknown / Not Provided",
+                "interpretation": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                        "code": "N",
+                        "display": "Normal"
+                      }
+                    ],
+                    "text": "Unknown / Not Provided (Please Measure)"
+                  }
+                ],
+                "referenceRange": [
+                  {
+                    "text": "60 - 100 bpm"
+                  }
+                ]
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:Observation-rep-1791484848550-3",
+              "resource": {
+                "resourceType": "Observation",
+                "id": "Observation-rep-1791484848550-3",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                  ]
+                },
+                "status": "final",
+                "category": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                        "code": "laboratory",
+                        "display": "Laboratory"
+                      }
+                    ]
+                  }
+                ],
+                "code": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "9279-1",
+                      "display": "Respiratory rate"
+                    }
+                  ],
+                  "text": "Respiratory Rate"
+                },
+                "subject": {
+                  "reference": "Patient/Patient-ABDM-99888877776666abdm",
+                  "display": "New Patient"
+                },
+                "effectiveDateTime": "2026-10-08T18:40:48.549Z",
+                "issued": "2026-10-08T18:40:48.549Z",
+                "performer": [
+                  {
+                    "reference": "Organization/Org-SageCure-IN070001842",
+                    "display": "SageCure Clinical Retrieval Engine"
+                  }
+                ],
+                "dataAbsentReason": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                      "code": "unknown",
+                      "display": "Unknown / Not Provided"
+                    }
+                  ]
+                },
+                "valueString": "Unknown / Not Provided",
+                "interpretation": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                        "code": "N",
+                        "display": "Normal"
+                      }
+                    ],
+                    "text": "Unknown / Not Provided (Please Measure)"
+                  }
+                ],
+                "referenceRange": [
+                  {
+                    "text": "12 - 20"
+                  }
+                ]
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:Observation-rep-1791484848550-4",
+              "resource": {
+                "resourceType": "Observation",
+                "id": "Observation-rep-1791484848550-4",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                  ]
+                },
+                "status": "final",
+                "category": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                        "code": "laboratory",
+                        "display": "Laboratory"
+                      }
+                    ]
+                  }
+                ],
+                "code": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "59408-5",
+                      "display": "Oxygen saturation in Arterial blood by Pulse oximetry"
+                    }
+                  ],
+                  "text": "Oxygen Saturation (SpO2)"
+                },
+                "subject": {
+                  "reference": "Patient/Patient-ABDM-99888877776666abdm",
+                  "display": "New Patient"
+                },
+                "effectiveDateTime": "2026-10-08T18:40:48.549Z",
+                "issued": "2026-10-08T18:40:48.549Z",
+                "performer": [
+                  {
+                    "reference": "Organization/Org-SageCure-IN070001842",
+                    "display": "SageCure Clinical Retrieval Engine"
+                  }
+                ],
+                "dataAbsentReason": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                      "code": "unknown",
+                      "display": "Unknown / Not Provided"
+                    }
+                  ]
+                },
+                "valueString": "Unknown / Not Provided",
+                "interpretation": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                        "code": "N",
+                        "display": "Normal"
+                      }
+                    ],
+                    "text": "Unknown / Not Provided (Please Measure)"
+                  }
+                ],
+                "referenceRange": [
+                  {
+                    "text": "95 - 100 %"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "prescription": {
+          "prescriptionId": "SC-RX-848559",
+          "date": "09 Oct 2026",
+          "timestamp": "2026-10-08T18:40:48.559Z",
+          "clinic": {
+            "name": "SageCure Digital Health Clinic & Diagnostic Center",
+            "tagline": "ABDM Verified Telemedicine & Clinical Diagnostics Hub",
+            "abdmFacilityId": "IN070001842",
+            "licenseNumber": "DL-2026-MED-4912",
+            "address": "Suite 402, Healthcare Innovation Wing, South Extension II, New Delhi - 110049",
+            "telecom": "+91-11-2659-4500",
+            "email": "clinical@sagecure.ai",
+            "website": "https://sagecure.ai"
+          },
+          "doctor": {
+            "name": "Dr. Alok Sen",
+            "qualification": "MBBS, MD (Internal Medicine), PGD Diabetology",
+            "registrationNumber": "MCI-48291 (Medical Council of India)",
+            "designation": "Senior Consultant Physician & Diabetologist",
+            "signatureText": "Dr. Alok Sen, MD (Digitally Signed)",
+            "verificationHash": "ABDM-SIG-1A11CD169AF-48291"
+          },
+          "patient": {
+            "name": "New Patient",
+            "age": "42",
+            "gender": "Adult",
+            "abhaId": "99-8888-7777-6666@abdm",
+            "facility": "Apollo Diagnostics"
+          },
+          "clinicalEvaluation": {
+            "diagnosis": "Type 2 Diabetes Mellitus with Dyslipidemia (Elevated HbA1c 8.4% & LDL 162 mg/dL)",
+            "icd10": "E11.69 (Type 2 Diabetes Mellitus with Other Specified Complications)",
+            "summary": "⚠️ Clinical Measurement Safety Notice: You reported fever symptoms without providing a calibrated numerical measurement. SageCure enforces strict zero-hallucination clinical safety: we NEVER assume, guess, or fabricate vital health values (such as 38°C, 38.4°C, or 98.6°F). Body temperature, heart rate, and oxygen saturation are recorded as \"Unknown / Not Provided\". Please measure your body temperature using a digital thermometer and input the exact reading. Core body temperature ≥ 38.0°C (100.4°F) defines fever. If fever exceeds 39.5°C (103°F), persists beyond 72 hours, or is accompanied by stiff neck, confusion, or breathing distress, seek urgent hospital emergency evaluation immediately."
+          },
+          "diagnosis": {
+            "text": "Type 2 Diabetes Mellitus with Dyslipidemia (Elevated HbA1c 8.4% & LDL 162 mg/dL)",
+            "icd10": "E11.69 (Type 2 Diabetes Mellitus with Other Specified Complications)",
+            "code": "E11.69"
+          },
+          "digitalSignature": {
+            "verified": true,
+            "doctorName": "Dr. Alok Sen, MD",
+            "registrationNo": "MCI-48291",
+            "hash": "ABDM-SIG-1A11CD169AF-48291",
+            "timestamp": "2026-10-08T18:40:48.559Z"
+          },
+          "medications": [
+            {
+              "name": "Tab. Metformin Hydrochloride Sustained Release",
+              "strength": "500 mg",
+              "dosage": "1 Tablet Twice Daily (BD)",
+              "timing": "Immediately After Breakfast & Dinner",
+              "duration": "90 Days",
+              "instructions": "Helps sensitize peripheral insulin receptors. Swallow whole, do not crush."
+            },
+            {
+              "name": "Tab. Atorvastatin Calcium",
+              "strength": "10 mg",
+              "dosage": "1 Tablet Once Daily (HS)",
+              "timing": "At Bedtime",
+              "duration": "90 Days",
+              "instructions": "Cardioprotective lipid regulation. Lowers atherogenic LDL cholesterol."
+            },
+            {
+              "name": "Cap. Vitamin D3 (Cholecalciferol)",
+              "strength": "60,000 IU",
+              "dosage": "1 Capsule Once Weekly",
+              "timing": "Sunday Morning with Milk",
+              "duration": "8 Weeks",
+              "instructions": "Immune and metabolic supportive therapy."
+            }
+          ],
+          "dietaryDirectives": [
+            "Adopt a strict Low Glycemic Index (GI) meal pattern: prioritize raw salads, whole pulses, and millets.",
+            "Completely eliminate refined sugars, sweetened fruit beverages, and packaged ultra-processed snacks.",
+            "Maintain 30 minutes of moderate-intensity aerobic brisk walking at least 5 days a week."
+          ],
+          "followUp": "Repeat Fasting Blood Sugar in 4 weeks. Repeat HbA1c & Lipid Profile in 90 days.",
+          "statutoryNotice": "This electronic prescription complies with the Telemedicine Practice Guidelines issued by NMC India & ABDM EHR Standards 2026."
+        },
+        "fullData": {
+          "success": true,
+          "userEmail": "new_user_1791484846826@sagecure.ai",
+          "language": "en",
+          "query": "I have severe fever and chills since morning",
+          "makeStatus": "500 Internal Server Error",
+          "databaseSource": "local",
+          "patient": {
+            "name": "New Patient",
+            "age": "42",
+            "gender": "Adult",
+            "abhaId": "99-8888-7777-6666@abdm",
+            "facility": "SageCure Clinical Retrieval Engine",
+            "date": "09 Oct 2026",
+            "confidence": "99.4% Verified"
+          },
+          "summary": "⚠️ Clinical Measurement Safety Notice: You reported fever symptoms without providing a calibrated numerical measurement. SageCure enforces strict zero-hallucination clinical safety: we NEVER assume, guess, or fabricate vital health values (such as 38°C, 38.4°C, or 98.6°F). Body temperature, heart rate, and oxygen saturation are recorded as \"Unknown / Not Provided\". Please measure your body temperature using a digital thermometer and input the exact reading. Core body temperature ≥ 38.0°C (100.4°F) defines fever. If fever exceeds 39.5°C (103°F), persists beyond 72 hours, or is accompanied by stiff neck, confusion, or breathing distress, seek urgent hospital emergency evaluation immediately.",
+          "retrievedEvidence": [
+            "NICE Guidelines (CG160): Core body temperature exceeding 38.0°C (100.4°F) constitutes fever. Antipyretic therapy is indicated for physical distress rather than sole suppression.",
+            "Clinical Measurement Protocol: Never estimate fever severity by touch alone. Digital oral, axillary, or tympanic thermometry is required to establish baseline.",
+            "WHO Infectious Protocol: Insensible fluid losses increase by ~10% for every 1°C increase above normal body temperature; continuous electrolyte replenishment is primary care.",
+            "Clinical Red Flags: Seek emergency clinical triage if fever lasts > 72 hours, exceeds 39.5°C (103°F), or presents with petechial rash or shortness of breath."
+          ],
+          "recommendations": [
+            {
+              "icon": "🌡️",
+              "title": "Measure Exact Temperature",
+              "desc": "Use a calibrated digital oral or axillary thermometer to record your exact numerical reading before taking medication."
+            },
+            {
+              "icon": "💧",
+              "title": "Electrolyte Rehydration",
+              "desc": "Drink 2.5 to 3 liters of water, ORS solution, clear broths, or coconut water throughout the day."
+            },
+            {
+              "icon": "🛌",
+              "title": "Rest & Ambient Ventilation",
+              "desc": "Rest in a well-ventilated, ambient temperature room wearing light, breathable clothing."
+            },
+            {
+              "icon": "🩺",
+              "title": "Physician Consultation",
+              "desc": "Schedule a medical consultation for CBC, dengue, or malarial screening if fever persists over 48 hours."
+            }
+          ],
+          "plainLanguage": "⚠️ Clinical Measurement Safety Notice: You reported fever symptoms without providing a calibrated numerical measurement. SageCure enforces strict zero-hallucination clinical safety: we NEVER assume, guess, or fabricate vital health values (such as 38°C, 38.4°C, or 98.6°F). Body temperature, heart rate, and oxygen saturation are recorded as \"Unknown / Not Provided\". Please measure your body temperature using a digital thermometer and input the exact reading. Core body temperature ≥ 38.0°C (100.4°F) defines fever. If fever exceeds 39.5°C (103°F), persists beyond 72 hours, or is accompanied by stiff neck, confusion, or breathing distress, seek urgent hospital emergency evaluation immediately.",
+          "plainLanguage_en": "⚠️ Clinical Measurement Safety Notice: You reported fever symptoms without providing a calibrated numerical measurement. SageCure enforces strict zero-hallucination clinical safety: we NEVER assume, guess, or fabricate vital health values (such as 38°C, 38.4°C, or 98.6°F). Body temperature, heart rate, and oxygen saturation are recorded as \"Unknown / Not Provided\". Please measure your body temperature using a digital thermometer and input the exact reading. Core body temperature ≥ 38.0°C (100.4°F) defines fever. If fever exceeds 39.5°C (103°F), persists beyond 72 hours, or is accompanied by stiff neck, confusion, or breathing distress, seek urgent hospital emergency evaluation immediately.",
+          "plainLanguage_hi": "⚠️ क्लिनिकल माप सुरक्षा सूचना: आपने बुखार के लक्षण दर्ज किए हैं लेकिन कोई संख्यात्मक शारीरिक तापमान (जैसे 38°C या 100.4°F) प्रदान नहीं किया है। सेजक्योर क्लिनिकल सुरक्षा नियमों का कड़ाई से पालन करता है: हम कभी भी शारीरिक मापों का अनुमान या मनगढ़ंत आंकड़े नहीं बनाते। तापमान, हृदय गति और ऑक्सीजन स्तर को \"अज्ञात / दर्ज नहीं\" के रूप में चिन्हित किया गया है। कृपया डिजिटल थर्मामीटर से अपना तापमान नापें और सही मान दर्ज करें। यदि बुखार 103°F से अधिक हो या 3 दिन से ज्यादा रहे, तो तुरंत डॉक्टर से परामर्श लें।",
+          "audioText": "Hello New Patient. ⚠️ Clinical Measurement Safety Notice: You reported fever symptoms without providing a calibrated numerical measurement. SageCure enforces strict zero-hallucination clinical safety: we NEVER assume, guess, or fabricate vital health values (such as 38°C, 38.4°C, or 98.6°F). Body temperature, heart rate, and oxygen saturation are recorded as \"Unknown / Not Provided\". Please measure your body temperature using a digital thermometer and input the exact reading. Core body temperature ≥ 38.0°C (100.4°F) defines fever. If fever exceeds 39.5°C (103°F), persists beyond 72 hours, or is accompanied by stiff neck, confusion, or breathing distress, seek urgent hospital emergency evaluation immediately.",
+          "audioText_en": "Hello New Patient. ⚠️ Clinical Measurement Safety Notice: You reported fever symptoms without providing a calibrated numerical measurement. SageCure enforces strict zero-hallucination clinical safety: we NEVER assume, guess, or fabricate vital health values (such as 38°C, 38.4°C, or 98.6°F). Body temperature, heart rate, and oxygen saturation are recorded as \"Unknown / Not Provided\". Please measure your body temperature using a digital thermometer and input the exact reading. Core body temperature ≥ 38.0°C (100.4°F) defines fever. If fever exceeds 39.5°C (103°F), persists beyond 72 hours, or is accompanied by stiff neck, confusion, or breathing distress, seek urgent hospital emergency evaluation immediately.",
+          "audioText_hi": "⚠️ क्लिनिकल माप सुरक्षा सूचना: आपने बुखार के लक्षण दर्ज किए हैं लेकिन कोई संख्यात्मक शारीरिक तापमान (जैसे 38°C या 100.4°F) प्रदान नहीं किया है। सेजक्योर क्लिनिकल सुरक्षा नियमों का कड़ाई से पालन करता है: हम कभी भी शारीरिक मापों का अनुमान या मनगढ़ंत आंकड़े नहीं बनाते। तापमान, हृदय गति और ऑक्सीजन स्तर को \"अज्ञात / दर्ज नहीं\" के रूप में चिन्हित किया गया है। कृपया डिजिटल थर्मामीटर से अपना तापमान नापें और सही मान दर्ज करें। यदि बुखार 103°F से अधिक हो या 3 दिन से ज्यादा रहे, तो तुरंत डॉक्टर से परामर्श लें।",
+          "takeaways": [
+            "NICE Guidelines (CG160): Core body temperature exceeding 38.0°C (100.4°F) constitutes fever. Antipyretic therapy is indicated for physical distress rather than sole suppression.",
+            "Clinical Measurement Protocol: Never estimate fever severity by touch alone. Digital oral, axillary, or tympanic thermometry is required to establish baseline.",
+            "WHO Infectious Protocol: Insensible fluid losses increase by ~10% for every 1°C increase above normal body temperature; continuous electrolyte replenishment is primary care."
+          ],
+          "questions": [
+            "Should I see a doctor immediately for these symptoms?",
+            "What diagnostic tests or medication might be recommended?",
+            "What self-care and monitoring measures are advised?"
+          ],
+          "actions": [
+            {
+              "icon": "🌡️",
+              "title": "Measure Exact Temperature",
+              "desc": "Use a calibrated digital oral or axillary thermometer to record your exact numerical reading before taking medication."
+            },
+            {
+              "icon": "💧",
+              "title": "Electrolyte Rehydration",
+              "desc": "Drink 2.5 to 3 liters of water, ORS solution, clear broths, or coconut water throughout the day."
+            },
+            {
+              "icon": "🛌",
+              "title": "Rest & Ambient Ventilation",
+              "desc": "Rest in a well-ventilated, ambient temperature room wearing light, breathable clothing."
+            },
+            {
+              "icon": "🩺",
+              "title": "Physician Consultation",
+              "desc": "Schedule a medical consultation for CBC, dengue, or malarial screening if fever persists over 48 hours."
+            }
+          ],
+          "biomarkers": [
+            {
+              "name": "Body Temperature",
+              "value": "Unknown / Not Provided",
+              "unit": "°C / °F",
+              "range": "36.5 - 37.5 °C (97.7 - 99.5 °F)",
+              "status": "unknown",
+              "statusLabel": "Unknown / Not Provided (Please Measure)",
+              "percent": 0,
+              "missing": true,
+              "clinicalSafetyNote": "Exact numerical reading not provided. Please measure with a thermometer."
+            },
+            {
+              "name": "Heart Rate (Pulse)",
+              "value": "Unknown / Not Provided",
+              "unit": "bpm",
+              "range": "60 - 100 bpm",
+              "status": "unknown",
+              "statusLabel": "Unknown / Not Provided (Please Measure)",
+              "percent": 0,
+              "missing": true,
+              "clinicalSafetyNote": "Resting pulse rate not provided. Please check resting pulse."
+            },
+            {
+              "name": "Respiratory Rate",
+              "value": "Unknown / Not Provided",
+              "unit": "breaths/min",
+              "range": "12 - 20",
+              "status": "unknown",
+              "statusLabel": "Unknown / Not Provided (Please Measure)",
+              "percent": 0,
+              "missing": true
+            },
+            {
+              "name": "Oxygen Saturation (SpO2)",
+              "value": "Unknown / Not Provided",
+              "unit": "%",
+              "range": "95 - 100 %",
+              "status": "unknown",
+              "statusLabel": "Unknown / Not Provided (Please Measure)",
+              "percent": 0,
+              "missing": true,
+              "clinicalSafetyNote": "Resting SpO2 not provided. Please measure using a pulse oximeter."
+            }
+          ],
+          "isEmergency": false,
+          "triageLevel": "STANDARD",
+          "fhirBundle": {
+            "resourceType": "Bundle",
+            "id": "sagecure-bundle-1791484848550",
+            "meta": {
+              "versionId": "1.0",
+              "lastUpdated": "2026-10-08T18:40:48.549Z",
+              "profile": [
+                "https://nrces.in/ndhm/fhir/r4/StructureDefinition/DiagnosticReportRecord"
+              ]
+            },
+            "identifier": {
+              "system": "https://sagecure.ai/fhir/bundles",
+              "value": "sagecure-bundle-1791484848550"
+            },
+            "type": "document",
+            "timestamp": "2026-10-08T18:40:48.549Z",
+            "entry": [
+              {
+                "fullUrl": "urn:uuid:Composition-rep-1791484848550",
+                "resource": {
+                  "resourceType": "Composition",
+                  "id": "Composition-rep-1791484848550",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/DiagnosticReportRecord"
+                    ]
+                  },
+                  "status": "final",
+                  "type": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "11502-2",
+                        "display": "Laboratory report"
+                      }
+                    ],
+                    "text": "Diagnostic Laboratory Report"
+                  },
+                  "subject": {
+                    "reference": "Patient/Patient-ABDM-99888877776666abdm",
+                    "display": "New Patient"
+                  },
+                  "date": "2026-10-08T18:40:48.549Z",
+                  "author": [
+                    {
+                      "reference": "Organization/Org-SageCure-IN070001842",
+                      "display": "SageCure Clinical Retrieval Engine"
+                    }
+                  ],
+                  "title": "SageCure Clinical Diagnostic Health Record",
+                  "custodian": {
+                    "reference": "Organization/Org-SageCure-IN070001842",
+                    "display": "SageCure Clinical Retrieval Engine"
+                  },
+                  "section": [
+                    {
+                      "title": "Diagnostic Findings & Observations",
+                      "code": {
+                        "coding": [
+                          {
+                            "system": "http://loinc.org",
+                            "code": "24323-8",
+                            "display": "Comprehensive laboratory panel"
+                          }
+                        ]
+                      },
+                      "entry": [
+                        {
+                          "reference": "urn:uuid:Observation-rep-1791484848550-1",
+                          "display": "Body Temperature: Unknown / Not Provided °C / °F"
+                        },
+                        {
+                          "reference": "urn:uuid:Observation-rep-1791484848550-2",
+                          "display": "Heart Rate (Pulse): Unknown / Not Provided bpm"
+                        },
+                        {
+                          "reference": "urn:uuid:Observation-rep-1791484848550-3",
+                          "display": "Respiratory Rate: Unknown / Not Provided breaths/min"
+                        },
+                        {
+                          "reference": "urn:uuid:Observation-rep-1791484848550-4",
+                          "display": "Oxygen Saturation (SpO2): Unknown / Not Provided %"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:Patient-ABDM-99888877776666abdm",
+                "resource": {
+                  "resourceType": "Patient",
+                  "id": "Patient-ABDM-99888877776666abdm",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Patient"
+                    ]
+                  },
+                  "identifier": [
+                    {
+                      "type": {
+                        "coding": [
+                          {
+                            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                            "code": "MR",
+                            "display": "Medical Record Number"
+                          }
+                        ]
+                      },
+                      "system": "https://healthid.ndhm.gov.in",
+                      "value": "99-8888-7777-6666@abdm"
+                    }
+                  ],
+                  "name": [
+                    {
+                      "use": "official",
+                      "text": "New Patient"
+                    }
+                  ],
+                  "gender": "female"
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:Org-SageCure-IN070001842",
+                "resource": {
+                  "resourceType": "Organization",
+                  "id": "Org-SageCure-IN070001842",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Organization"
+                    ]
+                  },
+                  "identifier": [
+                    {
+                      "system": "https://facility.ndhm.gov.in",
+                      "value": "IN070001842"
+                    }
+                  ],
+                  "name": "SageCure Clinical Retrieval Engine",
+                  "telecom": [
+                    {
+                      "system": "phone",
+                      "value": "+91-11-2659-4500"
+                    },
+                    {
+                      "system": "url",
+                      "value": "https://sagecure.ai"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:Practitioner-MCI-48291",
+                "resource": {
+                  "resourceType": "Practitioner",
+                  "id": "Practitioner-MCI-48291",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Practitioner"
+                    ]
+                  },
+                  "identifier": [
+                    {
+                      "system": "https://doctor.ndhm.gov.in",
+                      "value": "MCI-48291"
+                    }
+                  ],
+                  "name": [
+                    {
+                      "text": "Dr. Alok Sen, MD"
+                    }
+                  ],
+                  "qualification": [
+                    {
+                      "code": {
+                        "text": "MBBS, MD (Internal Medicine & Clinical Diabetology)"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:DiagnosticReport-rep-1791484848550",
+                "resource": {
+                  "resourceType": "DiagnosticReport",
+                  "id": "DiagnosticReport-rep-1791484848550",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/DiagnosticReportLab"
+                    ]
+                  },
+                  "status": "final",
+                  "category": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                          "code": "LAB",
+                          "display": "Laboratory"
+                        }
+                      ]
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "24323-8",
+                        "display": "Comprehensive Laboratory Findings Panel"
+                      }
+                    ],
+                    "text": "Comprehensive Clinical Lab Report"
+                  },
+                  "subject": {
+                    "reference": "Patient/Patient-ABDM-99888877776666abdm",
+                    "display": "New Patient"
+                  },
+                  "effectiveDateTime": "2026-10-08T18:40:48.549Z",
+                  "issued": "2026-10-08T18:40:48.549Z",
+                  "performer": [
+                    {
+                      "reference": "Organization/Org-SageCure-IN070001842",
+                      "display": "SageCure Clinical Retrieval Engine"
+                    },
+                    {
+                      "reference": "Practitioner/Practitioner-MCI-48291",
+                      "display": "Dr. Alok Sen, MD"
+                    }
+                  ],
+                  "result": [
+                    {
+                      "reference": "urn:uuid:Observation-rep-1791484848550-1",
+                      "display": "Body Temperature: Unknown / Not Provided °C / °F"
+                    },
+                    {
+                      "reference": "urn:uuid:Observation-rep-1791484848550-2",
+                      "display": "Heart Rate (Pulse): Unknown / Not Provided bpm"
+                    },
+                    {
+                      "reference": "urn:uuid:Observation-rep-1791484848550-3",
+                      "display": "Respiratory Rate: Unknown / Not Provided breaths/min"
+                    },
+                    {
+                      "reference": "urn:uuid:Observation-rep-1791484848550-4",
+                      "display": "Oxygen Saturation (SpO2): Unknown / Not Provided %"
+                    }
+                  ],
+                  "conclusion": "⚠️ Clinical Measurement Safety Notice: You reported fever symptoms without providing a calibrated numerical measurement. SageCure enforces strict zero-hallucination clinical safety: we NEVER assume, guess, or fabricate vital health values (such as 38°C, 38.4°C, or 98.6°F). Body temperature, heart rate, and oxygen saturation are recorded as \"Unknown / Not Provided\". Please measure your body temperature using a digital thermometer and input the exact reading. Core body temperature ≥ 38.0°C (100.4°F) defines fever. If fever exceeds 39.5°C (103°F), persists beyond 72 hours, or is accompanied by stiff neck, confusion, or breathing distress, seek urgent hospital emergency evaluation immediately."
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:Observation-rep-1791484848550-1",
+                "resource": {
+                  "resourceType": "Observation",
+                  "id": "Observation-rep-1791484848550-1",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                    ]
+                  },
+                  "status": "final",
+                  "category": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                          "code": "laboratory",
+                          "display": "Laboratory"
+                        }
+                      ]
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "8310-5",
+                        "display": "Body temperature"
+                      }
+                    ],
+                    "text": "Body Temperature"
+                  },
+                  "subject": {
+                    "reference": "Patient/Patient-ABDM-99888877776666abdm",
+                    "display": "New Patient"
+                  },
+                  "effectiveDateTime": "2026-10-08T18:40:48.549Z",
+                  "issued": "2026-10-08T18:40:48.549Z",
+                  "performer": [
+                    {
+                      "reference": "Organization/Org-SageCure-IN070001842",
+                      "display": "SageCure Clinical Retrieval Engine"
+                    }
+                  ],
+                  "dataAbsentReason": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                        "code": "unknown",
+                        "display": "Unknown / Not Provided"
+                      }
+                    ]
+                  },
+                  "valueString": "Unknown / Not Provided",
+                  "interpretation": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                          "code": "N",
+                          "display": "Normal"
+                        }
+                      ],
+                      "text": "Unknown / Not Provided (Please Measure)"
+                    }
+                  ],
+                  "referenceRange": [
+                    {
+                      "text": "36.5 - 37.5 °C (97.7 - 99.5 °F)"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:Observation-rep-1791484848550-2",
+                "resource": {
+                  "resourceType": "Observation",
+                  "id": "Observation-rep-1791484848550-2",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                    ]
+                  },
+                  "status": "final",
+                  "category": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                          "code": "laboratory",
+                          "display": "Laboratory"
+                        }
+                      ]
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "8867-4",
+                        "display": "Heart rate"
+                      }
+                    ],
+                    "text": "Heart Rate (Pulse)"
+                  },
+                  "subject": {
+                    "reference": "Patient/Patient-ABDM-99888877776666abdm",
+                    "display": "New Patient"
+                  },
+                  "effectiveDateTime": "2026-10-08T18:40:48.549Z",
+                  "issued": "2026-10-08T18:40:48.549Z",
+                  "performer": [
+                    {
+                      "reference": "Organization/Org-SageCure-IN070001842",
+                      "display": "SageCure Clinical Retrieval Engine"
+                    }
+                  ],
+                  "dataAbsentReason": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                        "code": "unknown",
+                        "display": "Unknown / Not Provided"
+                      }
+                    ]
+                  },
+                  "valueString": "Unknown / Not Provided",
+                  "interpretation": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                          "code": "N",
+                          "display": "Normal"
+                        }
+                      ],
+                      "text": "Unknown / Not Provided (Please Measure)"
+                    }
+                  ],
+                  "referenceRange": [
+                    {
+                      "text": "60 - 100 bpm"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:Observation-rep-1791484848550-3",
+                "resource": {
+                  "resourceType": "Observation",
+                  "id": "Observation-rep-1791484848550-3",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                    ]
+                  },
+                  "status": "final",
+                  "category": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                          "code": "laboratory",
+                          "display": "Laboratory"
+                        }
+                      ]
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "9279-1",
+                        "display": "Respiratory rate"
+                      }
+                    ],
+                    "text": "Respiratory Rate"
+                  },
+                  "subject": {
+                    "reference": "Patient/Patient-ABDM-99888877776666abdm",
+                    "display": "New Patient"
+                  },
+                  "effectiveDateTime": "2026-10-08T18:40:48.549Z",
+                  "issued": "2026-10-08T18:40:48.549Z",
+                  "performer": [
+                    {
+                      "reference": "Organization/Org-SageCure-IN070001842",
+                      "display": "SageCure Clinical Retrieval Engine"
+                    }
+                  ],
+                  "dataAbsentReason": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                        "code": "unknown",
+                        "display": "Unknown / Not Provided"
+                      }
+                    ]
+                  },
+                  "valueString": "Unknown / Not Provided",
+                  "interpretation": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                          "code": "N",
+                          "display": "Normal"
+                        }
+                      ],
+                      "text": "Unknown / Not Provided (Please Measure)"
+                    }
+                  ],
+                  "referenceRange": [
+                    {
+                      "text": "12 - 20"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:Observation-rep-1791484848550-4",
+                "resource": {
+                  "resourceType": "Observation",
+                  "id": "Observation-rep-1791484848550-4",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                    ]
+                  },
+                  "status": "final",
+                  "category": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                          "code": "laboratory",
+                          "display": "Laboratory"
+                        }
+                      ]
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "59408-5",
+                        "display": "Oxygen saturation in Arterial blood by Pulse oximetry"
+                      }
+                    ],
+                    "text": "Oxygen Saturation (SpO2)"
+                  },
+                  "subject": {
+                    "reference": "Patient/Patient-ABDM-99888877776666abdm",
+                    "display": "New Patient"
+                  },
+                  "effectiveDateTime": "2026-10-08T18:40:48.549Z",
+                  "issued": "2026-10-08T18:40:48.549Z",
+                  "performer": [
+                    {
+                      "reference": "Organization/Org-SageCure-IN070001842",
+                      "display": "SageCure Clinical Retrieval Engine"
+                    }
+                  ],
+                  "dataAbsentReason": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                        "code": "unknown",
+                        "display": "Unknown / Not Provided"
+                      }
+                    ]
+                  },
+                  "valueString": "Unknown / Not Provided",
+                  "interpretation": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                          "code": "N",
+                          "display": "Normal"
+                        }
+                      ],
+                      "text": "Unknown / Not Provided (Please Measure)"
+                    }
+                  ],
+                  "referenceRange": [
+                    {
+                      "text": "95 - 100 %"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "prescription": {
+            "prescriptionId": "SC-RX-848559",
+            "date": "09 Oct 2026",
+            "timestamp": "2026-10-08T18:40:48.559Z",
+            "clinic": {
+              "name": "SageCure Digital Health Clinic & Diagnostic Center",
+              "tagline": "ABDM Verified Telemedicine & Clinical Diagnostics Hub",
+              "abdmFacilityId": "IN070001842",
+              "licenseNumber": "DL-2026-MED-4912",
+              "address": "Suite 402, Healthcare Innovation Wing, South Extension II, New Delhi - 110049",
+              "telecom": "+91-11-2659-4500",
+              "email": "clinical@sagecure.ai",
+              "website": "https://sagecure.ai"
+            },
+            "doctor": {
+              "name": "Dr. Alok Sen",
+              "qualification": "MBBS, MD (Internal Medicine), PGD Diabetology",
+              "registrationNumber": "MCI-48291 (Medical Council of India)",
+              "designation": "Senior Consultant Physician & Diabetologist",
+              "signatureText": "Dr. Alok Sen, MD (Digitally Signed)",
+              "verificationHash": "ABDM-SIG-1A11CD169AF-48291"
+            },
+            "patient": {
+              "name": "New Patient",
+              "age": "42",
+              "gender": "Adult",
+              "abhaId": "99-8888-7777-6666@abdm",
+              "facility": "Apollo Diagnostics"
+            },
+            "clinicalEvaluation": {
+              "diagnosis": "Type 2 Diabetes Mellitus with Dyslipidemia (Elevated HbA1c 8.4% & LDL 162 mg/dL)",
+              "icd10": "E11.69 (Type 2 Diabetes Mellitus with Other Specified Complications)",
+              "summary": "⚠️ Clinical Measurement Safety Notice: You reported fever symptoms without providing a calibrated numerical measurement. SageCure enforces strict zero-hallucination clinical safety: we NEVER assume, guess, or fabricate vital health values (such as 38°C, 38.4°C, or 98.6°F). Body temperature, heart rate, and oxygen saturation are recorded as \"Unknown / Not Provided\". Please measure your body temperature using a digital thermometer and input the exact reading. Core body temperature ≥ 38.0°C (100.4°F) defines fever. If fever exceeds 39.5°C (103°F), persists beyond 72 hours, or is accompanied by stiff neck, confusion, or breathing distress, seek urgent hospital emergency evaluation immediately."
+            },
+            "diagnosis": {
+              "text": "Type 2 Diabetes Mellitus with Dyslipidemia (Elevated HbA1c 8.4% & LDL 162 mg/dL)",
+              "icd10": "E11.69 (Type 2 Diabetes Mellitus with Other Specified Complications)",
+              "code": "E11.69"
+            },
+            "digitalSignature": {
+              "verified": true,
+              "doctorName": "Dr. Alok Sen, MD",
+              "registrationNo": "MCI-48291",
+              "hash": "ABDM-SIG-1A11CD169AF-48291",
+              "timestamp": "2026-10-08T18:40:48.559Z"
+            },
+            "medications": [
+              {
+                "name": "Tab. Metformin Hydrochloride Sustained Release",
+                "strength": "500 mg",
+                "dosage": "1 Tablet Twice Daily (BD)",
+                "timing": "Immediately After Breakfast & Dinner",
+                "duration": "90 Days",
+                "instructions": "Helps sensitize peripheral insulin receptors. Swallow whole, do not crush."
+              },
+              {
+                "name": "Tab. Atorvastatin Calcium",
+                "strength": "10 mg",
+                "dosage": "1 Tablet Once Daily (HS)",
+                "timing": "At Bedtime",
+                "duration": "90 Days",
+                "instructions": "Cardioprotective lipid regulation. Lowers atherogenic LDL cholesterol."
+              },
+              {
+                "name": "Cap. Vitamin D3 (Cholecalciferol)",
+                "strength": "60,000 IU",
+                "dosage": "1 Capsule Once Weekly",
+                "timing": "Sunday Morning with Milk",
+                "duration": "8 Weeks",
+                "instructions": "Immune and metabolic supportive therapy."
+              }
+            ],
+            "dietaryDirectives": [
+              "Adopt a strict Low Glycemic Index (GI) meal pattern: prioritize raw salads, whole pulses, and millets.",
+              "Completely eliminate refined sugars, sweetened fruit beverages, and packaged ultra-processed snacks.",
+              "Maintain 30 minutes of moderate-intensity aerobic brisk walking at least 5 days a week."
+            ],
+            "followUp": "Repeat Fasting Blood Sugar in 4 weeks. Repeat HbA1c & Lipid Profile in 90 days.",
+            "statutoryNotice": "This electronic prescription complies with the Telemedicine Practice Guidelines issued by NMC India & ABDM EHR Standards 2026."
+          }
+        }
+      }
+    ]
   }
 }

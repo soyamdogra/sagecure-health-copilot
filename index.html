@@ -2662,6 +2662,124 @@
   </div>
 
   <!-- ============================================================== -->
+  <!-- MODAL 6: MEASURE & RECORD CLINICAL BIOMARKER MODAL             -->
+  <!-- ============================================================== -->
+  <div 
+    id="record-biomarker-modal" 
+    class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="record-biomarker-title"
+  >
+    <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all my-6 flex flex-col">
+      
+      <!-- Modal Header -->
+      <div class="p-5 sm:p-6 bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-white flex items-center justify-between shrink-0">
+        <div class="flex items-center space-x-3">
+          <div class="w-12 h-12 rounded-2xl bg-white/20 border border-white/30 flex items-center justify-center text-2xl shadow-inner">
+            📏
+          </div>
+          <div>
+            <h3 id="record-biomarker-title" class="text-base sm:text-lg font-black tracking-tight text-white">
+              Measure & Record Vital
+            </h3>
+            <p class="text-xs text-amber-100 mt-0.5">
+              Enter verified clinical measurement to resolve missing vital
+            </p>
+          </div>
+        </div>
+        <button 
+          type="button"
+          onclick="closeRecordBiomarkerModal()" 
+          class="text-amber-100 hover:text-white p-2 rounded-xl hover:bg-white/10 transition"
+          title="Close dialog (Esc)"
+        >
+          ✕
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 space-y-5 text-xs sm:text-sm">
+        
+        <!-- Active Biomarker Profile Box -->
+        <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/80 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-black uppercase tracking-wider text-amber-800 bg-amber-100 px-2 py-0.5 rounded">Active Biomarker</span>
+            <span id="rec-bio-status-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-200 text-amber-900 border border-amber-300">
+              Currently Unknown / Unmeasured
+            </span>
+          </div>
+          <div class="flex items-baseline justify-between pt-1">
+            <h4 id="rec-bio-name" class="text-base sm:text-lg font-black text-slate-900">Body Temperature</h4>
+            <span id="rec-bio-range" class="text-xs font-mono text-slate-600 font-semibold">Ref: 36.5 - 37.5 °C</span>
+          </div>
+          <p class="text-[11px] text-amber-900 leading-relaxed pt-1 border-t border-amber-200/60">
+            💡 <strong>Clinical Safety Rule:</strong> Recording a measured value eliminates the placeholder, calculates clinical severity (Normal/High/Low), and synchronizes with the AI Summary and FHIR v4 Bundle without AI hallucination.
+          </p>
+        </div>
+
+        <!-- Input Section -->
+        <div class="space-y-2">
+          <label for="rec-bio-value" class="font-bold text-slate-800 block text-xs uppercase tracking-wide">
+            Enter Measured Numerical Value
+          </label>
+          <div class="flex items-center space-x-2">
+            <input 
+              type="text" 
+              id="rec-bio-value" 
+              placeholder="e.g. 38.2" 
+              class="flex-1 px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-2xl text-base font-black text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white transition"
+            >
+            <div class="w-36">
+              <select 
+                id="rec-bio-unit" 
+                class="w-full px-3 py-3 bg-slate-100 border-2 border-slate-200 rounded-2xl text-xs font-bold text-slate-800 focus:outline-none focus:border-amber-500 transition"
+              >
+                <!-- Populated dynamically based on biomarker -->
+              </select>
+            </div>
+          </div>
+          <p id="rec-bio-input-hint" class="text-[11px] text-slate-500">
+            Enter exact number measured via thermometer or diagnostic instrument.
+          </p>
+        </div>
+
+        <!-- Quick 1-Click Presets for Evaluator Speed -->
+        <div class="space-y-2 pt-1">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Evaluator Quick Presets (1-Click Fill):</span>
+          </div>
+          <div id="rec-bio-presets-container" class="flex flex-wrap gap-2">
+            <!-- Dynamically populated with fast evaluator buttons -->
+          </div>
+        </div>
+
+        <!-- Submit & Recalculate Actions -->
+        <div class="pt-2 space-y-2">
+          <button 
+            type="button" 
+            id="submit-recorded-biomarker-btn" 
+            onclick="submitRecordedBiomarker()" 
+            class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-600 text-white font-black text-sm shadow-lg shadow-amber-500/30 transition transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center space-x-2"
+          >
+            <span>💾</span>
+            <span>Record Value & Recalculate Clinical Status</span>
+          </button>
+          <button 
+            type="button" 
+            onclick="closeRecordBiomarkerModal()" 
+            class="w-full py-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition"
+          >
+            Cancel
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
   <!-- 6. COMPLETE SCRIPT LOGIC (AUTH, I18N, VOICE, WEBHOOK)          -->
   <!-- ============================================================== -->
   <script>
@@ -3806,6 +3924,11 @@
       const measuredWeight = extractNumericalVital(clean, 'weight');
 
       return biomarkers.map(bm => {
+        // Preserve user-recorded/measured clinical values without resetting to Unknown
+        if (bm.userRecorded && bm.value && !String(bm.value).toLowerCase().includes('unknown')) {
+          return bm;
+        }
+
         const name = (bm.name || '').toLowerCase();
 
         // 1. Temperature
@@ -4372,7 +4495,15 @@
           : `${b.value} <span class="text-xs font-normal text-slate-500 font-sans">${b.unit}</span>`;
 
         const actionHtml = isUnknown 
-          ? `<div class="text-[11px] font-bold text-amber-800 bg-amber-50 px-2.5 py-1.5 rounded-xl border border-amber-200 flex items-center space-x-1.5"><span>📏</span><span>${currentLang === 'hi' ? 'सटीक मान दर्ज करें' : 'Measure & Record'}</span></div>`
+          ? `<button 
+              type="button" 
+              onclick="openRecordBiomarkerModal('${encodeURIComponent(b.name)}', '${encodeURIComponent(b.range || '')}', '${encodeURIComponent(b.unit || '')}')" 
+              class="measure-record-btn px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-600 text-white shadow-md shadow-amber-500/20 transition transform hover:scale-105 active:scale-95 flex items-center space-x-1.5 cursor-pointer"
+              title="Evaluator Action: Click to measure and record exact numerical ${escapeXml(b.name)}"
+            >
+              <span>📏</span>
+              <span>${currentLang === 'hi' ? 'सटीक मान दर्ज करें' : 'Measure & Record'}</span>
+            </button>`
           : `
             <div class="space-y-1">
               <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden flex">
@@ -4640,7 +4771,18 @@
       "vitamin b12": { code: "2132-9", display: "Cobalamin (Vitamin B12) in Serum or Plasma", unit: "pg/mL" },
       "calcium": { code: "17861-6", display: "Calcium in Serum or Plasma", unit: "mg/dL" },
       "uric acid": { code: "3084-1", display: "Urate in Serum or Plasma", unit: "mg/dL" },
-      "hs-crp": { code: "30522-7", display: "C reactive protein [Mass/volume] High Sensitivity in Serum or Plasma", unit: "mg/L" }
+      "hs-crp": { code: "30522-7", display: "C reactive protein [Mass/volume] High Sensitivity in Serum or Plasma", unit: "mg/L" },
+      "body temperature": { code: "8310-5", display: "Body temperature", unit: "°C" },
+      "temperature": { code: "8310-5", display: "Body temperature", unit: "°C" },
+      "heart rate": { code: "8867-4", display: "Heart rate", unit: "bpm" },
+      "pulse": { code: "8867-4", display: "Heart rate", unit: "bpm" },
+      "pulse rate": { code: "8867-4", display: "Heart rate", unit: "bpm" },
+      "respiratory rate": { code: "9279-1", display: "Respiratory rate", unit: "breaths/min" },
+      "oxygen saturation": { code: "59408-5", display: "Oxygen saturation in Arterial blood by Pulse oximetry", unit: "%" },
+      "spo2": { code: "59408-5", display: "Oxygen saturation in Arterial blood by Pulse oximetry", unit: "%" },
+      "blood pressure": { code: "85354-9", display: "Blood pressure panel", unit: "mmHg" },
+      "systolic bp": { code: "8480-6", display: "Systolic blood pressure", unit: "mmHg" },
+      "diastolic bp": { code: "8462-4", display: "Diastolic blood pressure", unit: "mmHg" }
     };
 
     function generateClientFhirBundle(reportData) {
@@ -5969,6 +6111,7 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         closeArchitectureModal();
+        closeRecordBiomarkerModal();
       }
     });
 
@@ -5977,6 +6120,325 @@
       archModalBackdrop.addEventListener('click', (e) => {
         if (e.target === archModalBackdrop) {
           closeArchitectureModal();
+        }
+      });
+    }
+
+    // -------------------------------------------------------------
+    // MODULE 6: MEASURE & RECORD CLINICAL BIOMARKER LOGIC
+    // -------------------------------------------------------------
+    let currentRecordingBiomarkerName = null;
+
+    function escapeXml(unsafe) {
+      if (!unsafe) return '';
+      return String(unsafe).replace(/[<>&'"]/g, function (c) {
+        switch (c) {
+          case '<': return '&lt;';
+          case '>': return '&gt;';
+          case '&': return '&amp;';
+          case '\'': return '&#39;';
+          case '"': return '&quot;';
+        }
+      });
+    }
+
+    function openRecordBiomarkerModal(encodedName, encodedRange = '', encodedUnit = '') {
+      const biomarkerName = decodeURIComponent(encodedName || '');
+      const range = decodeURIComponent(encodedRange || '');
+      const unit = decodeURIComponent(encodedUnit || '');
+
+      currentRecordingBiomarkerName = biomarkerName;
+      const modal = document.getElementById('record-biomarker-modal');
+      if (!modal) return;
+
+      const nameEl = document.getElementById('rec-bio-name');
+      const rangeEl = document.getElementById('rec-bio-range');
+      const valInput = document.getElementById('rec-bio-value');
+      const unitSelect = document.getElementById('rec-bio-unit');
+      const presetsContainer = document.getElementById('rec-bio-presets-container');
+      const hintEl = document.getElementById('rec-bio-input-hint');
+
+      if (nameEl) nameEl.textContent = biomarkerName;
+      if (rangeEl) rangeEl.textContent = range ? `Ref: ${range}` : 'Ref: Clinical Normal Interval';
+      if (valInput) {
+        valInput.value = '';
+        setTimeout(() => valInput.focus(), 150);
+      }
+
+      const clean = biomarkerName.toLowerCase();
+      if (unitSelect) unitSelect.innerHTML = '';
+      if (presetsContainer) presetsContainer.innerHTML = '';
+
+      if (clean.includes('temp') || clean.includes('fever') || clean.includes('तापमान') || clean.includes('बुखार')) {
+        if (unitSelect) {
+          unitSelect.innerHTML = `
+            <option value="°C" selected>°C (Celsius)</option>
+            <option value="°F">°F (Fahrenheit)</option>
+          `;
+        }
+        if (hintEl) hintEl.textContent = 'Normal: 36.5 - 37.5 °C (97.7 - 99.5 °F). ≥ 37.8 °C (100.4 °F) is febrile.';
+        addPresetButton(presetsContainer, '37.0 °C (Normal)', '37.0', '°C');
+        addPresetButton(presetsContainer, '38.2 °C (Fever)', '38.2', '°C');
+        addPresetButton(presetsContainer, '39.4 °C (High Fever)', '39.4', '°C');
+        addPresetButton(presetsContainer, '98.6 °F (Normal)', '98.6', '°F');
+        addPresetButton(presetsContainer, '101.5 °F (Febrile)', '101.5', '°F');
+      } else if (clean.includes('heart') || clean.includes('pulse') || clean.includes('नाड़ी') || clean.includes('धड़कन')) {
+        if (unitSelect) unitSelect.innerHTML = `<option value="bpm" selected>bpm (beats/min)</option>`;
+        if (hintEl) hintEl.textContent = 'Normal resting heart rate: 60 - 100 bpm.';
+        addPresetButton(presetsContainer, '72 bpm (Normal)', '72', 'bpm');
+        addPresetButton(presetsContainer, '98 bpm (Normal High)', '98', 'bpm');
+        addPresetButton(presetsContainer, '110 bpm (Tachycardia)', '110', 'bpm');
+        addPresetButton(presetsContainer, '54 bpm (Bradycardia)', '54', 'bpm');
+      } else if (clean.includes('spo2') || clean.includes('oxygen') || clean.includes('ऑक्सीजन')) {
+        if (unitSelect) unitSelect.innerHTML = `<option value="%" selected>% (Percentage)</option>`;
+        if (hintEl) hintEl.textContent = 'Normal pulse oximetry: 95 - 100%. < 90% is critical hypoxia.';
+        addPresetButton(presetsContainer, '98 % (Optimal)', '98', '%');
+        addPresetButton(presetsContainer, '94 % (Mild Hypoxemia)', '94', '%');
+        addPresetButton(presetsContainer, '89 % (Critical Hypoxia)', '89', '%');
+      } else if (clean.includes('respirat') || clean.includes('श्वसन')) {
+        if (unitSelect) unitSelect.innerHTML = `<option value="breaths/min" selected>breaths/min</option>`;
+        if (hintEl) hintEl.textContent = 'Normal adult respiratory rate: 12 - 20 breaths/min.';
+        addPresetButton(presetsContainer, '16 breaths/min (Normal)', '16', 'breaths/min');
+        addPresetButton(presetsContainer, '24 breaths/min (Tachypnea)', '24', 'breaths/min');
+        addPresetButton(presetsContainer, '10 breaths/min (Bradypnea)', '10', 'breaths/min');
+      } else if (clean.includes('pressure') || clean.includes('bp') || clean.includes('रक्तचाप')) {
+        if (unitSelect) unitSelect.innerHTML = `<option value="mmHg" selected>mmHg</option>`;
+        if (hintEl) hintEl.textContent = 'Optimal blood pressure: < 120/80 mmHg. Hypertension: ≥ 140/90 mmHg.';
+        addPresetButton(presetsContainer, '120/80 (Normal)', '120/80', 'mmHg');
+        addPresetButton(presetsContainer, '138/88 (Pre-HTN)', '138/88', 'mmHg');
+        addPresetButton(presetsContainer, '155/98 (Stage 2 HTN)', '155/98', 'mmHg');
+      } else if (clean.includes('glucose') || clean.includes('sugar')) {
+        if (unitSelect) unitSelect.innerHTML = `<option value="mg/dL" selected>mg/dL</option>`;
+        if (hintEl) hintEl.textContent = 'Fasting Normal: 70 - 99 mg/dL. Elevated: ≥ 126 mg/dL.';
+        addPresetButton(presetsContainer, '92 mg/dL (Normal)', '92', 'mg/dL');
+        addPresetButton(presetsContainer, '168 mg/dL (Elevated)', '168', 'mg/dL');
+      } else {
+        const u = unit || 'units';
+        if (unitSelect) unitSelect.innerHTML = `<option value="${u}" selected>${u}</option>`;
+        if (hintEl) hintEl.textContent = `Enter measured numerical reading in ${u}.`;
+        addPresetButton(presetsContainer, 'Normal Example', '12', u);
+      }
+
+      modal.classList.remove('hidden');
+    }
+
+    function addPresetButton(container, label, val, unit) {
+      if (!container) return;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'px-2.5 py-1 rounded-xl bg-slate-100 hover:bg-amber-100 text-slate-700 hover:text-amber-900 border border-slate-200 hover:border-amber-300 font-bold text-xs transition';
+      btn.textContent = label;
+      btn.onclick = () => {
+        const valInput = document.getElementById('rec-bio-value');
+        const unitSelect = document.getElementById('rec-bio-unit');
+        if (valInput) valInput.value = val;
+        if (unitSelect && unit) unitSelect.value = unit;
+      };
+      container.appendChild(btn);
+    }
+
+    function closeRecordBiomarkerModal() {
+      const modal = document.getElementById('record-biomarker-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function recalculateBiomarkerStatus(name, value, unit) {
+      const cleanName = (name || '').toLowerCase();
+      const num = parseFloat(value);
+      let status = 'normal';
+      let percent = 50;
+      let statusLabel = (currentLang === 'hi' ? 'सामान्य' : 'Normal');
+
+      if (cleanName.includes('temp') || cleanName.includes('fever') || cleanName.includes('तापमान') || cleanName.includes('बुखार')) {
+        const isFahrenheit = (unit === '°F' || num > 60);
+        const elevatedThreshold = isFahrenheit ? 100.4 : 37.8;
+        const lowThreshold = isFahrenheit ? 96.0 : 35.8;
+        if (num >= elevatedThreshold) {
+          status = 'elevated';
+          percent = Math.min(95, Math.round(isFahrenheit ? 70 + (num - 100) * 5 : 75 + (num - 37.8) * 8));
+          statusLabel = (currentLang === 'hi' ? 'उच्च / बुखार (Elevated)' : 'High / Febrile (Elevated)');
+        } else if (num < lowThreshold) {
+          status = 'low';
+          percent = 20;
+          statusLabel = (currentLang === 'hi' ? 'कम तापमान (Low)' : 'Low (Hypothermia)');
+        } else {
+          status = 'normal';
+          percent = 50;
+          statusLabel = (currentLang === 'hi' ? 'सामान्य तापमान' : 'Normal');
+        }
+      } else if (cleanName.includes('heart') || cleanName.includes('pulse') || cleanName.includes('नाड़ी') || cleanName.includes('धड़कन')) {
+        if (num > 100) {
+          status = 'elevated';
+          percent = Math.min(98, Math.round(65 + (num - 100) * 0.8));
+          statusLabel = (currentLang === 'hi' ? 'उच्च नाड़ी (Tachycardia)' : 'High (Tachycardia)');
+        } else if (num < 60) {
+          status = 'low';
+          percent = 25;
+          statusLabel = (currentLang === 'hi' ? 'धीमी नाड़ी (Bradycardia)' : 'Low (Bradycardia)');
+        } else {
+          status = 'normal';
+          percent = 50;
+          statusLabel = (currentLang === 'hi' ? 'सामान्य नाड़ी' : 'Normal');
+        }
+      } else if (cleanName.includes('spo2') || cleanName.includes('oxygen') || cleanName.includes('ऑक्सीजन')) {
+        if (num < 90) {
+          status = 'elevated'; // critical
+          percent = 15;
+          statusLabel = (currentLang === 'hi' ? 'गंभीर रूप से कम (Critical Hypoxia)' : 'Critical Low (Hypoxia)');
+        } else if (num < 95) {
+          status = 'low';
+          percent = 35;
+          statusLabel = (currentLang === 'hi' ? 'कम ऑक्सीजन (Mild Hypoxemia)' : 'Low (Mild Hypoxemia)');
+        } else {
+          status = 'normal';
+          percent = 92;
+          statusLabel = (currentLang === 'hi' ? 'सामान्य SpO2' : 'Normal');
+        }
+      } else if (cleanName.includes('respirat') || cleanName.includes('श्वसन')) {
+        if (num > 20) {
+          status = 'elevated';
+          percent = 85;
+          statusLabel = (currentLang === 'hi' ? 'तीव्र श्वसन (Tachypnea)' : 'High (Tachypnea)');
+        } else if (num < 12) {
+          status = 'low';
+          percent = 25;
+          statusLabel = (currentLang === 'hi' ? 'धीमी श्वसन (Bradypnea)' : 'Low (Bradypnea)');
+        } else {
+          status = 'normal';
+          percent = 50;
+          statusLabel = (currentLang === 'hi' ? 'सामान्य श्वसन' : 'Normal');
+        }
+      } else if (cleanName.includes('pressure') || cleanName.includes('bp') || cleanName.includes('रक्तचाप')) {
+        let sys = num;
+        let dia = 80;
+        if (String(value).includes('/')) {
+          const parts = String(value).split('/');
+          sys = parseFloat(parts[0]) || num;
+          dia = parseFloat(parts[1]) || 80;
+        }
+        if (sys >= 140 || dia >= 90) {
+          status = 'elevated';
+          percent = 88;
+          statusLabel = (currentLang === 'hi' ? 'उच्च रक्तचाप (Stage 2 HTN)' : 'High (Hypertension)');
+        } else if (sys >= 130 || dia >= 85) {
+          status = 'elevated';
+          percent = 70;
+          statusLabel = (currentLang === 'hi' ? 'बढ़ा हुआ रक्तचाप (Elevated)' : 'Elevated (Pre-HTN)');
+        } else if (sys < 90 || dia < 60) {
+          status = 'low';
+          percent = 25;
+          statusLabel = (currentLang === 'hi' ? 'कम रक्तचाप (Hypotension)' : 'Low (Hypotension)');
+        } else {
+          status = 'normal';
+          percent = 50;
+          statusLabel = (currentLang === 'hi' ? 'सामान्य रक्तचाप' : 'Normal');
+        }
+      } else {
+        status = 'normal';
+        percent = 50;
+      }
+
+      return { status, percent, statusLabel };
+    }
+
+    function submitRecordedBiomarker() {
+      const valInput = document.getElementById('rec-bio-value');
+      const unitSelect = document.getElementById('rec-bio-unit');
+      if (!valInput || !valInput.value.trim()) {
+        showToast("Please enter a numerical value to record this biomarker.", "warning");
+        return;
+      }
+
+      const enteredVal = valInput.value.trim();
+      const enteredUnit = unitSelect ? unitSelect.value : '';
+      const bmName = currentRecordingBiomarkerName || "Biomarker";
+
+      if (!lastAnalysisResult) {
+        lastAnalysisResult = { biomarkers: [] };
+      }
+      if (!lastAnalysisResult.biomarkers) {
+        lastAnalysisResult.biomarkers = [];
+      }
+
+      // Find the biomarker in lastAnalysisResult.biomarkers or create it
+      let targetBm = lastAnalysisResult.biomarkers.find(b => 
+        (b.name || '').toLowerCase() === bmName.toLowerCase() ||
+        (b.name || '').toLowerCase().includes(bmName.toLowerCase()) ||
+        bmName.toLowerCase().includes((b.name || '').toLowerCase())
+      );
+
+      if (!targetBm) {
+        targetBm = {
+          name: bmName,
+          range: document.getElementById('rec-bio-range')?.textContent.replace('Ref: ', '') || 'Standard',
+          unit: enteredUnit
+        };
+        lastAnalysisResult.biomarkers.push(targetBm);
+      }
+
+      // Calculate clinical status
+      const { status, percent, statusLabel } = recalculateBiomarkerStatus(bmName, enteredVal, enteredUnit);
+
+      targetBm.value = enteredVal;
+      targetBm.unit = enteredUnit;
+      targetBm.status = status;
+      targetBm.percent = percent;
+      targetBm.statusLabel = statusLabel;
+      targetBm.missing = false;
+      targetBm.userRecorded = true;
+
+      // Dynamically update the AI plain-language summary & takeaways
+      const plainEl = document.getElementById('plain-language-body');
+      if (plainEl) {
+        const updatedNotice = `
+          <div class="mt-4 p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs sm:text-sm text-emerald-950 flex items-start space-x-2.5">
+            <span class="text-base select-none">✅</span>
+            <div>
+              <strong>Recorded Clinical Vital:</strong> ${targetBm.name} measured and recorded as <strong>${targetBm.value} ${targetBm.unit}</strong> (${targetBm.statusLabel}). Clinical interpretation dynamically updated without AI hallucination.
+            </div>
+          </div>
+        `;
+        plainEl.insertAdjacentHTML('beforeend', updatedNotice);
+      }
+
+      // If temperature was recorded and was elevated, update action recommendations
+      const actionsContainer = document.getElementById('action-plan-container');
+      if (actionsContainer && (bmName.toLowerCase().includes('temp') || bmName.toLowerCase().includes('fever'))) {
+        const tempVal = parseFloat(enteredVal);
+        const isFever = (enteredUnit === '°C' ? tempVal >= 37.8 : tempVal >= 100.0);
+        if (isFever) {
+          const recDiv = document.createElement('div');
+          recDiv.className = 'p-3.5 rounded-2xl bg-amber-50 border border-amber-200 flex items-start space-x-3.5';
+          recDiv.innerHTML = `
+            <span class="text-2xl">🌡️</span>
+            <div>
+              <div class="font-extrabold text-slate-900 text-sm sm:text-base">Targeted Fever Management Plan (${targetBm.value} ${targetBm.unit})</div>
+              <div class="text-slate-600 text-xs sm:text-sm mt-0.5">Hydrate with fluids, apply cool compresses, rest, and monitor temperature every 4 hours. Consult a physician if fever exceeds 39°C (102°F) or persists beyond 48 hours.</div>
+            </div>
+          `;
+          actionsContainer.prepend(recDiv);
+        }
+      }
+
+      // Synchronize with Prescription Medication Giver Studio
+      if (typeof syncPrescriptionGiverPatient === 'function') {
+        syncPrescriptionGiverPatient(lastAnalysisResult);
+      }
+
+      // Re-render the Biomarker table with updated values
+      renderBiomarkerTable(lastAnalysisResult.biomarkers, 'all');
+
+      // Close modal
+      closeRecordBiomarkerModal();
+
+      showToast(`Recorded ${targetBm.name} as ${targetBm.value} ${targetBm.unit} (${targetBm.statusLabel})! Dynamic recalculation synced to FHIR export.`, "success");
+    }
+
+    const recBioModalBackdrop = document.getElementById('record-biomarker-modal');
+    if (recBioModalBackdrop) {
+      recBioModalBackdrop.addEventListener('click', (e) => {
+        if (e.target === recBioModalBackdrop) {
+          closeRecordBiomarkerModal();
         }
       });
     }
