@@ -1,0 +1,584 @@
+{
+  "aditi@sagecure.ai": {
+    "name": "Aditi",
+    "email": "aditi@sagecure.ai",
+    "password": "12345",
+    "abhaId": "14-3139-5070-9016@abdm",
+    "createdAt": "2026-10-08T07:36:50.976Z",
+    "reports": [
+      {
+        "id": "rep-1791447516754",
+        "title": "WhatsApp Image 2026-10-08 at 12.20.49 PM.jpeg",
+        "date": "08 Oct 2026",
+        "facility": "Apollo Diagnostics Central Lab",
+        "summary_en": "Your blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is ...",
+        "summary_hi": "आपकी खून की जांच से पता चलता है कि आपके शुगर और कोलेस्ट्रॉल स्तर पर विशेष ध्यान देने की जरूरत है। आपका एचबीए1सी (HbA1c) ...",
+        "category": "metabolic",
+        "fullData": {
+          "success": true,
+          "userEmail": "aditi@sagecure.ai",
+          "language": "en",
+          "makeStatus": "200 OK",
+          "patient": {
+            "name": "Aditi",
+            "age": "48",
+            "gender": "Female",
+            "abhaId": "14-3139-5070-9016@abdm",
+            "facility": "Apollo Diagnostics Central Lab",
+            "date": "08 Oct 2026",
+            "confidence": "99.4%"
+          },
+          "plainLanguage": "Regarding your inquiry \"Are any values critical or dangerously high in this report?\":\n\nYour blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is 8.4%, reflecting higher average glucose levels over the last 90 days. Concurrently, your LDL cholesterol is at 162 mg/dL. Your kidney filtration is strong and preserved with an eGFR of 92 mL/min. We advise scheduling an appointment with your physician to evaluate your glycemic management and lipid regimen.",
+          "plainLanguage_en": "Your blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is 8.4%, reflecting higher average glucose levels over the last 90 days. Concurrently, your LDL cholesterol is at 162 mg/dL. Your kidney filtration is strong and preserved with an eGFR of 92 mL/min. We advise scheduling an appointment with your physician to evaluate your glycemic management and lipid regimen.",
+          "plainLanguage_hi": "आपकी खून की जांच से पता चलता है कि आपके शुगर और कोलेस्ट्रॉल स्तर पर विशेष ध्यान देने की जरूरत है। आपका एचबीए1सी (HbA1c) 8.4% है, जो पिछले 3 महीनों में शुगर का स्तर अधिक रहने का संकेत है। साथ ही एलडीएल (खराब) कोलेस्ट्रॉल 162 mg/dL पर है। अच्छी खबर यह है कि आपकी किडनी बहुत स्वस्थ काम कर रही है (eGFR 92)। कृपया अपने डॉक्टर से परामर्श कर दवा और परहेज की योजना बनाएं।",
+          "audioText": "Regarding your inquiry: Hello Aditi. Your blood test report has been analyzed. Your HbA1c is 8.4 percent, indicating higher than target blood sugar levels over the past 3 months. In addition, your LDL cholesterol is 162 milligrams per deciliter, which is above the optimal range. The good news is your kidney and liver markers are in healthy ranges. We recommend sharing these observations with your doctor.",
+          "audioText_en": "Hello Aditi. Your blood test report has been analyzed. Your HbA1c is 8.4 percent, indicating higher than target blood sugar levels over the past 3 months. In addition, your LDL cholesterol is 162 milligrams per deciliter, which is above the optimal range. The good news is your kidney and liver markers are in healthy ranges. We recommend sharing these observations with your doctor.",
+          "audioText_hi": "नमस्ते Aditi। आपकी खून की जांच का विश्लेषण कर लिया गया है। आपका एचबीए1सी 8.4 प्रतिशत है, जो पिछले तीन महीनों में शुगर बढ़ने का संकेत देता है। साथ ही एलडीएल कोलेस्ट्रॉल भी बढ़ा हुआ है। राहत की बात यह है कि आपकी किडनी सुरक्षित है। कृपया अपने डॉक्टर से मिलकर परामर्श लें।",
+          "takeaways": [
+            "Glycemic control is above recommended targets (HbA1c: 8.4%).",
+            "Lipid panel shows elevated LDL (162 mg/dL) and borderline HDL (44 mg/dL).",
+            "Renal function is healthy and normal with eGFR > 90."
+          ],
+          "takeaways_en": [
+            "Glycemic control is above recommended targets (HbA1c: 8.4%).",
+            "Lipid panel shows elevated LDL (162 mg/dL) and borderline HDL (44 mg/dL).",
+            "Renal function is healthy and normal with eGFR > 90."
+          ],
+          "takeaways_hi": [
+            "तीन महीने का औसत शुगर स्तर बढ़ा हुआ है (HbA1c: 8.4%)।",
+            "कोलेस्ट्रॉल प्रोफाइल में एलडीएल (162 mg/dL) बढ़ा हुआ है।",
+            "किडनी की कार्यप्रणाली (eGFR > 90) बिल्कुल सामान्य और सुरक्षित है।"
+          ],
+          "questions": [
+            "Should my diabetes medication dose be adjusted based on this 8.4% HbA1c?",
+            "Do you recommend starting a cholesterol-lowering medication such as a statin?",
+            "When should we re-test my lipid profile and blood sugar?"
+          ],
+          "questions_en": [
+            "Should my diabetes medication dose be adjusted based on this 8.4% HbA1c?",
+            "Do you recommend starting a cholesterol-lowering medication such as a statin?",
+            "When should we re-test my lipid profile and blood sugar?"
+          ],
+          "questions_hi": [
+            "क्या 8.4% एचबीए1सी को देखते हुए मेरी दवाओं की खुराक बदलने की जरूरत है?",
+            "क्या मुझे कोलेस्ट्रॉल घटाने के लिए स्टेटिन जैसी दवा शुरू करनी चाहिए?",
+            "अगली बार लिपिड और शुगर टेस्ट कब कराना चाहिए?"
+          ],
+          "actions": [
+            {
+              "icon": "🥗",
+              "title": "Low Glycemic Index Nutrition",
+              "desc": "Prioritize legumes, leafy greens, and cut simple carbohydrates."
+            },
+            {
+              "icon": "🏃",
+              "title": "Daily Physical Activity",
+              "desc": "Aim for 30 minutes of aerobic exercise 5 days a week."
+            },
+            {
+              "icon": "🩺",
+              "title": "Clinical Follow-up",
+              "desc": "Schedule an endocrinologist evaluation within the next 7 to 10 days."
+            }
+          ],
+          "actions_en": [
+            {
+              "icon": "🥗",
+              "title": "Low Glycemic Index Nutrition",
+              "desc": "Prioritize legumes, leafy greens, and cut simple carbohydrates."
+            },
+            {
+              "icon": "🏃",
+              "title": "Daily Physical Activity",
+              "desc": "Aim for 30 minutes of aerobic exercise 5 days a week."
+            },
+            {
+              "icon": "🩺",
+              "title": "Clinical Follow-up",
+              "desc": "Schedule an endocrinologist evaluation within the next 7 to 10 days."
+            }
+          ],
+          "actions_hi": [
+            {
+              "icon": "🥗",
+              "title": "कम ग्लाइसेमिक इंडेक्स आहार",
+              "desc": "दालें, हरी पत्तेदार सब्जियां और सलाद खाएं; मीठा और मैदा बंद करें।"
+            },
+            {
+              "icon": "🏃",
+              "title": "नियमित 30 मिनट सैर",
+              "desc": "हफ्ते में 5 दिन कम से कम 30 मिनट तेज सैर इंसुलिन सुधारती है।"
+            },
+            {
+              "icon": "🩺",
+              "title": "डॉक्टर से परामर्श",
+              "desc": "अगले 7 से 10 दिनों में विशेषज्ञ डॉक्टर से मिलकर रिपोर्ट दिखाएं।"
+            }
+          ],
+          "biomarkers": [
+            {
+              "name": "HbA1c (Glycated Hemoglobin)",
+              "value": 8.4,
+              "unit": "%",
+              "range": "< 5.7",
+              "status": "elevated",
+              "statusLabel": "High (Diabetic)",
+              "percent": 84
+            },
+            {
+              "name": "Fasting Blood Glucose (FBS)",
+              "value": 168,
+              "unit": "mg/dL",
+              "range": "70 - 99",
+              "status": "elevated",
+              "statusLabel": "Elevated",
+              "percent": 80
+            },
+            {
+              "name": "Total Cholesterol",
+              "value": 235,
+              "unit": "mg/dL",
+              "range": "< 200",
+              "status": "elevated",
+              "statusLabel": "High",
+              "percent": 78
+            },
+            {
+              "name": "LDL Cholesterol (Bad)",
+              "value": 162,
+              "unit": "mg/dL",
+              "range": "< 100",
+              "status": "elevated",
+              "statusLabel": "High",
+              "percent": 82
+            },
+            {
+              "name": "HDL Cholesterol (Good)",
+              "value": 44,
+              "unit": "mg/dL",
+              "range": "> 50",
+              "status": "low",
+              "statusLabel": "Borderline Low",
+              "percent": 35
+            },
+            {
+              "name": "Serum Creatinine",
+              "value": 0.85,
+              "unit": "mg/dL",
+              "range": "0.5 - 1.1",
+              "status": "normal",
+              "statusLabel": "Normal",
+              "percent": 50
+            },
+            {
+              "name": "eGFR (Kidney Filtration)",
+              "value": 92,
+              "unit": "mL/min/1.73m²",
+              "range": "> 90",
+              "status": "normal",
+              "statusLabel": "Optimal",
+              "percent": 65
+            },
+            {
+              "name": "Estimated Avg Glucose (eAG)",
+              "value": 194,
+              "unit": "mg/dL",
+              "range": "90 - 120",
+              "status": "elevated",
+              "statusLabel": "Elevated",
+              "percent": 82
+            }
+          ]
+        }
+      },
+      {
+        "id": "rep-1791445083649",
+        "title": "WhatsApp Image 2026-10-08 at 12.20.49 PM.jpeg",
+        "date": "08 Oct 2026",
+        "facility": "Apollo Diagnostics Central Lab",
+        "summary_en": "Your blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is ...",
+        "summary_hi": "आपकी खून की जांच से पता चलता है कि आपके शुगर और कोलेस्ट्रॉल स्तर पर विशेष ध्यान देने की जरूरत है। आपका एचबीए1सी (HbA1c) ...",
+        "category": "metabolic",
+        "fullData": {
+          "success": true,
+          "userEmail": "aditi@sagecure.ai",
+          "language": "en",
+          "makeStatus": "200 OK",
+          "patient": {
+            "name": "Aditi",
+            "age": "48",
+            "gender": "Female",
+            "abhaId": "14-3139-5070-9016@abdm",
+            "facility": "Apollo Diagnostics Central Lab",
+            "date": "08 Oct 2026",
+            "confidence": "99.4%"
+          },
+          "plainLanguage": "Regarding your inquiry \"Are any values critical or dangerously high in this report?\":\n\nYour blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is 8.4%, reflecting higher average glucose levels over the last 90 days. Concurrently, your LDL cholesterol is at 162 mg/dL. Your kidney filtration is strong and preserved with an eGFR of 92 mL/min. We advise scheduling an appointment with your physician to evaluate your glycemic management and lipid regimen.",
+          "plainLanguage_en": "Your blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is 8.4%, reflecting higher average glucose levels over the last 90 days. Concurrently, your LDL cholesterol is at 162 mg/dL. Your kidney filtration is strong and preserved with an eGFR of 92 mL/min. We advise scheduling an appointment with your physician to evaluate your glycemic management and lipid regimen.",
+          "plainLanguage_hi": "आपकी खून की जांच से पता चलता है कि आपके शुगर और कोलेस्ट्रॉल स्तर पर विशेष ध्यान देने की जरूरत है। आपका एचबीए1सी (HbA1c) 8.4% है, जो पिछले 3 महीनों में शुगर का स्तर अधिक रहने का संकेत है। साथ ही एलडीएल (खराब) कोलेस्ट्रॉल 162 mg/dL पर है। अच्छी खबर यह है कि आपकी किडनी बहुत स्वस्थ काम कर रही है (eGFR 92)। कृपया अपने डॉक्टर से परामर्श कर दवा और परहेज की योजना बनाएं।",
+          "audioText": "Regarding your inquiry: Hello Aditi. Your blood test report has been analyzed. Your HbA1c is 8.4 percent, indicating higher than target blood sugar levels over the past 3 months. In addition, your LDL cholesterol is 162 milligrams per deciliter, which is above the optimal range. The good news is your kidney and liver markers are in healthy ranges. We recommend sharing these observations with your doctor.",
+          "audioText_en": "Hello Aditi. Your blood test report has been analyzed. Your HbA1c is 8.4 percent, indicating higher than target blood sugar levels over the past 3 months. In addition, your LDL cholesterol is 162 milligrams per deciliter, which is above the optimal range. The good news is your kidney and liver markers are in healthy ranges. We recommend sharing these observations with your doctor.",
+          "audioText_hi": "नमस्ते Aditi। आपकी खून की जांच का विश्लेषण कर लिया गया है। आपका एचबीए1सी 8.4 प्रतिशत है, जो पिछले तीन महीनों में शुगर बढ़ने का संकेत देता है। साथ ही एलडीएल कोलेस्ट्रॉल भी बढ़ा हुआ है। राहत की बात यह है कि आपकी किडनी सुरक्षित है। कृपया अपने डॉक्टर से मिलकर परामर्श लें।",
+          "takeaways": [
+            "Glycemic control is above recommended targets (HbA1c: 8.4%).",
+            "Lipid panel shows elevated LDL (162 mg/dL) and borderline HDL (44 mg/dL).",
+            "Renal function is healthy and normal with eGFR > 90."
+          ],
+          "takeaways_en": [
+            "Glycemic control is above recommended targets (HbA1c: 8.4%).",
+            "Lipid panel shows elevated LDL (162 mg/dL) and borderline HDL (44 mg/dL).",
+            "Renal function is healthy and normal with eGFR > 90."
+          ],
+          "takeaways_hi": [
+            "तीन महीने का औसत शुगर स्तर बढ़ा हुआ है (HbA1c: 8.4%)।",
+            "कोलेस्ट्रॉल प्रोफाइल में एलडीएल (162 mg/dL) बढ़ा हुआ है।",
+            "किडनी की कार्यप्रणाली (eGFR > 90) बिल्कुल सामान्य और सुरक्षित है।"
+          ],
+          "questions": [
+            "Should my diabetes medication dose be adjusted based on this 8.4% HbA1c?",
+            "Do you recommend starting a cholesterol-lowering medication such as a statin?",
+            "When should we re-test my lipid profile and blood sugar?"
+          ],
+          "questions_en": [
+            "Should my diabetes medication dose be adjusted based on this 8.4% HbA1c?",
+            "Do you recommend starting a cholesterol-lowering medication such as a statin?",
+            "When should we re-test my lipid profile and blood sugar?"
+          ],
+          "questions_hi": [
+            "क्या 8.4% एचबीए1सी को देखते हुए मेरी दवाओं की खुराक बदलने की जरूरत है?",
+            "क्या मुझे कोलेस्ट्रॉल घटाने के लिए स्टेटिन जैसी दवा शुरू करनी चाहिए?",
+            "अगली बार लिपिड और शुगर टेस्ट कब कराना चाहिए?"
+          ],
+          "actions": [
+            {
+              "icon": "🥗",
+              "title": "Low Glycemic Index Nutrition",
+              "desc": "Prioritize legumes, leafy greens, and cut simple carbohydrates."
+            },
+            {
+              "icon": "🏃",
+              "title": "Daily Physical Activity",
+              "desc": "Aim for 30 minutes of aerobic exercise 5 days a week."
+            },
+            {
+              "icon": "🩺",
+              "title": "Clinical Follow-up",
+              "desc": "Schedule an endocrinologist evaluation within the next 7 to 10 days."
+            }
+          ],
+          "actions_en": [
+            {
+              "icon": "🥗",
+              "title": "Low Glycemic Index Nutrition",
+              "desc": "Prioritize legumes, leafy greens, and cut simple carbohydrates."
+            },
+            {
+              "icon": "🏃",
+              "title": "Daily Physical Activity",
+              "desc": "Aim for 30 minutes of aerobic exercise 5 days a week."
+            },
+            {
+              "icon": "🩺",
+              "title": "Clinical Follow-up",
+              "desc": "Schedule an endocrinologist evaluation within the next 7 to 10 days."
+            }
+          ],
+          "actions_hi": [
+            {
+              "icon": "🥗",
+              "title": "कम ग्लाइसेमिक इंडेक्स आहार",
+              "desc": "दालें, हरी पत्तेदार सब्जियां और सलाद खाएं; मीठा और मैदा बंद करें।"
+            },
+            {
+              "icon": "🏃",
+              "title": "नियमित 30 मिनट सैर",
+              "desc": "हफ्ते में 5 दिन कम से कम 30 मिनट तेज सैर इंसुलिन सुधारती है।"
+            },
+            {
+              "icon": "🩺",
+              "title": "डॉक्टर से परामर्श",
+              "desc": "अगले 7 से 10 दिनों में विशेषज्ञ डॉक्टर से मिलकर रिपोर्ट दिखाएं।"
+            }
+          ],
+          "biomarkers": [
+            {
+              "name": "HbA1c (Glycated Hemoglobin)",
+              "value": 8.4,
+              "unit": "%",
+              "range": "< 5.7",
+              "status": "elevated",
+              "statusLabel": "High (Diabetic)",
+              "percent": 84
+            },
+            {
+              "name": "Fasting Blood Glucose (FBS)",
+              "value": 168,
+              "unit": "mg/dL",
+              "range": "70 - 99",
+              "status": "elevated",
+              "statusLabel": "Elevated",
+              "percent": 80
+            },
+            {
+              "name": "Total Cholesterol",
+              "value": 235,
+              "unit": "mg/dL",
+              "range": "< 200",
+              "status": "elevated",
+              "statusLabel": "High",
+              "percent": 78
+            },
+            {
+              "name": "LDL Cholesterol (Bad)",
+              "value": 162,
+              "unit": "mg/dL",
+              "range": "< 100",
+              "status": "elevated",
+              "statusLabel": "High",
+              "percent": 82
+            },
+            {
+              "name": "HDL Cholesterol (Good)",
+              "value": 44,
+              "unit": "mg/dL",
+              "range": "> 50",
+              "status": "low",
+              "statusLabel": "Borderline Low",
+              "percent": 35
+            },
+            {
+              "name": "Serum Creatinine",
+              "value": 0.85,
+              "unit": "mg/dL",
+              "range": "0.5 - 1.1",
+              "status": "normal",
+              "statusLabel": "Normal",
+              "percent": 50
+            },
+            {
+              "name": "eGFR (Kidney Filtration)",
+              "value": 92,
+              "unit": "mL/min/1.73m²",
+              "range": "> 90",
+              "status": "normal",
+              "statusLabel": "Optimal",
+              "percent": 65
+            },
+            {
+              "name": "Estimated Avg Glucose (eAG)",
+              "value": 194,
+              "unit": "mg/dL",
+              "range": "90 - 120",
+              "status": "elevated",
+              "statusLabel": "Elevated",
+              "percent": 82
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "rohan@sagecure.ai": {
+    "name": "Rohan Varma",
+    "email": "rohan@sagecure.ai",
+    "password": "password123",
+    "abhaId": "22-9811-4321-7654@abdm",
+    "createdAt": "2026-10-02T11:30:00Z",
+    "reports": [
+      {
+        "id": "rep-1791444583713",
+        "title": "METABOLIC Report.pdf",
+        "date": "08 अक्टू॰ 2026",
+        "facility": "अपोलो डायग्नोस्टिक्स सेंट्रल लैब",
+        "summary_en": "Your blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is ...",
+        "summary_hi": "आपकी खून की जांच से पता चलता है कि आपके शुगर और कोलेस्ट्रॉल स्तर पर विशेष ध्यान देने की जरूरत है। आपका एचबीए1सी (HbA1c) ...",
+        "category": "metabolic",
+        "fullData": {
+          "success": true,
+          "userEmail": "rohan@sagecure.ai",
+          "language": "hi",
+          "makeStatus": "200 OK",
+          "patient": {
+            "name": "Rohan Varma",
+            "age": "48",
+            "gender": "महिला",
+            "abhaId": "14-0234-5678-9012@abdm",
+            "facility": "अपोलो डायग्नोस्टिक्स सेंट्रल लैब",
+            "date": "08 अक्टू॰ 2026",
+            "confidence": "99.4%"
+          },
+          "plainLanguage": "आपके सवाल \"क्या मेरा हीमोग्लोबिन ठीक है?\" के संदर्भ में:\n\nआपकी खून की जांच से पता चलता है कि आपके शुगर और कोलेस्ट्रॉल स्तर पर विशेष ध्यान देने की जरूरत है। आपका एचबीए1सी (HbA1c) 8.4% है, जो पिछले 3 महीनों में शुगर का स्तर अधिक रहने का संकेत है। साथ ही एलडीएल (खराब) कोलेस्ट्रॉल 162 mg/dL पर है। अच्छी खबर यह है कि आपकी किडनी बहुत स्वस्थ काम कर रही है (eGFR 92)। कृपया अपने डॉक्टर से परामर्श कर दवा और परहेज की योजना बनाएं।",
+          "plainLanguage_en": "Your blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is 8.4%, reflecting higher average glucose levels over the last 90 days. Concurrently, your LDL cholesterol is at 162 mg/dL. Your kidney filtration is strong and preserved with an eGFR of 92 mL/min. We advise scheduling an appointment with your physician to evaluate your glycemic management and lipid regimen.",
+          "plainLanguage_hi": "आपकी खून की जांच से पता चलता है कि आपके शुगर और कोलेस्ट्रॉल स्तर पर विशेष ध्यान देने की जरूरत है। आपका एचबीए1सी (HbA1c) 8.4% है, जो पिछले 3 महीनों में शुगर का स्तर अधिक रहने का संकेत है। साथ ही एलडीएल (खराब) कोलेस्ट्रॉल 162 mg/dL पर है। अच्छी खबर यह है कि आपकी किडनी बहुत स्वस्थ काम कर रही है (eGFR 92)। कृपया अपने डॉक्टर से परामर्श कर दवा और परहेज की योजना बनाएं।",
+          "audioText": "आपके सवाल के संबंध में: नमस्ते Rohan Varma। आपकी खून की जांच का विश्लेषण कर लिया गया है। आपका एचबीए1सी 8.4 प्रतिशत है, जो पिछले तीन महीनों में शुगर बढ़ने का संकेत देता है। साथ ही एलडीएल कोलेस्ट्रॉल भी बढ़ा हुआ है। राहत की बात यह है कि आपकी किडनी सुरक्षित है। कृपया अपने डॉक्टर से मिलकर परामर्श लें।",
+          "audioText_en": "Hello Rohan Varma. Your blood test report has been analyzed. Your HbA1c is 8.4 percent, indicating higher than target blood sugar levels over the past 3 months. In addition, your LDL cholesterol is 162 milligrams per deciliter, which is above the optimal range. The good news is your kidney and liver markers are in healthy ranges. We recommend sharing these observations with your doctor.",
+          "audioText_hi": "नमस्ते Rohan Varma। आपकी खून की जांच का विश्लेषण कर लिया गया है। आपका एचबीए1सी 8.4 प्रतिशत है, जो पिछले तीन महीनों में शुगर बढ़ने का संकेत देता है। साथ ही एलडीएल कोलेस्ट्रॉल भी बढ़ा हुआ है। राहत की बात यह है कि आपकी किडनी सुरक्षित है। कृपया अपने डॉक्टर से मिलकर परामर्श लें।",
+          "takeaways": [
+            "तीन महीने का औसत शुगर स्तर बढ़ा हुआ है (HbA1c: 8.4%)।",
+            "कोलेस्ट्रॉल प्रोफाइल में एलडीएल (162 mg/dL) बढ़ा हुआ है।",
+            "किडनी की कार्यप्रणाली (eGFR > 90) बिल्कुल सामान्य और सुरक्षित है।"
+          ],
+          "takeaways_en": [
+            "Glycemic control is above recommended targets (HbA1c: 8.4%).",
+            "Lipid panel shows elevated LDL (162 mg/dL) and borderline HDL (44 mg/dL).",
+            "Renal function is healthy and normal with eGFR > 90."
+          ],
+          "takeaways_hi": [
+            "तीन महीने का औसत शुगर स्तर बढ़ा हुआ है (HbA1c: 8.4%)।",
+            "कोलेस्ट्रॉल प्रोफाइल में एलडीएल (162 mg/dL) बढ़ा हुआ है।",
+            "किडनी की कार्यप्रणाली (eGFR > 90) बिल्कुल सामान्य और सुरक्षित है।"
+          ],
+          "questions": [
+            "क्या 8.4% एचबीए1सी को देखते हुए मेरी दवाओं की खुराक बदलने की जरूरत है?",
+            "क्या मुझे कोलेस्ट्रॉल घटाने के लिए स्टेटिन जैसी दवा शुरू करनी चाहिए?",
+            "अगली बार लिपिड और शुगर टेस्ट कब कराना चाहिए?"
+          ],
+          "questions_en": [
+            "Should my diabetes medication dose be adjusted based on this 8.4% HbA1c?",
+            "Do you recommend starting a cholesterol-lowering medication such as a statin?",
+            "When should we re-test my lipid profile and blood sugar?"
+          ],
+          "questions_hi": [
+            "क्या 8.4% एचबीए1सी को देखते हुए मेरी दवाओं की खुराक बदलने की जरूरत है?",
+            "क्या मुझे कोलेस्ट्रॉल घटाने के लिए स्टेटिन जैसी दवा शुरू करनी चाहिए?",
+            "अगली बार लिपिड और शुगर टेस्ट कब कराना चाहिए?"
+          ],
+          "actions": [
+            {
+              "icon": "🥗",
+              "title": "कम ग्लाइसेमिक इंडेक्स आहार",
+              "desc": "दालें, हरी पत्तेदार सब्जियां और सलाद खाएं; मीठा और मैदा बंद करें।"
+            },
+            {
+              "icon": "🏃",
+              "title": "नियमित 30 मिनट सैर",
+              "desc": "हफ्ते में 5 दिन कम से कम 30 मिनट तेज सैर इंसुलिन सुधारती है।"
+            },
+            {
+              "icon": "🩺",
+              "title": "डॉक्टर से परामर्श",
+              "desc": "अगले 7 से 10 दिनों में विशेषज्ञ डॉक्टर से मिलकर रिपोर्ट दिखाएं।"
+            }
+          ],
+          "actions_en": [
+            {
+              "icon": "🥗",
+              "title": "Low Glycemic Index Nutrition",
+              "desc": "Prioritize legumes, leafy greens, and cut simple carbohydrates."
+            },
+            {
+              "icon": "🏃",
+              "title": "Daily Physical Activity",
+              "desc": "Aim for 30 minutes of aerobic exercise 5 days a week."
+            },
+            {
+              "icon": "🩺",
+              "title": "Clinical Follow-up",
+              "desc": "Schedule an endocrinologist evaluation within the next 7 to 10 days."
+            }
+          ],
+          "actions_hi": [
+            {
+              "icon": "🥗",
+              "title": "कम ग्लाइसेमिक इंडेक्स आहार",
+              "desc": "दालें, हरी पत्तेदार सब्जियां और सलाद खाएं; मीठा और मैदा बंद करें।"
+            },
+            {
+              "icon": "🏃",
+              "title": "नियमित 30 मिनट सैर",
+              "desc": "हफ्ते में 5 दिन कम से कम 30 मिनट तेज सैर इंसुलिन सुधारती है।"
+            },
+            {
+              "icon": "🩺",
+              "title": "डॉक्टर से परामर्श",
+              "desc": "अगले 7 से 10 दिनों में विशेषज्ञ डॉक्टर से मिलकर रिपोर्ट दिखाएं।"
+            }
+          ],
+          "biomarkers": [
+            {
+              "name": "एचबीए1सी (HbA1c ग्लाइकेटेड)",
+              "value": 8.4,
+              "unit": "%",
+              "range": "< 5.7",
+              "status": "elevated",
+              "statusLabel": "उच्च (डायबिटिक)",
+              "percent": 84
+            },
+            {
+              "name": "फास्टिंग ब्लड शुगर (FBS)",
+              "value": 168,
+              "unit": "mg/dL",
+              "range": "70 - 99",
+              "status": "elevated",
+              "statusLabel": "बढ़ा हुआ",
+              "percent": 80
+            },
+            {
+              "name": "कुल कोलेस्ट्रॉल",
+              "value": 235,
+              "unit": "mg/dL",
+              "range": "< 200",
+              "status": "elevated",
+              "statusLabel": "उच्च",
+              "percent": 78
+            },
+            {
+              "name": "एलडीएल कोलेस्ट्रॉल (खराब)",
+              "value": 162,
+              "unit": "mg/dL",
+              "range": "< 100",
+              "status": "elevated",
+              "statusLabel": "उच्च",
+              "percent": 82
+            },
+            {
+              "name": "एचडीएल कोलेस्ट्रॉल (अच्छा)",
+              "value": 44,
+              "unit": "mg/dL",
+              "range": "> 50",
+              "status": "low",
+              "statusLabel": "सीमा पर कम",
+              "percent": 35
+            },
+            {
+              "name": "सीरम क्रिएटिनिन",
+              "value": 0.85,
+              "unit": "mg/dL",
+              "range": "0.5 - 1.1",
+              "status": "normal",
+              "statusLabel": "सामान्य",
+              "percent": 50
+            },
+            {
+              "name": "ईजीएफआर (किडनी फिल्ट्रेशन)",
+              "value": 92,
+              "unit": "mL/min/1.73m²",
+              "range": "> 90",
+              "status": "normal",
+              "statusLabel": "उत्कृष्ट",
+              "percent": 65
+            },
+            {
+              "name": "अनुमानित औसत शुगर (eAG)",
+              "value": 194,
+              "unit": "mg/dL",
+              "range": "90 - 120",
+              "status": "elevated",
+              "statusLabel": "बढ़ा हुआ",
+              "percent": 82
+            }
+          ]
+        }
+      },
+      {
+        "id": "rep-102",
+        "title": "Complete Blood Count (CBC)",
+        "date": "06 Oct 2026",
+        "facility": "Metropolis Healthcare",
+        "summary_en": "Mild microcytic anemia detected with hemoglobin 10.8 g/dL. Platelets 140,000.",
+        "summary_hi": "हल्का एनीमिया पाया गया (हीमोग्लोबिन 10.8)। संक्रमण रहित और सुरक्षित।",
+        "category": "hematology"
+      }
+    ]
+  }
+}

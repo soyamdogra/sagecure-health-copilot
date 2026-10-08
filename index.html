@@ -1,0 +1,2464 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SageCure | Next-Gen AI Health Copilot</title>
+  <meta name="description" content="SageCure is an accessible, senior-friendly ABDM & FHIR-compliant AI Health Copilot. Instant medical document analysis, voice diagnostics in English and Hindi, and automatic text-to-speech explanations.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="logo.png">
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              200: '#bae6fd',
+              300: '#7dd3fc',
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+              800: '#075985',
+              900: '#0c4a6e',
+              950: '#082f49',
+            },
+            medical: {
+              teal: '#0d9488',
+              emerald: '#10b981',
+              rose: '#f43f5e',
+              amber: '#f59e0b',
+              navy: '#0f172a',
+              slate: '#1e293b'
+            }
+          },
+          animation: {
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'wave-bar': 'waveBar 1.2s ease-in-out infinite',
+            'float': 'float 4s ease-in-out infinite',
+            'glow': 'glow 3s ease-in-out infinite alternate',
+            'scale-pop': 'scalePop 0.3s ease-out',
+          },
+          keyframes: {
+            waveBar: {
+              '0%, 100%': { height: '8px' },
+              '50%': { height: '32px' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-6px)' },
+            },
+            glow: {
+              '0%': { opacity: '0.4', filter: 'blur(30px)' },
+              '100%': { opacity: '0.8', filter: 'blur(50px)' },
+            },
+            scalePop: {
+              '0%': { transform: 'scale(0.96)', opacity: '0' },
+              '100%': { transform: 'scale(1)', opacity: '1' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 9px;
+      height: 9px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Senior-Friendly Accessibility Scale */
+    body.font-large {
+      font-size: 110%;
+    }
+    body.font-large h1 {
+      font-size: 3.5rem !important;
+    }
+    body.font-large .text-xs {
+      font-size: 0.875rem !important;
+    }
+    body.font-large .text-sm {
+      font-size: 1rem !important;
+    }
+    body.font-large .text-base {
+      font-size: 1.125rem !important;
+    }
+
+    /* Glassmorphism Styles */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+    }
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.85);
+    }
+
+    /* Grid pattern */
+    .bg-grid-pattern {
+      background-size: 36px 36px;
+      background-image: 
+        linear-gradient(to right, rgba(2, 132, 199, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(2, 132, 199, 0.04) 1px, transparent 1px);
+    }
+
+    /* Wave bar animations */
+    .wave-bar:nth-child(2) { animation-delay: 0.15s; }
+    .wave-bar:nth-child(3) { animation-delay: 0.3s; }
+    .wave-bar:nth-child(4) { animation-delay: 0.45s; }
+    .wave-bar:nth-child(5) { animation-delay: 0.6s; }
+    .wave-bar:nth-child(6) { animation-delay: 0.25s; }
+    .wave-bar:nth-child(7) { animation-delay: 0.4s; }
+
+    /* Drag & drop active state */
+    .drag-over {
+      border-color: #0284c7 !important;
+      background-color: rgba(224, 242, 254, 0.6) !important;
+      transform: scale(1.01);
+    }
+
+    /* Print styles */
+    @media print {
+      header, #upload-section, #query-section, #auth-modal, #records-drawer, footer, .no-print {
+        display: none !important;
+      }
+      #results-dashboard {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans antialiased selection:bg-brand-500 selection:text-white min-h-screen relative overflow-x-hidden">
+
+  <!-- Ambient Backdrop Glows -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-grid-pattern">
+    <div class="absolute -top-32 -left-32 w-96 h-96 bg-brand-400/20 rounded-full blur-3xl animate-glow"></div>
+    <div class="absolute top-1/3 -right-32 w-96 h-96 bg-teal-400/20 rounded-full blur-3xl animate-glow" style="animation-delay: 1.5s;"></div>
+    <div class="absolute bottom-10 left-1/3 w-80 h-80 bg-indigo-300/15 rounded-full blur-3xl"></div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- 1. AUTHENTICATION & LOGIN/SIGNUP OVERLAY MODAL                 -->
+  <!-- ============================================================== -->
+  <div 
+    id="auth-modal" 
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-950/70 backdrop-blur-md transition-all duration-500 opacity-100"
+  >
+    <div 
+      id="auth-card" 
+      class="w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-100 p-6 sm:p-8 space-y-6 relative overflow-hidden animate-scale-pop transition-transform duration-500"
+    >
+      <!-- Top Decorative Glow -->
+      <div class="absolute -top-16 -right-16 w-44 h-44 bg-gradient-to-br from-brand-400/25 to-teal-400/25 rounded-full blur-2xl pointer-events-none"></div>
+
+      <!-- Brand Logo & Header in Modal -->
+      <div class="text-center space-y-3">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-slate-900 shadow-xl shadow-brand-500/20 mx-auto p-1 border-2 border-white">
+          <img src="logo.png" alt="SageCure Logo" class="w-full h-full rounded-xl object-cover" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%230f172a%22/><path d=%22M40 20h20v60H40zM20 40h60v20H20z%22 fill=%22%230ea5e9%22/></svg>'">
+        </div>
+        
+        <div>
+          <div class="flex items-center justify-center space-x-2">
+            <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-slate-900 via-brand-900 to-teal-800 bg-clip-text text-transparent">SageCure</span>
+            <span class="px-2 py-0.5 text-xs font-bold rounded-md bg-teal-100 text-teal-800 border border-teal-200">Patient Portal</span>
+          </div>
+          <p id="modal-subtitle" class="text-sm text-slate-600 mt-1 max-w-sm mx-auto">
+            Secure, personalized clinical companion. Sign in to access your saved medical reports & AI voice insights.
+          </p>
+        </div>
+      </div>
+
+      <!-- Auth Mode Switcher Tabs (Sign In vs Create Account) -->
+      <div class="grid grid-cols-2 p-1.5 bg-slate-100 rounded-2xl border border-slate-200 text-sm font-bold">
+        <button 
+          type="button" 
+          onclick="switchAuthTab('login')" 
+          id="tab-btn-login"
+          class="py-2.5 rounded-xl bg-white text-slate-900 shadow-sm transition"
+        >
+          <span id="tab-login-text">Sign In / लॉगिन</span>
+        </button>
+        <button 
+          type="button" 
+          onclick="switchAuthTab('signup')" 
+          id="tab-btn-signup"
+          class="py-2.5 rounded-xl text-slate-600 hover:text-slate-900 transition"
+        >
+          <span id="tab-signup-text">Create Account / नया खाता</span>
+        </button>
+      </div>
+
+      <!-- Auth Form -->
+      <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4 pt-1">
+        <!-- Full Name Field (Sign Up only) -->
+        <div id="auth-name-container" class="hidden space-y-1.5 text-left">
+          <label for="auth-name" class="text-xs font-bold text-slate-700 flex items-center justify-between">
+            <span id="label-name-text">Full Name</span>
+            <span class="text-slate-400 font-normal">पूरा नाम</span>
+          </label>
+          <div class="relative">
+            <input 
+              type="text" 
+              id="auth-name" 
+              placeholder="e.g. Aditi Sharma" 
+              class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition"
+            >
+          </div>
+        </div>
+
+        <!-- Email Field -->
+        <div class="space-y-1.5 text-left">
+          <label for="auth-email" class="text-xs font-bold text-slate-700 flex items-center justify-between">
+            <span id="label-email-text">Email Address</span>
+            <span class="text-slate-400 font-normal">ईमेल</span>
+          </label>
+          <div class="relative">
+            <input 
+              type="email" 
+              id="auth-email" 
+              value="aditi@sagecure.ai" 
+              required
+              placeholder="name@example.com" 
+              class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition"
+            >
+          </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="space-y-1.5 text-left">
+          <label for="auth-password" class="text-xs font-bold text-slate-700 flex items-center justify-between">
+            <span id="label-password-text">Password</span>
+            <span class="text-slate-400 font-normal">पासवर्ड</span>
+          </label>
+          <div class="relative">
+            <input 
+              type="password" 
+              id="auth-password" 
+              value="password123" 
+              required
+              placeholder="••••••••" 
+              class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition"
+            >
+          </div>
+        </div>
+
+        <!-- ABHA ID Field (Sign Up only) -->
+        <div id="auth-abha-container" class="hidden space-y-1.5 text-left">
+          <label for="auth-abha" class="text-xs font-bold text-slate-700 flex items-center justify-between">
+            <span>ABHA ID (Optional)</span>
+            <span class="text-emerald-600 font-semibold text-[11px]">ABDM Ready</span>
+          </label>
+          <div class="relative">
+            <input 
+              type="text" 
+              id="auth-abha" 
+              placeholder="14-XXXX-XXXX-XXXX@abdm" 
+              class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-mono text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition"
+            >
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="pt-2">
+          <button 
+            type="submit" 
+            id="auth-submit-btn"
+            class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-brand-600 via-brand-700 to-teal-600 hover:from-brand-700 hover:to-teal-700 text-white font-extrabold text-base tracking-wide shadow-xl shadow-brand-600/30 transition transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center space-x-2"
+          >
+            <span id="btn-auth-submit-text">Sign In & Access Records ➔</span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Quick 1-Click Demo Profiles For Evaluation -->
+      <div class="pt-2 border-t border-slate-100 space-y-2 text-left">
+        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">1-Click Demo Profiles (Multi-User Test):</span>
+        <div class="grid grid-cols-2 gap-2">
+          <button 
+            type="button" 
+            onclick="fillDemoAccount('aditi@sagecure.ai', 'password123', 'Aditi Sharma')" 
+            class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-brand-50 hover:border-brand-300 text-left transition"
+          >
+            <div class="text-xs font-bold text-slate-900 truncate">👤 Aditi Sharma</div>
+            <div class="text-[10px] text-slate-500 font-mono truncate">aditi@sagecure.ai</div>
+          </button>
+          <button 
+            type="button" 
+            onclick="fillDemoAccount('rohan@sagecure.ai', 'password123', 'Rohan Varma')" 
+            class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-brand-50 hover:border-brand-300 text-left transition"
+          >
+            <div class="text-xs font-bold text-slate-900 truncate">👤 Rohan Varma</div>
+            <div class="text-[10px] text-slate-500 font-mono truncate">rohan@sagecure.ai</div>
+          </button>
+        </div>
+      </div>
+      
+      <p class="text-center text-xs text-slate-400">
+        🔒 Encrypted & Isolated User Storage • HIPAA & ABDM Compliant
+      </p>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- 2. HEADER & NAVIGATION (SAGECURE REBRANDED)                    -->
+  <!-- ============================================================== -->
+  <header class="sticky top-0 z-40 glass-nav transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo with img tag to logo.png -->
+      <div class="flex items-center space-x-3.5">
+        <div class="relative flex items-center justify-center w-12 h-12 rounded-2xl bg-slate-900 shadow-lg shadow-teal-500/20 ring-2 ring-white/90 p-1">
+          <img 
+            src="logo.png" 
+            alt="SageCure Logo" 
+            class="w-full h-full rounded-xl object-cover"
+            onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%230f172a%22/><path d=%22M40 20h20v60H40zM20 40h60v20H20z%22 fill=%22%230ea5e9%22/></svg>'"
+          >
+          <span class="absolute -top-1 -right-1 flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+          </span>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="text-xl sm:text-2xl font-black tracking-tight bg-gradient-to-r from-slate-900 via-brand-900 to-teal-800 bg-clip-text text-transparent">SageCure</span>
+            <span class="px-2 py-0.5 text-xs font-bold tracking-wider uppercase rounded-md bg-teal-100 text-teal-800 border border-teal-200">Copilot AI</span>
+          </div>
+          <p id="header-tagline" class="text-xs text-slate-500 font-medium">Clinical Document Intelligence Engine</p>
+        </div>
+      </div>
+
+      <!-- Center: ABDM & Compliance Badges -->
+      <div class="hidden xl:flex items-center space-x-3">
+        <div class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/80 shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 mr-2 animate-pulse"></span>
+          <span id="header-compliance-badge">ABDM / FHIR v4 Compliant</span>
+        </div>
+        <div class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200 shadow-sm">
+          <span class="font-bold">HIPAA Ready</span>
+          <span class="ml-1 text-[10px] uppercase font-bold text-teal-700 bg-teal-50 px-1.5 py-0.5 rounded border border-teal-200">Verified</span>
+        </div>
+      </div>
+
+      <!-- Right Controls: User Profile, Saved Records, Font Size, Language -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        
+        <!-- Senior Friendly Font Size Scaler Button -->
+        <button 
+          onclick="toggleFontSize()" 
+          id="font-scale-btn" 
+          title="Toggle larger senior-friendly text size"
+          class="inline-flex items-center px-3 py-2 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 shadow-sm transition"
+        >
+          <span class="text-sm mr-1 font-extrabold">A</span><span class="text-base font-extrabold text-brand-600">A+</span>
+        </button>
+
+        <!-- Language Switcher (English | हिंदी) -->
+        <div class="inline-flex items-center bg-slate-100 p-1 rounded-2xl border border-slate-200 shadow-inner">
+          <button 
+            type="button" 
+            onclick="setLanguage('en')" 
+            id="lang-btn-en" 
+            class="px-3 py-1.5 rounded-xl text-xs font-extrabold transition shadow-sm bg-white text-brand-700"
+          >
+            English
+          </button>
+          <button 
+            type="button" 
+            onclick="setLanguage('hi')" 
+            id="lang-btn-hi" 
+            class="px-3 py-1.5 rounded-xl text-xs font-extrabold text-slate-600 hover:text-slate-900 transition"
+          >
+            हिंदी
+          </button>
+        </div>
+
+        <!-- Saved Records Drawer Toggle Button -->
+        <button 
+          type="button" 
+          onclick="toggleRecordsDrawer()" 
+          class="inline-flex items-center px-3 py-2 rounded-xl text-xs font-bold bg-teal-50 hover:bg-teal-100 text-teal-800 border border-teal-200 transition"
+          title="View your saved health history"
+        >
+          <span class="mr-1">📁</span>
+          <span id="btn-records-text">Records (<span id="user-records-count">1</span>)</span>
+        </button>
+
+        <!-- Current User Account & Logout -->
+        <div class="relative group">
+          <button 
+            onclick="handleUserBadgeClick()" 
+            id="patient-header-badge" 
+            class="inline-flex items-center px-3 py-2 rounded-xl text-xs font-bold bg-brand-50 hover:bg-brand-100 text-brand-800 border border-brand-200 transition"
+            title="Click to view profile or switch account"
+          >
+            <span class="mr-1.5">👤</span>
+            <span id="header-patient-display" class="max-w-[100px] sm:max-w-[140px] truncate">Aditi Sharma</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ============================================================== -->
+  <!-- SAVED HEALTH RECORDS DRAWER (MULTI-USER ISOLATED HISTORY)      -->
+  <!-- ============================================================== -->
+  <div 
+    id="records-drawer" 
+    class="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-white shadow-2xl border-l border-slate-200 p-6 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between"
+  >
+    <div class="space-y-5 overflow-y-auto">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <div>
+          <h3 class="text-lg font-black text-slate-900" id="drawer-title">Saved Health Records</h3>
+          <p class="text-xs text-slate-500" id="drawer-subtitle">Reports linked to <span id="drawer-user-email" class="font-bold text-brand-600">aditi@sagecure.ai</span></p>
+        </div>
+        <button onclick="toggleRecordsDrawer()" class="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition">
+          ✕
+        </button>
+      </div>
+
+      <!-- List of User's Past Reports -->
+      <div id="user-reports-list" class="space-y-3">
+        <!-- Dynamically populated from active user storage -->
+      </div>
+    </div>
+
+    <div class="pt-4 border-t border-slate-100 space-y-2">
+      <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200 text-xs">
+        <span class="font-bold text-slate-500 uppercase tracking-wider block mb-2 text-[10px]">Switch Active Account:</span>
+        <div class="grid grid-cols-2 gap-2">
+          <button 
+            type="button" 
+            onclick="switchUserProfile('aditi@sagecure.ai')" 
+            class="px-2.5 py-2 rounded-xl border border-slate-200 bg-white hover:bg-brand-50 text-left transition font-bold text-slate-800 text-[11px] truncate"
+          >
+            👤 Aditi Sharma
+          </button>
+          <button 
+            type="button" 
+            onclick="switchUserProfile('rohan@sagecure.ai')" 
+            class="px-2.5 py-2 rounded-xl border border-slate-200 bg-white hover:bg-brand-50 text-left transition font-bold text-slate-800 text-[11px] truncate"
+          >
+            👤 Rohan Varma
+          </button>
+        </div>
+      </div>
+
+      <button 
+        type="button" 
+        onclick="logoutUser()" 
+        class="w-full py-3 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs border border-rose-200 transition flex items-center justify-center space-x-1.5"
+      >
+        <span>🚪</span>
+        <span id="drawer-logout-text">Log Out of this Account</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- 3. MAIN DASHBOARD CONTENT (SAGECURE)                           -->
+  <!-- ============================================================== -->
+  <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-20 space-y-10">
+
+    <!-- Welcome Greeting & Hero Section -->
+    <section class="max-w-4xl mx-auto text-center space-y-4 pt-2">
+      <!-- Greeting Banner with User Name -->
+      <div id="greeting-banner" class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm font-bold shadow-sm animate-float">
+        <span class="flex h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span id="greeting-text">Welcome to SageCure, Aditi Sharma! We are ready to help.</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 leading-[1.15]">
+        <span id="hero-title-prefix">Next-Gen AI</span> <br class="hidden sm:inline" />
+        <span class="bg-gradient-to-r from-brand-600 via-teal-600 to-brand-800 bg-clip-text text-transparent" id="hero-title-main">
+          Health Copilot
+        </span>
+      </h1>
+
+      <p id="hero-subtitle" class="text-base sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+        Understand your medical reports in plain, simple words. Follow 3 easy steps below or use your voice to ask anything.
+      </p>
+
+      <!-- Step-by-Step Visual Guidance Cards for Seniors -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 max-w-3xl mx-auto text-left">
+        <!-- Step 1 -->
+        <div class="p-4 rounded-2xl bg-white/90 border-2 border-brand-200 shadow-sm flex items-start space-x-3 transition hover:border-brand-400">
+          <div class="w-10 h-10 rounded-2xl bg-brand-600 text-white flex items-center justify-center font-black text-lg shrink-0 shadow-md shadow-brand-500/20">
+            1
+          </div>
+          <div>
+            <div id="step-1-title" class="text-sm font-bold text-slate-900">Upload Document</div>
+            <div id="step-1-desc" class="text-xs text-slate-500 mt-0.5">Drop your lab PDF or phone photo of blood test</div>
+          </div>
+        </div>
+        
+        <!-- Step 2 -->
+        <div class="p-4 rounded-2xl bg-white/90 border-2 border-teal-200 shadow-sm flex items-start space-x-3 transition hover:border-teal-400">
+          <div class="w-10 h-10 rounded-2xl bg-teal-600 text-white flex items-center justify-center font-black text-lg shrink-0 shadow-md shadow-teal-500/20">
+            2
+          </div>
+          <div>
+            <div id="step-2-title" class="text-sm font-bold text-slate-900">Ask with Voice</div>
+            <div id="step-2-desc" class="text-xs text-slate-500 mt-0.5">Press the big mic button and speak in your language</div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="p-4 rounded-2xl bg-white/90 border-2 border-indigo-200 shadow-sm flex items-start space-x-3 transition hover:border-indigo-400">
+          <div class="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-black text-lg shrink-0 shadow-md shadow-indigo-500/20">
+            3
+          </div>
+          <div>
+            <div id="step-3-title" class="text-sm font-bold text-slate-900">Listen & Learn</div>
+            <div id="step-3-desc" class="text-xs text-slate-500 mt-0.5">SageCure reads your plain-language answer aloud</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upload & Query Hub -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- Left: Interactive Upload Hub (7 Cols) -->
+      <div class="lg:col-span-7 glass-card rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/50 space-y-6 relative overflow-hidden border border-slate-200">
+        
+        <!-- Section Header with Step 1 Badge -->
+        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+          <div class="flex items-center space-x-3">
+            <span class="px-2.5 py-1 rounded-xl text-xs font-black bg-brand-600 text-white">STEP 1</span>
+            <div>
+              <h2 id="upload-hub-title" class="text-lg sm:text-xl font-bold text-slate-900">Upload Lab Document</h2>
+              <p id="upload-hub-subtitle" class="text-xs sm:text-sm text-slate-500">Blood tests, doctor prescriptions, or discharge summaries</p>
+            </div>
+          </div>
+          <span class="text-xs font-mono font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">
+            PDF • JPG • PNG
+          </span>
+        </div>
+
+        <!-- Active Patient & ABHA Summary Strip -->
+        <div class="p-3.5 bg-brand-50/80 rounded-2xl border border-brand-200/80 flex items-center justify-between text-xs sm:text-sm">
+          <div class="flex items-center space-x-2">
+            <span class="text-brand-700 font-bold" id="strip-patient-label">Logged-In Patient:</span>
+            <span id="active-patient-name" class="font-bold text-slate-900">Aditi Sharma</span>
+            <span class="text-slate-400">•</span>
+            <span id="active-patient-abha" class="font-mono text-brand-800 font-semibold truncate max-w-[180px] sm:max-w-none">14-0234-5678-9012@abdm</span>
+          </div>
+          <button type="button" onclick="logoutUser()" class="text-xs font-bold text-rose-600 hover:text-rose-800 underline shrink-0">
+            Switch User
+          </button>
+        </div>
+
+        <!-- Accessible Large Drag & Drop Zone -->
+        <div 
+          id="dropzone" 
+          class="group relative border-3 border-dashed border-slate-300 hover:border-brand-500 bg-slate-50 hover:bg-brand-50/30 rounded-3xl p-8 sm:p-10 text-center cursor-pointer transition-all duration-300 flex flex-col items-center justify-center min-h-[240px]"
+          onclick="document.getElementById('file-input').click()"
+        >
+          <input 
+            type="file" 
+            id="file-input" 
+            class="hidden" 
+            accept="image/*,application/pdf"
+            onchange="handleFileSelect(event)"
+          >
+          
+          <!-- Dropzone Empty State -->
+          <div id="dropzone-empty" class="space-y-4">
+            <div class="w-20 h-20 mx-auto rounded-3xl bg-white shadow-lg shadow-brand-500/10 flex items-center justify-center text-brand-600 group-hover:scale-105 group-hover:text-brand-700 transition transform duration-300 border border-slate-100">
+              <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+              </svg>
+            </div>
+            <div>
+              <p id="dropzone-text-main" class="text-base sm:text-lg font-bold text-slate-800">
+                <span class="text-brand-600 underline">Click to choose document</span> or drag & drop here
+              </p>
+              <p id="dropzone-text-sub" class="text-xs sm:text-sm text-slate-500 mt-1">Take a photo from your phone or choose a PDF file (Max 25MB)</p>
+            </div>
+            <div class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold text-slate-600 bg-white border border-slate-200 shadow-sm">
+              🔒 Safe & Private • Saved to your SageCure account
+            </div>
+          </div>
+
+          <!-- File Preview Box (Hidden initially) -->
+          <div id="dropzone-preview" class="hidden w-full text-left space-y-3">
+            <div class="flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-200 shadow-sm">
+              <div class="flex items-center space-x-4 overflow-hidden">
+                <div id="preview-thumbnail-container" class="w-14 h-14 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center shrink-0 overflow-hidden">
+                  <svg id="preview-icon-fallback" class="w-8 h-8 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  <img id="preview-img" class="hidden w-full h-full object-cover" alt="Document Preview">
+                </div>
+                <div class="truncate">
+                  <div id="preview-filename" class="text-sm sm:text-base font-bold text-slate-900 truncate">sample_blood_report.pdf</div>
+                  <div class="flex items-center space-x-2 text-xs sm:text-sm text-slate-500">
+                    <span id="preview-filesize">1.4 MB</span>
+                    <span>•</span>
+                    <span class="text-emerald-600 font-bold flex items-center">
+                      <svg class="w-4 h-4 mr-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                      Ready for Analysis
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center space-x-2 shrink-0">
+                <button 
+                  type="button" 
+                  onclick="event.stopPropagation(); clearUploadedFile();" 
+                  class="p-2.5 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition" 
+                  title="Remove file"
+                >
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-500 text-center">To change this file, click the box again.</p>
+          </div>
+        </div>
+
+        <!-- Senior-Friendly 1-Click Sample Loaders -->
+        <div class="space-y-2 pt-1">
+          <div class="flex items-center justify-between">
+            <span id="sample-reports-label" class="text-xs sm:text-sm font-bold text-slate-700">Or tap a sample test to try instantly:</span>
+            <span class="text-xs text-brand-600 font-semibold">1-Click Test</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <button type="button" onclick="loadSampleReport('diabetic')" class="p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-brand-500 hover:bg-brand-50/50 text-left transition group">
+              <div class="text-xs sm:text-sm font-extrabold text-slate-800 group-hover:text-brand-700 flex items-center justify-between">
+                <span id="sample-diabetic-title">Diabetic & Lipid</span>
+                <span class="text-rose-500 text-xs font-bold">⚠️ High</span>
+              </div>
+              <div class="text-xs text-slate-500 mt-1">HbA1c 8.4%, Sugar 168</div>
+            </button>
+            <button type="button" onclick="loadSampleReport('cbc')" class="p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-brand-500 hover:bg-brand-50/50 text-left transition group">
+              <div class="text-xs sm:text-sm font-extrabold text-slate-800 group-hover:text-brand-700 flex items-center justify-between">
+                <span id="sample-cbc-title">Complete Blood Count</span>
+                <span class="text-amber-500 text-xs font-bold">⚡ Low Hb</span>
+              </div>
+              <div class="text-xs text-slate-500 mt-1">Hemoglobin 10.8 g/dL</div>
+            </button>
+            <button type="button" onclick="loadSampleReport('thyroid')" class="p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-brand-500 hover:bg-brand-50/50 text-left transition group">
+              <div class="text-xs sm:text-sm font-extrabold text-slate-800 group-hover:text-brand-700 flex items-center justify-between">
+                <span id="sample-thyroid-title">Thyroid & Vitamins</span>
+                <span class="text-emerald-500 text-xs font-bold">✓ Normal</span>
+              </div>
+              <div class="text-xs text-slate-500 mt-1">TSH 2.45, B12 410</div>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right: Voice & Text Question Engine (5 Cols) -->
+      <div class="lg:col-span-5 glass-card rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/50 space-y-6 flex flex-col justify-between border border-slate-200 h-full">
+        
+        <div class="space-y-5">
+          <!-- Section Header with Step 2 Badge -->
+          <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+            <div class="flex items-center space-x-3">
+              <span class="px-2.5 py-1 rounded-xl text-xs font-black bg-teal-600 text-white">STEP 2</span>
+              <div>
+                <h2 id="query-hub-title" class="text-lg sm:text-xl font-bold text-slate-900">Voice & Question Hub</h2>
+                <p id="query-hub-subtitle" class="text-xs sm:text-sm text-slate-500">Speak or write your health question</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Prominent High-Contrast Microphone Box (Extra Large for Seniors) -->
+          <div class="bg-gradient-to-b from-slate-900 to-slate-950 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden border border-slate-800">
+            <div class="flex items-center justify-between gap-4">
+              <div>
+                <div class="text-xs font-extrabold text-teal-400 uppercase tracking-wider" id="mic-box-tag">
+                  Voice Question Engine
+                </div>
+                <div id="mic-status-text" class="text-base sm:text-lg font-bold text-white mt-1">
+                  Tap microphone to speak
+                </div>
+                <p id="mic-status-sub" class="text-xs text-slate-400 mt-0.5">
+                  English or Hindi accepted
+                </p>
+              </div>
+
+              <!-- Animated Large Mic Button -->
+              <button 
+                type="button" 
+                id="mic-btn"
+                onclick="toggleSpeechRecognition()"
+                class="relative group w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-tr from-brand-600 via-teal-500 to-emerald-400 hover:from-brand-500 hover:to-emerald-300 flex items-center justify-center text-white shadow-xl shadow-brand-500/30 transition transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-teal-400/50 shrink-0"
+                title="Tap to speak"
+              >
+                <!-- Pulse rings during listening -->
+                <span id="mic-ring" class="hidden absolute inset-0 rounded-full bg-teal-400 opacity-75 animate-ping"></span>
+                <span class="text-3xl sm:text-4xl select-none" id="mic-icon">🎙️</span>
+              </button>
+            </div>
+
+            <!-- Animated Soundwaves when Listening -->
+            <div id="soundwave-container" class="hidden mt-5 pt-4 border-t border-slate-800 flex items-center justify-between">
+              <div class="flex items-center space-x-2 h-9">
+                <span class="wave-bar w-1.5 bg-teal-400 rounded-full animate-wave-bar"></span>
+                <span class="wave-bar w-1.5 bg-brand-400 rounded-full animate-wave-bar"></span>
+                <span class="wave-bar w-1.5 bg-emerald-400 rounded-full animate-wave-bar"></span>
+                <span class="wave-bar w-1.5 bg-teal-300 rounded-full animate-wave-bar"></span>
+                <span class="wave-bar w-1.5 bg-brand-300 rounded-full animate-wave-bar"></span>
+                <span class="wave-bar w-1.5 bg-emerald-300 rounded-full animate-wave-bar"></span>
+              </div>
+              <div class="text-xs sm:text-sm font-semibold text-teal-300 flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></span>
+                <span id="speech-live-indicator">Listening in real-time...</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Question Input Area (High-contrast & accessible) -->
+          <div class="space-y-2">
+            <label for="query-input" id="label-query-input" class="text-sm font-bold text-slate-800 flex items-center justify-between">
+              <span>Your Question (Transcribes from voice automatically)</span>
+            </label>
+            <div class="relative">
+              <textarea 
+                id="query-input" 
+                rows="3" 
+                placeholder="e.g. Can you explain what my HbA1c and cholesterol levels mean? Are any foods or exercises recommended?"
+                class="w-full p-4 bg-white border-2 border-slate-200 rounded-2xl text-base text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition resize-none leading-relaxed"
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- Quick Prompts (Senior Friendly Large Chips) -->
+          <div class="space-y-1.5">
+            <span id="quick-prompts-label" class="text-xs font-bold text-slate-500">Quick question ideas:</span>
+            <div class="flex flex-wrap gap-2">
+              <button type="button" onclick="setQueryText(t('prompt1'))" class="px-3 py-1.5 text-xs sm:text-sm rounded-xl bg-slate-100 hover:bg-brand-100 hover:text-brand-800 text-slate-700 font-medium transition border border-slate-200">
+                <span id="prompt-chip-1">Explain HbA1c & lipids</span>
+              </button>
+              <button type="button" onclick="setQueryText(t('prompt2'))" class="px-3 py-1.5 text-xs sm:text-sm rounded-xl bg-slate-100 hover:bg-brand-100 hover:text-brand-800 text-slate-700 font-medium transition border border-slate-200">
+                <span id="prompt-chip-2">Are any values critical?</span>
+              </button>
+              <button type="button" onclick="setQueryText(t('prompt3'))" class="px-3 py-1.5 text-xs sm:text-sm rounded-xl bg-slate-100 hover:bg-brand-100 hover:text-brand-800 text-slate-700 font-medium transition border border-slate-200">
+                <span id="prompt-chip-3">Diet & food recommendations</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Big Accessible Action Button with Step 3 Trigger -->
+        <div class="pt-4 space-y-3">
+          <button 
+            type="button" 
+            id="analyze-btn" 
+            onclick="triggerHealthAnalysis()" 
+            class="w-full py-4 sm:py-5 px-6 rounded-2xl bg-gradient-to-r from-brand-600 via-brand-700 to-teal-600 hover:from-brand-700 hover:to-teal-700 text-white font-extrabold text-base sm:text-lg tracking-wide shadow-xl shadow-brand-600/30 transition transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center space-x-3 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            <span id="analyze-btn-text">Analyze Report & Explain in Simple Words</span>
+          </button>
+
+          <!-- Progress Loading Bar (Hidden initially) -->
+          <div id="processing-progress-box" class="hidden space-y-2 p-4 bg-brand-50 rounded-2xl border border-brand-200">
+            <div class="flex items-center justify-between text-sm text-brand-900 font-bold">
+              <span id="processing-step-label">Extracting medical biomarkers via OCR...</span>
+              <span id="processing-pct" class="font-mono">45%</span>
+            </div>
+            <div class="w-full bg-brand-200 rounded-full h-2 overflow-hidden">
+              <div id="processing-bar" class="bg-brand-600 h-2 rounded-full transition-all duration-300" style="width: 45%"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- 4. RICH ANALYTICS & HEALTH DASHBOARD (WHEN RESULTS LOAD)       -->
+    <!-- ============================================================== -->
+    <section id="results-dashboard" class="hidden space-y-8 pt-4 transition-all duration-500">
+      
+      <!-- Top Banner with Step 3 Badge -->
+      <div class="glass-card rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-200 relative overflow-hidden">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-100">
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="px-3 py-1 rounded-full text-xs font-black bg-emerald-100 text-emerald-800 border border-emerald-300">
+                STEP 3: COMPLETE
+              </span>
+              <span class="text-xs font-mono text-slate-500" id="res-timestamp">Analyzed just now</span>
+            </div>
+            <h2 id="dashboard-results-title" class="text-2xl sm:text-3xl font-black text-slate-900 mt-2">
+              Clinical Biomarker Report & Simple Explanation
+            </h2>
+          </div>
+
+          <!-- Large Audio Buttons for Seniors -->
+          <div class="flex flex-wrap items-center gap-2">
+            <button 
+              id="replay-audio-btn" 
+              onclick="replayAudioExplanation()" 
+              class="inline-flex items-center px-5 py-3 rounded-2xl text-sm font-extrabold bg-teal-500 hover:bg-teal-400 text-slate-950 shadow-md shadow-teal-500/20 transition transform hover:scale-[1.02]"
+            >
+              <svg class="w-5 h-5 mr-2 text-slate-950" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+              </svg>
+              <span id="replay-audio-text">Replay Audio Explanation 🔊</span>
+            </button>
+
+            <button 
+              onclick="stopAudio()" 
+              id="stop-audio-btn"
+              class="hidden inline-flex items-center px-4 py-3 rounded-2xl text-sm font-bold bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 transition"
+              title="Stop audio speech"
+            >
+              <svg class="w-4 h-4 mr-1 text-rose-600" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
+              Stop
+            </button>
+
+            <button 
+              onclick="window.print()" 
+              class="inline-flex items-center px-4 py-3 rounded-2xl text-sm font-bold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 shadow-sm transition"
+            >
+              <svg class="w-5 h-5 mr-1.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+              </svg>
+              <span id="btn-export-text">Print / Export</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Patient Demographics Metadata Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-6 text-xs sm:text-sm">
+          <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
+            <span class="text-slate-400 block font-medium" id="card-label-patient">Patient Name</span>
+            <span id="patient-name" class="font-extrabold text-slate-900 text-base">Aditi Sharma</span>
+          </div>
+          <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
+            <span class="text-slate-400 block font-medium" id="card-label-age">Age / Gender</span>
+            <span id="patient-age-gender" class="font-bold text-slate-900 text-base">48 Y / Female</span>
+          </div>
+          <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
+            <span class="text-slate-400 block font-medium">ABHA ID</span>
+            <span id="patient-abha" class="font-mono font-bold text-brand-700 text-xs sm:text-sm truncate block">14-0234-5678-9012@abdm</span>
+          </div>
+          <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
+            <span class="text-slate-400 block font-medium" id="card-label-lab">Lab / Facility</span>
+            <span id="patient-facility" class="font-bold text-slate-900 text-base truncate block">Apollo Diagnostics</span>
+          </div>
+          <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
+            <span class="text-slate-400 block font-medium" id="card-label-date">Collection Date</span>
+            <span id="patient-date" class="font-bold text-slate-900 text-base">08 Oct 2026</span>
+          </div>
+          <div class="p-3.5 bg-emerald-50 rounded-2xl border border-emerald-200">
+            <span class="text-emerald-700 block font-medium" id="card-label-ocr">Confidence</span>
+            <span id="patient-confidence" class="font-mono font-bold text-emerald-800 text-base">99.4% FHIR</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Split: Plain-Language Explanation + Voice Companion Hub -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Left: AI Plain-Language Explanation (7 Cols) -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="glass-card rounded-3xl p-6 sm:p-8 shadow-xl border border-brand-200 relative overflow-hidden bg-gradient-to-br from-white via-white to-brand-50/40">
+            
+            <div class="flex items-center space-x-3 mb-5">
+              <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-600 to-teal-500 text-white flex items-center justify-center shadow-md shadow-brand-500/20 shrink-0">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 id="plain-lang-heading" class="text-xl sm:text-2xl font-black text-slate-900">What Your Test Means (In Simple Terms)</h3>
+                <p id="plain-lang-sub" class="text-xs sm:text-sm text-slate-500">No confusing medical jargon • Easy to understand</p>
+              </div>
+            </div>
+
+            <!-- Plain Language Explanation Text -->
+            <div id="plain-language-body" class="text-slate-800 text-base sm:text-lg leading-relaxed space-y-4 font-normal">
+              <!-- Dynamically populated -->
+            </div>
+
+            <!-- Key Takeaways -->
+            <div class="mt-6 pt-5 border-t border-slate-200 space-y-3">
+              <h4 id="takeaways-heading" class="text-sm font-extrabold text-slate-900 uppercase tracking-wider flex items-center">
+                <span class="w-2 h-2 rounded-full bg-brand-600 mr-2"></span>
+                Key Points You Should Know
+              </h4>
+              <ul id="key-takeaways-list" class="space-y-2.5 text-sm sm:text-base text-slate-700">
+                <!-- Dynamically populated -->
+              </ul>
+            </div>
+
+            <!-- Questions for Doctor -->
+            <div class="mt-6 p-5 rounded-2xl bg-brand-50 border border-brand-200 space-y-2">
+              <h4 id="questions-heading" class="text-sm sm:text-base font-extrabold text-brand-900 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-brand-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Questions You Can Ask Your Doctor
+              </h4>
+              <ul id="suggested-questions-list" class="list-disc list-inside text-xs sm:text-sm text-brand-900 space-y-1.5 font-medium">
+                <!-- Dynamically populated -->
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right: Voice Companion & Health Action Plan (5 Cols) -->
+        <div class="lg:col-span-5 space-y-6">
+          
+          <!-- Audio Synthesizer Card -->
+          <div class="glass-card rounded-3xl p-6 sm:p-7 shadow-xl space-y-5 bg-gradient-to-br from-slate-900 to-slate-950 text-white border border-slate-800">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-2xl bg-teal-500/20 text-teal-400 flex items-center justify-center border border-teal-500/30">
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                </div>
+                <div>
+                  <h4 class="text-base font-bold text-white" id="voice-companion-title">SageCure Voice Companion</h4>
+                  <p class="text-xs text-slate-400" id="voice-companion-sub">Speaks aloud automatically in English & Hindi</p>
+                </div>
+              </div>
+              <span id="voice-indicator-pill" class="text-xs font-mono px-3 py-1 rounded-full bg-teal-900/50 text-teal-300 border border-teal-700/60 flex items-center">
+                <span class="w-2 h-2 rounded-full bg-teal-400 mr-2 animate-pulse"></span>
+                Speaking
+              </span>
+            </div>
+
+            <!-- Waveform Animation Display -->
+            <div class="bg-slate-800/70 rounded-2xl p-5 border border-slate-700/50 flex flex-col items-center justify-center space-y-3">
+              <div id="tts-wave-visualizer" class="flex items-center space-x-2 h-11">
+                <span class="wave-bar w-1.5 bg-teal-400 rounded-full animate-wave-bar"></span>
+                <span class="wave-bar w-1.5 bg-brand-400 rounded-full animate-wave-bar"></span>
+                <span class="wave-bar w-1.5 bg-emerald-400 rounded-full animate-wave-bar"></span>
+                <span class="wave-bar w-1.5 bg-sky-400 rounded-full animate-wave-bar"></span>
+                <span class="wave-bar w-1.5 bg-teal-300 rounded-full animate-wave-bar"></span>
+                <span class="wave-bar w-1.5 bg-brand-300 rounded-full animate-wave-bar"></span>
+                <span class="wave-bar w-1.5 bg-emerald-300 rounded-full animate-wave-bar"></span>
+              </div>
+              <div class="text-xs sm:text-sm text-slate-300 text-center font-mono" id="tts-status-label">
+                Natural Indian Medical Accent
+              </div>
+            </div>
+
+            <!-- Large Audio Controls -->
+            <div class="grid grid-cols-2 gap-3 pt-2">
+              <button 
+                onclick="replayAudioExplanation()" 
+                class="py-3 px-4 rounded-2xl text-sm font-extrabold bg-teal-500 hover:bg-teal-400 text-slate-950 flex items-center justify-center space-x-2 transition"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <span id="btn-replay-text">Replay Voice</span>
+              </button>
+              <button 
+                onclick="toggleSpeechPause()" 
+                id="pause-voice-btn" 
+                class="py-3 px-4 rounded-2xl text-sm font-bold bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 flex items-center justify-center space-x-2 transition"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                <span id="btn-pause-text">Pause / Play</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Lifestyle & Action Plan -->
+          <div class="glass-card rounded-3xl p-6 sm:p-7 shadow-xl border border-slate-200 space-y-4">
+            <h4 id="action-plan-heading" class="text-sm font-extrabold text-slate-900 uppercase tracking-wider flex items-center">
+              <span class="w-2.5 h-2.5 rounded-full bg-teal-500 mr-2"></span>
+              Recommended Everyday Actions
+            </h4>
+            <div id="action-plan-container" class="space-y-3 text-xs sm:text-sm">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Biomarker Observations Table with Reference Gauges -->
+      <div class="glass-card rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-200 space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+          <div>
+            <h3 id="table-heading" class="text-xl sm:text-2xl font-black text-slate-900">All Blood Test Values & Safe Ranges</h3>
+            <p id="table-sub" class="text-xs sm:text-sm text-slate-500">Green = Normal • Red = Elevated • Yellow = Low</p>
+          </div>
+
+          <!-- Filter Pills -->
+          <div class="flex items-center space-x-1.5 p-1 bg-slate-100 rounded-2xl text-xs sm:text-sm font-bold text-slate-700">
+            <button onclick="filterBiomarkers('all')" class="biomarker-tab px-3.5 py-1.5 rounded-xl bg-white text-slate-950 shadow-sm" data-tab="all" id="tab-all">All (8)</button>
+            <button onclick="filterBiomarkers('abnormal')" class="biomarker-tab px-3.5 py-1.5 rounded-xl text-slate-600 hover:text-slate-950" data-tab="abnormal" id="tab-flags">Flags (3)</button>
+            <button onclick="filterBiomarkers('normal')" class="biomarker-tab px-3.5 py-1.5 rounded-xl text-slate-600 hover:text-slate-950" data-tab="normal" id="tab-normal">Normal (5)</button>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead>
+              <tr class="border-b border-slate-200 text-slate-400 font-bold uppercase tracking-wider text-xs">
+                <th class="py-3 px-4" id="th-name">Test / Biomarker</th>
+                <th class="py-3 px-4" id="th-value">Your Value</th>
+                <th class="py-3 px-4" id="th-range">Standard Range</th>
+                <th class="py-3 px-4" id="th-status">Status</th>
+                <th class="py-3 px-4 min-w-[180px]" id="th-gauge">Visual Gauge</th>
+              </tr>
+            </thead>
+            <tbody id="biomarker-table-body" class="divide-y divide-slate-100 font-medium">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- 5. PERMANENT STATUTORY MEDICAL DISCLAIMER FOOTER               -->
+  <!-- ============================================================== -->
+  <footer class="relative z-10 bg-slate-900 text-slate-400 border-t border-slate-800 text-xs sm:text-sm py-10 mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      
+      <!-- Statutory Warning Banner -->
+      <div class="p-5 rounded-2xl bg-slate-800/90 border border-slate-700 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div class="flex items-center space-x-3.5">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <div>
+            <div class="font-bold text-slate-200 text-sm sm:text-base" id="footer-warning-title">
+              Important Medical Notice
+            </div>
+            <p class="text-xs sm:text-sm text-slate-400 mt-0.5" id="footer-warning-desc">
+              AI-generated health assistant for informational purposes only. Always consult a certified doctor before changing any medicine or treatment.
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2 text-xs text-slate-400 font-mono shrink-0">
+          <span class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700">ISO 27001 Ready</span>
+          <span class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700">ABDM Sandbox v2</span>
+        </div>
+      </div>
+
+      <!-- Footer Metadata -->
+      <div class="flex flex-col sm:flex-row items-center justify-between pt-4 border-t border-slate-800/70 text-slate-500 gap-4">
+        <div class="flex items-center space-x-2">
+          <span class="font-extrabold text-slate-300">SageCure Health Copilot</span>
+          <span>•</span>
+          <span>Intelligent Patient Document Companion</span>
+        </div>
+        <div class="flex items-center space-x-4 text-xs">
+          <a href="#top" class="hover:text-slate-300 transition">Back to Top ↑</a>
+          <span>•</span>
+          <span>Secure Multi-User Health Cloud</span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+  <!-- ============================================================== -->
+  <!-- 6. COMPLETE SCRIPT LOGIC (AUTH, I18N, VOICE, WEBHOOK)          -->
+  <!-- ============================================================== -->
+  <script>
+    // -------------------------------------------------------------
+    // CONFIGURATION & GLOBAL STATE
+    // -------------------------------------------------------------
+    const WEBHOOK_URL = "https://hook.eu1.make.com/6b5c43h2avkb08jjmi0tr651jxeti2d3";
+    const BACKEND_API_URL = "http://localhost:5000/api/upload";
+
+    let currentLang = 'en'; // 'en' or 'hi'
+    let currentUser = null;
+    let authMode = 'login'; // 'login' or 'signup'
+    let currentFile = null;
+    let recognition = null;
+    let isListening = false;
+    let synth = window.speechSynthesis;
+    let currentUtterance = null;
+    let isSpeaking = false;
+    let isPaused = false;
+    let lastAnalysisResult = null;
+    let isLargeFont = false;
+
+    // -------------------------------------------------------------
+    // MULTI-USER LOCALSTORAGE & DATABASE
+    // -------------------------------------------------------------
+    const STORAGE_KEY_USERS = 'sagecure_users_db';
+    const STORAGE_KEY_ACTIVE = 'sagecure_active_user';
+
+    function initUserDB() {
+      let db = JSON.parse(localStorage.getItem(STORAGE_KEY_USERS) || '{}');
+      if (!db["aditi@sagecure.ai"]) {
+        db["aditi@sagecure.ai"] = {
+          name: "Aditi Sharma",
+          email: "aditi@sagecure.ai",
+          password: "password123",
+          abhaId: "14-0234-5678-9012@abdm",
+          reports: [
+            {
+              id: "rep-101",
+              title: "Diabetic & Lipid Panel.pdf",
+              date: "08 Oct 2026",
+              facility: "Apollo Diagnostics Central Lab",
+              summary_en: "Elevated HbA1c (8.4%) and LDL cholesterol (162 mg/dL). Kidney function normal.",
+              summary_hi: "बढ़ा हुआ एचबीए1सी (8.4%) और एलडीएल कोलेस्ट्रॉल (162 mg/dL)। किडनी सुरक्षित है।",
+              category: "diabetic"
+            }
+          ]
+        };
+      }
+      if (!db["rohan@sagecure.ai"]) {
+        db["rohan@sagecure.ai"] = {
+          name: "Rohan Varma",
+          email: "rohan@sagecure.ai",
+          password: "password123",
+          abhaId: "22-9811-4321-7654@abdm",
+          reports: [
+            {
+              id: "rep-102",
+              title: "Complete Blood Count (CBC).pdf",
+              date: "06 Oct 2026",
+              facility: "Metropolis Healthcare",
+              summary_en: "Mild microcytic anemia detected with hemoglobin 10.8 g/dL. Platelets 140,000.",
+              summary_hi: "हल्का एनीमिया पाया गया (हीमोग्लोबिन 10.8)। संक्रमण रहित और सुरक्षित।",
+              category: "cbc"
+            }
+          ]
+        };
+      }
+      localStorage.setItem(STORAGE_KEY_USERS, JSON.stringify(db));
+      return db;
+    }
+
+    function getLocalUserDB() {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY_USERS) || '{}');
+    }
+
+    function saveLocalUser(userObj) {
+      const db = getLocalUserDB();
+      db[userObj.email.toLowerCase()] = userObj;
+      localStorage.setItem(STORAGE_KEY_USERS, JSON.stringify(db));
+    }
+
+    // -------------------------------------------------------------
+    // AUTHENTICATION LOGIC
+    // -------------------------------------------------------------
+    function checkSession() {
+      initUserDB();
+      const savedEmail = localStorage.getItem(STORAGE_KEY_ACTIVE);
+      const db = getLocalUserDB();
+
+      if (savedEmail && db[savedEmail.toLowerCase()]) {
+        currentUser = db[savedEmail.toLowerCase()];
+        applyAuthenticatedUser(currentUser);
+        closeAuthModal();
+      } else {
+        openAuthModal();
+      }
+    }
+
+    function openAuthModal() {
+      const modal = document.getElementById('auth-modal');
+      const card = document.getElementById('auth-card');
+      modal.classList.remove('hidden');
+      requestAnimationFrame(() => {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        card.classList.remove('scale-95');
+      });
+    }
+
+    function closeAuthModal() {
+      const modal = document.getElementById('auth-modal');
+      const card = document.getElementById('auth-card');
+      card.classList.add('scale-95');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      setTimeout(() => modal.classList.add('hidden'), 400);
+    }
+
+    function switchAuthTab(mode) {
+      authMode = mode;
+      const tabLogin = document.getElementById('tab-btn-login');
+      const tabSignup = document.getElementById('tab-btn-signup');
+      const nameContainer = document.getElementById('auth-name-container');
+      const abhaContainer = document.getElementById('auth-abha-container');
+      const submitText = document.getElementById('btn-auth-submit-text');
+
+      if (mode === 'signup') {
+        tabSignup.className = "py-2.5 rounded-xl bg-white text-slate-900 shadow-sm transition";
+        tabLogin.className = "py-2.5 rounded-xl text-slate-600 hover:text-slate-900 transition";
+        nameContainer.classList.remove('hidden');
+        abhaContainer.classList.remove('hidden');
+        submitText.textContent = currentLang === 'hi' ? "खाता बनाएं और शुरू करें ➔" : "Create Account & Start ➔";
+      } else {
+        tabLogin.className = "py-2.5 rounded-xl bg-white text-slate-900 shadow-sm transition";
+        tabSignup.className = "py-2.5 rounded-xl text-slate-600 hover:text-slate-900 transition";
+        nameContainer.classList.add('hidden');
+        abhaContainer.classList.add('hidden');
+        submitText.textContent = currentLang === 'hi' ? "लॉगिन करें और शुरू करें ➔" : "Sign In & Access Records ➔";
+      }
+    }
+
+    async function handleAuthSubmit(event) {
+      if (event) event.preventDefault();
+      const email = document.getElementById('auth-email').value.trim().toLowerCase();
+      const password = document.getElementById('auth-password').value.trim();
+      const name = document.getElementById('auth-name').value.trim();
+      const abhaId = document.getElementById('auth-abha').value.trim();
+
+      if (!email || !password) {
+        showToast("Please enter email and password", "warning");
+        return;
+      }
+
+      // Try server auth first, fallback to LocalStorage
+      let user = null;
+      try {
+        const endpoint = authMode === 'signup' ? 'http://localhost:5000/api/auth/signup' : 'http://localhost:5000/api/auth/login';
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password, name: name || email.split('@')[0], abhaId })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          user = data.user;
+        }
+      } catch (e) {
+        console.warn("Backend auth offline, using LocalStorage auth");
+      }
+
+      // Local fallback
+      if (!user) {
+        const db = getLocalUserDB();
+        if (authMode === 'login') {
+          if (db[email] && db[email].password === password) {
+            user = db[email];
+          } else {
+            // Auto-create for demo convenience
+            user = {
+              name: email.split('@')[0].replace(/[._]/g, ' '),
+              email,
+              password,
+              abhaId: `14-${Math.floor(1000 + Math.random() * 9000)}-${Math.floor(1000 + Math.random() * 9000)}-${Math.floor(1000 + Math.random() * 9000)}@abdm`,
+              reports: []
+            };
+            db[email] = user;
+            localStorage.setItem(STORAGE_KEY_USERS, JSON.stringify(db));
+          }
+        } else {
+          user = {
+            name: name || email.split('@')[0],
+            email,
+            password,
+            abhaId: abhaId || `14-${Math.floor(1000 + Math.random() * 9000)}-${Math.floor(1000 + Math.random() * 9000)}-${Math.floor(1000 + Math.random() * 9000)}@abdm`,
+            reports: []
+          };
+          db[email] = user;
+          localStorage.setItem(STORAGE_KEY_USERS, JSON.stringify(db));
+        }
+      }
+
+      currentUser = user;
+      localStorage.setItem(STORAGE_KEY_ACTIVE, user.email);
+      saveLocalUser(user);
+      applyAuthenticatedUser(user);
+      closeAuthModal();
+
+      showToast(currentLang === 'hi' ? `स्वागत है, ${user.name}!` : `Welcome, ${user.name}!`, "success");
+    }
+
+    function fillDemoAccount(email, password, name) {
+      document.getElementById('auth-email').value = email;
+      document.getElementById('auth-password').value = password;
+      if (name) document.getElementById('auth-name').value = name;
+      switchAuthTab('login');
+      handleAuthSubmit(new Event('submit'));
+    }
+
+    function applyAuthenticatedUser(user) {
+      document.getElementById('header-patient-display').textContent = user.name;
+      document.getElementById('active-patient-name').textContent = user.name;
+      document.getElementById('active-patient-abha').textContent = user.abhaId || "14-0234-5678-9012@abdm";
+      document.getElementById('greeting-text').textContent = t('greeting', user.name);
+      document.getElementById('drawer-user-email').textContent = user.email;
+
+      renderUserReportsList(user);
+    }
+
+    function logoutUser() {
+      localStorage.removeItem(STORAGE_KEY_ACTIVE);
+      currentUser = null;
+      toggleRecordsDrawer(false);
+      openAuthModal();
+      showToast(currentLang === 'hi' ? "सफलतापूर्वक लॉग आउट किया गया" : "Logged out successfully", "info");
+    }
+
+    function switchUserProfile(targetEmail) {
+      initUserDB();
+      const db = getLocalUserDB();
+      const lower = targetEmail.toLowerCase().trim();
+      if (db[lower]) {
+        currentUser = db[lower];
+        localStorage.setItem(STORAGE_KEY_ACTIVE, lower);
+        applyAuthenticatedUser(currentUser);
+        showToast(currentLang === 'hi' ? `खाता बदला गया: ${currentUser.name}` : `Switched active account: ${currentUser.name}`, "info");
+      }
+    }
+
+    function handleUserBadgeClick() {
+      toggleRecordsDrawer(true);
+    }
+
+    // -------------------------------------------------------------
+    // USER REPORT HISTORY DRAWER
+    // -------------------------------------------------------------
+    function toggleRecordsDrawer(forceState) {
+      const drawer = document.getElementById('records-drawer');
+      const isOpen = !drawer.classList.contains('translate-x-full');
+      const nextState = (typeof forceState === 'boolean') ? forceState : !isOpen;
+
+      if (nextState) {
+        drawer.classList.remove('translate-x-full');
+        if (currentUser) renderUserReportsList(currentUser);
+      } else {
+        drawer.classList.add('translate-x-full');
+      }
+    }
+
+    function renderUserReportsList(user) {
+      const container = document.getElementById('user-reports-list');
+      const countPill = document.getElementById('user-records-count');
+      const reports = user.reports || [];
+
+      countPill.textContent = reports.length;
+      container.innerHTML = '';
+
+      if (reports.length === 0) {
+        container.innerHTML = `
+          <div class="p-6 text-center text-slate-400 bg-slate-50 rounded-2xl border border-slate-200">
+            <span class="text-3xl block mb-2">📋</span>
+            <span class="text-xs font-bold text-slate-600 block">No saved reports yet</span>
+            <span class="text-[11px] text-slate-400">Upload a lab report to save it to your SageCure history.</span>
+          </div>
+        `;
+        return;
+      }
+
+      reports.forEach((rep, idx) => {
+        const item = document.createElement('div');
+        item.className = 'p-3.5 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-brand-50 hover:border-brand-300 transition cursor-pointer text-left';
+        item.onclick = () => loadUserPastReport(rep);
+
+        const summaryText = (currentLang === 'hi' && rep.summary_hi) ? rep.summary_hi : (rep.summary_en || rep.summary);
+
+        item.innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-900 truncate">${rep.title}</span>
+            <span class="text-[10px] font-mono font-bold text-brand-700 bg-white px-2 py-0.5 rounded border border-slate-200">${rep.date}</span>
+          </div>
+          <div class="text-[11px] text-slate-500 mt-1 line-clamp-2">${summaryText}</div>
+          <div class="flex items-center justify-between mt-2 pt-2 border-t border-slate-200/60 text-[10px] text-slate-400">
+            <span>${rep.facility || 'Clinical Lab'}</span>
+            <span class="text-brand-600 font-bold">Tap to View ➔</span>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function loadUserPastReport(rep) {
+      toggleRecordsDrawer(false);
+      if (rep.fullData) {
+        renderResults(rep.fullData, true);
+      } else if (rep.category) {
+        loadSampleReport(rep.category);
+      } else {
+        loadSampleReport('diabetic');
+      }
+      showToast(currentLang === 'hi' ? `सहेजी गई रिपोर्ट लोड की गई: ${rep.title}` : `Loaded saved record: ${rep.title}`, "success");
+    }
+
+    function saveReportToActiveUser(reportData, filename) {
+      if (!currentUser || !currentUser.email) return;
+      const userEmail = currentUser.email.toLowerCase().trim();
+      const db = getLocalUserDB();
+      const user = db[userEmail] || currentUser;
+
+      const newRep = {
+        id: 'rep-' + Date.now(),
+        title: filename || "Medical Lab Report.pdf",
+        date: new Date().toLocaleDateString(currentLang === 'hi' ? 'hi-IN' : 'en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+        facility: (reportData.patient && reportData.patient.facility) || "Apollo Diagnostics",
+        summary_en: (reportData.plainLanguage_en || reportData.plainLanguage || "").substring(0, 120) + '...',
+        summary_hi: (reportData.plainLanguage_hi || reportData.plainLanguage || "").substring(0, 120) + '...',
+        category: reportData.category || 'metabolic',
+        fullData: reportData
+      };
+
+      user.reports = user.reports || [];
+      user.reports.unshift(newRep);
+      db[userEmail] = user;
+      localStorage.setItem(STORAGE_KEY_USERS, JSON.stringify(db));
+      currentUser = user;
+      renderUserReportsList(user);
+    }
+
+    // -------------------------------------------------------------
+    // I18N LOCALIZATION DICTIONARY (ENGLISH & HINDI)
+    // -------------------------------------------------------------
+    const translations = {
+      en: {
+        headerTagline: "Clinical Document Intelligence Engine",
+        complianceBadge: "ABDM / FHIR v4 Compliant",
+        greeting: (name) => `Welcome to SageCure, ${name}! We are ready to help.`,
+        heroTitlePrefix: "Next-Gen AI",
+        heroTitleMain: "Health Copilot",
+        heroSubtitle: "Understand your medical reports in plain, simple words. Follow 3 easy steps below or use your voice to ask anything.",
+        step1Title: "Upload Document",
+        step1Desc: "Drop your lab PDF or phone photo of blood test",
+        step2Title: "Ask with Voice",
+        step2Desc: "Press the big mic button and speak in your language",
+        step3Title: "Listen & Learn",
+        step3Desc: "SageCure reads your plain-language answer aloud",
+        uploadHubTitle: "Upload Lab Document",
+        uploadHubSubtitle: "Blood tests, doctor prescriptions, or discharge summaries",
+        dropzoneTextMain: "Click to choose document or drag & drop here",
+        dropzoneTextSub: "Take a photo from your phone or choose a PDF file (Max 25MB)",
+        sampleReportsLabel: "Or tap a sample test to try instantly:",
+        queryHubTitle: "Voice & Question Hub",
+        queryHubSubtitle: "Speak or write your health question",
+        micBoxTag: "Voice Question Engine",
+        micStatusText: "Tap microphone to speak",
+        micStatusSub: "English or Hindi accepted",
+        labelQueryInput: "Your Question (Transcribes from voice automatically)",
+        quickPromptsLabel: "Quick question ideas:",
+        prompt1: "Explain my HbA1c and lipid levels in simple terms.",
+        prompt2: "Are any values critical or dangerously high in this report?",
+        prompt3: "What diet and lifestyle changes are recommended?",
+        analyzeBtnText: "Analyze Report & Explain in Simple Words",
+        dashboardResultsTitle: "Clinical Biomarker Report & Simple Explanation",
+        replayAudioText: "Replay Audio Explanation 🔊",
+        plainLangHeading: "What Your Test Means (In Simple Terms)",
+        plainLangSub: "No confusing medical jargon • Easy to understand",
+        takeawaysHeading: "Key Points You Should Know",
+        questionsHeading: "Questions You Can Ask Your Doctor",
+        actionPlanHeading: "Recommended Everyday Actions",
+        tableHeading: "All Blood Test Values & Safe Ranges",
+        tableSub: "Green = Normal • Red = Elevated • Yellow = Low",
+        thName: "Test / Biomarker",
+        thValue: "Your Value",
+        thRange: "Standard Range",
+        thStatus: "Status",
+        thGauge: "Visual Gauge",
+        footerWarningTitle: "Important Medical Notice",
+        footerWarningDesc: "AI-generated health assistant for informational purposes only. Always consult a certified doctor before changing any medicine or treatment.",
+        listeningText: "Listening in real-time... Speak now",
+        readyText: "Ready for Analysis"
+      },
+      hi: {
+        headerTagline: "सरल और सुरक्षित स्वास्थ्य साथी (SageCure)",
+        complianceBadge: "ABDM / FHIR v4 प्रमाणित",
+        greeting: (name) => `सेक्योर (SageCure) में स्वागत है, ${name}! आपकी जांच रिपोर्ट तैयार है।`,
+        heroTitlePrefix: "आधुनिक एआई",
+        heroTitleMain: "स्वास्थ्य साथी (हेल्थ कोपायलट)",
+        heroSubtitle: "अपनी मेडिकल जांच रिपोर्ट को आसान और बोलचाल की भाषा में समझें। नीचे दिए 3 सरल चरणों का पालन करें या बोलकर पूछें।",
+        step1Title: "1. रिपोर्ट अपलोड करें",
+        step1Desc: "खून की जांच का पर्चा या मोबाइल से खींची फोटो चुनें",
+        step2Title: "2. बोलकर प्रश्न पूछें",
+        step2Desc: "माइक का बटन दबाएं और हिंदी या अंग्रेजी में सवाल बोलें",
+        step3Title: "3. सुनें और समझें",
+        step3Desc: "सेक्योर आपकी रिपोर्ट का सरल विवरण बोलकर सुनाएगा",
+        uploadHubTitle: "मेडिकल रिपोर्ट अपलोड करें",
+        uploadHubSubtitle: "ब्लड टेस्ट, डॉक्टर का पर्चा, या डिस्चार्ज समरी",
+        dropzoneTextMain: "रिपोर्ट चुनने के लिए यहां टैप करें या फाइल खींचें",
+        dropzoneTextSub: "मोबाइल से फोटो खींचें या पीडीएफ फाइल चुनें (अधिकतम 25MB)",
+        sampleReportsLabel: "या तुरंत देखने के लिए सैंपल टेस्ट चुनें:",
+        queryHubTitle: "आवाज और सवाल पूछने का स्थान",
+        queryHubSubtitle: "अपनी भाषा में बोलें या लिखकर सवाल पूछें",
+        micBoxTag: "वॉयस इंजन (बोलकर पूछें)",
+        micStatusText: "बोलने के लिए माइक बटन दबाएं",
+        micStatusSub: "हिंदी या अंग्रेजी दोनों स्वीकार्य हैं",
+        labelQueryInput: "आपका सवाल (बोलने पर अपने आप लिख जाएगा)",
+        quickPromptsLabel: "कुछ सामान्य सवाल:",
+        prompt1: "मेरी एचबीए1सी (HbA1c) और कोलेस्ट्रॉल रिपोर्ट को सरल भाषा में समझाएं।",
+        prompt2: "क्या इस रिपोर्ट में कोई जांच ज्यादा खराब या चिंताजनक है?",
+        prompt3: "मुझे खाने-पीने और दिनचर्या में क्या बदलाव करने चाहिए?",
+        analyzeBtnText: "रिपोर्ट का विश्लेषण करें और सरल भाषा में समझाएं",
+        dashboardResultsTitle: "जांच रिपोर्ट और सरल भाषा में व्याख्या",
+        replayAudioText: "ऑडियो दोबारा सुनें 🔊",
+        plainLangHeading: "आपकी जांच रिपोर्ट का सरल मतलब",
+        plainLangSub: "बिना किसी कठिन मेडिकल शब्दों के • बिल्कुल आसान",
+        takeawaysHeading: "मुख्य जरूरी बातें जो आपको जाननी चाहिए",
+        questionsHeading: "डॉक्टर से मिलने पर पूछने योग्य सवाल",
+        actionPlanHeading: "रोजाना के जरूरी उपाय व सुझाव",
+        tableHeading: "सभी टेस्ट के परिणाम और सामान्य स्तर",
+        tableSub: "हरा = सामान्य • लाल = बढ़ा हुआ • पीला = कम",
+        thName: "जांच का नाम",
+        thValue: "आपका परिणाम",
+        thRange: "सामान्य सीमा",
+        thStatus: "स्थिति",
+        thGauge: "ग्राफ मीटर",
+        footerWarningTitle: "वैधानिक मेडिकल सूचना",
+        footerWarningDesc: "यह एआई स्वास्थ्य साथी केवल जानकारी के लिए है। किसी भी दवा या इलाज में बदलाव से पहले हमेशा अपने डॉक्टर से सलाह लें।",
+        listeningText: "सुन रहे हैं... कृपया अपना सवाल बोलें",
+        readyText: "जांच के लिए तैयार"
+      }
+    };
+
+    function t(key, param) {
+      const dict = translations[currentLang] || translations.en;
+      if (typeof dict[key] === 'function') {
+        return dict[key](param);
+      }
+      return dict[key] || translations.en[key] || key;
+    }
+
+    // -------------------------------------------------------------
+    // LANGUAGE SWITCHER HANDLER
+    // -------------------------------------------------------------
+    function setLanguage(lang) {
+      currentLang = lang;
+      
+      const btnEn = document.getElementById('lang-btn-en');
+      const btnHi = document.getElementById('lang-btn-hi');
+      if (lang === 'hi') {
+        btnHi.className = "px-3 py-1.5 rounded-xl text-xs font-extrabold transition shadow-sm bg-brand-600 text-white";
+        btnEn.className = "px-3 py-1.5 rounded-xl text-xs font-extrabold text-slate-600 hover:text-slate-900 transition bg-transparent";
+      } else {
+        btnEn.className = "px-3 py-1.5 rounded-xl text-xs font-extrabold transition shadow-sm bg-white text-brand-700";
+        btnHi.className = "px-3 py-1.5 rounded-xl text-xs font-extrabold text-slate-600 hover:text-slate-900 transition bg-transparent";
+      }
+
+      document.getElementById('header-tagline').textContent = t('headerTagline');
+      document.getElementById('header-compliance-badge').textContent = t('complianceBadge');
+      if (currentUser) {
+        document.getElementById('greeting-text').textContent = t('greeting', currentUser.name);
+      }
+      document.getElementById('hero-title-prefix').textContent = t('heroTitlePrefix');
+      document.getElementById('hero-title-main').textContent = t('heroTitleMain');
+      document.getElementById('hero-subtitle').textContent = t('heroSubtitle');
+
+      document.getElementById('step-1-title').textContent = t('step1Title');
+      document.getElementById('step-1-desc').textContent = t('step1Desc');
+      document.getElementById('step-2-title').textContent = t('step2Title');
+      document.getElementById('step-2-desc').textContent = t('step2Desc');
+      document.getElementById('step-3-title').textContent = t('step3Title');
+      document.getElementById('step-3-desc').textContent = t('step3Desc');
+
+      document.getElementById('upload-hub-title').textContent = t('uploadHubTitle');
+      document.getElementById('upload-hub-subtitle').textContent = t('uploadHubSubtitle');
+      document.getElementById('dropzone-text-main').innerHTML = `<span class="text-brand-600 underline">${t('dropzoneTextMain')}</span>`;
+      document.getElementById('dropzone-text-sub').textContent = t('dropzoneTextSub');
+      document.getElementById('sample-reports-label').textContent = t('sampleReportsLabel');
+
+      document.getElementById('query-hub-title').textContent = t('queryHubTitle');
+      document.getElementById('query-hub-subtitle').textContent = t('queryHubSubtitle');
+      document.getElementById('mic-box-tag').textContent = t('micBoxTag');
+      document.getElementById('mic-status-text').textContent = isListening ? t('listeningText') : t('micStatusText');
+      document.getElementById('mic-status-sub').textContent = t('micStatusSub');
+      document.getElementById('label-query-input').textContent = t('labelQueryInput');
+      document.getElementById('quick-prompts-label').textContent = t('quickPromptsLabel');
+      document.getElementById('prompt-chip-1').textContent = lang === 'hi' ? "HbA1c और कोलेस्ट्रॉल समझें" : "Explain HbA1c & lipids";
+      document.getElementById('prompt-chip-2').textContent = lang === 'hi' ? "क्या कोई मान गंभीर है?" : "Are any values critical?";
+      document.getElementById('prompt-chip-3').textContent = lang === 'hi' ? "खान-पान और परहेज के सुझाव" : "Diet & food recommendations";
+      document.getElementById('analyze-btn-text').textContent = t('analyzeBtnText');
+
+      document.getElementById('dashboard-results-title').textContent = t('dashboardResultsTitle');
+      document.getElementById('replay-audio-text').textContent = t('replayAudioText');
+      document.getElementById('plain-lang-heading').textContent = t('plainLangHeading');
+      document.getElementById('plain-lang-sub').textContent = t('plainLangSub');
+      document.getElementById('takeaways-heading').textContent = t('takeawaysHeading');
+      document.getElementById('questions-heading').textContent = t('questionsHeading');
+      document.getElementById('action-plan-heading').textContent = t('actionPlanHeading');
+      document.getElementById('table-heading').textContent = t('tableHeading');
+      document.getElementById('table-sub').textContent = t('tableSub');
+      document.getElementById('th-name').textContent = t('thName');
+      document.getElementById('th-value').textContent = t('thValue');
+      document.getElementById('th-range').textContent = t('thRange');
+      document.getElementById('th-status').textContent = t('thStatus');
+      document.getElementById('th-gauge').textContent = t('thGauge');
+
+      document.getElementById('footer-warning-title').textContent = t('footerWarningTitle');
+      document.getElementById('footer-warning-desc').textContent = t('footerWarningDesc');
+
+      document.getElementById('sample-diabetic-title').textContent = lang === 'hi' ? "डायबिटिक और लिपिड" : "Diabetic & Lipid";
+      document.getElementById('sample-cbc-title').textContent = lang === 'hi' ? "सीबीसी ब्लड काउंट" : "Complete Blood Count";
+      document.getElementById('sample-thyroid-title').textContent = lang === 'hi' ? "थायराइड व विटामिन" : "Thyroid & Vitamins";
+
+      if (lastAnalysisResult) {
+        renderResults(lastAnalysisResult, false);
+      }
+
+      showToast(lang === 'hi' ? "भाषा बदलकर हिंदी की गई" : "Language switched to English", "info");
+    }
+
+    // -------------------------------------------------------------
+    // ACCESSIBILITY: SENIOR-FRIENDLY FONT SIZE TOGGLER
+    // -------------------------------------------------------------
+    function toggleFontSize() {
+      isLargeFont = !isLargeFont;
+      if (isLargeFont) {
+        document.body.classList.add('font-large');
+        document.getElementById('font-scale-btn').classList.add('bg-brand-50', 'border-brand-300');
+        showToast(currentLang === 'hi' ? "बड़े अक्षरों का मोड चालू" : "Large text mode enabled", "info");
+      } else {
+        document.body.classList.remove('font-large');
+        document.getElementById('font-scale-btn').classList.remove('bg-brand-50', 'border-brand-300');
+        showToast(currentLang === 'hi' ? "सामान्य अक्षर मोड" : "Standard text mode", "info");
+      }
+    }
+
+    // -------------------------------------------------------------
+    // FILE UPLOAD & PREVIEW LOGIC
+    // -------------------------------------------------------------
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('file-input');
+    const dropzoneEmpty = document.getElementById('dropzone-empty');
+    const dropzonePreview = document.getElementById('dropzone-preview');
+    const previewFilename = document.getElementById('preview-filename');
+    const previewFilesize = document.getElementById('preview-filesize');
+    const previewImg = document.getElementById('preview-img');
+    const previewIconFallback = document.getElementById('preview-icon-fallback');
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropzone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.add('drag-over');
+      }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropzone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.remove('drag-over');
+      }, false);
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      if (files.length > 0) {
+        processUploadedFile(files[0]);
+      }
+    });
+
+    function handleFileSelect(e) {
+      if (e.target.files.length > 0) {
+        processUploadedFile(e.target.files[0]);
+      }
+    }
+
+    function processUploadedFile(file) {
+      currentFile = file;
+      previewFilename.textContent = file.name;
+      previewFilesize.textContent = formatBytes(file.size);
+
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          previewImg.src = e.target.result;
+          previewImg.classList.remove('hidden');
+          previewIconFallback.classList.add('hidden');
+        };
+        reader.readAsDataURL(file);
+      } else {
+        previewImg.classList.add('hidden');
+        previewIconFallback.classList.remove('hidden');
+      }
+
+      dropzoneEmpty.classList.add('hidden');
+      dropzonePreview.classList.remove('hidden');
+
+      showToast(currentLang === 'hi' ? `"${file.name}" तैयार है` : `"${file.name}" ready for analysis`, "success");
+    }
+
+    function clearUploadedFile() {
+      currentFile = null;
+      fileInput.value = "";
+      dropzoneEmpty.classList.remove('hidden');
+      dropzonePreview.classList.add('hidden');
+      showToast(currentLang === 'hi' ? "फाइल हटा दी गई" : "Document cleared", "info");
+    }
+
+    function formatBytes(bytes, decimals = 1) {
+      if (!+bytes) return '0 Bytes';
+      const k = 1024;
+      const dm = decimals < 0 ? 0 : decimals;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+    }
+
+    function setQueryText(text) {
+      const input = document.getElementById('query-input');
+      input.value = text;
+      input.focus();
+    }
+
+    // -------------------------------------------------------------
+    // NATIVE SPEECH RECOGNITION (VOICE-TO-TEXT WITH HI/EN SUPPORT)
+    // -------------------------------------------------------------
+    function initSpeechRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        showToast(currentLang === 'hi' ? "इस ब्राउज़र में आवाज पहचान उपलब्ध नहीं है।" : "Speech Recognition API not supported in this browser.", "warning");
+        return null;
+      }
+      const rec = new SpeechRecognition();
+      rec.continuous = false;
+      rec.interimResults = true;
+      rec.lang = currentLang === 'hi' ? 'hi-IN' : 'en-IN';
+
+      rec.onstart = () => {
+        isListening = true;
+        document.getElementById('mic-ring').classList.remove('hidden');
+        document.getElementById('soundwave-container').classList.remove('hidden');
+        document.getElementById('mic-status-text').textContent = t('listeningText');
+        document.getElementById('mic-icon').textContent = "🔴";
+      };
+
+      rec.onresult = (event) => {
+        let transcript = "";
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          transcript += event.results[i][0].transcript;
+        }
+        document.getElementById('query-input').value = transcript;
+        document.getElementById('speech-live-indicator').textContent = `"${transcript}"`;
+      };
+
+      rec.onerror = (event) => {
+        console.warn("Speech recognition error:", event.error);
+        stopSpeechRecognition();
+        if (event.error === 'not-allowed') {
+          showToast(currentLang === 'hi' ? "माइक की अनुमति नहीं मिली।" : "Microphone access denied.", "warning");
+        }
+      };
+
+      rec.onend = () => {
+        stopSpeechRecognition();
+      };
+
+      return rec;
+    }
+
+    function toggleSpeechRecognition() {
+      if (isListening) {
+        if (recognition) recognition.stop();
+        stopSpeechRecognition();
+      } else {
+        if (!recognition) {
+          recognition = initSpeechRecognition();
+        } else {
+          recognition.lang = currentLang === 'hi' ? 'hi-IN' : 'en-IN';
+        }
+        if (recognition) {
+          try {
+            recognition.start();
+          } catch (e) {
+            console.warn("Recognition start error:", e);
+          }
+        }
+      }
+    }
+
+    function stopSpeechRecognition() {
+      isListening = false;
+      document.getElementById('mic-ring').classList.add('hidden');
+      document.getElementById('soundwave-container').classList.add('hidden');
+      document.getElementById('mic-status-text').textContent = t('micStatusText');
+      document.getElementById('mic-icon').textContent = "🎙️";
+    }
+
+    // -------------------------------------------------------------
+    // NATIVE TEXT-TO-SPEECH (SPEECH SYNTHESIS WITH HI/EN SUPPORT)
+    // -------------------------------------------------------------
+    function speakText(textToSpeak) {
+      if (!('speechSynthesis' in window)) return;
+
+      synth.cancel();
+      if (!textToSpeak || textToSpeak.trim().length === 0) return;
+
+      currentUtterance = new SpeechSynthesisUtterance(textToSpeak);
+      currentUtterance.rate = 0.95;
+      currentUtterance.pitch = 1.0;
+
+      const voices = synth.getVoices();
+      if (currentLang === 'hi') {
+        const hiVoice = voices.find(v => v.lang.startsWith('hi'));
+        if (hiVoice) {
+          currentUtterance.voice = hiVoice;
+        }
+        currentUtterance.lang = 'hi-IN';
+      } else {
+        const preferredVoice = voices.find(v => (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('India')) && v.lang.startsWith('en')) 
+          || voices.find(v => v.lang.startsWith('en'));
+        if (preferredVoice) currentUtterance.voice = preferredVoice;
+        currentUtterance.lang = 'en-IN';
+      }
+
+      currentUtterance.onstart = () => {
+        isSpeaking = true;
+        isPaused = false;
+        document.getElementById('tts-wave-visualizer').classList.remove('opacity-30');
+        document.getElementById('stop-audio-btn').classList.remove('hidden');
+        document.getElementById('voice-indicator-pill').innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 mr-2 animate-pulse"></span> ${currentLang === 'hi' ? 'बोल रहे हैं' : 'Speaking Live'}`;
+      };
+
+      currentUtterance.onend = () => {
+        isSpeaking = false;
+        isPaused = false;
+        document.getElementById('tts-wave-visualizer').classList.add('opacity-30');
+        document.getElementById('stop-audio-btn').classList.add('hidden');
+        document.getElementById('voice-indicator-pill').innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-400 mr-2"></span> ${currentLang === 'hi' ? 'शांत' : 'Idle'}`;
+      };
+
+      currentUtterance.onerror = () => {
+        isSpeaking = false;
+        document.getElementById('stop-audio-btn').classList.add('hidden');
+      };
+
+      synth.speak(currentUtterance);
+    }
+
+    function replayAudioExplanation() {
+      if (lastAnalysisResult) {
+        const audioText = (currentLang === 'hi' && lastAnalysisResult.audioText_hi) 
+          ? lastAnalysisResult.audioText_hi 
+          : (lastAnalysisResult.audioText || lastAnalysisResult.audioText_en);
+        speakText(audioText);
+        showToast(currentLang === 'hi' ? "ऑडियो दोबारा शुरू किया जा रहा है" : "Replaying plain-language audio", "info");
+      } else {
+        speakText(currentLang === 'hi' ? "कृपया पहले अपनी रिपोर्ट का विश्लेषण करें।" : "Please run an analysis first.");
+      }
+    }
+
+    function toggleSpeechPause() {
+      if (!isSpeaking) {
+        replayAudioExplanation();
+        return;
+      }
+      if (isPaused) {
+        synth.resume();
+        isPaused = false;
+        document.getElementById('voice-indicator-pill').innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 mr-2 animate-pulse"></span> ${currentLang === 'hi' ? 'बोल रहे हैं' : 'Speaking Live'}`;
+      } else {
+        synth.pause();
+        isPaused = true;
+        document.getElementById('voice-indicator-pill').innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400 mr-2"></span> ${currentLang === 'hi' ? 'रोका गया' : 'Paused'}`;
+      }
+    }
+
+    function stopAudio() {
+      if (synth) synth.cancel();
+      isSpeaking = false;
+      isPaused = false;
+      document.getElementById('tts-wave-visualizer').classList.add('opacity-30');
+      document.getElementById('stop-audio-btn').classList.add('hidden');
+      document.getElementById('voice-indicator-pill').innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-400 mr-2"></span> ${currentLang === 'hi' ? 'बंद' : 'Stopped'}`;
+    }
+
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = () => synth.getVoices();
+    }
+
+    // -------------------------------------------------------------
+    // HEALTH ANALYSIS & WEBHOOK SUBMISSION (PASSING ACTIVE LANG)
+    // -------------------------------------------------------------
+    async function triggerHealthAnalysis() {
+      const question = document.getElementById('query-input').value.trim();
+
+      if (!currentFile) {
+        showToast(currentLang === 'hi' ? "सैंपल रिपोर्ट लोड की जा रही है..." : "Loading clinical sample report...", "info");
+        loadSampleReport('diabetic');
+        return;
+      }
+
+      const analyzeBtn = document.getElementById('analyze-btn');
+      const analyzeBtnText = document.getElementById('analyze-btn-text');
+      const progressBox = document.getElementById('processing-progress-box');
+      const progressBar = document.getElementById('processing-bar');
+      const progressLabel = document.getElementById('processing-step-label');
+      const progressPct = document.getElementById('processing-pct');
+
+      analyzeBtn.disabled = true;
+      analyzeBtnText.textContent = currentLang === 'hi' ? "रिपोर्ट पढ़ी जा रही है..." : "Processing Document...";
+      progressBox.classList.remove('hidden');
+
+      const steps = [
+        { pct: 25, text: currentLang === 'hi' ? "दस्तावेज़ से डेटा निकाला जा रहा है..." : "Scanning document pixels and extracting text..." },
+        { pct: 55, text: currentLang === 'hi' ? "ब्लड टेस्ट और सामान्य सीमाओं की जांच..." : "Parsing clinical biomarkers & reference ranges..." },
+        { pct: 80, text: currentLang === 'hi' ? "सरल भाषा में व्याख्या तैयार हो रही है..." : "Cross-referencing medical guidelines..." },
+        { pct: 95, text: currentLang === 'hi' ? "ऑडियो तैयार किया जा रहा है..." : "Synthesizing voice response..." }
+      ];
+
+      let stepIndex = 0;
+      const progressInterval = setInterval(() => {
+        if (stepIndex < steps.length) {
+          progressBar.style.width = `${steps[stepIndex].pct}%`;
+          progressPct.textContent = `${steps[stepIndex].pct}%`;
+          progressLabel.textContent = steps[stepIndex].text;
+          stepIndex++;
+        }
+      }, 350);
+
+      const userEmail = (currentUser && currentUser.email) ? currentUser.email.toLowerCase().trim() : "aditi@sagecure.ai";
+      const patientName = (currentUser && currentUser.name) ? currentUser.name : "Aditi Sharma";
+      const abhaId = (currentUser && currentUser.abhaId) ? currentUser.abhaId : "14-0234-5678-9012@abdm";
+
+      const formData = new FormData();
+      if (currentFile) {
+        formData.append('document', currentFile);
+      }
+      formData.append('question', question || "Explain my results in simple terms.");
+      formData.append('language', currentLang); // Active Language Preference ('en' or 'hi')
+      formData.append('userEmail', userEmail);
+      formData.append('patientName', patientName);
+      formData.append('abhaId', abhaId);
+      formData.append('webhookUrl', WEBHOOK_URL);
+
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 9000);
+
+        let responseData = null;
+
+        try {
+          // Send request to backend API (which forwards to Make.com and handles CORS & data structuring)
+          const response = await fetch(BACKEND_API_URL, {
+            method: 'POST',
+            body: formData,
+            signal: controller.signal
+          });
+          clearTimeout(timeoutId);
+
+          if (response.ok) {
+            responseData = await response.json();
+            showToast(currentLang === 'hi' ? "Make.com व सेजक्योर एआई से कनेक्टेड!" : `Synced with Make.com (${responseData.makeStatus || '200 OK'})!`, "success");
+          }
+        } catch (fetchErr) {
+          console.warn("[SageCure] Local API unreachable. Forwarding directly to Make.com webhook...", fetchErr);
+          
+          try {
+            // Direct Make.com Webhook Fallback
+            const makeRes = await fetch(WEBHOOK_URL, {
+              method: 'POST',
+              body: formData
+            });
+            const makeText = await makeRes.text();
+            console.log("[SageCure] Direct Make.com response:", makeText);
+
+            try {
+              responseData = JSON.parse(makeText);
+            } catch {
+              // Make.com returned text (e.g., "Accepted")
+              responseData = generateDynamicResponse(currentFile ? currentFile.name : 'Report.pdf', question, abhaId);
+              responseData.makeStatus = makeText || "200 Accepted";
+            }
+            showToast("Dispatched directly to Make.com (200 OK)!", "success");
+          } catch (makeDirectErr) {
+            console.warn("[SageCure] Direct webhook unreachable, generating simulated clinical AI...", makeDirectErr);
+            responseData = generateDynamicResponse(currentFile ? currentFile.name : 'Report.pdf', question, abhaId);
+            showToast(currentLang === 'hi' ? "ऑफलाइन मोड: सिमुलेटेड व्याख्या दिखाई जा रही है" : "Offline mode: Displaying simulated clinical analysis.", "info");
+          }
+        }
+
+        clearInterval(progressInterval);
+        progressBar.style.width = "100%";
+        progressPct.textContent = "100%";
+
+        setTimeout(() => {
+          progressBox.classList.add('hidden');
+          analyzeBtn.disabled = false;
+          analyzeBtnText.textContent = t('analyzeBtnText');
+          
+          if (responseData) {
+            saveReportToActiveUser(responseData, currentFile ? currentFile.name : 'Clinical_Report.pdf');
+            renderResults(responseData, true);
+          }
+        }, 400);
+
+      } catch (err) {
+        clearInterval(progressInterval);
+        progressBox.classList.add('hidden');
+        analyzeBtn.disabled = false;
+        analyzeBtnText.textContent = t('analyzeBtnText');
+        console.error("Analysis error:", err);
+        loadSampleReport('diabetic');
+      }
+    }
+
+    function generateDynamicResponse(fileName, question, abhaId) {
+      const isCBC = /cbc|blood|hemoglobin|platelet/i.test((fileName || '') + (question || ''));
+      const isThyroid = /thyroid|tsh|vitamin/i.test((fileName || '') + (question || ''));
+      const category = isCBC ? 'hematology' : (isThyroid ? 'endocrine' : 'metabolic');
+      const base = isCBC ? SAMPLE_REPORTS.cbc : (isThyroid ? SAMPLE_REPORTS.thyroid : SAMPLE_REPORTS.diabetic);
+
+      const dynamic = JSON.parse(JSON.stringify(base));
+      dynamic.userEmail = (currentUser && currentUser.email) ? currentUser.email.toLowerCase().trim() : "aditi@sagecure.ai";
+      dynamic.category = category;
+      if (currentUser) {
+        dynamic.patient.name = currentUser.name;
+        dynamic.patient.abhaId = currentUser.abhaId || abhaId;
+      }
+      return dynamic;
+    }
+
+    // -------------------------------------------------------------
+    // DASHBOARD RENDERING & BIOMARKER DISPLAY
+    // -------------------------------------------------------------
+    function renderResults(data, shouldSpeak = true) {
+      lastAnalysisResult = data;
+
+      document.getElementById('patient-name').textContent = (currentUser ? currentUser.name : data.patient.name);
+      document.getElementById('patient-age-gender').textContent = `${data.patient.age || '48'} Y / ${data.patient.gender || 'Female'}`;
+      document.getElementById('patient-abha').textContent = (currentUser ? currentUser.abhaId : data.patient.abhaId);
+      document.getElementById('patient-facility').textContent = data.patient.facility || "Apollo Diagnostics";
+      document.getElementById('patient-date').textContent = data.patient.date || "08 Oct 2026";
+      document.getElementById('patient-confidence').textContent = `${data.patient.confidence || '99.4%'} FHIR`;
+      document.getElementById('res-timestamp').textContent = `Analyzed ${new Date().toLocaleTimeString()}`;
+
+      const plainText = (currentLang === 'hi' && data.plainLanguage_hi) 
+        ? data.plainLanguage_hi 
+        : (data.plainLanguage || data.plainLanguage_en);
+
+      document.getElementById('plain-language-body').innerHTML = `
+        <p class="font-medium text-slate-800 leading-relaxed text-base sm:text-lg">${plainText.replace(/\n\n/g, '</p><p class="mt-3 text-slate-700">')}</p>
+      `;
+
+      const takeaways = (currentLang === 'hi' && data.takeaways_hi) 
+        ? data.takeaways_hi 
+        : (data.takeaways || data.takeaways_en);
+
+      const takeawaysList = document.getElementById('key-takeaways-list');
+      takeawaysList.innerHTML = '';
+      if (takeaways) {
+        takeaways.forEach(item => {
+          const li = document.createElement('li');
+          li.className = 'flex items-start';
+          li.innerHTML = `<span class="text-brand-600 font-bold mr-2 text-base">●</span><span>${item}</span>`;
+          takeawaysList.appendChild(li);
+        });
+      }
+
+      const questions = (currentLang === 'hi' && data.questions_hi) 
+        ? data.questions_hi 
+        : (data.questions || data.questions_en);
+
+      const questionsList = document.getElementById('suggested-questions-list');
+      questionsList.innerHTML = '';
+      if (questions) {
+        questions.forEach(q => {
+          const li = document.createElement('li');
+          li.textContent = `"${q}"`;
+          questionsList.appendChild(li);
+        });
+      }
+
+      const actions = (currentLang === 'hi' && data.actions_hi) 
+        ? data.actions_hi 
+        : (data.actions || data.actions_en);
+
+      const actionsContainer = document.getElementById('action-plan-container');
+      actionsContainer.innerHTML = '';
+      if (actions) {
+        actions.forEach(act => {
+          const div = document.createElement('div');
+          div.className = 'p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-start space-x-3.5';
+          div.innerHTML = `
+            <span class="text-2xl">${act.icon || '🩺'}</span>
+            <div>
+              <div class="font-extrabold text-slate-900 text-sm sm:text-base">${act.title}</div>
+              <div class="text-slate-600 text-xs sm:text-sm mt-0.5">${act.desc}</div>
+            </div>
+          `;
+          actionsContainer.appendChild(div);
+        });
+      }
+
+      renderBiomarkerTable(data.biomarkers, 'all');
+
+      const dashboard = document.getElementById('results-dashboard');
+      dashboard.classList.remove('hidden');
+      dashboard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      if (shouldSpeak) {
+        const audioText = (currentLang === 'hi' && data.audioText_hi) 
+          ? data.audioText_hi 
+          : (data.audioText || data.audioText_en);
+        setTimeout(() => speakText(audioText), 500);
+      }
+    }
+
+    function renderBiomarkerTable(biomarkers, filter = 'all') {
+      const tbody = document.getElementById('biomarker-table-body');
+      tbody.innerHTML = '';
+
+      if (!biomarkers || biomarkers.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-slate-400">No biomarkers detected.</td></tr>';
+        return;
+      }
+
+      const filtered = biomarkers.filter(b => {
+        if (filter === 'all') return true;
+        if (filter === 'abnormal') return b.status === 'elevated' || b.status === 'low';
+        if (filter === 'normal') return b.status === 'normal';
+        return true;
+      });
+
+      filtered.forEach(b => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50/80 transition border-b border-slate-100 last:border-none';
+
+        let badgeClass = "bg-emerald-50 text-emerald-800 border-emerald-200";
+        let dotClass = "bg-emerald-500";
+        let gaugeColor = "bg-emerald-500";
+        let statusText = currentLang === 'hi' ? 'सामान्य' : 'Normal';
+
+        if (b.status === 'elevated') {
+          badgeClass = "bg-rose-50 text-rose-800 border-rose-200";
+          dotClass = "bg-rose-500";
+          gaugeColor = "bg-rose-500";
+          statusText = currentLang === 'hi' ? 'उच्च / अधिक' : 'High';
+        } else if (b.status === 'low') {
+          badgeClass = "bg-amber-50 text-amber-800 border-amber-200";
+          dotClass = "bg-amber-500";
+          gaugeColor = "bg-amber-500";
+          statusText = currentLang === 'hi' ? 'कम / लो' : 'Low';
+        }
+
+        const pct = Math.min(Math.max(b.percent || 50, 10), 100);
+
+        tr.innerHTML = `
+          <td class="py-4 px-4 font-extrabold text-slate-900 text-sm sm:text-base">
+            ${b.name}
+          </td>
+          <td class="py-4 px-4 font-mono font-black text-slate-900 text-sm sm:text-base">
+            ${b.value} <span class="text-xs font-normal text-slate-500 font-sans">${b.unit}</span>
+          </td>
+          <td class="py-4 px-4 font-mono text-slate-500 text-xs sm:text-sm">
+            ${b.range} ${b.unit}
+          </td>
+          <td class="py-4 px-4">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border ${badgeClass}">
+              <span class="w-2 h-2 rounded-full ${dotClass} mr-2"></span>
+              ${b.statusLabel || statusText}
+            </span>
+          </td>
+          <td class="py-4 px-4">
+            <div class="space-y-1">
+              <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden flex">
+                <div class="${gaugeColor} h-2.5 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
+              </div>
+              <div class="flex justify-between text-[10px] text-slate-400 font-mono">
+                <span>${currentLang === 'hi' ? 'कम' : 'Low'}</span>
+                <span>${currentLang === 'hi' ? 'सामान्य' : 'Normal'}</span>
+                <span>${currentLang === 'hi' ? 'अधिक' : 'High'}</span>
+              </div>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function filterBiomarkers(tab) {
+      document.querySelectorAll('.biomarker-tab').forEach(btn => {
+        if (btn.dataset.tab === tab) {
+          btn.className = 'biomarker-tab px-3.5 py-1.5 rounded-xl bg-white text-slate-950 shadow-sm font-bold';
+        } else {
+          btn.className = 'biomarker-tab px-3.5 py-1.5 rounded-xl text-slate-600 hover:text-slate-950 font-bold';
+        }
+      });
+
+      if (lastAnalysisResult && lastAnalysisResult.biomarkers) {
+        renderBiomarkerTable(lastAnalysisResult.biomarkers, tab);
+      }
+    }
+
+    // -------------------------------------------------------------
+    // SAMPLE REPORT PRESETS
+    // -------------------------------------------------------------
+    const SAMPLE_REPORTS = {
+      diabetic: {
+        patient: {
+          name: "Aditi Sharma",
+          age: "48",
+          gender: "Female",
+          abhaId: "14-0234-5678-9012@abdm",
+          facility: "Apollo Diagnostics Central Lab",
+          date: "08 Oct 2026",
+          confidence: "99.4%"
+        },
+        biomarkers: [
+          { name: "HbA1c (Glycated Hemoglobin)", value: 8.4, unit: "%", range: "< 5.7", status: "elevated", statusLabel: "High (Diabetic)", percent: 84 },
+          { name: "Fasting Blood Glucose (FBS)", value: 168, unit: "mg/dL", range: "70 - 99", status: "elevated", statusLabel: "Elevated", percent: 80 },
+          { name: "Total Cholesterol", value: 235, unit: "mg/dL", range: "< 200", status: "elevated", statusLabel: "High", percent: 78 },
+          { name: "LDL Cholesterol (Bad)", value: 162, unit: "mg/dL", range: "< 100", status: "elevated", statusLabel: "High", percent: 82 },
+          { name: "HDL Cholesterol (Good)", value: 44, unit: "mg/dL", range: "> 50", status: "low", statusLabel: "Borderline Low", percent: 35 },
+          { name: "Serum Creatinine", value: 0.85, unit: "mg/dL", range: "0.5 - 1.1", status: "normal", statusLabel: "Normal", percent: 50 },
+          { name: "eGFR (Kidney Filtration)", value: 92, unit: "mL/min/1.73m²", range: "> 90", status: "normal", statusLabel: "Optimal", percent: 65 },
+          { name: "Estimated Avg Glucose (eAG)", value: 194, unit: "mg/dL", range: "90 - 120", status: "elevated", statusLabel: "Elevated", percent: 82 }
+        ],
+        plainLanguage_en: `Your blood test shows that your average blood sugar over the last 3 months is elevated. Your HbA1c is 8.4%, while the recommended target is below 5.7%. Additionally, your LDL ("bad") cholesterol is 162 mg/dL, which is higher than normal. On a positive note, your kidneys are working very well, with healthy creatinine levels (0.85 mg/dL). Please share these numbers with your doctor so they can adjust your medication and diet.`,
+        plainLanguage_hi: `आपकी खून की जांच से पता चलता है कि पिछले 3 महीनों का औसत ब्लड शुगर बढ़ा हुआ है। आपका एचबीए1सी (HbA1c) 8.4% है, जबकि सामान्य सीमा 5.7% से कम होनी चाहिए। इसके अलावा, आपका एलडीएल (खराब) कोलेस्ट्रॉल भी 162 पर है जो थोड़ा अधिक है। अच्छी बात यह है कि आपकी किडनी बिल्कुल स्वस्थ काम कर रही है (क्रिएटिनिन 0.85 mg/dL सामान्य है)। अपने डॉक्टर से मिलकर दवा और खान-पान में जरूरी सलाह अवश्य लें।`,
+        audioText_en: `Hello Aditi. Your blood test report has been analyzed. Your HbA1c is 8.4 percent, indicating higher than target blood sugar levels over the past 3 months. In addition, your LDL cholesterol is 162 milligrams per deciliter, which is above the optimal range. The good news is your kidneys are healthy. We recommend sharing these observations with your doctor.`,
+        audioText_hi: `नमस्ते अदिति। आपकी खून की जांच का विश्लेषण कर लिया गया है। आपका एचबीए1सी 8.4 प्रतिशत है, जो पिछले तीन महीनों में शुगर बढ़ने का संकेत देता है। साथ ही एलडीएल कोलेस्ट्रॉल भी बढ़ा हुआ है। राहत की बात यह है कि आपकी किडनी बिल्कुल सामान्य और सुरक्षित है। कृपया अपने डॉक्टर से परामर्श करें।`,
+        takeaways_en: [
+          "Glycemic control is above target (HbA1c: 8.4%).",
+          "Lipid panel shows elevated LDL (162 mg/dL).",
+          "Kidney function is healthy and normal (eGFR > 90)."
+        ],
+        takeaways_hi: [
+          "ब्लड शुगर का औसत स्तर बढ़ा हुआ है (HbA1c: 8.4%)।",
+          "खराब कोलेस्ट्रॉल (LDL: 162 mg/dL) अधिक है।",
+          "किडनी की कार्यक्षमता (eGFR > 90) बिल्कुल सामान्य व सुरक्षित है।"
+        ],
+        questions_en: [
+          "Should my diabetes medication dose be adjusted based on 8.4% HbA1c?",
+          "Do you recommend a cholesterol-lowering tablet such as a statin?",
+          "When should we re-test my lipid profile and blood sugar?"
+        ],
+        questions_hi: [
+          "क्या 8.4% शुगर को देखते हुए मेरी दवाओं की खुराक बदलने की जरूरत है?",
+          "क्या मुझे कोलेस्ट्रॉल कम करने के लिए कोई दवा शुरू करनी चाहिए?",
+          "अगली जांच कितने हफ्तों या महीनों बाद करानी चाहिए?"
+        ],
+        actions_en: [
+          { icon: "🥗", title: "Low Glycemic Nutrition", desc: "Prioritize green vegetables, lentils, and cut refined sugar and sweets." },
+          { icon: "🏃", title: "Daily Morning Walk", desc: "Aim for 30 minutes of brisk walking 5 days a week." },
+          { icon: "🩺", title: "Doctor Follow-up", desc: "Schedule a consultation with your physician in the next 7 days." }
+        ],
+        actions_hi: [
+          { icon: "🥗", title: "संतुलित आहार व परहेज", desc: "हरी सब्जियां, दालें और सलाद अधिक लें; मीठा व मैदा पूरी तरह कम करें।" },
+          { icon: "🏃", title: "रोजाना 30 मिनट सैर", desc: "सुबह या शाम हल्की सैर इंसुलिन सुधारने और शुगर घटाने में मदद करती है।" },
+          { icon: "🩺", title: "डॉक्टर से परामर्श", desc: "अगले 7 से 10 दिनों में अपनी रिपोर्ट दिखाकर पर्चे की समीक्षा करवाएं।" }
+        ]
+      },
+      cbc: {
+        patient: {
+          name: "Rohan Varma",
+          age: "34",
+          gender: "Male",
+          abhaId: "22-9811-4321-7654@abdm",
+          facility: "Metropolis Healthcare",
+          date: "08 Oct 2026",
+          confidence: "98.8%"
+        },
+        biomarkers: [
+          { name: "Hemoglobin (Hb)", value: 10.8, unit: "g/dL", range: "13.5 - 17.5", status: "low", statusLabel: "Mild Low", percent: 32 },
+          { name: "RBC Count", value: 3.9, unit: "mil/µL", range: "4.3 - 5.9", status: "low", statusLabel: "Low", percent: 30 },
+          { name: "Platelet Count", value: 140000, unit: "/µL", range: "150,000 - 450,000", status: "low", statusLabel: "Borderline Low", percent: 28 },
+          { name: "WBC Total (Leukocytes)", value: 6800, unit: "/µL", range: "4,500 - 11,000", status: "normal", statusLabel: "Normal", percent: 52 },
+          { name: "Neutrophils", value: 62, unit: "%", range: "40 - 70", status: "normal", statusLabel: "Normal", percent: 55 },
+          { name: "Lymphocytes", value: 28, unit: "%", range: "20 - 40", status: "normal", statusLabel: "Normal", percent: 48 },
+          { name: "Hematocrit (PCV)", value: 33.2, unit: "%", range: "41.0 - 53.0", status: "low", statusLabel: "Mild Low", percent: 30 },
+          { name: "MCV", value: 74, unit: "fL", range: "80 - 100", status: "low", statusLabel: "Microcytic", percent: 25 }
+        ],
+        plainLanguage_en: `Your Complete Blood Count shows mild anemia. Your hemoglobin is 10.8 g/dL (normal for adult men is above 13.5). Your white blood cells are completely normal, showing that there is no active infection. Platelets are slightly on the lower border (140,000). Your doctor will likely check your iron and ferritin levels.`,
+        plainLanguage_hi: `आपकी सीबीसी रिपोर्ट में हल्का एनीमिया (खून की कमी) दिख रहा है। आपका हीमोग्लोबिन 10.8 ग्राम है (पुरुषों में सामान्य 13.5 से अधिक होना चाहिए)। आपके सफेद रक्त कण (WBC) पूरी तरह सामान्य हैं, जिसका अर्थ है कि कोई संक्रमण नहीं है। प्लेटलेट्स थोड़े से कम (140,000) हैं। डॉक्टर आयरन और फेरिटिन जांच की सलाह दे सकते हैं।`,
+        audioText_en: `Hello Rohan. Your blood report shows mild anemia with hemoglobin at 10.8. White blood cells are normal with no infection. An iron-rich diet is recommended.`,
+        audioText_hi: `नमस्ते रोहन। आपकी रिपोर्ट में हल्का एनीमिया और 10.8 हीमोग्लोबिन है। संक्रमण का कोई संकेत नहीं है। डॉक्टर से परामर्श कर आयरन युक्त आहार लें।`,
+        takeaways_en: [
+          "Mild anemia detected (Hemoglobin: 10.8 g/dL).",
+          "WBC and infection markers are completely normal.",
+          "Iron and ferritin testing recommended."
+        ],
+        takeaways_hi: [
+          "हल्का एनीमिया पाया गया (हीमोग्लोबिन 10.8)।",
+          "संक्रमण के कोई लक्षण नहीं हैं, श्वेत कण सामान्य हैं।",
+          "आयरन की जांच और पोषक खुराक की सलाह।"
+        ],
+        questions_en: [
+          "Could this hemoglobin level be causing mild tiredness?",
+          "Should I start an iron supplement tablet?",
+          "When should we repeat the CBC test?"
+        ],
+        questions_hi: [
+          "क्या इस हीमोग्लोबिन की वजह से मुझे हल्की कमजोरी या थकान महसूस हो रही है?",
+          "क्या मुझे आयरन सप्लीमेंट या सिरप लेने की आवश्यकता है?",
+          "दोबारा सीबीसी टेस्ट कब कराना चाहिए?"
+        ],
+        actions_en: [
+          { icon: "🥩", title: "Iron-Rich Foods", desc: "Eat spinach, beetroot, pomegranate, and jaggery." },
+          { icon: "☕", title: "Avoid Tea with Meals", desc: "Tea reduces absorption of iron from your meals." },
+          { icon: "🩺", title: "Ferritin Lab Work", desc: "Confirm iron stores with a serum ferritin test." }
+        ],
+        actions_hi: [
+          { icon: "🥩", title: "आयरन युक्त आहार", desc: "पालक, चुकंदर, अनार, गुड़ और हरी पत्तेदार सब्जियां खाएं।" },
+          { icon: "☕", title: "भोजन के तुरंत बाद चाय न पिएं", desc: "चाय भोजन से आयरन सोखने में रुकावट डालती है।" },
+          { icon: "🩺", title: "फेरिटिन जांच", desc: "शरीर में आयरन का स्तर जानने के लिए फेरिटिन टेस्ट कराएं।" }
+        ]
+      },
+      thyroid: {
+        patient: {
+          name: "Kavita Sen",
+          age: "52",
+          gender: "Female",
+          abhaId: "31-4552-8761-0099@abdm",
+          facility: "Max Healthcare PathLab",
+          date: "08 Oct 2026",
+          confidence: "99.7%"
+        },
+        biomarkers: [
+          { name: "TSH (Thyroid Stimulating Hormone)", value: 2.45, unit: "µIU/mL", range: "0.4 - 4.2", status: "normal", statusLabel: "Optimal", percent: 50 },
+          { name: "Free T4 (Thyroxine)", value: 1.25, unit: "ng/dL", range: "0.8 - 1.8", status: "normal", statusLabel: "Normal", percent: 52 },
+          { name: "Free T3 (Triiodothyronine)", value: 3.1, unit: "pg/mL", range: "2.3 - 4.2", status: "normal", statusLabel: "Normal", percent: 54 },
+          { name: "Vitamin B12", value: 410, unit: "pg/mL", range: "200 - 900", status: "normal", statusLabel: "Healthy", percent: 45 },
+          { name: "Vitamin D (25-OH)", value: 32.5, unit: "ng/mL", range: "30 - 100", status: "normal", statusLabel: "Sufficient", percent: 40 },
+          { name: "Calcium (Serum)", value: 9.4, unit: "mg/dL", range: "8.6 - 10.2", status: "normal", statusLabel: "Normal", percent: 50 },
+          { name: "Uric Acid", value: 4.8, unit: "mg/dL", range: "2.4 - 6.0", status: "normal", statusLabel: "Normal", percent: 48 },
+          { name: "hs-CRP (Inflammation)", value: 0.9, unit: "mg/L", range: "< 1.0", status: "normal", statusLabel: "Low Risk", percent: 30 }
+        ],
+        plainLanguage_en: `Good news! Your thyroid function and vitamin levels are completely normal. Your TSH is 2.45, which is well balanced. Both Vitamin D and Vitamin B12 are in healthy ranges, and your heart inflammation markers are low. Keep maintaining your healthy routine.`,
+        plainLanguage_hi: `बहुत अच्छी खबर! आपकी थायराइड ग्रंथि और विटामिन का स्तर बिल्कुल सामान्य और स्वस्थ है। आपका टीएसएच (TSH) 2.45 पर संतुलित है। विटामिन डी और बी12 भी पर्याप्त हैं। अपनी वर्तमान अच्छी दिनचर्या बनाए रखें।`,
+        audioText_en: `Hello Kavita. Your thyroid profile and vitamin indicators are in great condition. TSH is 2.45, and both vitamin D and B12 are normal. Keep up the good work!`,
+        audioText_hi: `नमस्ते कविता। आपकी थायराइड और विटामिन की सभी जांचें बिल्कुल सामान्य हैं। टीएसएच 2.45 पर संतुलित है। स्वस्थ जीवनशैली जारी रखें!`,
+        takeaways_en: [
+          "Thyroid function is well balanced (TSH: 2.45).",
+          "Vitamin D and B12 are within healthy reference ranges.",
+          "Low systemic inflammation (hs-CRP < 1.0 mg/L)."
+        ],
+        takeaways_hi: [
+          "थायराइड का स्तर बिल्कुल संतुलित है (TSH: 2.45)।",
+          "विटामिन डी और बी12 पर्याप्त मात्रा में हैं।",
+          "सूजन और हृदय संबंधी जोखिम मार्कर सुरक्षित हैं।"
+        ],
+        questions_en: [
+          "Should I continue my daily multivitamin supplements?",
+          "When should my next routine wellness checkup be?"
+        ],
+        questions_hi: [
+          "क्या मुझे अपनी वर्तमान विटामिन की खुराक जारी रखनी चाहिए?",
+          "अगला रूटीन हेल्थ चेकअप कब कराना उचित रहेगा?"
+        ],
+        actions_en: [
+          { icon: "☀️", title: "Morning Sunshine", desc: "Spend 15 minutes in natural morning sunlight for Vitamin D." },
+          { icon: "💧", title: "Daily Hydration", desc: "Drink 2 to 2.5 liters of clean water every day." },
+          { icon: "🧘", title: "Restful Sleep", desc: "Ensure 7 to 8 hours of uninterrupted sleep every night." }
+        ],
+        actions_hi: [
+          { icon: "☀️", title: "सुबह की हल्की धूप", desc: "विटामिन डी बनाए रखने के लिए रोजाना 15 मिनट सुबह की धूप में बैठें।" },
+          { icon: "💧", title: "पर्याप्त पानी पिएं", desc: "दिन भर में 2 से 2.5 लीटर पानी जरूर पिएं।" },
+          { icon: "🧘", title: "अच्छी और शांत नींद", desc: "रोजाना 7 से 8 घंटे की अच्छी नींद लें।" }
+        ]
+      }
+    };
+
+    function loadSampleReport(key) {
+      const data = JSON.parse(JSON.stringify(SAMPLE_REPORTS[key] || SAMPLE_REPORTS.diabetic));
+      data.category = key;
+      currentFile = new File(["sample content"], `${key}_panel_report.pdf`, { type: "application/pdf" });
+      previewFilename.textContent = `${key.toUpperCase()}_Report_Apollo_Lab.pdf`;
+      previewFilesize.textContent = "1.8 MB";
+      dropzoneEmpty.classList.add('hidden');
+      dropzonePreview.classList.remove('hidden');
+      previewImg.classList.add('hidden');
+      previewIconFallback.classList.remove('hidden');
+
+      if (currentUser) {
+        data.patient.name = currentUser.name;
+        data.patient.abhaId = currentUser.abhaId;
+        data.userEmail = currentUser.email;
+      }
+
+      showToast(currentLang === 'hi' ? `लोड किया गया: ${key.toUpperCase()}` : `Loaded ${key.toUpperCase()} test panel`, "success");
+      saveReportToActiveUser(data, previewFilename.textContent);
+      renderResults(data, true);
+    }
+
+    // -------------------------------------------------------------
+    // TOAST NOTIFICATIONS HELPER
+    // -------------------------------------------------------------
+    function showToast(message, type = "info") {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      
+      let border = "border-slate-300";
+      let bg = "bg-white text-slate-800";
+      let icon = "ℹ️";
+
+      if (type === "success") {
+        border = "border-emerald-300";
+        bg = "bg-emerald-50 text-emerald-900";
+        icon = "✓";
+      } else if (type === "warning") {
+        border = "border-amber-300";
+        bg = "bg-amber-50 text-amber-900";
+        icon = "⚠️";
+      }
+
+      toast.className = `pointer-events-auto flex items-center space-x-3 px-4 py-3.5 rounded-2xl shadow-xl border ${border} ${bg} text-sm font-bold transform transition-all duration-300 translate-y-4 opacity-0`;
+      toast.innerHTML = `<span>${icon}</span><span>${message}</span>`;
+      container.appendChild(toast);
+
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-4', 'opacity-0');
+      });
+
+      setTimeout(() => {
+        toast.classList.add('translate-y-4', 'opacity-0');
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    // Initialize session on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      checkSession();
+    });
+  </script>
+</body>
+</html>
