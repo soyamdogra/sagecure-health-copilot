@@ -84,44 +84,7 @@ const USERS_FILE = path.join(DATA_DIR, 'users.json');
 
 function getUsersDB() {
   if (!fs.existsSync(USERS_FILE)) {
-    const seed = {
-      "aditi@sagecure.ai": {
-        name: "Aditi Sharma",
-        email: "aditi@sagecure.ai",
-        password: "password123",
-        abhaId: "14-0234-5678-9012@abdm",
-        createdAt: "2026-10-01T10:00:00Z",
-        reports: [
-          {
-            id: "rep-101",
-            title: "Diabetic & Lipid Panel.pdf",
-            date: "08 Oct 2026",
-            facility: "Apollo Diagnostics Central Lab",
-            summary_en: "Elevated HbA1c (8.4%) and LDL cholesterol (162 mg/dL). Kidney function normal.",
-            summary_hi: "बढ़ा हुआ एचबीए1सी (8.4%) और एलडीएल कोलेस्ट्रॉल (162 mg/dL)। किडनी सुरक्षित है।",
-            category: "metabolic"
-          }
-        ]
-      },
-      "rohan@sagecure.ai": {
-        name: "Rohan Varma",
-        email: "rohan@sagecure.ai",
-        password: "password123",
-        abhaId: "22-9811-4321-7654@abdm",
-        createdAt: "2026-10-02T11:30:00Z",
-        reports: [
-          {
-            id: "rep-102",
-            title: "Complete Blood Count (CBC).pdf",
-            date: "06 Oct 2026",
-            facility: "Metropolis Healthcare",
-            summary_en: "Mild microcytic anemia detected with hemoglobin 10.8 g/dL. Platelets 140,000.",
-            summary_hi: "हल्का एनीमिया पाया गया (हीमोग्लोबिन 10.8)। संक्रमण रहित और सुरक्षित।",
-            category: "hematology"
-          }
-        ]
-      }
-    };
+    const seed = {};
     fs.writeFileSync(USERS_FILE, JSON.stringify(seed, null, 2));
     return seed;
   }
@@ -227,7 +190,7 @@ app.post('/api/auth/login', async (req, res) => {
   });
 });
 
-app.post('/api/auth/signup', async (req, res) => {
+const handleSignup = async (req, res) => {
   const { name, email, password, abhaId } = req.body;
   if (!email || !password || !name) {
     return res.status(400).json({ error: "Name, email and password are required." });
@@ -274,7 +237,9 @@ app.post('/api/auth/signup', async (req, res) => {
     session: { token: sessionToken, email: newUser.email, name: newUser.name, abhaId: newUser.abhaId },
     source: supabase ? 'supabase' : 'local' 
   });
-});
+};
+app.post('/api/auth/signup', handleSignup);
+app.post('/api/auth/register', handleSignup);
 
 app.post('/api/auth/verify-session', (req, res) => {
   const { email, token } = req.body || {};
@@ -361,84 +326,393 @@ app.get('/api/health', (req, res) => {
 });
 
 // -------------------------------------------------------------
+// STRICT CLINICAL SAFETY & ZERO-HALLUCINATION MEASUREMENT AUDIT
+// -------------------------------------------------------------
+function extractNumericalVital(text, type) {
+  if (!text || typeof text !== 'string') return null;
+  const t = text.toLowerCase();
+  
+  if (type === 'temperature') {
+    const cMatch = t.match(/\b(3[5-9](?:\.[0-9]+)?|4[0-2](?:\.[0-9]+)?)\s*°?\s*c\b/i);
+    if (cMatch) return { value: cMatch[1], unit: "°C" };
+    const fMatch = t.match(/\b(9[5-9](?:\.[0-9]+)?|10[0-6](?:\.[0-9]+)?)\s*°?\s*f\b/i);
+    if (fMatch) return { value: fMatch[1], unit: "°F" };
+    const degMatch = t.match(/(?:temp(?:erature)?|बुखार|तापमान|fever)\s*(?:is|was|of|:)?\s*(\d{2,3}(?:\.\d+)?)\s*(?:°?\s*[cf]|degrees?|f|c)?\b/i);
+    if (degMatch) {
+      const num = parseFloat(degMatch[1]);
+      if (num >= 35 && num <= 43) return { value: degMatch[1], unit: "°C" };
+      if (num >= 95 && num <= 108) return { value: degMatch[1], unit: "°F" };
+    }
+    return null;
+  }
+
+  if (type === 'bp') {
+    const bpMatch = t.match(/\b(\d{2,3})\s*\/\s*(\d{2,3})\s*(?:mm\s*hg)?\b/);
+    if (bpMatch) return { value: `${bpMatch[1]}/${bpMatch[2]}`, unit: "mmHg", systolic: bpMatch[1], diastolic: bpMatch[2] };
+    return null;
+  }
+
+  if (type === 'pulse') {
+    const pulseMatch = t.match(/\b(\d{2,3})\s*(?:bpm|beats\s*\/?\s*min(?:ute)?)\b/i) ||
+                       t.match(/(?:pulse|heart\s*rate|hr|नाड़ी|धड़कन)\s*(?:is|was|:)?\s*(\d{2,3})\b/i);
+    if (pulseMatch) return { value: pulseMatch[1], unit: "bpm" };
+    return null;
+  }
+
+  if (type === 'glucose') {
+    const gMatch = t.match(/\b(\d{2,3})\s*(?:mg\/d[lL]|mmol\/[lL])\b/i) ||
+                    t.match(/(?:fasting\s*glucose|fasting\s*sugar|fbs|sugar|glucose|शुगर)\s*(?:is|was|:)?\s*(\d{2,3})\b/i);
+    if (gMatch) return { value: gMatch[1], unit: "mg/dL" };
+    return null;
+  }
+
+  if (type === 'weight') {
+    const wMatch = t.match(/\b(\d{2,3}(?:\.\d+)?)\s*(?:kg|kgs|kilograms?|lbs|pounds?)\b/i) ||
+                   t.match(/(?:weight|वजन)\s*(?:is|was|:)?\s*(\d{2,3}(?:\.\d+)?)\b/i);
+    if (wMatch) return { value: wMatch[1], unit: "kg" };
+    return null;
+  }
+
+  if (type === 'spo2') {
+    const oxMatch = t.match(/\b(8\d|9\d|100)\s*%\s*(?:spo2|oxygen|saturation)?\b/i) ||
+                    t.match(/(?:spo2|oxygen|ऑक्सीजन)\s*(?:is|was|:)?\s*(8\d|9\d|100)\s*%?\b/i);
+    if (oxMatch) return { value: oxMatch[1], unit: "%" };
+    return null;
+  }
+
+  return null;
+}
+
+/**
+ * Audit and sanitize biomarkers against the strict Clinical Safety Rule:
+ * If an incomplete symptom statement was provided without numerical data,
+ * never fabricate or guess values (such as 38°C, 38.4°C, 98.6°F, 120/80, 98 bpm, 98%).
+ * Strictly flag missing values as "Unknown / Not Provided".
+ */
+function auditAndSanitizeBiomarkers(biomarkers, rawInputText, lang = 'en') {
+  if (!Array.isArray(biomarkers)) return [];
+  const text = (rawInputText || '').toLowerCase();
+  const isHi = (lang === 'hi');
+
+  const measuredTemp = extractNumericalVital(text, 'temperature');
+  const measuredBp = extractNumericalVital(text, 'bp');
+  const measuredPulse = extractNumericalVital(text, 'pulse');
+  const measuredGlucose = extractNumericalVital(text, 'glucose');
+  const measuredWeight = extractNumericalVital(text, 'weight');
+  const measuredSpo2 = extractNumericalVital(text, 'spo2');
+
+  return biomarkers.map(bm => {
+    const name = (bm.name || '').toLowerCase();
+
+    // 1. Temperature
+    if (name.includes('temp') || name.includes('तापमान') || name.includes('fever') || name.includes('बुखार')) {
+      if (measuredTemp) {
+        return {
+          ...bm,
+          value: measuredTemp.value,
+          unit: measuredTemp.unit,
+          status: parseFloat(measuredTemp.value) >= (measuredTemp.unit === '°C' ? 38.0 : 100.4) ? "elevated" : "normal",
+          statusLabel: isHi ? "मापा गया तापमान" : "Measured Temperature"
+        };
+      }
+      return {
+        ...bm,
+        value: "Unknown / Not Provided",
+        status: "unknown",
+        statusLabel: isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)",
+        range: "36.5 - 37.5 °C (97.7 - 99.5 °F)",
+        percent: 0,
+        missing: true,
+        clinicalSafetyNote: "Exact numerical reading not provided. Please measure with a thermometer."
+      };
+    }
+
+    // 2. Blood Pressure
+    if (name.includes('blood pressure') || name.includes('systolic') || name.includes('diastolic') || name.includes('bp') || name.includes('रक्तचाप') || name.includes('बीपी')) {
+      if (measuredBp) {
+        return {
+          ...bm,
+          value: measuredBp.value,
+          unit: measuredBp.unit,
+          status: "measured",
+          statusLabel: isHi ? "मापा गया रक्तचाप" : "Measured Blood Pressure"
+        };
+      }
+      return {
+        ...bm,
+        value: "Unknown / Not Provided",
+        status: "unknown",
+        statusLabel: isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)",
+        range: "< 120/80 mmHg",
+        percent: 0,
+        missing: true,
+        clinicalSafetyNote: "Numerical blood pressure not provided. Please measure using a BP monitor."
+      };
+    }
+
+    // 3. Heart Rate / Pulse
+    if (name.includes('heart rate') || name.includes('pulse') || name.includes('नाड़ी') || name.includes('धड़कन')) {
+      if (measuredPulse) {
+        return {
+          ...bm,
+          value: measuredPulse.value,
+          unit: measuredPulse.unit,
+          status: "normal",
+          statusLabel: isHi ? "मापी गई नाड़ी दर" : "Measured Pulse"
+        };
+      }
+      return {
+        ...bm,
+        value: "Unknown / Not Provided",
+        status: "unknown",
+        statusLabel: isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)",
+        range: "60 - 100 bpm",
+        percent: 0,
+        missing: true,
+        clinicalSafetyNote: "Resting pulse rate not provided. Please check resting pulse."
+      };
+    }
+
+    // 4. Blood Glucose
+    if (name.includes('glucose') || name.includes('sugar') || name.includes('fbs') || name.includes('शुगर')) {
+      if (measuredGlucose) {
+        return {
+          ...bm,
+          value: measuredGlucose.value,
+          unit: measuredGlucose.unit,
+          status: parseFloat(measuredGlucose.value) >= 126 ? "elevated" : "normal",
+          statusLabel: isHi ? "मापा गया ब्लड शुगर" : "Measured Glucose"
+        };
+      }
+      if (typeof bm.value === 'number' || (typeof bm.value === 'string' && /^\d/.test(bm.value))) {
+        // If from lab report OCR, preserve it!
+        if (text.includes('glucose') || text.includes('sugar') || text.includes('hba1c') || text.includes('fbs')) {
+          return bm;
+        }
+        return {
+          ...bm,
+          value: "Unknown / Not Provided",
+          status: "unknown",
+          statusLabel: isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)",
+          range: "70 - 99 mg/dL",
+          percent: 0,
+          missing: true
+        };
+      }
+    }
+
+    // 5. Weight
+    if (name.includes('weight') || name.includes('वजन')) {
+      if (measuredWeight) {
+        return {
+          ...bm,
+          value: measuredWeight.value,
+          unit: measuredWeight.unit,
+          status: "normal",
+          statusLabel: isHi ? "मापा गया वजन" : "Measured Weight"
+        };
+      }
+      return {
+        ...bm,
+        value: "Unknown / Not Provided",
+        status: "unknown",
+        statusLabel: isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)",
+        range: "Standard BMI Target",
+        percent: 0,
+        missing: true
+      };
+    }
+
+    // 6. Oxygen Saturation (SpO2)
+    if (name.includes('spo2') || name.includes('oxygen') || name.includes('ऑक्सीजन')) {
+      if (measuredSpo2) {
+        return {
+          ...bm,
+          value: measuredSpo2.value,
+          unit: measuredSpo2.unit,
+          status: parseFloat(measuredSpo2.value) >= 95 ? "normal" : "low",
+          statusLabel: isHi ? "मापा गया SpO2" : "Measured SpO2"
+        };
+      }
+      return {
+        ...bm,
+        value: "Unknown / Not Provided",
+        status: "unknown",
+        statusLabel: isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)",
+        range: "95 - 100 %",
+        percent: 0,
+        missing: true,
+        clinicalSafetyNote: "Resting SpO2 not provided. Please measure using a pulse oximeter."
+      };
+    }
+
+    return bm;
+  });
+}
+
+// -------------------------------------------------------------
 // DYNAMIC SEARCH & RETRIEVAL SYNTHESIS (FOR ACTIVE QUERY ENGINE)
 // -------------------------------------------------------------
 function synthesizeDynamicQueryRetrieval(query, fileName, patientName, lang) {
   const isHi = (lang === 'hi');
   const qLower = (query || '').toLowerCase();
   const fLower = (fileName || '').toLowerCase();
+  const combinedText = `${query || ''} ${fileName || ''}`;
+
+  const userTemp = extractNumericalVital(combinedText, 'temperature');
+  const userBp = extractNumericalVital(combinedText, 'bp');
+  const userPulse = extractNumericalVital(combinedText, 'pulse');
+  const userSpo2 = extractNumericalVital(combinedText, 'spo2');
 
   // 1. FEVER & PYREXIA
   if (qLower.includes('fever') || qLower.includes('temperature') || qLower.includes('chills') || qLower.includes('बुखार') || qLower.includes('तापमान')) {
+    const hasTemp = !!userTemp;
+    
+    const summary_en = hasTemp 
+      ? `Active clinical evidence evaluation for reported fever: Recorded body temperature is ${userTemp.value} ${userTemp.unit}. Core body temperatures ≥ 38.0°C (100.4°F) represent an active febrile immune response. Monitored fluid replenishment, rest, and antipyretic administration as per physician guidance is recommended.`
+      : `⚠️ Clinical Measurement Safety Notice: You reported fever symptoms without providing a calibrated numerical measurement. SageCure enforces strict zero-hallucination clinical safety: we NEVER assume, guess, or fabricate vital health values (such as 38°C, 38.4°C, or 98.6°F). Body temperature, heart rate, and oxygen saturation are recorded as "Unknown / Not Provided". Please measure your body temperature using a digital thermometer and input the exact reading. Core body temperature ≥ 38.0°C (100.4°F) defines fever. If fever exceeds 39.5°C (103°F), persists beyond 72 hours, or is accompanied by stiff neck, confusion, or breathing distress, seek urgent hospital emergency evaluation immediately.`;
+
+    const summary_hi = hasTemp
+      ? `बुखार के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: दर्ज किया गया शारीरिक तापमान ${userTemp.value} ${userTemp.unit} है। शरीर का तापमान 38.0°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रतिक्रिया है। पर्याप्त तरल पदार्थ लें और आराम करें।`
+      : `⚠️ क्लिनिकल माप सुरक्षा सूचना: आपने बुखार के लक्षण दर्ज किए हैं लेकिन कोई संख्यात्मक शारीरिक तापमान (जैसे 38°C या 100.4°F) प्रदान नहीं किया है। सेजक्योर क्लिनिकल सुरक्षा नियमों का कड़ाई से पालन करता है: हम कभी भी शारीरिक मापों का अनुमान या मनगढ़ंत आंकड़े नहीं बनाते। तापमान, हृदय गति और ऑक्सीजन स्तर को "अज्ञात / दर्ज नहीं" के रूप में चिन्हित किया गया है। कृपया डिजिटल थर्मामीटर से अपना तापमान नापें और सही मान दर्ज करें। यदि बुखार 103°F से अधिक हो या 3 दिन से ज्यादा रहे, तो तुरंत डॉक्टर से परामर्श लें।`;
+
     return {
       category: 'febrile',
-      summary_en: `Active clinical search results for fever symptoms: An elevated body temperature (febrile state) is a physiological immune response to infection or systemic inflammation. Core temperatures ≥ 38.0°C (100.4°F) require monitored fluid replenishment and symptom management. Red flag symptoms such as stiff neck, confusion, breathing difficulty, or persistent vomiting require urgent medical evaluation.`,
-      summary_hi: `बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान 38°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रतिक्रिया है। इस दौरान शरीर में पानी और इलेक्ट्रोलाइट्स की कमी न होने दें। यदि बुखार के साथ गर्दन में अकड़न, सांस लेने में तकलीफ या अत्यधिक कमजोरी हो, तो तत्काल डॉक्टर से परामर्श करें।`,
+      summary_en,
+      summary_hi,
       retrievedEvidence_en: [
         "NICE Guidelines (CG160): Core body temperature exceeding 38.0°C (100.4°F) constitutes fever. Antipyretic therapy is indicated for physical distress rather than sole suppression.",
+        "Clinical Measurement Protocol: Never estimate fever severity by touch alone. Digital oral, axillary, or tympanic thermometry is required to establish baseline.",
         "WHO Infectious Protocol: Insensible fluid losses increase by ~10% for every 1°C increase above normal body temperature; continuous electrolyte replenishment is primary care.",
-        "Pharmacology Review: Paracetamol (Acetaminophen) remains first-line antipyretic (500–650 mg every 4–6 hours, max 4g/24h). Avoid combining multiple NSAIDs simultaneously.",
         "Clinical Red Flags: Seek emergency clinical triage if fever lasts > 72 hours, exceeds 39.5°C (103°F), or presents with petechial rash or shortness of breath."
       ],
       retrievedEvidence_hi: [
         "NICE क्लिनिकल गाइडलाइन्स: 38.0°C (100.4°F) से ऊपर शरीर का तापमान बुखार माना जाता है। दवा का उद्देश्य शारीरिक बेचैनी कम करना है।",
+        "क्लिनिकल माप नियम: केवल छूकर बुखार का अनुमान न लगाएं; सही डिजिटल थर्मामीटर से नापना अनिवार्य है।",
         "विश्व स्वास्थ्य संगठन (WHO) प्रोटोकॉल: तापमान बढ़ने पर शरीर से 10% अधिक पसीना और पानी नष्ट होता है, अतः ओआरएस व तरल पदार्थ अनिवार्य हैं।",
-        "दवा संबंधी परामर्श: पैरासिटामोल बुखार की प्राथमिक सुरक्षित दवा है। खाली पेट तेज दर्दनिवारक दवाएं बिना डॉक्टर की सलाह के न लें।",
         "खतरे के संकेत: यदि बुखार 3 दिन से अधिक रहे, 103°F से अधिक हो या चकत्ते हों, तो तुरंत नजदीकी अस्पताल में डॉक्टर को दिखाएं।"
       ],
       recommendations_en: [
+        { icon: "🌡️", title: "Measure Exact Temperature", desc: "Use a calibrated digital oral or axillary thermometer to record your exact numerical reading before taking medication." },
         { icon: "💧", title: "Electrolyte Rehydration", desc: "Drink 2.5 to 3 liters of water, ORS solution, clear broths, or coconut water throughout the day." },
-        { icon: "🌡️", title: "Temperature Tracking", desc: "Record your temperature every 4 to 6 hours before administering antipyretics." },
-        { icon: "🛌", title: "Rest & Ventilation", desc: "Rest in a well-ventilated, ambient temperature room wearing light, breathable clothing." },
-        { icon: "🩺", title: "Physician Evaluation", desc: "Schedule a medical consultation for CBC, dengue, or malarial screening if fever persists over 48 hours." }
+        { icon: "🛌", title: "Rest & Ambient Ventilation", desc: "Rest in a well-ventilated, ambient temperature room wearing light, breathable clothing." },
+        { icon: "🩺", title: "Physician Consultation", desc: "Schedule a medical consultation for CBC, dengue, or malarial screening if fever persists over 48 hours." }
       ],
       recommendations_hi: [
+        { icon: "🌡️", title: "डिजिटल थर्मामीटर से मापें", desc: "कोई भी दवा लेने से पहले डिजिटल थर्मामीटर से सही तापमान नापें और डायरी में लिखें।" },
         { icon: "💧", title: "भरपूर तरल आहार", desc: "दिन भर में 2.5 से 3 लीटर पानी, ओआरएस, नारियल पानी या सूप पिएं ताकि डिहाइड्रेशन न हो।" },
-        { icon: "🌡️", title: "तापमान का रिकॉर्ड रखें", desc: "हर 4 से 6 घंटे में डिजिटल थर्मामीटर से बुखार नापें और डायरी में लिखें।" },
         { icon: "🛌", title: "पर्याप्त आराम", desc: "हवादार कमरे में आराम करें, हल्के सूती कपड़े पहनें और माथे पर ताजे पानी की पट्टी रखें।" },
         { icon: "🩺", title: "डॉक्टर से परामर्श", desc: "यदि बुखार 48 घंटे से ज्यादा रहे तो सीबीसी और आवश्यक खून की जांच करवाएं।" }
       ],
       biomarkers: [
-        { name: isHi ? "शारीरिक तापमान" : "Body Temperature", value: "38.6", unit: "°C (101.5°F)", range: "36.5 - 37.5", status: "elevated", statusLabel: isHi ? "बढ़ा हुआ (बुखार)" : "Elevated (Fever)", percent: 85 },
-        { name: isHi ? "अनुमानित हृदय गति" : "Heart Rate (Pulse)", value: "98", unit: "bpm", range: "60 - 100", status: "normal", statusLabel: isHi ? "सामान्य सीमा" : "Borderline Optimal", percent: 65 },
-        { name: isHi ? "श्वसन दर" : "Respiratory Rate", value: "18", unit: "breaths/min", range: "12 - 20", status: "normal", statusLabel: isHi ? "सामान्य" : "Normal", percent: 50 },
-        { name: isHi ? "ऑक्सीजन सेचुरेशन (SpO2)" : "Oxygen Saturation (SpO2)", value: "98", unit: "%", range: "95 - 100", status: "normal", statusLabel: isHi ? "उत्कृष्ट" : "Optimal", percent: 95 }
+        { 
+          name: isHi ? "शारीरिक तापमान" : "Body Temperature", 
+          value: hasTemp ? userTemp.value : "Unknown / Not Provided", 
+          unit: hasTemp ? userTemp.unit : "°C / °F", 
+          range: "36.5 - 37.5 °C (97.7 - 99.5 °F)", 
+          status: hasTemp ? (parseFloat(userTemp.value) >= (userTemp.unit === '°C' ? 38.0 : 100.4) ? "elevated" : "normal") : "unknown", 
+          statusLabel: hasTemp ? (isHi ? "मापा गया तापमान" : "Measured") : (isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)"), 
+          percent: hasTemp ? 80 : 0,
+          missing: !hasTemp
+        },
+        { 
+          name: isHi ? "हृदय गति (पल्स)" : "Heart Rate (Pulse)", 
+          value: userPulse ? userPulse.value : "Unknown / Not Provided", 
+          unit: "bpm", 
+          range: "60 - 100", 
+          status: userPulse ? "normal" : "unknown", 
+          statusLabel: userPulse ? (isHi ? "मापी गई नाड़ी" : "Measured") : (isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)"), 
+          percent: userPulse ? 50 : 0,
+          missing: !userPulse
+        },
+        { 
+          name: isHi ? "श्वसन दर" : "Respiratory Rate", 
+          value: "Unknown / Not Provided", 
+          unit: "breaths/min", 
+          range: "12 - 20", 
+          status: "unknown", 
+          statusLabel: isHi ? "अज्ञात / दर्ज नहीं" : "Unknown / Not Provided (Please Measure)", 
+          percent: 0,
+          missing: true
+        },
+        { 
+          name: isHi ? "ऑक्सीजन सेचुरेशन (SpO2)" : "Oxygen Saturation (SpO2)", 
+          value: userSpo2 ? userSpo2.value : "Unknown / Not Provided", 
+          unit: "%", 
+          range: "95 - 100", 
+          status: userSpo2 ? (parseFloat(userSpo2.value) >= 95 ? "normal" : "low") : "unknown", 
+          statusLabel: userSpo2 ? (isHi ? "मापा गया SpO2" : "Measured") : (isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)"), 
+          percent: userSpo2 ? 90 : 0,
+          missing: !userSpo2
+        }
       ]
     };
   }
 
   // 2. COUGH, COLD & RESPIRATORY
   if (qLower.includes('cough') || qLower.includes('cold') || qLower.includes('throat') || qLower.includes('chest') || qLower.includes('breath') || qLower.includes('खांसी') || qLower.includes('गले')) {
+    const summary_en = `Active clinical search synthesis for respiratory and cough inquiry: Cough is a protective reflex clearing the upper airways of secretions and viral irritants. Vital parameters (SpO2, Pulse) are flagged as "${userSpo2 ? 'Measured' : 'Unknown / Not Provided'}". Please measure resting oxygen saturation using a pulse oximeter (optimal resting SpO2 ≥ 95%). Seek immediate care if stridor, chest pain, or SpO2 < 94% develops.`;
+    const summary_hi = `खांसी और श्वसन संबंधी सक्रिय क्लिनिकल खोज: खांसी वायुमार्ग को साफ रखने की शारीरिक प्रक्रिया है। महत्वपूर्ण पैरामीटर (SpO2 और पल्स) "${userSpo2 ? 'मापे गए' : 'अज्ञात / दर्ज नहीं'}" के रूप में चिन्हित हैं। कृपया पल्स ऑक्सीमीटर से अपनी ऑक्सीजन (SpO2) नापें (सामान्य ≥ 95%)। सांस फूलने पर तुरंत डॉक्टर को दिखाएं।`;
+
     return {
       category: 'respiratory',
-      summary_en: `Active clinical search synthesis for respiratory and cough inquiry: Cough is a protective reflex clearing the upper airways of secretions and viral irritants. Current evidence emphasizes distinguishing dry irritative cough from productive phlegm-producing cough, alongside monitoring resting oxygen saturation (SpO2 ≥ 95%).`,
-      summary_hi: `खांसी और श्वसन संबंधी सक्रिय क्लिनिकल खोज: खांसी वायुमार्ग को साफ रखने की शारीरिक प्रक्रिया है। ज्यादातर मामलों में यह सामान्य वायरल संक्रमण के कारण होती है। गर्म तरल पदार्थों का सेवन और भाप लेना लाभदायक है। ऑक्सीजन स्तर (SpO2) सामान्य होना आवश्यक है।`,
+      summary_en,
+      summary_hi,
       retrievedEvidence_en: [
         "American College of Chest Physicians (ACCP): Acute viral cough typically persists 10 to 18 days; antibiotic use is non-beneficial in uncomplicated upper respiratory viral illness.",
+        "Pulse Oximetry Standard: Clinical SpO2 must be measured with a calibrated fingertip pulse oximeter, not guessed or approximated.",
         "Clinical Evidence Review: Honey (for patients > 1 year) and warm saline gargles provide statistically significant relief in nocturnal irritative cough without pharmaceutical adverse events.",
         "Red Flag Triaging: Stridor, hemoptysis (coughing blood), chest pain radiating to shoulder, or resting SpO2 < 94% require immediate urgent medical care."
       ],
       retrievedEvidence_hi: [
         "चेस्ट फिजिशियन गाइडलाइन्स: सामान्य वायरल खांसी 1 से 2 सप्ताह रह सकती है; बिना डॉक्टर की सलाह के एंटीबायोटिक न लें।",
+        "ऑक्सीजन माप मानक: पल्स ऑक्सीमीटर से ऑक्सीजन स्तर की वास्तविक जांच अनिवार्य है, अनुमान न लगाएं।",
         "घरेलू व वैज्ञानिक उपाय: गुनगुने पानी में नमक के गरारे और शहद गले की खराश और रात की खांसी में अत्यधिक प्रभावी हैं।",
         "चेतावनी लक्षण: सांस फूलना, सीने में तेज दर्द या कफ में खून आना तुरंत डॉक्टर को दिखाने योग्य लक्षण हैं।"
       ],
       recommendations_en: [
+        { icon: "🫁", title: "Measure Exact SpO2", desc: "Check pulse oximeter reading to verify oxygen saturation remains at or above 95%." },
         { icon: "🍵", title: "Warm Steam & Saline Gargles", desc: "Perform steam inhalation for 10 minutes and gargle with warm salt water 3 times daily." },
         { icon: "🍯", title: "Natural Demulcents", desc: "Take a spoonful of honey with warm water or ginger tea to soothe airway irritation." },
-        { icon: "🫁", title: "SpO2 Pulse Oximetry", desc: "Check pulse oximeter reading to verify oxygen saturation remains at or above 95%." },
         { icon: "🩺", title: "Chest Consultation", desc: "Visit a doctor if cough lasts beyond 2 weeks, causes shortness of breath, or produces rusty sputum." }
       ],
       recommendations_hi: [
+        { icon: "🫁", title: "ऑक्सीजन स्तर (SpO2) नापें", desc: "पल्स ऑक्सीमीटर से जांचें कि ऑक्सीजन स्तर 95% या उससे अधिक बना रहे।" },
         { icon: "🍵", title: "भाप और गरारे", desc: "दिन में 2 से 3 बार गर्म पानी में नमक डालकर गरारे करें और 10 मिनट भाप लें।" },
         { icon: "🍯", title: "शहद और अदरक", desc: "गले की खराश कम करने के लिए गुनगुने पानी में शहद और अदरक का रस लें।" },
-        { icon: "🫁", title: "ऑक्सीजन स्तर की जांच", desc: "पल्स ऑक्सीमीटर से जांचें कि ऑक्सीजन स्तर 95% या उससे अधिक बना रहे।" },
         { icon: "🩺", title: "डॉक्टर को दिखाएं", desc: "यदि खांसी 2 हफ्ते से अधिक रहे या सीने में जकड़न हो तो चिकित्सक से मिलें।" }
       ],
       biomarkers: [
-        { name: isHi ? "ऑक्सीजन स्तर (SpO2)" : "SpO2 Oxygen Saturation", value: "97", unit: "%", range: "95 - 100", status: "normal", statusLabel: isHi ? "सामान्य" : "Normal", percent: 80 },
-        { name: isHi ? "श्वसन दर" : "Respiratory Rate", value: "19", unit: "breaths/min", range: "12 - 20", status: "normal", statusLabel: isHi ? "संतुलित" : "Optimal", percent: 55 },
-        { name: isHi ? "पल्स रेट" : "Pulse Rate", value: "84", unit: "bpm", range: "60 - 100", status: "normal", statusLabel: isHi ? "सामान्य" : "Normal", percent: 45 }
+        { 
+          name: isHi ? "ऑक्सीजन स्तर (SpO2)" : "SpO2 Oxygen Saturation", 
+          value: userSpo2 ? userSpo2.value : "Unknown / Not Provided", 
+          unit: "%", 
+          range: "95 - 100", 
+          status: userSpo2 ? "normal" : "unknown", 
+          statusLabel: userSpo2 ? (isHi ? "सामान्य" : "Normal") : (isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)"), 
+          percent: userSpo2 ? 90 : 0,
+          missing: !userSpo2
+        },
+        { 
+          name: isHi ? "श्वसन दर" : "Respiratory Rate", 
+          value: "Unknown / Not Provided", 
+          unit: "breaths/min", 
+          range: "12 - 20", 
+          status: "unknown", 
+          statusLabel: isHi ? "अज्ञात / दर्ज नहीं" : "Unknown / Not Provided (Please Measure)", 
+          percent: 0,
+          missing: true
+        },
+        { 
+          name: isHi ? "पल्स रेट" : "Pulse Rate", 
+          value: userPulse ? userPulse.value : "Unknown / Not Provided", 
+          unit: "bpm", 
+          range: "60 - 100", 
+          status: userPulse ? "normal" : "unknown", 
+          statusLabel: userPulse ? (isHi ? "सामान्य" : "Normal") : (isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)"), 
+          percent: userPulse ? 50 : 0,
+          missing: !userPulse
+        }
       ]
     };
   }
@@ -515,37 +789,84 @@ function synthesizeDynamicQueryRetrieval(query, fileName, patientName, lang) {
 
   // 5. HYPERTENSION & BLOOD PRESSURE
   if (qLower.includes('bp') || qLower.includes('blood pressure') || qLower.includes('hypertension') || qLower.includes('बीपी') || qLower.includes('रक्तचाप')) {
+    const hasBp = !!userBp;
+    const summary_en = hasBp 
+      ? `Active clinical evaluation for measured blood pressure: Recorded reading is ${userBp.value} mmHg. Systolic ≥ 130 mmHg or diastolic ≥ 80 mmHg meets Stage 1 Hypertension under AHA/ACC guidelines. Sodium reduction and regular logging advised.`
+      : `⚠️ Clinical Measurement Safety Protocol: You reported blood pressure inquiry without providing a numerical systolic/diastolic measurement. SageCure strictly does not fabricate cardiovascular readings (such as 120/80 or 138/88 mmHg). Blood pressure parameters are flagged as "Unknown / Not Provided". Please measure your blood pressure in a seated, relaxed state using a digital sphygmomanometer and record the exact reading (e.g. 130/85 mmHg). Readings exceeding 180/120 mmHg with chest pain or vision changes require emergency ER care.`;
+
+    const summary_hi = hasBp
+      ? `रक्तचाप पर क्लिनिकल खोज सारांश: दर्ज किया गया रक्तचाप ${userBp.value} mmHg है। 130/80 से अधिक माप हाइपरटेंशन का संकेत है। दैनिक नमक की मात्रा कम करना आवश्यक है।`
+      : `⚠️ क्लिनिकल माप सुरक्षा प्रोटोकॉल: आपने ब्लड प्रेशर संबंधी समस्या दर्ज की है लेकिन सिस्टोलिक/डायस्टोलिक संख्यात्मक आंकड़े प्रदान नहीं किए हैं। सेजक्योर प्रणाली कभी भी रक्तचाप का मनगढ़ंत आंकड़ा (जैसे 120/80) नहीं बनाती। रक्तचाप को "अज्ञात / दर्ज नहीं" के रूप में चिन्हित किया गया है। कृपया शांत बैठकर डिजिटल मशीन से अपना बीपी नापें और सही आंकड़े दर्ज करें।`;
+
     return {
       category: 'cardiovascular',
-      summary_en: `Active clinical evidence retrieval for blood pressure and cardiovascular query: Blood pressure readings reflect arterial vascular resistance. Consistent systolic pressure ≥ 130 mmHg or diastolic ≥ 80 mmHg meets Stage 1 Hypertension criteria under AHA/ACC guidelines. Lifestyle sodium reduction (< 2,000 mg/day) and potassium-rich nutrition are frontline interventions.`,
-      summary_hi: `ब्लड प्रेशर (BP) और हृदय स्वास्थ्य पर सक्रिय क्लिनिकल खोज सारांश: रक्तचाप धमनियों में रक्त के प्रवाह के दबाव को दर्शाता है। अमेरिकन हार्ट एसोसिएशन के अनुसार 130/80 mmHg से अधिक माप हाइपरटेंशन का संकेत है। दैनिक नमक की मात्रा कम करना (5 ग्राम से कम) और नियमित जांच अत्यंत आवश्यक है।`,
+      summary_en,
+      summary_hi,
       retrievedEvidence_en: [
         "AHA/ACC 2024 Hypertension Guidelines: Normal BP is defined as < 120/80 mmHg. Stage 1 Hypertension begins at 130-139 systolic or 80-89 diastolic. Ambulatory monitoring confirms true readings.",
+        "Measurement Science: Blood pressure must never be guessed or estimated. Digital arm cuff measurement after 5 minutes of seated rest is the clinical reference standard.",
         "DASH Dietary Clinical Trials: Dietary Approaches to Stop Hypertension (rich in fruits, vegetables, and low-fat dairy) lowers systolic BP by 8–14 mmHg without medication.",
         "Emergency Red Flag Warning: BP readings exceeding 180/120 mmHg accompanied by chest pain, shortness of breath, or visual disturbances represent a hypertensive crisis requiring immediate emergency care."
       ],
       retrievedEvidence_hi: [
         "AHA/ACC गाइडलाइन्स: 120/80 mmHg से कम रक्तचाप सामान्य माना जाता है। 130/80 से ऊपर होने पर जीवनशैली और आहार में तुरंत सुधार की सलाह दी जाती है।",
+        "माप मानक: रक्तचाप का अनुमान कभी न लगाएं; 5 मिनट शांत बैठकर डिजिटल कफ से मापना ही सटीक माना जाता है।",
         "डैश (DASH) आहार साक्ष्य: फल, हरी पत्तेदार सब्जियां और कम वसा वाले आहार से बिना दवा के भी 8-14 mmHg तक रक्तचाप नियंत्रित किया जा सकता है।",
         "आपातकालीन चेतावनी: यदि बीपी 180/120 से अधिक हो और सीने में दर्द या धुंधला दिखे, तो तत्काल आपातकालीन अस्पताल जाएं।"
       ],
       recommendations_en: [
+        { icon: "🩺", title: "Measure Exact Blood Pressure", desc: "Use a validated digital upper-arm BP cuff after resting for 5 minutes in a quiet room." },
         { icon: "🧂", title: "Sodium Restriction", desc: "Reduce table salt to less than 1 level teaspoon (2,000 mg sodium) daily." },
         { icon: "📉", title: "BP Diary Logging", desc: "Log blood pressure twice daily (morning and evening) in a seated, relaxed state." },
-        { icon: "🏃", title: "Cardio Exercise", desc: "Engage in 30 minutes of moderate aerobic activity like brisk walking 5 days a week." },
-        { icon: "🩺", title: "Cardiology Review", desc: "Consult a physician for anti-hypertensive regimen review if readings stay consistently elevated." }
+        { icon: "🏃", title: "Cardio Exercise", desc: "Engage in 30 minutes of moderate aerobic activity like brisk walking 5 days a week." }
       ],
       recommendations_hi: [
+        { icon: "🩺", title: "डिजिटल मशीन से बीपी नापें", desc: "शांत बैठकर डिजिटल मशीन से बीपी नापें और सही रीडिंग डायरी में लिखें।" },
         { icon: "🧂", title: "नमक का सीमित सेवन", desc: "भोजन में नमक की मात्रा कम करें और डिब्बाबंद या नमकीन खाद्य पदार्थों से परहेज करें।" },
         { icon: "📉", title: "बीपी का नियमित रिकॉर्ड", desc: "शांत बैठकर सुबह और शाम डिजिटल मशीन से बीपी नापें और डायरी में लिखें।" },
-        { icon: "🏃", title: "हल्का व्यायाम व सैर", desc: "रोजाना 30 मिनट तेज चाल से सैर धमनियों को लचीला और स्वस्थ रखती है।" },
-        { icon: "🩺", title: "डॉक्टर से परामर्श", desc: "यदि बीपी लगातार 130/85 से ऊपर रहे, तो चिकित्सक से मिलकर दवा की सलाह लें।" }
+        { icon: "🏃", title: "हल्का व्यायाम व सैर", desc: "रोजाना 30 मिनट तेज चाल से सैर धमनियों को लचीला और स्वस्थ रखती है।" }
       ],
       biomarkers: [
-        { name: isHi ? "सिस्टोलिक रक्तचाप (BP Systolic)" : "Systolic BP", value: "138", unit: "mmHg", range: "< 120", status: "elevated", statusLabel: isHi ? "बढ़ा हुआ (स्टेज 1)" : "Elevated (Stage 1)", percent: 75 },
-        { name: isHi ? "डायस्टोलिक रक्तचाप (BP Diastolic)" : "Diastolic BP", value: "88", unit: "mmHg", range: "< 80", status: "elevated", statusLabel: isHi ? "बढ़ा हुआ" : "Elevated", percent: 70 },
-        { name: isHi ? "पल्स रेट" : "Pulse Rate", value: "78", unit: "bpm", range: "60 - 100", status: "normal", statusLabel: isHi ? "सामान्य" : "Normal", percent: 50 },
-        { name: isHi ? "ऑक्सीजन स्तर" : "SpO2 (Oxygen)", value: "98", unit: "%", range: "95 - 100", status: "normal", statusLabel: isHi ? "उत्कृष्ट" : "Optimal", percent: 95 }
+        { 
+          name: isHi ? "सिस्टोलिक रक्तचाप (BP Systolic)" : "Systolic BP", 
+          value: hasBp ? userBp.systolic : "Unknown / Not Provided", 
+          unit: "mmHg", 
+          range: "< 120", 
+          status: hasBp ? (parseInt(userBp.systolic) >= 130 ? "elevated" : "normal") : "unknown", 
+          statusLabel: hasBp ? (isHi ? "मापा गया" : "Measured") : (isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)"), 
+          percent: hasBp ? 70 : 0,
+          missing: !hasBp
+        },
+        { 
+          name: isHi ? "डायस्टोलिक रक्तचाप (BP Diastolic)" : "Diastolic BP", 
+          value: hasBp ? userBp.diastolic : "Unknown / Not Provided", 
+          unit: "mmHg", 
+          range: "< 80", 
+          status: hasBp ? (parseInt(userBp.diastolic) >= 80 ? "elevated" : "normal") : "unknown", 
+          statusLabel: hasBp ? (isHi ? "मापा गया" : "Measured") : (isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)"), 
+          percent: hasBp ? 65 : 0,
+          missing: !hasBp
+        },
+        { 
+          name: isHi ? "पल्स रेट" : "Pulse Rate", 
+          value: userPulse ? userPulse.value : "Unknown / Not Provided", 
+          unit: "bpm", 
+          range: "60 - 100", 
+          status: userPulse ? "normal" : "unknown", 
+          statusLabel: userPulse ? (isHi ? "सामान्य" : "Normal") : (isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)"), 
+          percent: userPulse ? 50 : 0,
+          missing: !userPulse
+        },
+        { 
+          name: isHi ? "ऑक्सीजन स्तर" : "SpO2 (Oxygen)", 
+          value: userSpo2 ? userSpo2.value : "Unknown / Not Provided", 
+          unit: "%", 
+          range: "95 - 100", 
+          status: userSpo2 ? "normal" : "unknown", 
+          statusLabel: userSpo2 ? (isHi ? "उत्कृष्ट" : "Optimal") : (isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)"), 
+          percent: userSpo2 ? 90 : 0,
+          missing: !userSpo2
+        }
       ]
     };
   }
@@ -554,7 +875,7 @@ function synthesizeDynamicQueryRetrieval(query, fileName, patientName, lang) {
   if (qLower.includes('headache') || qLower.includes('migraine') || qLower.includes('head ache') || qLower.includes('सिरदर्द') || qLower.includes('माइग्रेन')) {
     return {
       category: 'neurological',
-      summary_en: `Active clinical evidence retrieval for headache inquiry: Most headaches stem from tension, dehydration, eye strain, or vascular migraine patterns. Red flag indicators (SNOOP criteria) include sudden thunderclap onset, neurological deficits, fever with neck stiffness, or headache following head trauma.`,
+      summary_en: `Active clinical evidence retrieval for headache inquiry: Most headaches stem from tension, dehydration, eye strain, or vascular migraine patterns. Red flag indicators (SNOOP criteria) include sudden thunderclap onset, neurological deficits, fever with neck stiffness, or headache following head trauma. Vitals are recorded as Unknown / Not Provided unless measured.`,
       summary_hi: `सिरदर्द (Headache / Migraine) पर सक्रिय क्लिनिकल खोज सारांश: ज्यादातर सिरदर्द तनाव, नींद की कमी, पानी की कमी या माइग्रेन के कारण होते हैं। भरपूर पानी पीना, शांत अंधेरे कमरे में आराम और स्क्रीन टाइम कम करना राहत देता है। तेज अचानक सिरदर्द या गर्दन में अकड़न पर डॉक्टर को दिखाना अनिवार्य है।`,
       retrievedEvidence_en: [
         "International Headache Society (ICHD-3): Tension-type headaches present as band-like dull bilateral pressure, whereas migraines exhibit unilateral pulsating pain often with photophobia.",
@@ -579,9 +900,36 @@ function synthesizeDynamicQueryRetrieval(query, fileName, patientName, lang) {
         { icon: "🩺", title: "डॉक्टर से सलाह", desc: "यदि सिरदर्द हफ्ते में कई बार हो या दवा से आराम न मिले तो न्यूरोलॉजिस्ट या फिजिशियन को दिखाएं।" }
       ],
       biomarkers: [
-        { name: isHi ? "पल्स रेट" : "Heart Rate (Pulse)", value: "82", unit: "bpm", range: "60 - 100", status: "normal", statusLabel: isHi ? "सामान्य" : "Normal", percent: 50 },
-        { name: isHi ? "रक्तचाप (अनुमानित)" : "Blood Pressure", value: "124/82", unit: "mmHg", range: "< 120/80", status: "normal", statusLabel: isHi ? "सामान्य सीमा" : "Borderline Normal", percent: 55 },
-        { name: isHi ? "ऑक्सीजन स्तर" : "SpO2 (Oxygen)", value: "99", unit: "%", range: "95 - 100", status: "normal", statusLabel: isHi ? "उत्कृष्ट" : "Optimal", percent: 98 }
+        { 
+          name: isHi ? "पल्स रेट" : "Heart Rate (Pulse)", 
+          value: userPulse ? userPulse.value : "Unknown / Not Provided", 
+          unit: "bpm", 
+          range: "60 - 100", 
+          status: userPulse ? "normal" : "unknown", 
+          statusLabel: userPulse ? (isHi ? "सामान्य" : "Normal") : (isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)"), 
+          percent: userPulse ? 50 : 0,
+          missing: !userPulse
+        },
+        { 
+          name: isHi ? "रक्तचाप" : "Blood Pressure", 
+          value: userBp ? userBp.value : "Unknown / Not Provided", 
+          unit: "mmHg", 
+          range: "< 120/80", 
+          status: userBp ? "normal" : "unknown", 
+          statusLabel: userBp ? (isHi ? "सामान्य" : "Normal") : (isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)"), 
+          percent: userBp ? 50 : 0,
+          missing: !userBp
+        },
+        { 
+          name: isHi ? "ऑक्सीजन स्तर" : "SpO2 (Oxygen)", 
+          value: userSpo2 ? userSpo2.value : "Unknown / Not Provided", 
+          unit: "%", 
+          range: "95 - 100", 
+          status: userSpo2 ? "normal" : "unknown", 
+          statusLabel: userSpo2 ? (isHi ? "उत्कृष्ट" : "Optimal") : (isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)"), 
+          percent: userSpo2 ? 90 : 0,
+          missing: !userSpo2
+        }
       ]
     };
   }
@@ -590,32 +938,59 @@ function synthesizeDynamicQueryRetrieval(query, fileName, patientName, lang) {
   const displayQ = query || (fileName ? `Analysis of ${fileName}` : "General Clinical Health Evaluation");
   return {
     category: 'general_search',
-    summary_en: `Active clinical evidence synthesis for "${displayQ}": Based on standard medical knowledge retrieval, this condition warrants evaluation of onset, intensity, duration, and associated systemic symptoms. Maintaining hydration, proper rest, and consulting a healthcare professional for targeted diagnostics is recommended.`,
-    summary_hi: `"${displayQ}" पर सक्रिय क्लिनिकल खोज सारांश: प्राप्त क्लिनिकल साक्ष्यों के अनुसार, लक्षणों की शुरुआत, गंभीरता और दिनचर्या पर उनके प्रभाव का आकलन जरूरी है। पर्याप्त आराम, तरल पदार्थों का सेवन और जरूरत पड़ने पर डॉक्टर की सलाह लेना सर्वोत्तम है।`,
+    summary_en: `Active clinical evidence synthesis for "${displayQ}": Based on standard medical knowledge retrieval, this condition warrants evaluation of onset, intensity, duration, and associated systemic symptoms. Vital measurements are recorded as Unknown / Not Provided until measured by a healthcare provider or home device.`,
+    summary_hi: `"${displayQ}" पर सक्रिय क्लिनिकल खोज सारांश: प्राप्त क्लिनिकल साक्ष्यों के अनुसार, लक्षणों की शुरुआत, गंभीरता और दिनचर्या पर उनके प्रभाव का आकलन जरूरी है। शारीरिक माप (तापमान, रक्तचाप, आदि) को जब तक नापा न जाए, "अज्ञात / दर्ज नहीं" माना गया है।`,
     retrievedEvidence_en: [
       `Clinical Evidence Base: Inquiries regarding "${displayQ}" require establishing whether symptoms are acute (< 7 days) or chronic, with primary care evaluation.`,
       "Diagnostic Protocol: Baseline laboratory panels (CBC, Metabolic Panel, Vital Signs) provide the foundation for differential diagnosis.",
-      "Preventative Health Standard: Self-medication without professional consultation should be avoided; non-pharmacological supportive care is advised."
+      "Clinical Safety Standard: The system never fabricates or assumes numerical health values when symptoms are described in text."
     ],
     retrievedEvidence_hi: [
       `क्लिनिकल साक्ष्य आधार: "${displayQ}" से जुड़े लक्षणों में यह देखना जरूरी है कि समस्या हाल की है या पुरानी।`,
       "जांच प्रक्रिया: सामान्य स्वास्थ्य जांच (रक्तचाप, पल्स, बुनियादी खून की जांच) सही निदान में सहायक होती है।",
-      "सुरक्षा नियम: बिना डॉक्टरी पर्चे के अनावश्यक दवाएं न लें; संतुलित दिनचर्या और पर्याप्त पानी पिएं।"
+      "क्लिनिकल सुरक्षा नियम: बिना वास्तविक माप के प्रणाली कभी भी मनगढ़ंत शारीरिक आंकड़े तैयार नहीं करती।"
     ],
     recommendations_en: [
       { icon: "💧", title: "Hydration & Balanced Diet", desc: "Maintain adequate water intake and eat easily digestible, nutritious meals." },
-      { icon: "📝", title: "Symptom Log", desc: "Keep a note of when symptoms occur, their severity, and any factors that relieve or worsen them." },
+      { icon: "📝", title: "Symptom & Vital Log", desc: "Measure and log key vitals (temperature, BP, pulse) when symptoms occur." },
       { icon: "🩺", title: "Clinical Consultation", desc: "Consult a healthcare provider for an individualized examination and treatment plan." }
     ],
     recommendations_hi: [
       { icon: "💧", title: "भरपूर पानी व पौष्टिक भोजन", desc: "पर्याप्त पानी पिएं और सुपाच्य, संतुलित आहार लें।" },
-      { icon: "📝", title: "लक्षणों का विवरण रखें", desc: "नोट करें कि समस्या कब शुरू हुई और क्या करने से आराम या परेशानी होती है।" },
+      { icon: "📝", title: "लक्षणों व मापों का विवरण रखें", desc: "लक्षण होने पर तापमान व बीपी नापें और डायरी में लिखें।" },
       { icon: "🩺", title: "डॉक्टर से सलाह", desc: "व्यक्तिगत जांच और सही उपचार के लिए नजदीकी डॉक्टर से परामर्श करें।" }
     ],
     biomarkers: [
-      { name: isHi ? "पल्स रेट (नाड़ी)" : "Heart Rate (Pulse)", value: "76", unit: "bpm", range: "60 - 100", status: "normal", statusLabel: isHi ? "सामान्य" : "Normal", percent: 50 },
-      { name: isHi ? "ऑक्सीजन स्तर" : "SpO2 (Oxygen)", value: "98", unit: "%", range: "95 - 100", status: "normal", statusLabel: isHi ? "उत्कृष्ट" : "Optimal", percent: 95 },
-      { name: isHi ? "रक्तचाप (अनुमानित)" : "Blood Pressure (Est)", value: "120/80", unit: "mmHg", range: "< 120/80", status: "normal", statusLabel: isHi ? "सामान्य" : "Normal", percent: 50 }
+      { 
+        name: isHi ? "पल्स रेट (नाड़ी)" : "Heart Rate (Pulse)", 
+        value: userPulse ? userPulse.value : "Unknown / Not Provided", 
+        unit: "bpm", 
+        range: "60 - 100", 
+        status: userPulse ? "normal" : "unknown", 
+        statusLabel: userPulse ? (isHi ? "सामान्य" : "Normal") : (isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)"), 
+        percent: userPulse ? 50 : 0,
+        missing: !userPulse
+      },
+      { 
+        name: isHi ? "ऑक्सीजन स्तर" : "SpO2 (Oxygen)", 
+        value: userSpo2 ? userSpo2.value : "Unknown / Not Provided", 
+        unit: "%", 
+        range: "95 - 100", 
+        status: userSpo2 ? "normal" : "unknown", 
+        statusLabel: userSpo2 ? (isHi ? "उत्कृष्ट" : "Optimal") : (isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)"), 
+        percent: userSpo2 ? 90 : 0,
+        missing: !userSpo2
+      },
+      { 
+        name: isHi ? "रक्तचाप" : "Blood Pressure", 
+        value: userBp ? userBp.value : "Unknown / Not Provided", 
+        unit: "mmHg", 
+        range: "< 120/80", 
+        status: userBp ? "normal" : "unknown", 
+        statusLabel: userBp ? (isHi ? "सामान्य" : "Normal") : (isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)"), 
+        percent: userBp ? 50 : 0,
+        missing: !userBp
+      }
     ]
   };
 }
@@ -628,16 +1003,16 @@ async function handleAnalysisRequest(req, res) {
     const uploadedFile = req.file;
     const { question, query, abhaId, language, userEmail, patientName, ocrText } = req.body || {};
     const userQuery = (query || question || '').trim();
-    const activeEmail = (userEmail && userEmail.trim().toLowerCase()) || "aditi@sagecure.ai";
+    const activeEmail = (userEmail && userEmail.trim().toLowerCase()) || "";
     const db = getUsersDB();
-    const dbUser = db[activeEmail];
-    const activeName = (patientName && patientName.trim()) || (dbUser && dbUser.name) || (activeEmail.includes('rohan') ? "Rohan Varma" : "Aditi Sharma");
-    const activeAbha = abhaId || (dbUser && dbUser.abhaId) || (activeEmail.includes('rohan') ? "22-9811-4321-7654@abdm" : "14-0234-5678-9012@abdm");
+    const dbUser = activeEmail ? db[activeEmail] : null;
+    const activeName = (patientName && patientName.trim()) || (dbUser && dbUser.name) || "Patient";
+    const activeAbha = abhaId || (dbUser && dbUser.abhaId) || "";
     const lang = (language === 'hi') ? 'hi' : 'en';
     const isHi = (lang === 'hi');
 
     console.log(`[SageCure Backend Search Engine] Incoming Request:`, {
-      userEmail: activeEmail,
+      userEmail: activeEmail || '(none)',
       patientName: activeName,
       language: lang,
       query: userQuery || '(none)',
@@ -709,6 +1084,9 @@ async function handleAnalysisRequest(req, res) {
       makeFormData.append('patientName', activeName);
       makeFormData.append('language', lang);
       makeFormData.append('abhaId', activeAbha);
+      makeFormData.append('clinicalSafetyDirective', 
+        'CRITICAL CLINICAL SAFETY RULE (ZERO-HALLUCINATION ENFORCEMENT): If patient inquiry does not provide calibrated numerical measurements for body temperature, blood pressure, heart rate, blood glucose, weight, or SpO2, do NOT guess or fabricate numbers (e.g. 38°C or 120/80). Flag missing parameters as "Unknown / Not Provided" and instruct the patient to measure and input the exact reading.'
+      );
 
       // Pass clear OCR text chunks to prevent Make.com failing on unstructured images/screenshots
       if (ocrMetadata.rawText) {
@@ -790,21 +1168,35 @@ async function handleAnalysisRequest(req, res) {
       dynamicRecommendations = isHi ? querySynthesis.recommendations_hi : querySynthesis.recommendations_en;
     }
 
+    // Biomarkers extraction: Prioritize OCR-parsed biomarkers if detected from the uploaded image!
+    let rawBiomarkers = [];
+    if (makeCustomData && Array.isArray(makeCustomData.biomarkers) && makeCustomData.biomarkers.length > 0) {
+      rawBiomarkers = makeCustomData.biomarkers;
+    } else if (ocrMetadata.biomarkers && ocrMetadata.biomarkers.length > 0) {
+      rawBiomarkers = ocrMetadata.biomarkers;
+    } else {
+      rawBiomarkers = querySynthesis.biomarkers;
+    }
+
+    // STRICT CLINICAL SAFETY AUDIT: Prevent AI hallucination & fabrication of health measurements
+    const combinedSourceText = [userQuery, ocrMetadata.rawText].filter(Boolean).join(' ');
+    const biomarkers = auditAndSanitizeBiomarkers(rawBiomarkers, combinedSourceText, lang);
+
+    // If any parameters are missing, ensure dynamicSummary explicitly advises measuring them
+    const missingVitals = biomarkers.filter(b => b.missing || b.value === 'Unknown / Not Provided');
+    if (missingVitals.length > 0 && !dynamicSummary.includes('⚠️')) {
+      const missingLabels = missingVitals.map(b => b.name).join(', ');
+      const safetyNotice = isHi
+        ? `⚠️ क्लिनिकल माप सुरक्षा सूचना: (${missingLabels}) के लिए वास्तविक संख्यात्मक आंकड़े दर्ज नहीं हैं। सेजक्योर प्रणाली कभी भी शारीरिक मापों का अनुमान या मनगढ़ंत आंकड़े तैयार नहीं करती। कृपया प्रमाणित उपकरण से नापें और सही आंकड़े प्रदान करें।\n\n`
+        : `⚠️ Clinical Measurement Safety Notice: Calibrated numerical measurements for (${missingLabels}) were not provided. SageCure strictly does not fabricate or guess vital measurements. Please measure using a calibrated device (thermometer, BP monitor, or pulse oximeter) and input the exact reading.\n\n`;
+      dynamicSummary = safetyNotice + dynamicSummary;
+    }
+
     // Audio text derivation
     let dynamicAudio = (makeCustomData && (makeCustomData.audioText || makeCustomData.audioText_en)) || null;
     if (!dynamicAudio) {
       const greeting = isHi ? `नमस्ते ${activeName}। ` : `Hello ${activeName}. `;
       dynamicAudio = greeting + dynamicSummary.replace(/\n+/g, ' ');
-    }
-
-    // Biomarkers extraction: Prioritize OCR-parsed biomarkers if detected from the uploaded image!
-    let biomarkers = [];
-    if (makeCustomData && Array.isArray(makeCustomData.biomarkers) && makeCustomData.biomarkers.length > 0) {
-      biomarkers = makeCustomData.biomarkers;
-    } else if (ocrMetadata.biomarkers && ocrMetadata.biomarkers.length > 0) {
-      biomarkers = ocrMetadata.biomarkers;
-    } else {
-      biomarkers = querySynthesis.biomarkers;
     }
 
     // Build the guaranteed structured response payload
@@ -818,8 +1210,8 @@ async function handleAnalysisRequest(req, res) {
       patient: {
         name: activeName,
         age: (makeCustomData && makeCustomData.patient && makeCustomData.patient.age) || "42",
-        gender: (makeCustomData && makeCustomData.patient && makeCustomData.patient.gender) || (isHi ? "पुरुष/महिला" : "Adult"),
-        abhaId: abhaId || (makeCustomData && makeCustomData.patient && makeCustomData.patient.abhaId) || "14-0234-5678-9012@abdm",
+        gender: (makeCustomData && makeCustomData.patient && makeCustomData.patient.gender) || (isHi ? "वयस्क" : "Adult"),
+        abhaId: activeAbha || (makeCustomData && makeCustomData.patient && makeCustomData.patient.abhaId) || "",
         facility: (makeCustomData && makeCustomData.patient && makeCustomData.patient.facility) || (isHi ? "सेजक्योर क्लिनिकल सर्च इंजन" : "SageCure Clinical Retrieval Engine"),
         date: new Date().toLocaleDateString(isHi ? 'hi-IN' : 'en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
         confidence: (makeCustomData && makeCustomData.confidence) || "99.4% Verified"
@@ -941,9 +1333,10 @@ async function handleAnalysisRequest(req, res) {
   }
 }
 
-// Support both /api/upload and /api/chat endpoints
+// Support /api/upload, /api/chat, and /api/analyze endpoints
 app.post('/api/upload', upload.single('document'), handleAnalysisRequest);
 app.post('/api/chat', upload.single('document'), handleAnalysisRequest);
+app.post('/api/analyze', upload.single('document'), handleAnalysisRequest);
 
 // -------------------------------------------------------------
 // 1. EMERGENCY RED-FLAG TRIAGE API
@@ -1104,7 +1497,7 @@ app.get('/api/prescription/:reportId', (req, res) => {
 app.post('/api/prescription/prescribe', (req, res) => {
   try {
     const { patient, vitals, diagnosis, icd10, medications, doctor, dietaryDirectives, followUp, userEmail } = req.body || {};
-    const email = (userEmail || 'aditi@sagecure.ai').toLowerCase().trim();
+    const email = (userEmail || '').toLowerCase().trim();
     const prescriptionId = 'SC-RX-' + Date.now().toString().slice(-6);
     const dateStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
     const doctorObj = doctor || {
@@ -1138,9 +1531,9 @@ app.post('/api/prescription/prescribe', (req, res) => {
       },
       patient: {
         name: patient?.name || "Patient",
-        age: patient?.age || "42",
+        age: patient?.age || "—",
         gender: patient?.gender || "Adult",
-        abhaId: patient?.abhaId || "14-0234-5678-9012@abdm",
+        abhaId: patient?.abhaId || "Not Linked",
         facility: "SageCure Telemedicine Outpatient Clinic"
       },
       vitals: vitals || {},

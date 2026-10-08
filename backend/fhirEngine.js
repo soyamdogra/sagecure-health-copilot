@@ -82,8 +82,8 @@ function buildFhirV4Bundle(reportData, patientInfo = {}) {
   const timestamp = new Date().toISOString();
   const bundleId = `sagecure-bundle-${Date.now()}`;
   const reportId = reportData.id || `rep-${Date.now()}`;
-  const abhaId = patientInfo.abhaId || reportData.patient?.abhaId || '14-0234-5678-9012@abdm';
-  const patientName = patientInfo.name || reportData.patient?.name || 'Aditi Sharma';
+  const abhaId = patientInfo.abhaId || reportData.patient?.abhaId || '14-0000-0000-0000@abdm';
+  const patientName = patientInfo.name || reportData.patient?.name || 'Patient';
   const facilityName = reportData.facility || reportData.patient?.facility || 'SageCure Clinical Diagnostics';
   const category = reportData.category || 'metabolic';
 
@@ -156,12 +156,25 @@ function buildFhirV4Bundle(reportData, patientInfo = {}) {
           display: facilityName
         }
       ],
-      valueQuantity: {
-        value: numericValue,
-        unit: unit,
-        system: 'http://unitsofmeasure.org',
-        code: unit
-      },
+      ...(typeof bm.value === 'string' && bm.value.toLowerCase().includes('unknown')
+        ? {
+            dataAbsentReason: {
+              coding: [{
+                system: 'http://terminology.hl7.org/CodeSystem/data-absent-reason',
+                code: 'unknown',
+                display: 'Unknown / Not Provided'
+              }]
+            },
+            valueString: 'Unknown / Not Provided'
+          }
+        : {
+            valueQuantity: {
+              value: numericValue,
+              unit: unit,
+              system: 'http://unitsofmeasure.org',
+              code: unit
+            }
+          }),
       interpretation: [
         {
           coding: [

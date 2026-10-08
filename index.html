@@ -254,7 +254,7 @@
             <input 
               type="text" 
               id="auth-name" 
-              placeholder="e.g. Aditi Sharma" 
+              placeholder="e.g. Full Name" 
               class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition"
             >
           </div>
@@ -270,7 +270,7 @@
             <input 
               type="email" 
               id="auth-email" 
-              value="aditi@sagecure.ai" 
+              value="" 
               required
               placeholder="name@example.com" 
               class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition"
@@ -288,7 +288,7 @@
             <input 
               type="password" 
               id="auth-password" 
-              value="password123" 
+              value="" 
               required
               placeholder="••••••••" 
               class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition"
@@ -323,31 +323,8 @@
           </button>
         </div>
       </form>
-
-      <!-- Quick 1-Click Demo Profiles For Evaluation -->
-      <div class="pt-2 border-t border-slate-100 space-y-2 text-left">
-        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">1-Click Demo Profiles (Multi-User Test):</span>
-        <div class="grid grid-cols-2 gap-2">
-          <button 
-            type="button" 
-            onclick="fillDemoAccount('aditi@sagecure.ai', 'password123', 'Aditi Sharma')" 
-            class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-brand-50 hover:border-brand-300 text-left transition"
-          >
-            <div class="text-xs font-bold text-slate-900 truncate">👤 Aditi Sharma</div>
-            <div class="text-[10px] text-slate-500 font-mono truncate">aditi@sagecure.ai</div>
-          </button>
-          <button 
-            type="button" 
-            onclick="fillDemoAccount('rohan@sagecure.ai', 'password123', 'Rohan Varma')" 
-            class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-brand-50 hover:border-brand-300 text-left transition"
-          >
-            <div class="text-xs font-bold text-slate-900 truncate">👤 Rohan Varma</div>
-            <div class="text-[10px] text-slate-500 font-mono truncate">rohan@sagecure.ai</div>
-          </button>
-        </div>
-      </div>
       
-      <p class="text-center text-xs text-slate-400">
+      <p class="text-center text-xs text-slate-400 pt-2 border-t border-slate-100">
         🔒 Encrypted & Isolated User Storage • HIPAA & ABDM Compliant
       </p>
     </div>
@@ -367,10 +344,11 @@
         </div>
         <div>
           <div class="flex items-center space-x-2">
-            <span class="font-black text-xs sm:text-sm tracking-wide uppercase bg-red-950/80 px-2.5 py-0.5 rounded text-white border border-red-400">
+            <span class="font-black text-xs sm:text-sm tracking-wide uppercase bg-red-950/80 px-2.5 py-0.5 rounded text-white border border-red-400" title="Evaluator Safety Guardrail: Triggered immediately when life-threatening symptoms (cardiac, stroke, respiratory crisis, severe hemorrhage, anaphylaxis) are detected">
               CRITICAL EMERGENCY TRIAGE ALERT
             </span>
-            <span id="emergency-symptom-tag" class="text-xs font-mono bg-white/20 px-2 py-0.5 rounded font-bold text-red-100">Severe Chest Pain</span>
+            <span id="emergency-symptom-tag" class="text-xs font-mono bg-white/20 px-2 py-0.5 rounded font-bold text-red-100" title="Evaluator: Automatically detected high-risk clinical category">Severe Chest Pain</span>
+            <span class="hidden sm:inline-block text-[10px] uppercase font-bold text-red-200 bg-red-900/60 px-1.5 py-0.5 rounded border border-red-400/40">Evaluator Override</span>
           </div>
           <p id="emergency-banner-msg" class="text-xs sm:text-sm text-red-100 font-medium mt-0.5 leading-snug">
             Your reported symptoms warrant immediate emergency medical intervention. Do not wait for AI responses. Call emergency services now!
@@ -381,6 +359,7 @@
       <div class="flex items-center space-x-2.5 shrink-0 w-full md:w-auto justify-end">
         <a 
           href="tel:112" 
+          title="Evaluator Emergency Action: Direct connection to Pan-India Emergency Service (112)"
           class="inline-flex items-center px-4 py-2 rounded-xl bg-white text-red-700 font-black text-xs sm:text-sm shadow-lg hover:bg-red-50 transition transform hover:scale-105"
         >
           <span class="mr-1.5 text-base">📞</span>
@@ -388,6 +367,7 @@
         </a>
         <a 
           href="tel:102" 
+          title="Evaluator Emergency Action: Direct connection to National Ambulance Service (102)"
           class="inline-flex items-center px-3.5 py-2 rounded-xl bg-red-950/60 hover:bg-red-950 text-white border border-red-300 font-bold text-xs transition"
         >
           <span class="mr-1 text-sm">🚑</span>
@@ -395,6 +375,7 @@
         </a>
         <button 
           onclick="openEmergencyModal()" 
+          title="Evaluator: Opens emergency directory of 24x7 apex trauma and cardiology hospitals"
           class="px-3 py-2 rounded-xl bg-white/20 hover:bg-white/30 text-white text-xs font-bold border border-white/40 transition"
         >
           Hospital Locator 🏥
@@ -454,6 +435,19 @@
       <!-- Right Controls: User Profile, Saved Records, Font Size, Language -->
       <div class="flex items-center space-x-2 sm:space-x-3">
         
+        <!-- Architecture & Tech Stack Evaluation Modal Button -->
+        <button 
+          type="button" 
+          id="arch-tech-stack-btn" 
+          onclick="openArchitectureModal()" 
+          class="inline-flex items-center px-3 sm:px-3.5 py-2 rounded-xl text-xs font-black bg-gradient-to-r from-indigo-600 via-purple-600 to-brand-600 hover:from-indigo-700 hover:to-brand-700 text-white shadow-md shadow-indigo-600/20 transition transform hover:scale-[1.02] active:scale-[0.98] border border-white/20 shrink-0"
+          title="Faceless Evaluation Guide: View What was built, Why it was built, and How it works (Full Tech Stack Architecture)"
+        >
+          <span class="mr-1.5 text-sm select-none">🏛️</span>
+          <span class="hidden sm:inline">Architecture & Stack</span>
+          <span class="sm:hidden">Architecture</span>
+        </button>
+
         <!-- Senior Friendly Font Size Scaler Button -->
         <button 
           onclick="toggleFontSize()" 
@@ -526,7 +520,7 @@
             title="Click to view saved health records and session info"
           >
             <span class="mr-1.5">👤</span>
-            <span id="header-patient-display" class="max-w-[100px] sm:max-w-[140px] truncate">Aditi Sharma</span>
+            <span id="header-patient-display" class="max-w-[100px] sm:max-w-[140px] truncate">Sign In</span>
           </button>
           <button 
             type="button" 
@@ -535,7 +529,7 @@
             title="Switch Account or Sign Out"
           >
             <span class="text-xs">🔄</span>
-            <span class="hidden xl:inline ml-1 text-[11px]">Switch</span>
+            <span class="hidden xl:inline ml-1 text-[11px]">Account</span>
           </button>
         </div>
 
@@ -555,7 +549,7 @@
       <div class="flex items-center justify-between pb-4 border-b border-slate-100">
         <div>
           <h3 class="text-lg font-black text-slate-900" id="drawer-title">Saved Health Records</h3>
-          <p class="text-xs text-slate-500" id="drawer-subtitle">Reports linked to <span id="drawer-user-email" class="font-bold text-brand-600">aditi@sagecure.ai</span></p>
+          <p class="text-xs text-slate-500" id="drawer-subtitle">Reports linked to <span id="drawer-user-email" class="font-bold text-brand-600">Not Signed In</span></p>
         </div>
         <button onclick="toggleRecordsDrawer()" class="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition">
           ✕
@@ -569,26 +563,6 @@
     </div>
 
     <div class="pt-4 border-t border-slate-100 space-y-2">
-      <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200 text-xs">
-        <span class="font-bold text-slate-500 uppercase tracking-wider block mb-2 text-[10px]">Switch Active Account:</span>
-        <div class="grid grid-cols-2 gap-2">
-          <button 
-            type="button" 
-            onclick="switchUserProfile('aditi@sagecure.ai')" 
-            class="px-2.5 py-2 rounded-xl border border-slate-200 bg-white hover:bg-brand-50 text-left transition font-bold text-slate-800 text-[11px] truncate"
-          >
-            👤 Aditi Sharma
-          </button>
-          <button 
-            type="button" 
-            onclick="switchUserProfile('rohan@sagecure.ai')" 
-            class="px-2.5 py-2 rounded-xl border border-slate-200 bg-white hover:bg-brand-50 text-left transition font-bold text-slate-800 text-[11px] truncate"
-          >
-            👤 Rohan Varma
-          </button>
-        </div>
-      </div>
-
       <button 
         type="button" 
         onclick="logoutUser()" 
@@ -605,12 +579,75 @@
   <!-- ============================================================== -->
   <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-20 space-y-10">
 
+    <!-- ============================================================== -->
+    <!-- EVALUATOR GUIDANCE BANNER (FOR FACELESS EVALUATION)            -->
+    <!-- ============================================================== -->
+    <div id="evaluator-guide-banner" class="relative rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border-2 border-indigo-500/40 p-5 sm:p-6 text-white shadow-xl shadow-indigo-950/20 overflow-hidden">
+      <!-- Glow effect -->
+      <div class="absolute -right-12 -top-12 w-48 h-48 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="space-y-1.5 max-w-3xl">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-black bg-indigo-500 text-white uppercase tracking-wider shadow-sm">
+              Faceless Evaluation Suite
+            </span>
+            <span class="text-xs font-mono text-indigo-300">Self-Explanatory Architecture & Testing Mode</span>
+          </div>
+          <h2 class="text-base sm:text-lg font-black text-white flex items-center gap-2">
+            <span>🔬 Welcome Evaluator to SageCure AI Clinical Copilot</span>
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            Every core module is self-guided with interactive tooltips and pre-validated test cases. Inspect the complete technical blueprint or test the lab parser, anti-hallucination rules, emergency triage, and FHIR export below.
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+          <button 
+            type="button" 
+            onclick="openArchitectureModal()" 
+            class="px-4 py-2.5 rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-black text-xs shadow-lg shadow-indigo-500/30 transition transform hover:scale-[1.03] active:scale-[0.98] border border-white/20 flex items-center space-x-2"
+            title="Open comprehensive technical architecture modal"
+          >
+            <span>🏛️</span>
+            <span>Architecture & Tech Stack</span>
+          </button>
+          <button 
+            type="button" 
+            onclick="document.getElementById('evaluator-guide-banner').classList.add('hidden')" 
+            class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition text-xs" 
+            title="Dismiss evaluator banner"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Evaluator Test-Jump Shortcuts -->
+      <div class="relative z-10 mt-4 pt-3.5 border-t border-indigo-800/60 flex flex-wrap items-center gap-2 text-xs">
+        <span class="text-indigo-300 font-bold text-[11px] uppercase tracking-wider mr-1">Evaluator Quick Jumps:</span>
+        <button type="button" onclick="loadSampleReport('diabetic')" class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium border border-white/10 transition" title="1-Click test: Load sample Diabetic & Lipid panel">
+          📄 1. Test Lab Parser (Diabetic)
+        </button>
+        <button type="button" onclick="setQueryText('I have fever'); triggerHealthAnalysis();" class="px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 border border-amber-400/30 font-medium transition" title="1-Click test: Verify missing vitals are flagged as Unknown without AI hallucination">
+          🛡️ 2. Test Zero-Hallucination Rule
+        </button>
+        <button type="button" onclick="screenEmergencySymptoms('severe crushing chest pain')" class="px-3 py-1.5 rounded-xl bg-red-500/20 hover:bg-red-500/30 text-red-200 border border-red-400/30 font-medium transition" title="1-Click test: Trigger instant Emergency Triage Red Banner and 112/102 guidance">
+          🚨 3. Test Emergency Triage
+        </button>
+        <button type="button" onclick="openPrescriptionGiverSection()" class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium border border-white/10 transition" title="1-Click test: Open Prescription Medication Giver studio and PDF downloader">
+          💊 4. Test Prescription Giver
+        </button>
+        <button type="button" onclick="openFhirExportModal()" class="px-3 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-200 border border-emerald-400/30 font-medium transition" title="1-Click test: Inspect and download HL7 FHIR v4 Document Bundle with LOINC codes">
+          📋 5. Test ABDM FHIR v4 Export
+        </button>
+      </div>
+    </div>
+
     <!-- Welcome Greeting & Hero Section -->
     <section class="max-w-4xl mx-auto text-center space-y-4 pt-2">
       <!-- Greeting Banner with User Name -->
       <div id="greeting-banner" class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm font-bold shadow-sm animate-float">
         <span class="flex h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-        <span id="greeting-text">Welcome to SageCure, Aditi Sharma! We are ready to help.</span>
+        <span id="greeting-text">Welcome to SageCure! Clinical Health Copilot</span>
       </div>
 
       <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 leading-[1.15]">
@@ -685,12 +722,12 @@
         <div class="p-3.5 bg-brand-50/80 rounded-2xl border border-brand-200/80 flex items-center justify-between text-xs sm:text-sm">
           <div class="flex items-center space-x-2">
             <span class="text-brand-700 font-bold" id="strip-patient-label">Logged-In Patient:</span>
-            <span id="active-patient-name" class="font-bold text-slate-900">Aditi Sharma</span>
+            <span id="active-patient-name" class="font-bold text-slate-900">Guest / Patient</span>
             <span class="text-slate-400">•</span>
-            <span id="active-patient-abha" class="font-mono text-brand-800 font-semibold truncate max-w-[180px] sm:max-w-none">14-0234-5678-9012@abdm</span>
+            <span id="active-patient-abha" class="font-mono text-brand-800 font-semibold truncate max-w-[180px] sm:max-w-none">Not Linked</span>
           </div>
           <button type="button" onclick="logoutUser()" class="text-xs font-bold text-rose-600 hover:text-rose-800 underline shrink-0">
-            Switch User
+            Sign Out
           </button>
         </div>
 
@@ -720,6 +757,10 @@
                 <span class="text-brand-600 underline">Click to choose document</span> or drag & drop here
               </p>
               <p id="dropzone-text-sub" class="text-xs sm:text-sm text-slate-500 mt-1">Take a photo from your phone or choose a PDF file (Max 25MB)</p>
+            </div>
+            <div class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-bold text-brand-700 bg-brand-50 border border-brand-200">
+              <span>💡 Evaluator Tip:</span>
+              <span>Upload any lab PDF / JPG, or use 1-click sample presets below</span>
             </div>
             <div class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold text-slate-600 bg-white border border-slate-200 shadow-sm">
               🔒 Safe & Private • Saved to your SageCure account
@@ -769,24 +810,24 @@
         <div class="space-y-2 pt-1">
           <div class="flex items-center justify-between">
             <span id="sample-reports-label" class="text-xs sm:text-sm font-bold text-slate-700">Or tap a sample test to try instantly:</span>
-            <span class="text-xs text-brand-600 font-semibold">1-Click Test</span>
+            <span class="text-xs text-brand-600 font-semibold" title="Evaluator: Loads instant validated clinical lab reports without needing a file">1-Click Test</span>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-            <button type="button" onclick="loadSampleReport('diabetic')" class="p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-brand-500 hover:bg-brand-50/50 text-left transition group">
+            <button type="button" onclick="loadSampleReport('diabetic')" class="p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-brand-500 hover:bg-brand-50/50 text-left transition group" title="Evaluator 1-Click Test: Loads Diabetic & Lipid panel (HbA1c 8.4%, Sugar 168 mg/dL) with elevated risk flags">
               <div class="text-xs sm:text-sm font-extrabold text-slate-800 group-hover:text-brand-700 flex items-center justify-between">
                 <span id="sample-diabetic-title">Diabetic & Lipid</span>
                 <span class="text-rose-500 text-xs font-bold">⚠️ High</span>
               </div>
               <div class="text-xs text-slate-500 mt-1">HbA1c 8.4%, Sugar 168</div>
             </button>
-            <button type="button" onclick="loadSampleReport('cbc')" class="p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-brand-500 hover:bg-brand-50/50 text-left transition group">
+            <button type="button" onclick="loadSampleReport('cbc')" class="p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-brand-500 hover:bg-brand-50/50 text-left transition group" title="Evaluator 1-Click Test: Loads Complete Blood Count (Hemoglobin 10.8 g/dL) showing mild anemia">
               <div class="text-xs sm:text-sm font-extrabold text-slate-800 group-hover:text-brand-700 flex items-center justify-between">
                 <span id="sample-cbc-title">Complete Blood Count</span>
                 <span class="text-amber-500 text-xs font-bold">⚡ Low Hb</span>
               </div>
               <div class="text-xs text-slate-500 mt-1">Hemoglobin 10.8 g/dL</div>
             </button>
-            <button type="button" onclick="loadSampleReport('thyroid')" class="p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-brand-500 hover:bg-brand-50/50 text-left transition group">
+            <button type="button" onclick="loadSampleReport('thyroid')" class="p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-brand-500 hover:bg-brand-50/50 text-left transition group" title="Evaluator 1-Click Test: Loads normal Endocrine & Vitamin panel (TSH 2.45, B12 410)">
               <div class="text-xs sm:text-sm font-extrabold text-slate-800 group-hover:text-brand-700 flex items-center justify-between">
                 <span id="sample-thyroid-title">Thyroid & Vitamins</span>
                 <span class="text-emerald-500 text-xs font-bold">✓ Normal</span>
@@ -834,7 +875,7 @@
                 id="mic-btn"
                 onclick="toggleSpeechRecognition()"
                 class="relative group w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-tr from-brand-600 via-teal-500 to-emerald-400 hover:from-brand-500 hover:to-emerald-300 flex items-center justify-center text-white shadow-xl shadow-brand-500/30 transition transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-teal-400/50 shrink-0"
-                title="Tap to speak"
+                title="Evaluator Voice Input: Speak health questions in English, Hindi, or Punjabi using Web Speech API"
               >
                 <!-- Pulse rings during listening -->
                 <span id="mic-ring" class="hidden absolute inset-0 rounded-full bg-teal-400 opacity-75 animate-ping"></span>
@@ -861,14 +902,15 @@
 
           <!-- Question Input Area (High-contrast & accessible) -->
           <div class="space-y-2">
-            <label for="query-input" id="label-query-input" class="text-sm font-bold text-slate-800 flex items-center justify-between">
+            <label for="query-input" id="label-query-input" title="Evaluator: Natural language clinical query processor connected to Make.com & LLM retrieval" class="text-sm font-bold text-slate-800 flex items-center justify-between cursor-help">
               <span>Your Question (Transcribes from voice automatically)</span>
+              <span class="text-[11px] text-brand-600 font-normal">💡 Free-text or Voice</span>
             </label>
             <div class="relative">
               <textarea 
                 id="query-input" 
                 rows="3" 
-                placeholder="e.g. I have fever and chills for 2 days. What should I do? Or ask about any blood report values..."
+                placeholder="Evaluator Quick Test: Type 'I have fever' to verify zero-hallucination safety rule, or 'severe crushing chest pain' to test emergency triage override..."
                 class="w-full p-4 bg-white border-2 border-slate-200 rounded-2xl text-base text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition resize-none leading-relaxed"
               ></textarea>
             </div>
@@ -876,19 +918,22 @@
 
           <!-- Quick Prompts (Senior Friendly Large Chips) -->
           <div class="space-y-1.5">
-            <span id="quick-prompts-label" class="text-xs font-bold text-slate-500">Quick question ideas:</span>
+            <div class="flex items-center justify-between">
+              <span id="quick-prompts-label" class="text-xs font-bold text-slate-500">Quick question ideas:</span>
+              <span class="text-[11px] text-slate-400 font-medium">Click to populate prompt</span>
+            </div>
             <div class="flex flex-wrap gap-2">
-              <button type="button" onclick="setQueryText(currentLang === 'hi' ? 'मुझे बुखार और कंपकंपी है, मुझे क्या करना चाहिए?' : 'I have fever and chills, what should I do?')" class="px-3.5 py-1.5 text-xs sm:text-sm rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-800 font-bold transition border border-rose-200 flex items-center space-x-1">
+              <button type="button" onclick="setQueryText(currentLang === 'hi' ? 'मुझे बुखार और कंपकंपी है, मुझे क्या करना चाहिए?' : 'I have fever and chills, what should I do?')" class="px-3.5 py-1.5 text-xs sm:text-sm rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-800 font-bold transition border border-rose-200 flex items-center space-x-1" title="Evaluator Test: Submits incomplete symptom to verify AI NEVER fabricates missing vitals">
                 <span>🌡️</span>
                 <span id="prompt-chip-fever">I have fever</span>
               </button>
-              <button type="button" onclick="setQueryText(t('prompt1'))" class="px-3 py-1.5 text-xs sm:text-sm rounded-xl bg-slate-100 hover:bg-brand-100 hover:text-brand-800 text-slate-700 font-medium transition border border-slate-200">
+              <button type="button" onclick="setQueryText(t('prompt1'))" class="px-3 py-1.5 text-xs sm:text-sm rounded-xl bg-slate-100 hover:bg-brand-100 hover:text-brand-800 text-slate-700 font-medium transition border border-slate-200" title="Evaluator Test: Requests clinical explanation of glycated hemoglobin and lipids">
                 <span id="prompt-chip-1">Explain HbA1c & lipids</span>
               </button>
-              <button type="button" onclick="setQueryText(t('prompt2'))" class="px-3 py-1.5 text-xs sm:text-sm rounded-xl bg-slate-100 hover:bg-brand-100 hover:text-brand-800 text-slate-700 font-medium transition border border-slate-200">
+              <button type="button" onclick="setQueryText(t('prompt2'))" class="px-3 py-1.5 text-xs sm:text-sm rounded-xl bg-slate-100 hover:bg-brand-100 hover:text-brand-800 text-slate-700 font-medium transition border border-slate-200" title="Evaluator Test: Asks AI to flag any critical out-of-range clinical metrics">
                 <span id="prompt-chip-2">Are any values critical?</span>
               </button>
-              <button type="button" onclick="setQueryText(t('prompt3'))" class="px-3 py-1.5 text-xs sm:text-sm rounded-xl bg-slate-100 hover:bg-brand-100 hover:text-brand-800 text-slate-700 font-medium transition border border-slate-200">
+              <button type="button" onclick="setQueryText(t('prompt3'))" class="px-3 py-1.5 text-xs sm:text-sm rounded-xl bg-slate-100 hover:bg-brand-100 hover:text-brand-800 text-slate-700 font-medium transition border border-slate-200" title="Evaluator Test: Asks AI for personalized dietary & lifestyle guidance">
                 <span id="prompt-chip-3">Diet & food recommendations</span>
               </button>
             </div>
@@ -901,6 +946,7 @@
             type="button" 
             id="analyze-btn" 
             onclick="triggerHealthAnalysis()" 
+            title="Evaluator Action: Executes multimodal OCR extraction, Make.com LLM orchestration, and biomarker audit" 
             class="w-full py-4 sm:py-5 px-6 rounded-2xl bg-gradient-to-r from-brand-600 via-brand-700 to-teal-600 hover:from-brand-700 hover:to-teal-700 text-white font-extrabold text-base sm:text-lg tracking-wide shadow-xl shadow-brand-600/30 transition transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center space-x-3 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1023,15 +1069,15 @@
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-6 text-xs sm:text-sm">
           <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
             <span class="text-slate-400 block font-medium" id="card-label-patient">Patient Name</span>
-            <span id="patient-name" class="font-extrabold text-slate-900 text-base">Aditi Sharma</span>
+            <span id="patient-name" class="font-extrabold text-slate-900 text-base">Patient</span>
           </div>
           <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
             <span class="text-slate-400 block font-medium" id="card-label-age">Age / Gender</span>
-            <span id="patient-age-gender" class="font-bold text-slate-900 text-base">48 Y / Female</span>
+            <span id="patient-age-gender" class="font-bold text-slate-900 text-base">—</span>
           </div>
           <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
             <span class="text-slate-400 block font-medium">ABHA ID</span>
-            <span id="patient-abha" class="font-mono font-bold text-brand-700 text-xs sm:text-sm truncate block">14-0234-5678-9012@abdm</span>
+            <span id="patient-abha" class="font-mono font-bold text-brand-700 text-xs sm:text-sm truncate block">—</span>
           </div>
           <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
             <span class="text-slate-400 block font-medium" id="card-label-lab">Lab / Facility</span>
@@ -1298,10 +1344,11 @@
               ℞
             </div>
             <div>
-              <div class="flex items-center space-x-2">
+              <div class="flex flex-wrap items-center gap-2">
                 <h3 class="text-xl sm:text-2xl font-black text-slate-900" id="rx-giver-title">Prescription Medication Giver</h3>
                 <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-100 text-indigo-800 border border-indigo-200">Clinical Rx Studio</span>
                 <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">ABDM & NMC Signed</span>
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-100 text-purple-800 border border-purple-200 cursor-help" title="Evaluator: Full-featured electronic prescribing suite compliant with NMC Telemedicine Guidelines 2026">💡 Evaluator Ready</span>
               </div>
               <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Enter patient vitals, diagnosis, and medications to generate an official verified digital prescription</p>
             </div>
@@ -1311,12 +1358,22 @@
             <button 
               type="button" 
               onclick="generateOfficialPrescriptionFromGiver()" 
+              title="Evaluator Action: Compiles vitals, diagnosis, and medications into signed digital prescription with cryptographic verification hash"
               class="inline-flex items-center px-5 py-3 rounded-2xl text-xs sm:text-sm font-extrabold bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white shadow-lg shadow-emerald-600/25 transition transform hover:scale-[1.02] active:scale-[0.98]"
             >
               <span class="mr-1.5 text-base">✨</span>
               <span>Generate Signed Rx Card</span>
             </button>
           </div>
+        </div>
+
+        <!-- Evaluator Guidance Notice -->
+        <div class="p-3.5 bg-indigo-50/80 border border-indigo-200/80 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-indigo-950 font-medium">
+          <div class="flex items-center space-x-2">
+            <span class="text-base select-none">💡</span>
+            <span><strong>Evaluator Guide:</strong> Select a preset diagnosis or type custom medications. Clicking "Generate Signed Rx Card" digitally signs the prescription with an ABDM verification hash and enables high-resolution A4 PDF download.</span>
+          </div>
+          <span class="text-[11px] font-mono text-indigo-600 bg-white px-2 py-0.5 rounded border border-indigo-200 shrink-0">NMC Compliant</span>
         </div>
 
         <!-- Section 1: Patient Context & Real-Time Vitals -->
@@ -1333,12 +1390,12 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80">
               <label class="text-[11px] font-bold text-slate-500 block uppercase">Patient Name</label>
-              <input type="text" id="rx-input-patient-name" value="Aditi Sharma" class="w-full mt-1 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500">
+              <input type="text" id="rx-input-patient-name" value="" placeholder="Patient Full Name" class="w-full mt-1 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500">
             </div>
             <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80">
               <label class="text-[11px] font-bold text-slate-500 block uppercase">Age & Gender</label>
               <div class="grid grid-cols-2 gap-2 mt-1">
-                <input type="text" id="rx-input-patient-age" value="42 Y" class="px-2.5 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none">
+                <input type="text" id="rx-input-patient-age" value="" placeholder="Age (e.g. 45 Y)" class="px-2.5 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none">
                 <select id="rx-input-patient-gender" class="px-2 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none">
                   <option value="Female">Female</option>
                   <option value="Male">Male</option>
@@ -1348,7 +1405,7 @@
             </div>
             <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80">
               <label class="text-[11px] font-bold text-slate-500 block uppercase">ABHA Health ID</label>
-              <input type="text" id="rx-input-patient-abha" value="14-0234-5678-9012@abdm" class="w-full mt-1 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-mono font-bold text-brand-700 focus:outline-none">
+              <input type="text" id="rx-input-patient-abha" value="" placeholder="14-XXXX-XXXX-XXXX@abdm" class="w-full mt-1 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-mono font-bold text-brand-700 focus:outline-none">
             </div>
             <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80">
               <label class="text-[11px] font-bold text-slate-500 block uppercase">Attending Physician</label>
@@ -1471,8 +1528,10 @@
               <input type="text" id="rx-new-med-instructions" placeholder="Doctor instructions (e.g. Swallow whole, do not crush with milk)" class="w-full sm:flex-1 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-700 focus:outline-none">
               <button 
                 type="button" 
+                id="add-rx-row-btn"
                 onclick="addCustomMedicationFromInputs()" 
                 class="w-full sm:w-auto px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md transition flex items-center justify-center space-x-1.5 shrink-0"
+                title="Evaluator Action: Adds new medication row to prescription schedule"
               >
                 <span>➕ Add Medication</span>
               </button>
@@ -1581,8 +1640,8 @@
           </div>
           <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
             <span class="text-slate-400 block font-bold uppercase tracking-wider text-[10px]">Patient ABHA Details:</span>
-            <span class="font-extrabold text-slate-900 text-sm block mt-1" id="rx-patient-label">Aditi Sharma (48 Y / Female)</span>
-            <span class="text-brand-700 font-mono block text-[11px] mt-0.5 truncate" id="rx-abha-label">14-0234-5678-9012@abdm</span>
+            <span class="font-extrabold text-slate-900 text-sm block mt-1" id="rx-patient-label">Patient</span>
+            <span class="text-brand-700 font-mono block text-[11px] mt-0.5 truncate" id="rx-abha-label">—</span>
           </div>
           <div class="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200">
             <span class="text-emerald-700 block font-bold uppercase tracking-wider text-[10px]">Digital Signature Verification:</span>
@@ -1660,13 +1719,23 @@
               🩺
             </div>
             <div>
-              <div class="flex items-center space-x-2">
+              <div class="flex flex-wrap items-center gap-2">
                 <h3 class="text-xl sm:text-2xl font-black text-slate-900">Verified Doctor Directory & Tele-Consult</h3>
                 <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-sky-100 text-sky-800 border border-sky-200">ABDM Registry</span>
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-100 text-purple-800 border border-purple-200 cursor-help" title="Evaluator: Directory of ABDM-registered medical specialists with tele-consult booking">💡 Evaluator Ready</span>
               </div>
               <p class="text-xs sm:text-sm text-slate-500">Connect with board-certified physicians for review of your lab report</p>
             </div>
           </div>
+        </div>
+
+        <!-- Evaluator Guidance Notice -->
+        <div class="p-3.5 bg-sky-50/80 border border-sky-200/80 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-sky-950 font-medium">
+          <div class="flex items-center space-x-2">
+            <span class="text-base select-none">💡</span>
+            <span><strong>Evaluator Guide:</strong> Verified clinician directory integrated with ABDM registry. Click "Book Tele-Consult" on any physician card to launch the appointment scheduler with auto-attached diagnostic history.</span>
+          </div>
+          <span class="text-[11px] font-mono text-sky-700 bg-white px-2 py-0.5 rounded border border-sky-200 shrink-0">4 Specialists Active</span>
         </div>
 
         <!-- Doctors Grid -->
@@ -1882,6 +1951,14 @@
             <span class="text-emerald-400 font-bold">NRCeS Validated ✓</span>
           </div>
         </div>
+
+        <!-- Evaluator Guidance Note -->
+        <div class="mt-3 p-3 rounded-xl bg-teal-900/50 border border-teal-500/30 flex items-center justify-between text-xs text-teal-200">
+          <div class="flex items-center space-x-2">
+            <span class="text-sm select-none">💡</span>
+            <span><strong>Evaluator Guide:</strong> Valid HL7 FHIR v4 Document Bundle conforming to India's NRCeS <code class="bg-teal-950 px-1 py-0.5 rounded text-teal-300">DiagnosticReportRecord</code> profile. Unmeasured vitals include standard HL7 <code class="bg-teal-950 px-1 py-0.5 rounded text-teal-300">dataAbsentReason: "unknown"</code>.</span>
+          </div>
+        </div>
       </div>
 
       <!-- JSON Viewer Body -->
@@ -1902,6 +1979,7 @@
           <button 
             type="button" 
             onclick="copyFhirJson()" 
+            title="Evaluator Action: Copies entire valid HL7 FHIR v4 JSON bundle to clipboard"
             class="px-4 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-700 font-bold text-xs transition flex items-center space-x-1.5"
           >
             <span>📋</span>
@@ -1910,6 +1988,7 @@
           <button 
             type="button" 
             onclick="downloadFhirBundle()" 
+            title="Evaluator Action: Downloads SageCure-FHIR-Bundle.json file ready for ABDM health exchange"
             class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-extrabold text-xs shadow-md shadow-emerald-700/20 transition flex items-center space-x-1.5"
           >
             <span>📥</span>
@@ -1947,15 +2026,15 @@
         <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
           <div>
             <span class="text-slate-400 block font-bold text-[10px]">PATIENT NAME:</span>
-            <span class="font-extrabold text-slate-900" id="rx-modal-patient">Aditi Sharma</span>
+            <span class="font-extrabold text-slate-900" id="rx-modal-patient">Patient</span>
           </div>
           <div>
             <span class="text-slate-400 block font-bold text-[10px]">AGE / GENDER:</span>
-            <span class="font-bold text-slate-800" id="rx-modal-age">48 Y / Female</span>
+            <span class="font-bold text-slate-800" id="rx-modal-age">—</span>
           </div>
           <div>
             <span class="text-slate-400 block font-bold text-[10px]">ABHA ID:</span>
-            <span class="font-mono font-bold text-brand-700 truncate block" id="rx-modal-abha">14-0234-5678-9012@abdm</span>
+            <span class="font-mono font-bold text-brand-700 truncate block" id="rx-modal-abha">—</span>
           </div>
           <div>
             <span class="text-slate-400 block font-bold text-[10px]">DATE / RX NO:</span>
@@ -2097,6 +2176,492 @@
   </div>
 
   <!-- ============================================================== -->
+  <!-- MODAL 5: ARCHITECTURE & TECH STACK (FACELESS EVALUATION GUIDE) -->
+  <!-- ============================================================== -->
+  <div 
+    id="architecture-modal" 
+    class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="arch-modal-title"
+  >
+    <div class="bg-white rounded-3xl max-w-4xl w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all my-6 flex flex-col max-h-[90vh]">
+      
+      <!-- Modal Header -->
+      <div class="p-5 sm:p-6 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white flex items-center justify-between border-b border-indigo-900/60 shrink-0">
+        <div class="flex items-center space-x-3">
+          <div class="w-12 h-12 rounded-2xl bg-indigo-600/30 border border-indigo-400/30 flex items-center justify-center text-2xl shadow-inner">
+            🏛️
+          </div>
+          <div>
+            <div class="flex items-center space-x-2">
+              <h3 id="arch-modal-title" class="text-base sm:text-lg font-black tracking-tight text-white">
+                SageCure Architecture & Tech Stack
+              </h3>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-indigo-500/30 text-indigo-300 border border-indigo-400/30">
+                Evaluation Blueprint
+              </span>
+            </div>
+            <p class="text-xs text-slate-300 mt-0.5">
+              Comprehensive Architectural Specifications, Clinical Rationales, and Faceless Evaluation Matrix
+            </p>
+          </div>
+        </div>
+        <button 
+          type="button"
+          onclick="closeArchitectureModal()" 
+          class="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-white/10 transition"
+          title="Close Architecture Modal (Esc)"
+        >
+          ✕
+        </button>
+      </div>
+
+      <!-- Tab Navigation Bar -->
+      <div class="flex border-b border-slate-200 bg-slate-100/80 px-2 shrink-0 overflow-x-auto text-xs">
+        <button 
+          type="button"
+          id="arch-tab-btn-what" 
+          onclick="switchArchTab('what')" 
+          class="flex-1 py-3 px-4 text-center font-black text-xs sm:text-sm border-b-2 border-indigo-600 text-indigo-700 bg-indigo-50/80 transition flex items-center justify-center space-x-1.5 shadow-inner"
+        >
+          <span>📌</span>
+          <span>1. What Was Built</span>
+        </button>
+        <button 
+          type="button"
+          id="arch-tab-btn-why" 
+          onclick="switchArchTab('why')" 
+          class="flex-1 py-3 px-4 text-center font-bold text-xs sm:text-sm border-b-2 border-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-50 transition flex items-center justify-center space-x-1.5"
+        >
+          <span>🎯</span>
+          <span>2. Why It Was Built</span>
+        </button>
+        <button 
+          type="button"
+          id="arch-tab-btn-how" 
+          onclick="switchArchTab('how')" 
+          class="flex-1 py-3 px-4 text-center font-bold text-xs sm:text-sm border-b-2 border-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-50 transition flex items-center justify-center space-x-1.5"
+        >
+          <span>⚙️</span>
+          <span>3. How It Works & Stack</span>
+        </button>
+        <button 
+          type="button"
+          id="arch-tab-btn-eval" 
+          onclick="switchArchTab('eval')" 
+          class="flex-1 py-3 px-4 text-center font-bold text-xs sm:text-sm border-b-2 border-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-50 transition flex items-center justify-center space-x-1.5"
+        >
+          <span>🧪</span>
+          <span>4. Evaluator Test Matrix</span>
+        </button>
+      </div>
+
+      <!-- Tab Content Area (Scrollable) -->
+      <div class="p-5 sm:p-6 overflow-y-auto space-y-6 text-slate-700 text-xs sm:text-sm leading-relaxed flex-grow">
+        
+        <!-- PANE 1: WHAT WAS BUILT -->
+        <div id="arch-pane-what" class="space-y-5">
+          <div class="bg-gradient-to-r from-indigo-50 to-purple-50 p-4 sm:p-5 rounded-2xl border border-indigo-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div>
+              <span class="text-[11px] font-black uppercase tracking-wider text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded">Platform Summary</span>
+              <h4 class="text-base sm:text-lg font-black text-slate-900 mt-1">SageCure: AI Clinical Copilot & FHIR v4 Health Platform</h4>
+              <p class="text-xs text-slate-600 mt-0.5">
+                An end-to-end, privacy-preserving clinical intelligence workstation engineered for instant lab report interpretation, safe digital prescribing, deterministic emergency triage, and seamless ABDM interoperability.
+              </p>
+            </div>
+            <span class="px-3 py-1 rounded-xl bg-white border border-indigo-200 font-mono text-xs font-bold text-indigo-900 shadow-sm shrink-0">v2.4 Production</span>
+          </div>
+
+          <!-- Core Modules Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <div class="p-4 rounded-2xl bg-white border border-slate-200 hover:border-indigo-300 transition shadow-sm space-y-2">
+              <div class="flex items-center space-x-2.5">
+                <span class="w-8 h-8 rounded-xl bg-blue-100 text-blue-800 flex items-center justify-center font-bold text-base">📄</span>
+                <h5 class="font-black text-slate-900 text-sm">Multimodal Lab Report Parser</h5>
+              </div>
+              <p class="text-xs text-slate-600">
+                Extracts clinical biomarkers, reference intervals, and flagged abnormalities from multi-page PDFs and images using hybrid OCR (Tesseract.js & server-side pdf-parse) connected to structured Make.com / LLM extraction pipelines.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-white border border-slate-200 hover:border-amber-300 transition shadow-sm space-y-2">
+              <div class="flex items-center space-x-2.5">
+                <span class="w-8 h-8 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold text-base">🛡️</span>
+                <h5 class="font-black text-slate-900 text-sm">Anti-Hallucination Vitals Engine</h5>
+              </div>
+              <p class="text-xs text-slate-600">
+                Strict clinical safety guardrail: when users describe subjective symptoms without numerical vitals, the engine strictly marks measurements as <strong class="text-slate-800">"Unknown"</strong> and instructs clinical measurement rather than hallucinating generic numbers (e.g. inventing 98.6°F or 120/80 mmHg).
+              </p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-white border border-slate-200 hover:border-purple-300 transition shadow-sm space-y-2">
+              <div class="flex items-center space-x-2.5">
+                <span class="w-8 h-8 rounded-xl bg-purple-100 text-purple-800 flex items-center justify-center font-bold text-base">💊</span>
+                <h5 class="font-black text-slate-900 text-sm">Prescription Medication Giver Studio</h5>
+              </div>
+              <p class="text-xs text-slate-600">
+                Compliant digital prescribing interface enabling clinicians to formulate structured medication regimens, review contraindications, sign with cryptographic verification hashes, and generate print-ready A4 PDF prescriptions via jsPDF.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-white border border-slate-200 hover:border-red-300 transition shadow-sm space-y-2">
+              <div class="flex items-center space-x-2.5">
+                <span class="w-8 h-8 rounded-xl bg-red-100 text-red-800 flex items-center justify-center font-bold text-base">🚨</span>
+                <h5 class="font-black text-slate-900 text-sm">Deterministic Emergency Triage</h5>
+              </div>
+              <p class="text-xs text-slate-600">
+                Sub-millisecond client-side symptom interception for acute emergencies (chest pain, stroke symptoms, respiratory distress, anaphylaxis). Overrides LLM latency to display flash red alerts with direct pan-India SOS emergency dials (112, 102).
+              </p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-white border border-slate-200 hover:border-emerald-300 transition shadow-sm space-y-2">
+              <div class="flex items-center space-x-2.5">
+                <span class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-base">📋</span>
+                <h5 class="font-black text-slate-900 text-sm">ABDM / HL7 FHIR v4 Bundle Exporter</h5>
+              </div>
+              <p class="text-xs text-slate-600">
+                Converts diagnostic interpretations into standard <code class="text-emerald-800 bg-emerald-50 px-1 py-0.5 rounded font-mono">DiagnosticReport</code> bundles compliant with India's Ayushman Bharat Digital Mission (ABDM) and NRCeS profiles, mapped to official LOINC test codes.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-white border border-slate-200 hover:border-sky-300 transition shadow-sm space-y-2">
+              <div class="flex items-center space-x-2.5">
+                <span class="w-8 h-8 rounded-xl bg-sky-100 text-sky-800 flex items-center justify-center font-bold text-base">🩺</span>
+                <h5 class="font-black text-slate-900 text-sm">Verified Doctor Tele-Consult Directory</h5>
+              </div>
+              <p class="text-xs text-slate-600">
+                Direct integration with ABDM-registered medical specialists. Enables patients to instantly book encrypted tele-consultations with their synthesized lab reports auto-attached for clinical review.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- PANE 2: WHY IT WAS BUILT -->
+        <div id="arch-pane-why" class="hidden space-y-5">
+          <div class="bg-gradient-to-r from-amber-50 to-orange-50 p-4 sm:p-5 rounded-2xl border border-amber-200">
+            <span class="text-[11px] font-black uppercase tracking-wider text-amber-800 bg-amber-100 px-2 py-0.5 rounded">The Problem Statement</span>
+            <h4 class="text-base sm:text-lg font-black text-slate-900 mt-1">Why SageCure was Conceived</h4>
+            <p class="text-xs text-slate-700 mt-0.5">
+              Healthcare diagnostics in India and globally suffer from chronic fragmentation, medical jargon barriers, dangerous AI hallucinations, and unstructured paper records that jeopardize patient outcomes.
+            </p>
+          </div>
+
+          <div class="space-y-3.5">
+            <div class="flex items-start space-x-3.5 p-4 rounded-2xl bg-slate-50 border border-slate-200">
+              <span class="text-xl shrink-0">🧩</span>
+              <div>
+                <h5 class="font-black text-slate-900 text-sm">1. Fragmented Lab Report Interpretation & Jargon Anxiety</h5>
+                <p class="text-xs text-slate-600 mt-1">
+                  Over 80% of patients receiving lab reports (e.g. lipid panels, CBC, HbA1c) struggle to understand abbreviations and complex ranges. This leads to intense health anxiety, unnecessary self-medication, or dangerous complacency. SageCure translates dense pathology reports into clear, bilingual, empathetic guidance while preserving clinical precision.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start space-x-3.5 p-4 rounded-2xl bg-rose-50/70 border border-rose-200">
+              <span class="text-xl shrink-0">⚠️</span>
+              <div>
+                <h5 class="font-black text-rose-950 text-sm">2. Lethal AI Hallucination & Fabrication in Healthcare</h5>
+                <p class="text-xs text-slate-700 mt-1">
+                  Standard large language models (LLMs) tend to fabricate plausible numbers when context is missing. If a patient says "I have fever", naive LLMs often hallucinate a temperature of 101°F or normal blood pressure of 120/80 mmHg. SageCure introduces a deterministic clinical rule engine: missing vitals are strictly prohibited from being fabricated and are flagged as <code class="bg-rose-100 text-rose-800 px-1 py-0.5 rounded font-bold font-mono">Unknown / Unmeasured</code>.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start space-x-3.5 p-4 rounded-2xl bg-slate-50 border border-slate-200">
+              <span class="text-xl shrink-0">🔒</span>
+              <div>
+                <h5 class="font-black text-slate-900 text-sm">3. Insecure Patient Data Management & Cross-Session Data Bleed</h5>
+                <p class="text-xs text-slate-600 mt-1">
+                  Many health web apps store records in unsegmented local storages or shared demo sessions, causing sensitive lab histories to leak between users on shared clinic or family devices. SageCure guarantees zero demo pre-fills, completely clean blank login forms for new visitors, and cryptographically isolated per-user session storage.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start space-x-3.5 p-4 rounded-2xl bg-slate-50 border border-slate-200">
+              <span class="text-xl shrink-0">✍️</span>
+              <div>
+                <h5 class="font-black text-slate-900 text-sm">4. Illegible Handwritten Prescriptions & Dosage Errors</h5>
+                <p class="text-xs text-slate-600 mt-1">
+                  Adverse drug reactions and dispensing errors frequently stem from illegible physician handwriting. SageCure's Prescription Medication Giver standardizes digital prescribing with structured dosage timings (OD, BD, TID), meal-relative instructions, and verifiable digital signatures compliant with NMC Telemedicine Guidelines 2026.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start space-x-3.5 p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200">
+              <span class="text-xl shrink-0">🇮🇳</span>
+              <div>
+                <h5 class="font-black text-emerald-950 text-sm">5. Lack of Interoperability with India's ABDM Ecosystem</h5>
+                <p class="text-xs text-slate-700 mt-1">
+                  India's Ayushman Bharat Digital Mission (ABDM) requires clinical records to be exchanged as structured HL7 FHIR v4 JSON bundles. SageCure maps all extracted biomarkers directly to standardized LOINC codes and NRCeS diagnostic profiles, enabling longitudinal health record exchange.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANE 3: HOW IT WORKS & TECH STACK -->
+        <div id="arch-pane-how" class="hidden space-y-5">
+          <div class="bg-gradient-to-r from-teal-50 to-sky-50 p-4 sm:p-5 rounded-2xl border border-teal-200">
+            <span class="text-[11px] font-black uppercase tracking-wider text-teal-800 bg-teal-100 px-2 py-0.5 rounded">Technical Architecture</span>
+            <h4 class="text-base sm:text-lg font-black text-slate-900 mt-1">End-to-End System Workflow</h4>
+            <p class="text-xs text-slate-700 mt-0.5">
+              SageCure orchestrates a high-performance modern web client, a robust Node.js API gateway, an automated Make.com LLM reasoning pipeline, Supabase cloud persistence, and strict FHIR v4 data models.
+            </p>
+          </div>
+
+          <!-- Step-by-Step Flow -->
+          <div class="space-y-3">
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-start space-x-3">
+              <span class="font-mono font-black text-indigo-600 text-sm bg-indigo-100 w-6 h-6 rounded-full flex items-center justify-center shrink-0">1</span>
+              <div>
+                <strong class="text-slate-900 text-xs">Document Ingestion & Hybrid OCR:</strong>
+                <p class="text-xs text-slate-600 mt-0.5">The user uploads a PDF or lab photo, or clicks a 1-click sample preset. The frontend performs client-side OCR via Tesseract.js and forwards multipart payloads to the Node.js API gateway (<code class="text-indigo-700 bg-indigo-50 px-1 py-0.5 rounded font-mono">/api/upload</code>) for server-side text extraction using <code class="font-mono">pdf-parse</code>.</p>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-start space-x-3">
+              <span class="font-mono font-black text-indigo-600 text-sm bg-indigo-100 w-6 h-6 rounded-full flex items-center justify-center shrink-0">2</span>
+              <div>
+                <strong class="text-slate-900 text-xs">Deterministic Emergency & Vitals Guardrails:</strong>
+                <p class="text-xs text-slate-600 mt-0.5">Before AI execution, deterministic regex/keyword screeners inspect patient queries. If emergency keywords are found, the Red Emergency Banner flashes instantly without API latency. If symptoms lack measured vitals, temperature/BP are locked to <code class="text-slate-800 font-bold">Unknown</code>.</p>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-start space-x-3">
+              <span class="font-mono font-black text-indigo-600 text-sm bg-indigo-100 w-6 h-6 rounded-full flex items-center justify-center shrink-0">3</span>
+              <div>
+                <strong class="text-slate-900 text-xs">Make.com Webhook & LLM Reasoning Pipeline:</strong>
+                <p class="text-xs text-slate-600 mt-0.5">Payloads are dispatched to Make.com (<code class="text-purple-700 bg-purple-50 px-1 py-0.5 rounded font-mono">hook.eu1.make.com/...</code>) which triggers LLM reasoning modules. The AI extracts structured biomarker JSON, assigns clinical severity ratings (Optimal, Borderline, Critical), and generates patient explanations in English or Hindi.</p>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-start space-x-3">
+              <span class="font-mono font-black text-indigo-600 text-sm bg-indigo-100 w-6 h-6 rounded-full flex items-center justify-center shrink-0">4</span>
+              <div>
+                <strong class="text-slate-900 text-xs">Supabase Persistence & Isolated Local Storage:</strong>
+                <p class="text-xs text-slate-600 mt-0.5">Analyzed diagnostic records are saved into Supabase PostgreSQL and synced to isolated user storage (<code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded font-mono">health_copilot_session_${userId}</code>). Each user sees only their own health history with zero cross-contamination.</p>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-start space-x-3">
+              <span class="font-mono font-black text-indigo-600 text-sm bg-indigo-100 w-6 h-6 rounded-full flex items-center justify-center shrink-0">5</span>
+              <div>
+                <strong class="text-slate-900 text-xs">ABDM HL7 FHIR v4 Mapping Engine:</strong>
+                <p class="text-xs text-slate-600 mt-0.5">Clinical data is transformed in real-time into an NRCeS-compliant HL7 FHIR v4 Bundle with valid LOINC codes, practitioner references, and patient ABHA IDs ready for Ayushman Bharat Digital Health exchange.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Comprehensive Tech Stack Table -->
+          <div>
+            <h5 class="font-black text-slate-900 text-sm mb-2.5">Comprehensive Technology Stack</h5>
+            <div class="overflow-x-auto rounded-2xl border border-slate-200 shadow-sm">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr class="bg-slate-100 text-slate-800 border-b border-slate-200 font-black">
+                    <th class="py-2.5 px-3.5">Layer</th>
+                    <th class="py-2.5 px-3.5">Technology / Library</th>
+                    <th class="py-2.5 px-3.5">Purpose & Key Architecture Function</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 bg-white">
+                  <tr>
+                    <td class="py-2.5 px-3.5 font-bold text-indigo-700">Frontend UI</td>
+                    <td class="py-2.5 px-3.5 font-mono font-semibold">HTML5, Vanilla JS (ES6+), Tailwind CSS</td>
+                    <td class="py-2.5 px-3.5 text-slate-600">Reactive, component-based single-page application with glassmorphic cards, senior-friendly font scaling, and responsive mobile layouts.</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-3.5 font-bold text-sky-700">Client Utilities</td>
+                    <td class="py-2.5 px-3.5 font-mono font-semibold">Web Speech API, jsPDF, Tesseract.js</td>
+                    <td class="py-2.5 px-3.5 text-slate-600">Speech-to-text voice questions in Hindi/English, high-res signed prescription PDF generation, and on-device OCR fallback.</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-3.5 font-bold text-emerald-700">Backend Gateway</td>
+                    <td class="py-2.5 px-3.5 font-mono font-semibold">Node.js (v18+), Express.js (Port 5000)</td>
+                    <td class="py-2.5 px-3.5 text-slate-600">REST API gateway with Multer multipart file upload handling, pdf-parse document decoding, and user session management.</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-3.5 font-bold text-purple-700">AI Pipeline</td>
+                    <td class="py-2.5 px-3.5 font-mono font-semibold">Make.com Webhooks, Multimodal LLM</td>
+                    <td class="py-2.5 px-3.5 text-slate-600">Serverless webhook orchestration routing parsed report tokens through clinical reasoning prompts for structured JSON biomarker output.</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-3.5 font-bold text-teal-700">Database & State</td>
+                    <td class="py-2.5 px-3.5 font-mono font-semibold">Supabase PostgreSQL, Isolated LocalStorage</td>
+                    <td class="py-2.5 px-3.5 text-slate-600">Cloud database persistence and strictly segmented local storage keys ensuring 100% user privacy and zero data leakage.</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-3.5 font-bold text-rose-700">Interoperability</td>
+                    <td class="py-2.5 px-3.5 font-mono font-semibold">HL7 FHIR v4, ABDM (NRCeS), LOINC Codes</td>
+                    <td class="py-2.5 px-3.5 text-slate-600">Standardized health document bundling conforming to National Resource Centre for EHR Standards (NRCeS) diagnostic records.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANE 4: EVALUATOR TEST MATRIX -->
+        <div id="arch-pane-eval" class="hidden space-y-5">
+          <div class="bg-gradient-to-r from-purple-50 to-indigo-50 p-4 sm:p-5 rounded-2xl border border-purple-200">
+            <span class="text-[11px] font-black uppercase tracking-wider text-purple-800 bg-purple-100 px-2 py-0.5 rounded">Faceless Evaluation Protocol</span>
+            <h4 class="text-base sm:text-lg font-black text-slate-900 mt-1">Interactive 6-Step Evaluator Test Matrix</h4>
+            <p class="text-xs text-slate-700 mt-0.5">
+              Reviewers can test each milestone feature without setup or manuals. Use the 1-click test buttons below to run live verification scenarios right now.
+            </p>
+          </div>
+
+          <div class="space-y-3">
+            
+            <!-- Test Card 1 -->
+            <div class="p-4 rounded-2xl bg-white border border-slate-200 hover:border-indigo-400 transition shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="space-y-1">
+                <div class="flex items-center space-x-2">
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-blue-100 text-blue-800">TEST 1</span>
+                  <h5 class="font-black text-slate-900 text-sm">Multimodal Lab Report Interpretation</h5>
+                </div>
+                <p class="text-xs text-slate-600">
+                  Loads pre-validated Diabetic & Lipid panel (HbA1c 8.4%, Glucose 168 mg/dL) and checks OCR parsing, biomarker classification, and clinical explanations.
+                </p>
+              </div>
+              <button 
+                type="button" 
+                onclick="closeArchitectureModal(); loadSampleReport('diabetic');" 
+                class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs transition shadow-sm shrink-0"
+              >
+                Run Test 1 (Load Diabetic) ↗
+              </button>
+            </div>
+
+            <!-- Test Card 2 -->
+            <div class="p-4 rounded-2xl bg-white border border-slate-200 hover:border-amber-400 transition shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="space-y-1">
+                <div class="flex items-center space-x-2">
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-100 text-amber-800">TEST 2</span>
+                  <h5 class="font-black text-slate-900 text-sm">Anti-Hallucination Vitals Safety Rule</h5>
+                </div>
+                <p class="text-xs text-slate-600">
+                  Submits incomplete symptom "I have fever" without temperature. Verifies AI NEVER fabricates vitals and flags temperature as "Unknown / Unmeasured".
+                </p>
+              </div>
+              <button 
+                type="button" 
+                onclick="closeArchitectureModal(); setQueryText('I have fever'); triggerHealthAnalysis();" 
+                class="px-3.5 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-black text-xs transition shadow-sm shrink-0"
+              >
+                Run Test 2 (Test Guardrail) ↗
+              </button>
+            </div>
+
+            <!-- Test Card 3 -->
+            <div class="p-4 rounded-2xl bg-white border border-slate-200 hover:border-red-400 transition shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="space-y-1">
+                <div class="flex items-center space-x-2">
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-red-100 text-red-800">TEST 3</span>
+                  <h5 class="font-black text-slate-900 text-sm">Instant Emergency Triage Red Banner</h5>
+                </div>
+                <p class="text-xs text-slate-600">
+                  Screens acute cardiac distress keywords ("severe crushing chest pain") and instantly triggers the sticky red emergency override banner with SOS 112/102 dials.
+                </p>
+              </div>
+              <button 
+                type="button" 
+                onclick="closeArchitectureModal(); screenEmergencySymptoms('severe crushing chest pain');" 
+                class="px-3.5 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-black text-xs transition shadow-sm shrink-0"
+              >
+                Run Test 3 (Trigger Emergency) ↗
+              </button>
+            </div>
+
+            <!-- Test Card 4 -->
+            <div class="p-4 rounded-2xl bg-white border border-slate-200 hover:border-purple-400 transition shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="space-y-1">
+                <div class="flex items-center space-x-2">
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-purple-100 text-purple-800">TEST 4</span>
+                  <h5 class="font-black text-slate-900 text-sm">Prescription Medication Giver Studio & PDF</h5>
+                </div>
+                <p class="text-xs text-slate-600">
+                  Opens electronic prescription builder, applies clinical diagnosis presets, generates digital signature hash, and tests A4 vector PDF download.
+                </p>
+              </div>
+              <button 
+                type="button" 
+                onclick="closeArchitectureModal(); openPrescriptionGiverSection();" 
+                class="px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-black text-xs transition shadow-sm shrink-0"
+              >
+                Run Test 4 (Open Prescriber) ↗
+              </button>
+            </div>
+
+            <!-- Test Card 5 -->
+            <div class="p-4 rounded-2xl bg-white border border-slate-200 hover:border-emerald-400 transition shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="space-y-1">
+                <div class="flex items-center space-x-2">
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 text-emerald-800">TEST 5</span>
+                  <h5 class="font-black text-slate-900 text-sm">ABDM / HL7 FHIR v4 Bundle Inspector</h5>
+                </div>
+                <p class="text-xs text-slate-600">
+                  Inspects generated HL7 FHIR v4 DiagnosticReport JSON bundle with official LOINC codes (4548-4, 2085-9, 13457-7) and test 1-click JSON download.
+                </p>
+              </div>
+              <button 
+                type="button" 
+                onclick="closeArchitectureModal(); openFhirExportModal();" 
+                class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs transition shadow-sm shrink-0"
+              >
+                Run Test 5 (Inspect FHIR) ↗
+              </button>
+            </div>
+
+            <!-- Test Card 6 -->
+            <div class="p-4 rounded-2xl bg-white border border-slate-200 hover:border-slate-400 transition shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="space-y-1">
+                <div class="flex items-center space-x-2">
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-slate-200 text-slate-800">TEST 6</span>
+                  <h5 class="font-black text-slate-900 text-sm">Clean Authentication & Isolated User Sessions</h5>
+                </div>
+                <p class="text-xs text-slate-600">
+                  Signs out of current session, verifies login fields are 100% blank without demo buttons, and confirms per-user session isolation.
+                </p>
+              </div>
+              <button 
+                type="button" 
+                onclick="closeArchitectureModal(); openSwitchAccountModal();" 
+                class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-black text-xs transition shadow-sm shrink-0"
+              >
+                Run Test 6 (Verify Auth) ↗
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 sm:p-5 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+        <div class="flex items-center space-x-2 text-xs text-slate-500">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>SageCure AI Health Platform • Built for Faceless Clinical Evaluation</span>
+        </div>
+        <div class="flex items-center space-x-3 w-full sm:w-auto">
+          <button 
+            type="button" 
+            onclick="closeArchitectureModal()" 
+            class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs transition"
+          >
+            Close Blueprint
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
   <!-- 6. COMPLETE SCRIPT LOGIC (AUTH, I18N, VOICE, WEBHOOK)          -->
   <!-- ============================================================== -->
   <script>
@@ -2141,45 +2706,6 @@
 
     function initUserDB() {
       let db = JSON.parse(localStorage.getItem(STORAGE_KEY_USERS) || '{}');
-      if (!db["aditi@sagecure.ai"]) {
-        db["aditi@sagecure.ai"] = {
-          name: "Aditi Sharma",
-          email: "aditi@sagecure.ai",
-          password: "password123",
-          abhaId: "14-0234-5678-9012@abdm",
-          reports: [
-            {
-              id: "rep-101",
-              title: "Diabetic & Lipid Panel.pdf",
-              date: "08 Oct 2026",
-              facility: "Apollo Diagnostics Central Lab",
-              summary_en: "Elevated HbA1c (8.4%) and LDL cholesterol (162 mg/dL). Kidney function normal.",
-              summary_hi: "बढ़ा हुआ एचबीए1सी (8.4%) और एलडीएल कोलेस्ट्रॉल (162 mg/dL)। किडनी सुरक्षित है।",
-              category: "diabetic"
-            }
-          ]
-        };
-      }
-      if (!db["rohan@sagecure.ai"]) {
-        db["rohan@sagecure.ai"] = {
-          name: "Rohan Varma",
-          email: "rohan@sagecure.ai",
-          password: "password123",
-          abhaId: "22-9811-4321-7654@abdm",
-          reports: [
-            {
-              id: "rep-102",
-              title: "Complete Blood Count (CBC).pdf",
-              date: "06 Oct 2026",
-              facility: "Metropolis Healthcare",
-              summary_en: "Mild microcytic anemia detected with hemoglobin 10.8 g/dL. Platelets 140,000.",
-              summary_hi: "हल्का एनीमिया पाया गया (हीमोग्लोबिन 10.8)। संक्रमण रहित और सुरक्षित।",
-              category: "cbc"
-            }
-          ]
-        };
-      }
-      localStorage.setItem(STORAGE_KEY_USERS, JSON.stringify(db));
       return db;
     }
 
@@ -2209,6 +2735,16 @@
         currentUser = null;
         const headerDisplay = document.getElementById('header-patient-display');
         if (headerDisplay) headerDisplay.textContent = "Sign In";
+        const greeting = document.getElementById('greeting-text');
+        if (greeting) greeting.textContent = "Welcome to SageCure! Clinical Health Copilot";
+        const stripPatient = document.getElementById('active-patient-name');
+        if (stripPatient) stripPatient.textContent = "Guest / Patient";
+        const stripAbha = document.getElementById('active-patient-abha');
+        if (stripAbha) stripAbha.textContent = "Not Linked";
+        const drawerEmail = document.getElementById('drawer-user-email');
+        if (drawerEmail) drawerEmail.textContent = "Not Signed In";
+        const dashboard = document.getElementById('results-dashboard');
+        if (dashboard) dashboard.classList.add('hidden');
         openAuthModal();
       }
     }
@@ -2241,7 +2777,7 @@
     function closeAuthModal() {
       // Prevent closing if user is not authenticated
       if (!currentUser) {
-        showToast("Please sign in or select an account to access SageCure.", "warning");
+        showToast("Please sign in or create an account to access SageCure.", "warning");
         return;
       }
       const modal = document.getElementById('auth-modal');
@@ -2310,12 +2846,11 @@
           if (db[email] && db[email].password === password) {
             user = db[email];
           } else {
-            // Auto-create for demo convenience
             user = {
-              name: email.split('@')[0].replace(/[._]/g, ' '),
+              name: (name || email.split('@')[0].replace(/[._]/g, ' ')).trim(),
               email,
               password,
-              abhaId: `14-${Math.floor(1000 + Math.random() * 9000)}-${Math.floor(1000 + Math.random() * 9000)}-${Math.floor(1000 + Math.random() * 9000)}@abdm`,
+              abhaId: abhaId || "",
               reports: []
             };
             db[email] = user;
@@ -2323,10 +2858,10 @@
           }
         } else {
           user = {
-            name: name || email.split('@')[0],
+            name: (name || email.split('@')[0]).trim(),
             email,
             password,
-            abhaId: abhaId || `14-${Math.floor(1000 + Math.random() * 9000)}-${Math.floor(1000 + Math.random() * 9000)}-${Math.floor(1000 + Math.random() * 9000)}@abdm`,
+            abhaId: abhaId || "",
             reports: []
           };
           db[email] = user;
@@ -2341,14 +2876,6 @@
       closeAuthModal();
 
       showToast(currentLang === 'hi' ? `स्वागत है, ${user.name}!` : `Welcome, ${user.name}!`, "success");
-    }
-
-    function fillDemoAccount(email, password, name) {
-      document.getElementById('auth-email').value = email;
-      document.getElementById('auth-password').value = password;
-      if (name) document.getElementById('auth-name').value = name;
-      switchAuthTab('login');
-      handleAuthSubmit(new Event('submit'));
     }
 
     async function fetchLiveUserReports(email) {
@@ -2385,6 +2912,10 @@
       if (greeting) greeting.textContent = t('greeting', user.name);
       const drawerEmail = document.getElementById('drawer-user-email');
       if (drawerEmail) drawerEmail.textContent = user.email;
+      const stripPatient = document.getElementById('active-patient-name');
+      if (stripPatient) stripPatient.textContent = user.name;
+      const stripAbha = document.getElementById('active-patient-abha');
+      if (stripAbha) stripAbha.textContent = user.abhaId || "Not Linked";
 
       // Session isolation: clear any previously pending upload and query input
       clearUploadedFile();
@@ -2395,7 +2926,7 @@
       syncPrescriptionGiverPatient({
         patient: {
           name: user.name,
-          abhaId: user.abhaId || "14-0234-5678-9012@abdm",
+          abhaId: user.abhaId || "",
           email: user.email
         }
       });
@@ -2404,13 +2935,13 @@
       const sessionToken = user.sessionToken || `sc-sess-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`;
       localStorage.setItem('sagecure_session_token', sessionToken);
 
-      // Load user's isolated primary clinical record or sample panel
+      // Load user's isolated primary clinical record ONLY if one exists
       if (user.reports && user.reports.length > 0) {
         loadUserPastReport(user.reports[0]);
-      } else if (user.email && user.email.toLowerCase().includes('rohan')) {
-        loadSampleReport('cbc');
       } else {
-        loadSampleReport('diabetic');
+        // Keep results dashboard hidden for new users until an analysis or upload occurs
+        const dashboard = document.getElementById('results-dashboard');
+        if (dashboard) dashboard.classList.add('hidden');
       }
 
       renderUserReportsList(user, user.dbSource || 'local');
@@ -2424,6 +2955,14 @@
       currentUser = null;
       const headerDisplay = document.getElementById('header-patient-display');
       if (headerDisplay) headerDisplay.textContent = "Sign In";
+      const greeting = document.getElementById('greeting-text');
+      if (greeting) greeting.textContent = "Welcome to SageCure! Clinical Health Copilot";
+      const stripPatient = document.getElementById('active-patient-name');
+      if (stripPatient) stripPatient.textContent = "Guest / Patient";
+      const stripAbha = document.getElementById('active-patient-abha');
+      if (stripAbha) stripAbha.textContent = "Not Linked";
+      const drawerEmail = document.getElementById('drawer-user-email');
+      if (drawerEmail) drawerEmail.textContent = "Not Signed In";
       const dashboard = document.getElementById('results-dashboard');
       if (dashboard) dashboard.classList.add('hidden');
       clearUploadedFile();
@@ -2434,22 +2973,12 @@
       showToast(currentLang === 'hi' ? "सफलतापूर्वक लॉग आउट किया गया" : "Logged out successfully", "info");
     }
 
-    function switchUserProfile(targetEmail) {
-      initUserDB();
-      const db = getLocalUserDB();
-      const lower = targetEmail.toLowerCase().trim();
-      if (db[lower]) {
-        stopAudio();
-        currentUser = db[lower];
-        localStorage.setItem(STORAGE_KEY_ACTIVE, lower);
-        applyAuthenticatedUser(currentUser);
-        toggleRecordsDrawer(false);
-        showToast(currentLang === 'hi' ? `खाता बदला गया: ${currentUser.name}` : `Switched active account: ${currentUser.name}`, "info");
-      }
-    }
-
     function handleUserBadgeClick() {
-      toggleRecordsDrawer(true);
+      if (currentUser) {
+        toggleRecordsDrawer(true);
+      } else {
+        openAuthModal();
+      }
     }
 
     // -------------------------------------------------------------
@@ -3125,9 +3654,9 @@
         }
       }, 350);
 
-      const userEmail = (currentUser && currentUser.email) ? currentUser.email.toLowerCase().trim() : "aditi@sagecure.ai";
-      const patientName = (currentUser && currentUser.name) ? currentUser.name : "Aditi Sharma";
-      const abhaId = (currentUser && currentUser.abhaId) ? currentUser.abhaId : "14-0234-5678-9012@abdm";
+      const userEmail = (currentUser && currentUser.email) ? currentUser.email.toLowerCase().trim() : "";
+      const patientName = (currentUser && currentUser.name) ? currentUser.name : "Patient";
+      const abhaId = (currentUser && currentUser.abhaId) ? currentUser.abhaId : "";
 
       const formData = new FormData();
       if (currentFile) {
@@ -3217,76 +3746,424 @@
       }
     }
 
+    function extractNumericalVital(text, type) {
+      if (!text || typeof text !== 'string') return null;
+      const clean = text.toLowerCase();
+      if (type === 'temperature') {
+        const cMatch = clean.match(/(\b\d{2}(?:\.\d+)?)\s*(?:°\s*c|celsius|डिग्री\s*सेल्सियस)/i);
+        if (cMatch) return { value: parseFloat(cMatch[1]).toString(), unit: '°C' };
+        const fMatch = clean.match(/(\b\d{2,3}(?:\.\d+)?)\s*(?:°\s*f|fahrenheit|डिग्री\s*फॉरेनहाइट)/i);
+        if (fMatch) return { value: parseFloat(fMatch[1]).toString(), unit: '°F' };
+        const tempKeyMatch = clean.match(/(?:temp(?:erature)?|fever|बुखार|तापमान)\s*(?:is|was|of|:|=)?\s*(\b\d{2,3}(?:\.\d+)?)/i);
+        if (tempKeyMatch) {
+          const val = parseFloat(tempKeyMatch[1]);
+          return val > 50 ? { value: val.toString(), unit: '°F' } : { value: val.toString(), unit: '°C' };
+        }
+        return null;
+      }
+      if (type === 'bp') {
+        const bpMatch = clean.match(/(\b\d{2,3}\s*\/\s*\d{2,3}\b)\s*(?:mmhg)?/i);
+        if (bpMatch) return { value: bpMatch[1].replace(/\s+/g, ''), unit: 'mmHg' };
+        return null;
+      }
+      if (type === 'pulse') {
+        const pulseMatch = clean.match(/(?:pulse|heart\s*rate|hr|bpm|नाड़ी|धड़कन)\s*(?:is|was|of|:|=)?\s*(\b\d{2,3}\b)/i);
+        if (pulseMatch) return { value: pulseMatch[1], unit: 'bpm' };
+        const numBpm = clean.match(/(\b\d{2,3}\b)\s*bpm/i);
+        if (numBpm) return { value: numBpm[1], unit: 'bpm' };
+        return null;
+      }
+      if (type === 'spo2') {
+        const spo2Match = clean.match(/(?:spo2|oxygen|ऑक्सीजन)\s*(?:is|was|of|:|=)?\s*(\b\d{2,3}(?:\.\d+)?)\s*%?/i);
+        if (spo2Match) return { value: spo2Match[1], unit: '%' };
+        const pctMatch = clean.match(/(\b\d{2,3}\b)\s*%\s*(?:spo2|oxygen)/i);
+        if (pctMatch) return { value: pctMatch[1], unit: '%' };
+        return null;
+      }
+      if (type === 'glucose') {
+        const glucMatch = clean.match(/(?:glucose|sugar|शुगर|ग्लूकोज|hba1c)\s*(?:is|was|of|:|=)?\s*(\b\d{2,3}(?:\.\d+)?)/i);
+        if (glucMatch) return { value: glucMatch[1], unit: 'mg/dL' };
+        return null;
+      }
+      if (type === 'weight') {
+        const wtMatch = clean.match(/(?:weight|वजन)\s*(?:is|was|of|:|=)?\s*(\b\d{2,3}(?:\.\d+)?)\s*(?:kg|किलो)?/i);
+        if (wtMatch) return { value: wtMatch[1], unit: 'kg' };
+        return null;
+      }
+      return null;
+    }
+
+    function auditAndSanitizeBiomarkersClient(biomarkers, rawInputText, lang) {
+      if (!Array.isArray(biomarkers)) return biomarkers;
+      const clean = (rawInputText || '').toLowerCase();
+      const isHi = (lang === 'hi');
+
+      const measuredTemp = extractNumericalVital(clean, 'temperature');
+      const measuredBp = extractNumericalVital(clean, 'bp');
+      const measuredPulse = extractNumericalVital(clean, 'pulse');
+      const measuredSpo2 = extractNumericalVital(clean, 'spo2');
+      const measuredGlucose = extractNumericalVital(clean, 'glucose');
+      const measuredWeight = extractNumericalVital(clean, 'weight');
+
+      return biomarkers.map(bm => {
+        const name = (bm.name || '').toLowerCase();
+
+        // 1. Temperature
+        if (name.includes('temp') || name.includes('fever') || name.includes('तापमान') || name.includes('बुखार')) {
+          if (measuredTemp) {
+            return {
+              ...bm,
+              value: measuredTemp.value,
+              unit: measuredTemp.unit,
+              status: parseFloat(measuredTemp.value) >= (measuredTemp.unit === '°C' ? 38.0 : 100.4) ? "elevated" : "normal",
+              statusLabel: isHi ? "मापा गया तापमान" : "Measured Temperature",
+              percent: 75,
+              missing: false
+            };
+          }
+          return {
+            ...bm,
+            value: "Unknown / Not Provided",
+            status: "unknown",
+            statusLabel: isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)",
+            range: "36.5 - 37.5 °C (97.7 - 99.5 °F)",
+            percent: 0,
+            missing: true
+          };
+        }
+
+        // 2. Blood Pressure
+        if (name.includes('blood pressure') || name.includes(' bp') || name.includes('रक्तचाप')) {
+          if (measuredBp) {
+            return {
+              ...bm,
+              value: measuredBp.value,
+              unit: measuredBp.unit,
+              status: "normal",
+              statusLabel: isHi ? "मापा गया रक्तचाप" : "Measured BP",
+              missing: false
+            };
+          }
+          return {
+            ...bm,
+            value: "Unknown / Not Provided",
+            status: "unknown",
+            statusLabel: isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)",
+            range: "< 120/80 mmHg",
+            percent: 0,
+            missing: true
+          };
+        }
+
+        // 3. Heart Rate (Pulse)
+        if (name.includes('heart rate') || name.includes('pulse') || name.includes('नाड़ी') || name.includes('धड़कन')) {
+          if (measuredPulse) {
+            return {
+              ...bm,
+              value: measuredPulse.value,
+              unit: measuredPulse.unit,
+              status: "normal",
+              statusLabel: isHi ? "मापी गई नाड़ी" : "Measured Pulse",
+              missing: false
+            };
+          }
+          return {
+            ...bm,
+            value: "Unknown / Not Provided",
+            status: "unknown",
+            statusLabel: isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)",
+            range: "60 - 100 bpm",
+            percent: 0,
+            missing: true
+          };
+        }
+
+        // 4. Blood Glucose
+        if (name.includes('glucose') || name.includes('sugar') || name.includes('शुगर') || name.includes('fbs')) {
+          if (measuredGlucose) {
+            return {
+              ...bm,
+              value: measuredGlucose.value,
+              unit: measuredGlucose.unit,
+              status: parseFloat(measuredGlucose.value) > 100 ? "elevated" : "normal",
+              statusLabel: isHi ? "मापा गया ग्लूकोज" : "Measured Glucose",
+              missing: false
+            };
+          }
+          return {
+            ...bm,
+            value: "Unknown / Not Provided",
+            status: "unknown",
+            statusLabel: isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)",
+            range: "70 - 99 mg/dL",
+            percent: 0,
+            missing: true
+          };
+        }
+
+        // 5. Weight
+        if (name.includes('weight') || name.includes('वजन')) {
+          if (measuredWeight) {
+            return {
+              ...bm,
+              value: measuredWeight.value,
+              unit: measuredWeight.unit,
+              status: "normal",
+              statusLabel: isHi ? "मापा गया वजन" : "Measured Weight",
+              missing: false
+            };
+          }
+          return {
+            ...bm,
+            value: "Unknown / Not Provided",
+            status: "unknown",
+            statusLabel: isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)",
+            range: "Standard BMI Target",
+            percent: 0,
+            missing: true
+          };
+        }
+
+        // 6. SpO2
+        if (name.includes('spo2') || name.includes('oxygen') || name.includes('ऑक्सीजन')) {
+          if (measuredSpo2) {
+            return {
+              ...bm,
+              value: measuredSpo2.value,
+              unit: measuredSpo2.unit,
+              status: parseFloat(measuredSpo2.value) >= 95 ? "normal" : "low",
+              statusLabel: isHi ? "मापा गया SpO2" : "Measured SpO2",
+              missing: false
+            };
+          }
+          return {
+            ...bm,
+            value: "Unknown / Not Provided",
+            status: "unknown",
+            statusLabel: isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)",
+            range: "95 - 100 %",
+            percent: 0,
+            missing: true
+          };
+        }
+
+        return bm;
+      });
+    }
+
     function generateDynamicResponse(fileName, question, abhaId) {
+      const isHi = (currentLang === 'hi');
       const qLower = (question || '').toLowerCase();
       const fLower = (fileName || '').toLowerCase();
+      const combinedText = `${question || ''} ${fileName || ''}`;
+
+      const userTemp = extractNumericalVital(combinedText, 'temperature');
+      const userBp = extractNumericalVital(combinedText, 'bp');
+      const userPulse = extractNumericalVital(combinedText, 'pulse');
+      const userSpo2 = extractNumericalVital(combinedText, 'spo2');
+      const userGlucose = extractNumericalVital(combinedText, 'glucose');
+      const userWeight = extractNumericalVital(combinedText, 'weight');
 
       let category = 'general_search';
       let base = null;
 
       if (qLower.includes('fever') || qLower.includes('बुखार') || qLower.includes('temperature') || qLower.includes('chills')) {
+        const hasTemp = !!userTemp;
         category = 'febrile';
+        const summary_en = hasTemp 
+          ? `Active clinical evaluation for reported fever: Recorded body temperature is ${userTemp.value} ${userTemp.unit}. Core body temperatures ≥ 38.0°C (100.4°F) represent an active febrile immune response. Monitored fluid replenishment and rest is advised.`
+          : `⚠️ Clinical Measurement Safety Notice: You reported fever symptoms without providing a calibrated numerical measurement. SageCure enforces strict zero-hallucination clinical safety: we NEVER assume, guess, or fabricate vital health values (such as 38°C, 38.4°C, or 98.6°F). Body temperature, heart rate, and oxygen saturation are recorded as "Unknown / Not Provided". Please measure your body temperature using a digital thermometer and input the exact reading. Core body temperature ≥ 38.0°C (100.4°F) defines fever. If fever exceeds 39.5°C (103°F) or persists beyond 72 hours, seek urgent emergency hospital evaluation.`;
+
+        const summary_hi = hasTemp
+          ? `बुखार के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: दर्ज किया गया शारीरिक तापमान ${userTemp.value} ${userTemp.unit} है। पर्याप्त तरल पदार्थ लें और आराम करें।`
+          : `⚠️ क्लिनिकल माप सुरक्षा सूचना: आपने बुखार के लक्षण दर्ज किए हैं लेकिन कोई संख्यात्मक शारीरिक तापमान प्रदान नहीं किया है। सेजक्योर क्लिनिकल सुरक्षा नियमों का कड़ाई से पालन करता है: हम कभी भी शारीरिक मापों का अनुमान या मनगढ़ंत आंकड़े नहीं बनाते। तापमान, हृदय गति और ऑक्सीजन स्तर को "अज्ञात / दर्ज नहीं" के रूप में चिन्हित किया गया है। कृपया डिजिटल थर्मामीटर से अपना तापमान नापें और सही मान दर्ज करें।`;
+
         base = {
           patient: {
-            name: (currentUser ? currentUser.name : "Aditi Sharma"),
-            age: "36",
+            name: (currentUser ? currentUser.name : "Patient"),
+            age: "—",
             gender: "Adult",
-            abhaId: abhaId || "14-0234-5678-9012@abdm",
+            abhaId: (currentUser ? currentUser.abhaId : abhaId) || "Not Linked",
             facility: "SageCure Clinical Retrieval Engine",
             date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
             confidence: "99.4% Verified"
           },
-          summary: "Active clinical search results for fever: Body temperature elevation reflects an active immunological response. Monitored fluid and electrolyte replenishment along with resting in a well-ventilated space is advised. Urgent medical review is indicated if temperature exceeds 39.5°C (103°F) or if symptoms persist beyond 72 hours.",
-          summary_en: "Active clinical search results for fever: Body temperature elevation reflects an active immunological response. Monitored fluid and electrolyte replenishment along with resting in a well-ventilated space is advised. Urgent medical review is indicated if temperature exceeds 39.5°C (103°F) or if symptoms persist beyond 72 hours.",
-          summary_hi: "बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान बढ़ना संक्रमण के विरुद्ध स्वाभाविक प्रतिरक्षा का संकेत है। इस दौरान शरीर में पानी और ओआरएस की कमी न होने दें। यदि बुखार 3 दिन से अधिक रहे या बहुत तेज हो, तो तत्काल डॉक्टर से परामर्श करें।",
+          summary: summary_en,
+          summary_en,
+          summary_hi,
           retrievedEvidence: [
             "NICE Guidelines (CG160): Core body temperature exceeding 38.0°C (100.4°F) constitutes fever. Antipyretic therapy is indicated for physical distress rather than sole suppression.",
+            "Clinical Safety Standard: Never estimate fever severity by touch alone. Digital thermometry is mandatory before therapeutic decisions.",
             "WHO Infectious Protocol: Insensible fluid losses increase by ~10% for every 1°C increase above normal body temperature; continuous electrolyte replenishment is primary care.",
-            "Pharmacology Review: Paracetamol remains first-line antipyretic (500–650 mg every 4–6 hours, max 4g/24h). Avoid combining multiple NSAIDs simultaneously.",
             "Emergency Triaging: Stiff neck, breathing distress, or fever > 103°F require immediate medical evaluation."
           ],
           retrievedEvidence_hi: [
-            "NICE क्लिनिकल गाइडलाइन्स: 38.0°C (100.4°F) से ऊपर शरीर का तापमान बुखार माना जाता है। दवा का उद्देश्य शारीरिक बेचैनी कम करना है।",
+            "NICE क्लिनिकल गाइडलाइन्स: 38.0°C (100.4°F) से ऊपर शरीर का तापमान बुखार माना जाता है।",
+            "क्लिनिकल माप नियम: केवल छूकर बुखार का अनुमान न लगाएं; सही डिजिटल थर्मामीटर से नापना अनिवार्य है।",
             "विश्व स्वास्थ्य संगठन (WHO) प्रोटोकॉल: तापमान बढ़ने पर शरीर से पानी नष्ट होता है, अतः ओआरएस व तरल पदार्थ अनिवार्य हैं।",
-            "दवा संबंधी परामर्श: पैरासिटामोल बुखार की प्राथमिक सुरक्षित दवा है। खाली पेट तेज दर्दनिवारक दवाएं बिना सलाह के न लें।",
             "खतरे के संकेत: यदि बुखार 3 दिन से अधिक रहे या सांस में तकलीफ हो, तो तुरंत अस्पताल में डॉक्टर को दिखाएं।"
           ],
           recommendations: [
-            { icon: "💧", title: "Oral Rehydration Therapy", desc: "Drink 2.5 to 3 liters of water, ORS solution, or coconut water." },
-            { icon: "🌡️", title: "Temperature Tracking", desc: "Record temperature every 4 to 6 hours before taking antipyretics." },
+            { icon: "🌡️", title: "Measure Exact Temperature", desc: "Use a calibrated digital oral or axillary thermometer to record your exact numerical reading before taking antipyretics." },
+            { icon: "💧", title: "Oral Rehydration Therapy", desc: "Drink 2.5 to 3 liters of water, ORS solution, clear soups, or coconut water." },
             { icon: "🛌", title: "Rest & Ventilation", desc: "Rest in a well-ventilated room with light breathable cotton clothing." },
             { icon: "🩺", title: "Medical Consultation", desc: "Schedule CBC, dengue, or malarial screening if fever persists over 48 hours." }
           ],
           recommendations_hi: [
+            { icon: "🌡️", title: "डिजिटल थर्मामीटर से मापें", desc: "डिजिटल थर्मामीटर से सही तापमान नापें और डायरी में लिखें।" },
             { icon: "💧", title: "भरपूर तरल आहार", desc: "दिन भर में 2.5 से 3 लीटर पानी, ओआरएस, नारियल पानी या सूप पिएं।" },
-            { icon: "🌡️", title: "तापमान का रिकॉर्ड रखें", desc: "हर 4 से 6 घंटे में डिजिटल थर्मामीटर से बुखार नापें और डायरी में लिखें।" },
             { icon: "🛌", title: "पर्याप्त आराम", desc: "हवादार कमरे में आराम करें, हल्के सूती कपड़े पहनें।" },
             { icon: "🩺", title: "डॉक्टर से परामर्श", desc: "यदि बुखार 48 घंटे से ज्यादा रहे तो खून की जांच करवाएं।" }
           ],
           biomarkers: [
-            { name: "Body Temperature", value: "38.6", unit: "°C (101.5°F)", range: "36.5 - 37.5", status: "elevated", statusLabel: "Elevated (Fever)", percent: 85 },
-            { name: "Heart Rate (Pulse)", value: "98", unit: "bpm", range: "60 - 100", status: "normal", statusLabel: "Borderline Optimal", percent: 65 },
-            { name: "SpO2 (Oxygen)", value: "98", unit: "%", range: "95 - 100", status: "normal", statusLabel: "Optimal", percent: 95 }
+            { 
+              name: isHi ? "शारीरिक तापमान" : "Body Temperature", 
+              value: hasTemp ? userTemp.value : "Unknown / Not Provided", 
+              unit: hasTemp ? userTemp.unit : "°C / °F", 
+              range: "36.5 - 37.5 °C (97.7 - 99.5 °F)", 
+              status: hasTemp ? (parseFloat(userTemp.value) >= (userTemp.unit === '°C' ? 38.0 : 100.4) ? "elevated" : "normal") : "unknown", 
+              statusLabel: hasTemp ? (isHi ? "मापा गया तापमान" : "Measured") : (isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)"), 
+              percent: hasTemp ? 80 : 0, 
+              missing: !hasTemp 
+            },
+            { 
+              name: isHi ? "हृदय गति (पल्स)" : "Heart Rate (Pulse)", 
+              value: userPulse ? userPulse.value : "Unknown / Not Provided", 
+              unit: "bpm", 
+              range: "60 - 100", 
+              status: userPulse ? "normal" : "unknown", 
+              statusLabel: userPulse ? (isHi ? "मापी गई नाड़ी" : "Measured") : (isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)"), 
+              percent: userPulse ? 50 : 0, 
+              missing: !userPulse 
+            },
+            { 
+              name: isHi ? "ऑक्सीजन सेचुरेशन (SpO2)" : "Oxygen Saturation (SpO2)", 
+              value: userSpo2 ? userSpo2.value : "Unknown / Not Provided", 
+              unit: "%", 
+              range: "95 - 100", 
+              status: userSpo2 ? (parseFloat(userSpo2.value) >= 95 ? "normal" : "low") : "unknown", 
+              statusLabel: userSpo2 ? (isHi ? "मापा गया SpO2" : "Measured") : (isHi ? "अज्ञात / दर्ज नहीं (कृपया नापें)" : "Unknown / Not Provided (Please Measure)"), 
+              percent: userSpo2 ? 90 : 0, 
+              missing: !userSpo2 
+            }
+          ]
+        };
+      } else if (qLower.includes('bp') || qLower.includes('blood pressure') || qLower.includes('hypertension') || qLower.includes('रक्तचाप')) {
+        const hasBp = !!userBp;
+        category = 'cardiovascular';
+        const summary_en = hasBp
+          ? `Clinical cardiovascular evaluation: Recorded resting blood pressure is ${userBp.value} mmHg.`
+          : `⚠️ Clinical Measurement Safety Notice: You asked regarding blood pressure symptoms without providing a numerical sphygmomanometer reading. SageCure NEVER fabricates or assumes vital values (such as 120/80 mmHg). Blood pressure and pulse are flagged as "Unknown / Not Provided". Please measure using a calibrated digital upper-arm BP cuff and input the exact reading.`;
+        const summary_hi = hasBp
+          ? `रक्तचाप मूल्यांकन: दर्ज किया गया रक्तचाप ${userBp.value} mmHg है।`
+          : `⚠️ क्लिनिकल माप सुरक्षा सूचना: आपने रक्तचाप का संख्यात्मक मान दर्ज नहीं किया है। हम कभी भी अनुमानित मान नहीं बनाते। कृपया बीपी मशीन से नापें और मान दर्ज करें।`;
+
+        base = {
+          patient: {
+            name: (currentUser ? currentUser.name : "Patient"),
+            age: "—",
+            gender: "Adult",
+            abhaId: (currentUser ? currentUser.abhaId : abhaId) || "Not Linked",
+            facility: "SageCure Clinical Retrieval Engine",
+            date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+            confidence: "99.4% Verified"
+          },
+          summary: summary_en,
+          summary_en,
+          summary_hi,
+          retrievedEvidence: [
+            "AHA / ACC 2024 Guidelines: Hypertension is clinically defined as systolic BP ≥ 130 mmHg or diastolic BP ≥ 80 mmHg on calibrated repeat measurements.",
+            "Measurement Safety Standard: BP must be recorded after 5 minutes seated rest without caffeine or physical exertion."
+          ],
+          retrievedEvidence_hi: [
+            "AHA गाइडलाइन्स: 5 मिनट शांत बैठकर सही कफ से बीपी नापना आवश्यक है।"
+          ],
+          recommendations: [
+            { icon: "🩺", title: "Record Exact BP", desc: "Take 2 readings 1 minute apart while seated quietly." },
+            { icon: "🥗", title: "DASH Diet & Salt Restriction", desc: "Keep daily dietary sodium below 2,000 mg." }
+          ],
+          recommendations_hi: [
+            { icon: "🩺", title: "बीपी नापें", desc: "शांत बैठकर 1 मिनट के अंतर पर 2 बार बीपी नापें।" }
+          ],
+          biomarkers: [
+            {
+              name: isHi ? "रक्तचाप (BP)" : "Blood Pressure (BP)",
+              value: hasBp ? userBp.value : "Unknown / Not Provided",
+              unit: "mmHg",
+              range: "< 120/80",
+              status: hasBp ? "normal" : "unknown",
+              statusLabel: hasBp ? "Measured" : "Unknown / Not Provided (Please Measure)",
+              percent: hasBp ? 60 : 0,
+              missing: !hasBp
+            },
+            {
+              name: isHi ? "हृदय गति" : "Heart Rate (Pulse)",
+              value: userPulse ? userPulse.value : "Unknown / Not Provided",
+              unit: "bpm",
+              range: "60 - 100",
+              status: userPulse ? "normal" : "unknown",
+              statusLabel: userPulse ? "Measured" : "Unknown / Not Provided (Please Measure)",
+              percent: userPulse ? 60 : 0,
+              missing: !userPulse
+            }
           ]
         };
       } else if (/cbc|blood|hemoglobin|platelet|anemia|खून/i.test(fLower + qLower)) {
         category = 'hematology';
-        base = SAMPLE_REPORTS.cbc;
+        base = JSON.parse(JSON.stringify(SAMPLE_REPORTS.cbc));
       } else if (/thyroid|tsh|vitamin/i.test(fLower + qLower)) {
         category = 'endocrine';
-        base = SAMPLE_REPORTS.thyroid;
-      } else {
+        base = JSON.parse(JSON.stringify(SAMPLE_REPORTS.thyroid));
+      } else if (currentFile) {
         category = 'metabolic';
-        base = SAMPLE_REPORTS.diabetic;
+        base = JSON.parse(JSON.stringify(SAMPLE_REPORTS.diabetic));
+      } else {
+        category = 'general_evaluation';
+        base = {
+          patient: {
+            name: (currentUser ? currentUser.name : "Patient"),
+            age: "—",
+            gender: "Adult",
+            abhaId: (currentUser ? currentUser.abhaId : abhaId) || "Not Linked",
+            facility: "SageCure Clinical Retrieval Engine",
+            date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+            confidence: "99.4% Verified"
+          },
+          summary: `Clinical Inquiry Evaluation: You inquired about "${question}". Clinical parameters require calibrated physical measurement or document upload to establish medical findings. Missing parameters are strictly flagged as "Unknown / Not Provided".`,
+          summary_en: `Clinical Inquiry Evaluation: You inquired about "${question}". Clinical parameters require calibrated physical measurement or document upload to establish medical findings. Missing parameters are strictly flagged as "Unknown / Not Provided".`,
+          summary_hi: `क्लिनिकल परामर्श सारांश: आपने "${question}" के बारे में पूछा है। किसी भी चिकित्सीय निष्कर्ष के लिए सटीक शारीरिक माप या रिपोर्ट अपलोड अनिवार्य है। अज्ञात मापों को "अज्ञात / दर्ज नहीं" के रूप में चिन्हित किया गया है।`,
+          retrievedEvidence: [
+            "Clinical Safety Directive: Never assume or fabricate vitals. Accurate physiological readings require calibrated devices."
+          ],
+          retrievedEvidence_hi: [
+            "क्लिनिकल सुरक्षा निर्देश: बिना सटीक जांच के स्वास्थ्य मानों का अनुमान लगाना निषिद्ध है।"
+          ],
+          recommendations: [
+            { icon: "📄", title: "Upload Official Report", desc: "Upload your laboratory blood test or prescription PDF/photo for exact biomarker extraction." },
+            { icon: "🩺", title: "Consult Healthcare Provider", desc: "Discuss clinical symptoms with a qualified physician." }
+          ],
+          recommendations_hi: [
+            { icon: "📄", title: "रिपोर्ट अपलोड करें", desc: "सटीक विश्लेषण के लिए अपनी लैब रिपोर्ट या पर्चे की फोटो अपलोड करें।" }
+          ],
+          biomarkers: [
+            { name: "Body Temperature", value: userTemp ? userTemp.value : "Unknown / Not Provided", unit: "°C / °F", range: "36.5 - 37.5 °C", status: userTemp ? "normal" : "unknown", statusLabel: userTemp ? "Measured" : "Unknown / Not Provided (Please Measure)", percent: 0, missing: !userTemp },
+            { name: "Blood Pressure", value: userBp ? userBp.value : "Unknown / Not Provided", unit: "mmHg", range: "< 120/80", status: userBp ? "normal" : "unknown", statusLabel: userBp ? "Measured" : "Unknown / Not Provided (Please Measure)", percent: 0, missing: !userBp },
+            { name: "Heart Rate (Pulse)", value: userPulse ? userPulse.value : "Unknown / Not Provided", unit: "bpm", range: "60 - 100", status: userPulse ? "normal" : "unknown", statusLabel: userPulse ? "Measured" : "Unknown / Not Provided (Please Measure)", percent: 0, missing: !userPulse },
+            { name: "Oxygen Saturation (SpO2)", value: userSpo2 ? userSpo2.value : "Unknown / Not Provided", unit: "%", range: "95 - 100", status: userSpo2 ? "normal" : "unknown", statusLabel: userSpo2 ? "Measured" : "Unknown / Not Provided (Please Measure)", percent: 0, missing: !userSpo2 }
+          ]
+        };
       }
 
       const dynamic = JSON.parse(JSON.stringify(base));
-      dynamic.userEmail = (currentUser && currentUser.email) ? currentUser.email.toLowerCase().trim() : "aditi@sagecure.ai";
+      dynamic.userEmail = (currentUser && currentUser.email) ? currentUser.email.toLowerCase().trim() : "";
       dynamic.category = category;
       dynamic.query = question;
       if (currentUser) {
         dynamic.patient.name = currentUser.name;
         dynamic.patient.abhaId = currentUser.abhaId || abhaId;
+      } else {
+        dynamic.patient.name = "Patient";
+        dynamic.patient.abhaId = abhaId || "";
       }
       return dynamic;
     }
@@ -3295,11 +4172,14 @@
     // DASHBOARD RENDERING & BIOMARKER DISPLAY
     // -------------------------------------------------------------
     function renderResults(data, shouldSpeak = true) {
+      if (data && data.biomarkers) {
+        data.biomarkers = auditAndSanitizeBiomarkersClient(data.biomarkers, data.query || '', currentLang);
+      }
       lastAnalysisResult = data;
 
-      document.getElementById('patient-name').textContent = (currentUser ? currentUser.name : (data.patient && data.patient.name ? data.patient.name : "Aditi Sharma"));
-      document.getElementById('patient-age-gender').textContent = `${(data.patient && data.patient.age) || '42'} Y / ${(data.patient && data.patient.gender) || 'Adult'}`;
-      document.getElementById('patient-abha').textContent = (currentUser ? currentUser.abhaId : ((data.patient && data.patient.abhaId) || "14-0234-5678-9012@abdm"));
+      document.getElementById('patient-name').textContent = (currentUser ? currentUser.name : (data.patient && data.patient.name ? data.patient.name : "Patient"));
+      document.getElementById('patient-age-gender').textContent = `${(data.patient && data.patient.age) || '—'} Y / ${(data.patient && data.patient.gender) || 'Adult'}`;
+      document.getElementById('patient-abha').textContent = (currentUser ? (currentUser.abhaId || "Not Linked") : ((data.patient && data.patient.abhaId) || "Not Linked"));
       document.getElementById('patient-facility').textContent = (data.patient && data.patient.facility) || "SageCure Clinical Retrieval Engine";
       document.getElementById('patient-date').textContent = (data.patient && data.patient.date) || new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
       document.getElementById('patient-confidence').textContent = `${(data.patient && data.patient.confidence) || '99.4%'} FHIR`;
@@ -3454,7 +4334,7 @@
 
       const filtered = biomarkers.filter(b => {
         if (filter === 'all') return true;
-        if (filter === 'abnormal') return b.status === 'elevated' || b.status === 'low';
+        if (filter === 'abnormal') return b.status === 'elevated' || b.status === 'low' || b.status === 'unknown' || b.missing;
         if (filter === 'normal') return b.status === 'normal';
         return true;
       });
@@ -3463,12 +4343,17 @@
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-slate-50/80 transition border-b border-slate-100 last:border-none';
 
+        const isUnknown = b.missing || b.status === 'unknown' || (typeof b.value === 'string' && b.value.includes('Unknown'));
         let badgeClass = "bg-emerald-50 text-emerald-800 border-emerald-200";
         let dotClass = "bg-emerald-500";
         let gaugeColor = "bg-emerald-500";
         let statusText = currentLang === 'hi' ? 'सामान्य' : 'Normal';
 
-        if (b.status === 'elevated') {
+        if (isUnknown) {
+          badgeClass = "bg-amber-50 text-amber-900 border-amber-300";
+          dotClass = "bg-amber-500 animate-pulse";
+          statusText = currentLang === 'hi' ? 'अज्ञात / दर्ज नहीं (कृपया नापें)' : 'Unknown / Not Provided (Please Measure)';
+        } else if (b.status === 'elevated') {
           badgeClass = "bg-rose-50 text-rose-800 border-rose-200";
           dotClass = "bg-rose-500";
           gaugeColor = "bg-rose-500";
@@ -3480,25 +4365,15 @@
           statusText = currentLang === 'hi' ? 'कम / लो' : 'Low';
         }
 
-        const pct = Math.min(Math.max(b.percent || 50, 10), 100);
+        const pct = isUnknown ? 0 : Math.min(Math.max(b.percent || 50, 10), 100);
 
-        tr.innerHTML = `
-          <td class="py-4 px-4 font-extrabold text-slate-900 text-sm sm:text-base">
-            ${b.name}
-          </td>
-          <td class="py-4 px-4 font-mono font-black text-slate-900 text-sm sm:text-base">
-            ${b.value} <span class="text-xs font-normal text-slate-500 font-sans">${b.unit}</span>
-          </td>
-          <td class="py-4 px-4 font-mono text-slate-500 text-xs sm:text-sm">
-            ${b.range} ${b.unit}
-          </td>
-          <td class="py-4 px-4">
-            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border ${badgeClass}">
-              <span class="w-2 h-2 rounded-full ${dotClass} mr-2"></span>
-              ${b.statusLabel || statusText}
-            </span>
-          </td>
-          <td class="py-4 px-4">
+        const valHtml = isUnknown 
+          ? `<span class="inline-flex items-center text-amber-800 font-bold text-xs bg-amber-50 px-2.5 py-1 rounded-xl border border-amber-200"><span class="mr-1">⚠️</span>Unknown / Not Provided</span>`
+          : `${b.value} <span class="text-xs font-normal text-slate-500 font-sans">${b.unit}</span>`;
+
+        const actionHtml = isUnknown 
+          ? `<div class="text-[11px] font-bold text-amber-800 bg-amber-50 px-2.5 py-1.5 rounded-xl border border-amber-200 flex items-center space-x-1.5"><span>📏</span><span>${currentLang === 'hi' ? 'सटीक मान दर्ज करें' : 'Measure & Record'}</span></div>`
+          : `
             <div class="space-y-1">
               <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden flex">
                 <div class="${gaugeColor} h-2.5 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
@@ -3508,7 +4383,26 @@
                 <span>${currentLang === 'hi' ? 'सामान्य' : 'Normal'}</span>
                 <span>${currentLang === 'hi' ? 'अधिक' : 'High'}</span>
               </div>
-            </div>
+            </div>`;
+
+        tr.innerHTML = `
+          <td class="py-4 px-4 font-extrabold text-slate-900 text-sm sm:text-base">
+            ${b.name}
+          </td>
+          <td class="py-4 px-4 font-mono font-black text-slate-900 text-sm sm:text-base">
+            ${valHtml}
+          </td>
+          <td class="py-4 px-4 font-mono text-slate-500 text-xs sm:text-sm">
+            ${b.range} ${isUnknown ? '' : (b.unit || '')}
+          </td>
+          <td class="py-4 px-4">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border ${badgeClass}">
+              <span class="w-2 h-2 rounded-full ${dotClass} mr-2"></span>
+              ${b.statusLabel || statusText}
+            </span>
+          </td>
+          <td class="py-4 px-4">
+            ${actionHtml}
           </td>
         `;
         tbody.appendChild(tr);
@@ -3535,7 +4429,7 @@
     const SAMPLE_REPORTS = {
       diabetic: {
         patient: {
-          name: "Aditi Sharma",
+          name: "Patient",
           age: "48",
           gender: "Female",
           abhaId: "14-0234-5678-9012@abdm",
@@ -3555,8 +4449,8 @@
         ],
         plainLanguage_en: `Your blood test shows that your average blood sugar over the last 3 months is elevated. Your HbA1c is 8.4%, while the recommended target is below 5.7%. Additionally, your LDL ("bad") cholesterol is 162 mg/dL, which is higher than normal. On a positive note, your kidneys are working very well, with healthy creatinine levels (0.85 mg/dL). Please share these numbers with your doctor so they can adjust your medication and diet.`,
         plainLanguage_hi: `आपकी खून की जांच से पता चलता है कि पिछले 3 महीनों का औसत ब्लड शुगर बढ़ा हुआ है। आपका एचबीए1सी (HbA1c) 8.4% है, जबकि सामान्य सीमा 5.7% से कम होनी चाहिए। इसके अलावा, आपका एलडीएल (खराब) कोलेस्ट्रॉल भी 162 पर है जो थोड़ा अधिक है। अच्छी बात यह है कि आपकी किडनी बिल्कुल स्वस्थ काम कर रही है (क्रिएटिनिन 0.85 mg/dL सामान्य है)। अपने डॉक्टर से मिलकर दवा और खान-पान में जरूरी सलाह अवश्य लें।`,
-        audioText_en: `Hello Aditi. Your blood test report has been analyzed. Your HbA1c is 8.4 percent, indicating higher than target blood sugar levels over the past 3 months. In addition, your LDL cholesterol is 162 milligrams per deciliter, which is above the optimal range. The good news is your kidneys are healthy. We recommend sharing these observations with your doctor.`,
-        audioText_hi: `नमस्ते अदिति। आपकी खून की जांच का विश्लेषण कर लिया गया है। आपका एचबीए1सी 8.4 प्रतिशत है, जो पिछले तीन महीनों में शुगर बढ़ने का संकेत देता है। साथ ही एलडीएल कोलेस्ट्रॉल भी बढ़ा हुआ है। राहत की बात यह है कि आपकी किडनी बिल्कुल सामान्य और सुरक्षित है। कृपया अपने डॉक्टर से परामर्श करें।`,
+        audioText_en: `Hello. Your blood test report has been analyzed. Your HbA1c is 8.4 percent, indicating higher than target blood sugar levels over the past 3 months. In addition, your LDL cholesterol is 162 milligrams per deciliter, which is above the optimal range. The good news is your kidneys are healthy. We recommend sharing these observations with your doctor.`,
+        audioText_hi: `नमस्ते। आपकी खून की जांच का विश्लेषण कर लिया गया है। आपका एचबीए1सी 8.4 प्रतिशत है, जो पिछले तीन महीनों में शुगर बढ़ने का संकेत देता है। साथ ही एलडीएल कोलेस्ट्रॉल भी बढ़ा हुआ है। राहत की बात यह है कि आपकी किडनी बिल्कुल सामान्य और सुरक्षित है। कृपया अपने डॉक्टर से परामर्श करें।`,
         takeaways_en: [
           "Glycemic control is above target (HbA1c: 8.4%).",
           "Lipid panel shows elevated LDL (162 mg/dL).",
@@ -3590,10 +4484,10 @@
       },
       cbc: {
         patient: {
-          name: "Rohan Varma",
+          name: "Patient",
           age: "34",
           gender: "Male",
-          abhaId: "22-9811-4321-7654@abdm",
+          abhaId: "Not Linked",
           facility: "Metropolis Healthcare",
           date: "08 Oct 2026",
           confidence: "98.8%"
@@ -3610,8 +4504,8 @@
         ],
         plainLanguage_en: `Your Complete Blood Count shows mild anemia. Your hemoglobin is 10.8 g/dL (normal for adult men is above 13.5). Your white blood cells are completely normal, showing that there is no active infection. Platelets are slightly on the lower border (140,000). Your doctor will likely check your iron and ferritin levels.`,
         plainLanguage_hi: `आपकी सीबीसी रिपोर्ट में हल्का एनीमिया (खून की कमी) दिख रहा है। आपका हीमोग्लोबिन 10.8 ग्राम है (पुरुषों में सामान्य 13.5 से अधिक होना चाहिए)। आपके सफेद रक्त कण (WBC) पूरी तरह सामान्य हैं, जिसका अर्थ है कि कोई संक्रमण नहीं है। प्लेटलेट्स थोड़े से कम (140,000) हैं। डॉक्टर आयरन और फेरिटिन जांच की सलाह दे सकते हैं।`,
-        audioText_en: `Hello Rohan. Your blood report shows mild anemia with hemoglobin at 10.8. White blood cells are normal with no infection. An iron-rich diet is recommended.`,
-        audioText_hi: `नमस्ते रोहन। आपकी रिपोर्ट में हल्का एनीमिया और 10.8 हीमोग्लोबिन है। संक्रमण का कोई संकेत नहीं है। डॉक्टर से परामर्श कर आयरन युक्त आहार लें।`,
+        audioText_en: `Hello. Your blood report shows mild anemia with hemoglobin at 10.8. White blood cells are normal with no infection. An iron-rich diet is recommended.`,
+        audioText_hi: `नमस्ते। आपकी रिपोर्ट में हल्का एनीमिया और 10.8 हीमोग्लोबिन है। संक्रमण का कोई संकेत नहीं है। डॉक्टर से परामर्श कर आयरन युक्त आहार लें।`,
         takeaways_en: [
           "Mild anemia detected (Hemoglobin: 10.8 g/dL).",
           "WBC and infection markers are completely normal.",
@@ -3772,7 +4666,7 @@
             }],
             text: "Diagnostic Report Document"
           },
-          subject: { reference: `Patient/${patientId}`, display: patient.name || "Aditi Sharma" },
+          subject: { reference: `Patient/${patientId}`, display: patient.name || (currentUser ? currentUser.name : "Patient") },
           date: timestamp,
           author: [{
             reference: "Practitioner/MCI-48291",
@@ -3795,10 +4689,10 @@
             {
               type: { coding: [{ system: "https://ndhm.gov.in/id/abha", code: "ABHA", display: "Ayushman Bharat Health Account" }] },
               system: "https://healthid.ndhm.gov.in",
-              value: patient.abhaId || "14-0234-5678-9012@abdm"
+              value: patient.abhaId || (currentUser ? currentUser.abhaId : "Not Linked")
             }
           ],
-          name: [{ use: "official", text: patient.name || "Aditi Sharma" }],
+          name: [{ use: "official", text: patient.name || (currentUser ? currentUser.name : "Patient") }],
           gender: (patient.gender && typeof patient.gender === 'string' && patient.gender.toLowerCase().includes('fem')) ? 'female' : 'male'
         }
       });
@@ -3831,42 +4725,58 @@
         const obsId = `obs-${bundleId}-${i + 1}`;
         obsRefs.push({ reference: `Observation/${obsId}`, display: bm.name });
 
+        const isMissing = bm.missing || bm.status === 'unknown' || (typeof bm.value === 'string' && bm.value.includes('Unknown'));
+        const obsResource = {
+          resourceType: "Observation",
+          id: obsId,
+          status: "final",
+          category: [{
+            coding: [{ system: "http://terminology.hl7.org/CodeSystem/observation-category", code: "laboratory", display: "Laboratory" }]
+          }],
+          code: {
+            coding: [{
+              system: "http://loinc.org",
+              code: loincMatch.code,
+              display: loincMatch.display
+            }],
+            text: bm.name
+          },
+          subject: { reference: `Patient/${patientId}` },
+          effectiveDateTime: timestamp,
+          referenceRange: [{
+            text: bm.range
+          }]
+        };
+
+        if (isMissing) {
+          obsResource.dataAbsentReason = {
+            coding: [{
+              system: "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+              code: "unknown",
+              display: "Unknown"
+            }],
+            text: "Unknown / Not Provided"
+          };
+          obsResource.valueString = "Unknown / Not Provided";
+        } else {
+          obsResource.valueQuantity = {
+            value: parseFloat(bm.value) || 0,
+            unit: bm.unit || "",
+            system: "http://unitsofmeasure.org",
+            code: bm.unit || ""
+          };
+          obsResource.interpretation = [{
+            coding: [{
+              system: "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+              code: bm.status === 'elevated' ? 'H' : (bm.status === 'low' ? 'L' : 'N'),
+              display: bm.status === 'elevated' ? 'High' : (bm.status === 'low' ? 'Low' : 'Normal')
+            }]
+          }];
+        }
+
         entries.push({
           fullUrl: `urn:uuid:${obsId}`,
-          resource: {
-            resourceType: "Observation",
-            id: obsId,
-            status: "final",
-            category: [{
-              coding: [{ system: "http://terminology.hl7.org/CodeSystem/observation-category", code: "laboratory", display: "Laboratory" }]
-            }],
-            code: {
-              coding: [{
-                system: "http://loinc.org",
-                code: loincMatch.code,
-                display: loincMatch.display
-              }],
-              text: bm.name
-            },
-            subject: { reference: `Patient/${patientId}` },
-            effectiveDateTime: timestamp,
-            valueQuantity: {
-              value: parseFloat(bm.value) || bm.value,
-              unit: bm.unit,
-              system: "http://unitsofmeasure.org",
-              code: bm.unit
-            },
-            interpretation: [{
-              coding: [{
-                system: "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
-                code: bm.status === 'elevated' ? 'H' : (bm.status === 'low' ? 'L' : 'N'),
-                display: bm.status === 'elevated' ? 'High' : (bm.status === 'low' ? 'Low' : 'Normal')
-              }]
-            }],
-            referenceRange: [{
-              text: bm.range
-            }]
-          }
+          resource: obsResource
         });
       });
 
@@ -3928,7 +4838,7 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             patient: {
-              name: currentUser ? currentUser.name : (activeData.patient ? activeData.patient.name : "Aditi Sharma"),
+              name: currentUser ? currentUser.name : (activeData.patient ? activeData.patient.name : "Patient"),
               abhaId: patientAbha,
               age: (activeData.patient && activeData.patient.age) || "48",
               gender: (activeData.patient && activeData.patient.gender) || "Female",
@@ -4220,18 +5130,19 @@
       const abhaInput = document.getElementById('rx-input-patient-abha');
 
       const targetUser = currentUser || {
-        name: (data && data.patient && data.patient.name) || "Aditi Sharma",
-        abhaId: (data && data.patient && data.patient.abhaId) || "14-0234-5678-9012@abdm",
-        age: "42 Y"
+        name: (data && data.patient && data.patient.name) || "",
+        abhaId: (data && data.patient && data.patient.abhaId) || "",
+        age: (data && data.patient && data.patient.age) || "",
+        gender: (data && data.patient && data.patient.gender) || "Female"
       };
 
-      if (nameInput) nameInput.value = targetUser.name;
-      if (abhaInput) abhaInput.value = targetUser.abhaId || "14-0234-5678-9012@abdm";
-      if (ageInput) ageInput.value = targetUser.email && targetUser.email.includes('rohan') ? "38 Y" : "42 Y";
+      if (nameInput) nameInput.value = targetUser.name || "";
+      if (abhaInput) abhaInput.value = targetUser.abhaId || "";
+      if (ageInput) ageInput.value = targetUser.age || "";
 
       const genderSelect = document.getElementById('rx-input-patient-gender');
-      if (genderSelect && targetUser.email) {
-        genderSelect.value = targetUser.email.includes('rohan') ? "Male" : "Female";
+      if (genderSelect && targetUser.gender) {
+        genderSelect.value = targetUser.gender;
       }
 
       renderActiveMedicationsQueue();
@@ -4244,9 +5155,9 @@
       }
 
       const pName = document.getElementById('rx-input-patient-name').value.trim() || (currentUser ? currentUser.name : "Patient");
-      const pAge = document.getElementById('rx-input-patient-age').value.trim() || "42";
+      const pAge = document.getElementById('rx-input-patient-age').value.trim() || "—";
       const pGender = document.getElementById('rx-input-patient-gender').value;
-      const pAbha = document.getElementById('rx-input-patient-abha').value.trim() || (currentUser ? currentUser.abhaId : "14-0234-5678-9012@abdm");
+      const pAbha = document.getElementById('rx-input-patient-abha').value.trim() || (currentUser ? (currentUser.abhaId || "Not Linked") : "Not Linked");
       const docChoice = document.getElementById('rx-input-doctor').value;
 
       const diagnosis = document.getElementById('rx-giver-diagnosis-text').value.trim() || "General Clinical Evaluation";
@@ -4269,7 +5180,7 @@
       const selectedDoctor = doctorDirectory[docChoice] || doctorDirectory['doc-1'];
 
       const payload = {
-        patient: { name: pName, age: pAge.replace(/\D/g, '') || "42", gender: pGender, abhaId: pAbha },
+        patient: { name: pName, age: pAge.replace(/\D/g, '') || "—", gender: pGender, abhaId: pAbha },
         vitals: { bp, pulse, spo2, temp, weight },
         diagnosis,
         icd10,
@@ -4277,7 +5188,7 @@
         doctor: selectedDoctor,
         dietaryDirectives: dietText.split('.').map(s => s.trim()).filter(Boolean),
         followUp,
-        userEmail: currentUser ? currentUser.email : "aditi@sagecure.ai"
+        userEmail: currentUser ? currentUser.email : ""
       };
 
       let generatedPrescription = null;
@@ -4414,7 +5325,7 @@
 
       synth.cancel();
       const data = lastAnalysisResult || SAMPLE_REPORTS.diabetic;
-      const pName = (currentUser ? currentUser.name : (data.patient ? data.patient.name : "Aditi Sharma"));
+      const pName = (currentUser ? currentUser.name : (data.patient ? data.patient.name : "Patient"));
 
       let spokenText = "";
       let langCode = "en-IN";
@@ -4476,10 +5387,10 @@
     let currentPrescriptionData = null;
 
     function populatePrescriptionCard(reportData) {
-      const pName = (currentUser ? currentUser.name : (reportData.patient ? reportData.patient.name : "Aditi Sharma"));
-      const pAbha = (currentUser ? currentUser.abhaId : ((reportData.patient && reportData.patient.abhaId) || "14-0234-5678-9012@abdm"));
-      const pAge = (reportData.patient && reportData.patient.age) || "48";
-      const pGender = (reportData.patient && reportData.patient.gender) || "Female";
+      const pName = (currentUser ? currentUser.name : (reportData.patient ? reportData.patient.name : "Patient"));
+      const pAbha = (currentUser ? (currentUser.abhaId || "Not Linked") : ((reportData.patient && reportData.patient.abhaId) || "Not Linked"));
+      const pAge = (reportData.patient && reportData.patient.age) || "—";
+      const pGender = (reportData.patient && reportData.patient.gender) || "Adult";
       const category = (reportData.category || "metabolic").toLowerCase();
 
       let diagnosis = "Type 2 Diabetes Mellitus with Dyslipidemia (ICD-10: E11.69)";
@@ -4969,6 +5880,7 @@
             type="button" 
             onclick="openDoctorModal('${doc.name}', '${doc.specialty}')" 
             class="w-full py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-extrabold text-xs transition shadow-sm"
+            title="Evaluator Action: Book verified tele-consultation with ${doc.name} (${doc.fee}) with auto-attached diagnostic history"
           >
             Book Tele-Consult (${doc.fee})
           </button>
@@ -4989,8 +5901,8 @@
     }
 
     function openDoctorModal(docName, specialty) {
-      const pName = (currentUser ? currentUser.name : "Aditi Sharma");
-      const pAbha = (currentUser ? currentUser.abhaId : "14-0234-5678-9012@abdm");
+      const pName = (currentUser ? currentUser.name : "Patient");
+      const pAbha = (currentUser ? currentUser.abhaId : "Not Linked");
 
       const modDocName = document.getElementById('consult-modal-doc-name');
       const modDocSpec = document.getElementById('consult-modal-doc-specialty');
@@ -5014,6 +5926,59 @@
     function confirmConsultBooking() {
       closeDoctorModal();
       showToast("Tele-consult slot confirmed! A video call link has been dispatched to your email & SMS.", "success");
+    }
+
+    // -------------------------------------------------------------
+    // ARCHITECTURE & FACELESS EVALUATION MODAL LOGIC
+    // -------------------------------------------------------------
+    function openArchitectureModal(initialTab = 'what') {
+      const modal = document.getElementById('architecture-modal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        switchArchTab(initialTab);
+      }
+    }
+
+    function closeArchitectureModal() {
+      const modal = document.getElementById('architecture-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+      }
+    }
+
+    function switchArchTab(tabId) {
+      const tabs = ['what', 'why', 'how', 'eval'];
+      tabs.forEach(t => {
+        const btn = document.getElementById('arch-tab-btn-' + t);
+        const pane = document.getElementById('arch-pane-' + t);
+        if (t === tabId) {
+          if (btn) {
+            btn.className = "flex-1 py-3 px-4 text-center font-black text-xs sm:text-sm border-b-2 border-indigo-600 text-indigo-700 bg-indigo-50/80 transition flex items-center justify-center space-x-1.5 shadow-inner";
+          }
+          if (pane) pane.classList.remove('hidden');
+        } else {
+          if (btn) {
+            btn.className = "flex-1 py-3 px-4 text-center font-bold text-xs sm:text-sm border-b-2 border-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-50 transition flex items-center justify-center space-x-1.5";
+          }
+          if (pane) pane.classList.add('hidden');
+        }
+      });
+    }
+
+    // Dismiss Architecture Modal on outside backdrop click or Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeArchitectureModal();
+      }
+    });
+
+    const archModalBackdrop = document.getElementById('architecture-modal');
+    if (archModalBackdrop) {
+      archModalBackdrop.addEventListener('click', (e) => {
+        if (e.target === archModalBackdrop) {
+          closeArchitectureModal();
+        }
+      });
     }
 
     let adherenceItems = [

@@ -53,15 +53,27 @@ async function runComprehensiveVerification() {
       allPassed = false;
     }
 
-    // 3. Check Auth & Switch Account Modal
+    // 3. Check Auth Modal & Zero Pre-filled Values
     const hasAuthModal = content.includes('id="auth-modal"');
     const hasSwitchBtn = content.includes('openSwitchAccountModal()');
     const hasTesseract = content.includes('tesseract.js');
+    const hasDemoButtons = content.includes('fillDemoAccount(') || content.includes('switchUserProfile(');
+    const hasPrefilledCreds = content.includes('value="aditi@sagecure.ai"') || content.includes('value="rohan@sagecure.ai"');
 
-    if (hasAuthModal && hasSwitchBtn && hasTesseract) {
-      console.log(`[PASS] ${fileLabel}: Switch Account modal & Tesseract.js OCR CDN verified.`);
+    if (hasAuthModal && hasSwitchBtn && hasTesseract && !hasDemoButtons && !hasPrefilledCreds) {
+      console.log(`[PASS] ${fileLabel}: Demo account shortcuts removed & login inputs 100% blank for new visitors.`);
     } else {
-      console.error(`[FAIL] ${fileLabel}: Missing Auth / Tesseract elements (modal:${hasAuthModal}, switch:${hasSwitchBtn}, tesseract:${hasTesseract})`);
+      console.error(`[FAIL] ${fileLabel}: Auth integrity failed (modal:${hasAuthModal}, demoBtns:${hasDemoButtons}, prefilled:${hasPrefilledCreds})`);
+      allPassed = false;
+    }
+
+    // 4. ABDM / FHIR v4 Export & Emergency Triage Guardrails
+    const hasFhirExport = content.includes('id="export-fhir-btn"') && content.includes('downloadFhirBundle');
+    const hasEmergencyGuardrail = content.includes('id="emergency-banner"') && content.includes('screenEmergencySymptoms');
+    if (hasFhirExport && hasEmergencyGuardrail) {
+      console.log(`[PASS] ${fileLabel}: ABDM / FHIR v4 Bundle exporter and Emergency Triage guardrail active.`);
+    } else {
+      console.error(`[FAIL] ${fileLabel}: Missing FHIR or Emergency elements (fhir:${hasFhirExport}, emergency:${hasEmergencyGuardrail})`);
       allPassed = false;
     }
   }
@@ -144,27 +156,34 @@ async function runComprehensiveVerification() {
     });
   }
 
-  // Test Aditi Login & Session Isolation
+  // Test Isolated User Registration, Login & Session Isolation
   try {
-    const aditiLogin = await postJson('/api/auth/login', { email: 'aditi@sagecure.ai', password: 'password123' });
-    if (aditiLogin.status === 200 && aditiLogin.body.token && aditiLogin.body.user.name === 'Aditi Sharma') {
-      console.log(`[PASS] Aditi Sharma login successful with session token: ${aditiLogin.body.token.substring(0, 16)}...`);
+    const ts = Date.now();
+    const userA = { email: `user_alpha_${ts}@sagecure.ai`, password: 'Password123!', name: 'Patient Alpha', abhaId: '11-2222-3333-4444@abdm' };
+    const userB = { email: `user_beta_${ts}@sagecure.ai`, password: 'Password456!', name: 'Patient Beta', abhaId: '55-6666-7777-8888@abdm' };
+
+    const regA = await postJson('/api/auth/register', userA);
+    const regB = await postJson('/api/auth/register', userB);
+
+    if (regA.status === 200 && regB.status === 200) {
+      console.log(`[PASS] New user registrations isolated and saved cleanly.`);
     } else {
-      console.error(`[FAIL] Aditi login failed:`, aditiLogin);
+      console.error(`[FAIL] Registration failed:`, { regA, regB });
       allPassed = false;
     }
 
-    // Test Rohan Login & Session Isolation
-    const rohanLogin = await postJson('/api/auth/login', { email: 'rohan@sagecure.ai', password: 'password123' });
-    if (rohanLogin.status === 200 && rohanLogin.body.token && rohanLogin.body.user.name === 'Rohan Varma') {
-      console.log(`[PASS] Rohan Varma login successful with session token: ${rohanLogin.body.token.substring(0, 16)}...`);
+    const loginA = await postJson('/api/auth/login', { email: userA.email, password: userA.password });
+    const loginB = await postJson('/api/auth/login', { email: userB.email, password: userB.password });
+
+    if (loginA.status === 200 && loginA.body.token && loginB.status === 200 && loginB.body.token) {
+      console.log(`[PASS] Logged into both newly registered isolated accounts.`);
     } else {
-      console.error(`[FAIL] Rohan login failed:`, rohanLogin);
+      console.error(`[FAIL] Login failed:`, { loginA, loginB });
       allPassed = false;
     }
 
     // Verify session tokens are unique and isolated
-    if (aditiLogin.body.token !== rohanLogin.body.token) {
+    if (loginA.body.token !== loginB.body.token) {
       console.log(`[PASS] Session tokens are strictly isolated per user profile.`);
     } else {
       console.error(`[FAIL] Session tokens collided!`);
@@ -172,9 +191,9 @@ async function runComprehensiveVerification() {
     }
 
     // Verify Session Endpoint
-    const verifyRes = await postJson('/api/auth/verify-session', { email: 'rohan@sagecure.ai', token: rohanLogin.body.token });
-    if (verifyRes.status === 200 && verifyRes.body.valid === true && verifyRes.body.user.name === 'Rohan Varma') {
-      console.log(`[PASS] Session verification valid for Rohan Varma.`);
+    const verifyRes = await postJson('/api/auth/verify-session', { email: userB.email, token: loginB.body.token });
+    if (verifyRes.status === 200 && verifyRes.body.valid === true && verifyRes.body.user.name === 'Patient Beta') {
+      console.log(`[PASS] Session verification valid for Patient Beta.`);
     } else {
       console.error(`[FAIL] Session verification failed:`, verifyRes);
       allPassed = false;
@@ -182,9 +201,9 @@ async function runComprehensiveVerification() {
 
     // Test Interactive Prescription Medication Giver Endpoint
     const rxPayload = {
-      userEmail: 'aditi@sagecure.ai',
-      patient: { name: 'Aditi Sharma', age: '48', gender: 'Female', abhaId: '14-0234-5678-9012@abdm' },
-      vitals: { bp: '128/82 mmHg', pulse: '76 bpm', spo2: '98 %', temp: '98.4 °F', weight: '68 kg' },
+      userEmail: userA.email,
+      patient: { name: 'Patient Alpha', age: '48', gender: 'Female', abhaId: userA.abhaId },
+      vitals: { bp: 'Unknown / Not Provided', pulse: 'Unknown / Not Provided', spo2: 'Unknown / Not Provided', temp: 'Unknown / Not Provided', weight: 'Unknown / Not Provided' },
       diagnosis: 'Type 2 Diabetes Mellitus with Dyslipidemia',
       icd10: 'ICD-10: E11.69',
       medications: [
@@ -207,6 +226,49 @@ async function runComprehensiveVerification() {
       }
     } else {
       console.error(`[FAIL] Prescription generation endpoint failed:`, prescribeRes);
+      allPassed = false;
+    }
+
+    // -------------------------------------------------------------
+    // TEST SUITE 4: ZERO HALLUCINATION & MISSING VITALS AUDIT
+    // -------------------------------------------------------------
+    console.log("\n--- TEST 4: CLINICAL ZERO-HALLUCINATION ENFORCEMENT ---");
+    const feverAnalysis = await postJson('/api/analyze', {
+      type: 'query',
+      query: 'I have fever and mild headache since yesterday',
+      userEmail: userA.email
+    });
+
+    if (feverAnalysis.status === 200 && feverAnalysis.body) {
+      const report = feverAnalysis.body;
+      const biomarkers = report.biomarkers || [];
+      const tempBio = biomarkers.find(b => b.name.toLowerCase().includes('temp'));
+      const pulseBio = biomarkers.find(b => b.name.toLowerCase().includes('pulse') || b.name.toLowerCase().includes('heart'));
+      
+      console.log(`[INFO] Fever query returned ${biomarkers.length} audited biomarkers.`);
+      
+      let noFabrication = true;
+      biomarkers.forEach(b => {
+        if (typeof b.value === 'number') {
+          console.error(`[FAIL] Fabricated numerical biomarker detected: ${b.name} = ${b.value}!`);
+          noFabrication = false;
+        }
+      });
+
+      if (tempBio && tempBio.value === 'Unknown / Not Provided') {
+        console.log(`[PASS] Incomplete fever input flagged missing temperature as "Unknown / Not Provided".`);
+      } else {
+        console.error(`[FAIL] Temperature was not properly flagged:`, tempBio);
+        noFabrication = false;
+      }
+
+      if (noFabrication) {
+        console.log(`[PASS] Zero fabrication rule strictly verified: no numerical vitals guessed.`);
+      } else {
+        allPassed = false;
+      }
+    } else {
+      console.error(`[FAIL] /api/analyze query failed:`, feverAnalysis);
       allPassed = false;
     }
 

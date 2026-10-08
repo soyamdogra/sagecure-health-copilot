@@ -5,10 +5,10 @@
  */
 
 function generateDigitalPrescription(reportData, patientInfo = {}) {
-  const patientName = patientInfo.name || reportData.patient?.name || 'Aditi Sharma';
-  const age = patientInfo.age || reportData.patient?.age || '48 Y';
-  const gender = patientInfo.gender || reportData.patient?.gender || 'Female';
-  const abhaId = patientInfo.abhaId || reportData.patient?.abhaId || '14-0234-5678-9012@abdm';
+  const patientName = patientInfo.name || reportData.patient?.name || 'Patient';
+  const age = patientInfo.age || reportData.patient?.age || '42 Y';
+  const gender = patientInfo.gender || reportData.patient?.gender || 'Adult';
+  const abhaId = patientInfo.abhaId || reportData.patient?.abhaId || '';
   const dateStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
   const rxId = `SC-RX-${Date.now().toString().slice(-6)}`;
 

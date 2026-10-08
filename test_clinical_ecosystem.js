@@ -133,35 +133,33 @@ async function runTests() {
     assert(false, 'ABDM / FHIR v4 Document Bundle Generation', e.message);
   }
 
-  // 4. Longitudinal Trend & Outlier Analysis
+  // 4. Trends Feature Verification: Confirmed Removed from Frontend & Clean User Isolation
   try {
     const res = await request(
-      { hostname: 'localhost', port: 5000, path: '/api/trends/aditi@sagecure.ai', method: 'GET' }
+      { hostname: 'localhost', port: 5000, path: '/api/trends/unregistered_user@sagecure.ai', method: 'GET' }
     );
-    const trends = res.data;
-    const series = trends.series || {};
-    const hba1cSeries = series['HbA1c'] || series['hba1c'];
-
     assert(
-      res.status === 200 && trends.hasTrends === true && trends.reportCount >= 3,
-      'Longitudinal Time-Series: Multi-Quarter History Aggregation',
-      `Reports tracked: ${trends.reportCount}, Patient: ${trends.patientName}`
-    );
-
-    assert(
-      hba1cSeries && hba1cSeries.dataPoints && hba1cSeries.dataPoints.length >= 3,
-      'Longitudinal AI Trajectory & Delta Computation',
-      `HbA1c Quarterly Delta: ${hba1cSeries.deltaPercent}%, Direction: ${hba1cSeries.trendDirection}`
+      res.status === 404,
+      'Trends UI Removed & Isolated Session DB (No Preloaded Demo Leaks)',
+      'Unregistered users have clean slate with zero data bleed'
     );
   } catch (e) {
-    assert(false, 'Longitudinal Trend & Outlier Analysis', e.message);
+    assert(false, 'Trends UI Removed & Isolated Session DB', e.message);
   }
 
   // 5. Automated E-Prescription & Digital Signature
   try {
     const res = await request(
-      { hostname: 'localhost', port: 5000, path: '/api/prescription/generate', method: 'POST', headers: { 'Content-Type': 'application/json' } },
-      { reportId: 'rep-aditi-q3-2026', userEmail: 'aditi@sagecure.ai' }
+      { hostname: 'localhost', port: 5000, path: '/api/prescription/prescribe', method: 'POST', headers: { 'Content-Type': 'application/json' } },
+      {
+        patient: { name: 'Pooja Verma', age: '45', gender: 'Female', abhaId: '99-1234-5678-9012@abdm' },
+        diagnosis: 'Type 2 Diabetes Mellitus with Dyslipidemia',
+        icd10: 'E11.69',
+        medications: [
+          { name: 'Tab. Metformin HCl (SR)', dosage: '500 mg BD', duration: '90 Days', instructions: 'After meals' },
+          { name: 'Tab. Atorvastatin', dosage: '10 mg HS', duration: '90 Days', instructions: 'At bedtime' }
+        ]
+      }
     );
     const rx = res.data.prescription;
     assert(
@@ -196,9 +194,9 @@ async function runTests() {
   );
 
   assert(
-    feHtml.includes('id="longitudinal-trends-card"') && feHtml.includes('renderTrendsSvg'),
-    'Frontend: Longitudinal Trends Interactive SVG Chart Engine',
-    'Interactive vector time-series engine verified in markup'
+    !feHtml.includes('id="longitudinal-trends-card"') && feHtml.includes('id="prescription-giver-card"') && feHtml.includes('id="rx-giver-table-body"'),
+    'Frontend: Trends Completely Removed & Prescription Medication Giver Active',
+    'Trends removed and Prescription Giver Studio verified in markup'
   );
 
   assert(
