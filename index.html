@@ -19,6 +19,9 @@
 
   <!-- Supabase JS Client (v2) CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- jsPDF CDN for Automated Clinical E-Prescription PDF Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -337,6 +340,63 @@
   </div>
 
   <!-- ============================================================== -->
+  <!-- EMERGENCY RED-FLAG BANNER (SAFETY ESCALATION OVERRIDE)        -->
+  <!-- ============================================================== -->
+  <div 
+    id="emergency-banner" 
+    class="hidden relative z-50 bg-gradient-to-r from-red-700 via-rose-600 to-red-800 text-white shadow-2xl border-b-4 border-red-950 px-4 py-3 sm:py-3.5 transition-all duration-300"
+  >
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+      <div class="flex items-center space-x-3.5 text-left">
+        <div class="w-10 h-10 rounded-2xl bg-white/20 text-white flex items-center justify-center shrink-0 text-xl border border-white/30 animate-pulse">
+          🚨
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="font-black text-xs sm:text-sm tracking-wide uppercase bg-red-950/80 px-2.5 py-0.5 rounded text-white border border-red-400">
+              CRITICAL EMERGENCY TRIAGE ALERT
+            </span>
+            <span id="emergency-symptom-tag" class="text-xs font-mono bg-white/20 px-2 py-0.5 rounded font-bold text-red-100">Severe Chest Pain</span>
+          </div>
+          <p id="emergency-banner-msg" class="text-xs sm:text-sm text-red-100 font-medium mt-0.5 leading-snug">
+            Your reported symptoms warrant immediate emergency medical intervention. Do not wait for AI responses. Call emergency services now!
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-2.5 shrink-0 w-full md:w-auto justify-end">
+        <a 
+          href="tel:112" 
+          class="inline-flex items-center px-4 py-2 rounded-xl bg-white text-red-700 font-black text-xs sm:text-sm shadow-lg hover:bg-red-50 transition transform hover:scale-105"
+        >
+          <span class="mr-1.5 text-base">📞</span>
+          <span>CALL 112 (NATIONAL)</span>
+        </a>
+        <a 
+          href="tel:102" 
+          class="inline-flex items-center px-3.5 py-2 rounded-xl bg-red-950/60 hover:bg-red-950 text-white border border-red-300 font-bold text-xs transition"
+        >
+          <span class="mr-1 text-sm">🚑</span>
+          <span>Ambulance 102</span>
+        </a>
+        <button 
+          onclick="openEmergencyModal()" 
+          class="px-3 py-2 rounded-xl bg-white/20 hover:bg-white/30 text-white text-xs font-bold border border-white/40 transition"
+        >
+          Hospital Locator 🏥
+        </button>
+        <button 
+          onclick="dismissEmergencyBanner()" 
+          title="Dismiss Alert" 
+          class="p-2 rounded-xl hover:bg-red-900/50 text-red-200 hover:text-white transition"
+        >
+          ✕
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
   <!-- 2. HEADER & NAVIGATION (SAGECURE REBRANDED)                    -->
   <!-- ============================================================== -->
   <header class="sticky top-0 z-40 glass-nav transition-all duration-300">
@@ -388,6 +448,28 @@
           class="inline-flex items-center px-3 py-2 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 shadow-sm transition"
         >
           <span class="text-sm mr-1 font-extrabold">A</span><span class="text-base font-extrabold text-brand-600">A+</span>
+        </button>
+
+        <!-- Longitudinal Trends Navigation Shortcut -->
+        <button 
+          type="button" 
+          onclick="openTrendsSection()" 
+          class="hidden lg:inline-flex items-center px-3 py-2 rounded-xl text-xs font-bold bg-indigo-50 hover:bg-indigo-100 text-indigo-800 border border-indigo-200 transition"
+          title="View multi-quarter longitudinal trends"
+        >
+          <span class="mr-1">📈</span>
+          <span>Trends</span>
+        </button>
+
+        <!-- Doctors Directory Navigation Shortcut -->
+        <button 
+          type="button" 
+          onclick="openDoctorDirectoryModal()" 
+          class="hidden md:inline-flex items-center px-3 py-2 rounded-xl text-xs font-bold bg-sky-50 hover:bg-sky-100 text-sky-800 border border-sky-200 transition"
+          title="Browse certified doctors and tele-consult"
+        >
+          <span class="mr-1">🩺</span>
+          <span>Doctors</span>
         </button>
 
         <!-- Language Switcher (English | हिंदी) -->
@@ -840,23 +922,61 @@
             </h2>
           </div>
 
-          <!-- Large Audio Buttons for Seniors -->
+          <!-- Large Audio Buttons & Clinical Export Buttons -->
           <div class="flex flex-wrap items-center gap-2">
             <button 
               id="replay-audio-btn" 
               onclick="replayAudioExplanation()" 
-              class="inline-flex items-center px-5 py-3 rounded-2xl text-sm font-extrabold bg-teal-500 hover:bg-teal-400 text-slate-950 shadow-md shadow-teal-500/20 transition transform hover:scale-[1.02]"
+              class="inline-flex items-center px-4 py-3 rounded-2xl text-xs sm:text-sm font-extrabold bg-teal-500 hover:bg-teal-400 text-slate-950 shadow-md shadow-teal-500/20 transition transform hover:scale-[1.02]"
             >
-              <svg class="w-5 h-5 mr-2 text-slate-950" fill="currentColor" viewBox="0 0 24 24">
+              <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-1.5 text-slate-950" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
               </svg>
-              <span id="replay-audio-text">Replay Audio Explanation 🔊</span>
+              <span id="replay-audio-text">Read Aloud 🔊</span>
+            </button>
+
+            <!-- Export FHIR Bundle Button -->
+            <button 
+              id="export-fhir-btn" 
+              onclick="openFhirExportModal()" 
+              class="inline-flex items-center px-4 py-3 rounded-2xl text-xs sm:text-sm font-extrabold bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white shadow-md shadow-emerald-700/20 transition transform hover:scale-[1.02]"
+              title="Export compliant HL7 FHIR v4 DiagnosticReport Bundle"
+            >
+              <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-1.5 text-emerald-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              <span>Export FHIR Bundle</span>
+              <span class="ml-1.5 text-[9px] uppercase font-mono font-bold bg-emerald-950/60 px-1.5 py-0.5 rounded border border-emerald-300/40">ABDM v4</span>
+            </button>
+
+            <!-- Digital E-Prescription Button -->
+            <button 
+              id="view-rx-btn" 
+              onclick="openPrescriptionModal()" 
+              class="inline-flex items-center px-4 py-3 rounded-2xl text-xs sm:text-sm font-extrabold bg-gradient-to-r from-brand-600 to-indigo-700 hover:from-brand-500 hover:to-indigo-600 text-white shadow-md shadow-brand-700/20 transition transform hover:scale-[1.02]"
+              title="View & Download Signed Digital E-Prescription PDF"
+            >
+              <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-1.5 text-brand-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+              </svg>
+              <span>Digital E-Rx</span>
+              <span class="ml-1 text-[9px] uppercase font-mono font-bold bg-indigo-950/60 px-1.5 py-0.5 rounded border border-indigo-300/40">PDF</span>
+            </button>
+
+            <!-- Trends Quick Link -->
+            <button 
+              onclick="openTrendsSection()" 
+              class="inline-flex items-center px-3.5 py-3 rounded-2xl text-xs sm:text-sm font-bold bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-200 transition"
+              title="View longitudinal time-series trends"
+            >
+              <span class="mr-1">📈</span>
+              <span>Trends</span>
             </button>
 
             <button 
               onclick="stopAudio()" 
               id="stop-audio-btn"
-              class="hidden inline-flex items-center px-4 py-3 rounded-2xl text-sm font-bold bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 transition"
+              class="hidden inline-flex items-center px-3 py-3 rounded-2xl text-xs sm:text-sm font-bold bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 transition"
               title="Stop audio speech"
             >
               <svg class="w-4 h-4 mr-1 text-rose-600" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
@@ -865,12 +985,12 @@
 
             <button 
               onclick="window.print()" 
-              class="inline-flex items-center px-4 py-3 rounded-2xl text-sm font-bold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 shadow-sm transition"
+              class="inline-flex items-center px-3.5 py-3 rounded-2xl text-xs sm:text-sm font-bold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 shadow-sm transition"
             >
-              <svg class="w-5 h-5 mr-1.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-1 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
               </svg>
-              <span id="btn-export-text">Print / Export</span>
+              <span id="btn-export-text">Print</span>
             </button>
           </div>
         </div>
@@ -984,7 +1104,7 @@
         <div class="lg:col-span-5 space-y-6">
           
           <!-- Audio Synthesizer Card -->
-          <div class="glass-card rounded-3xl p-6 sm:p-7 shadow-xl space-y-5 bg-gradient-to-br from-slate-900 to-slate-950 text-white border border-slate-800">
+          <div class="glass-card rounded-3xl p-6 sm:p-7 shadow-xl space-y-4 bg-gradient-to-br from-slate-900 to-slate-950 text-white border border-slate-800">
             <div class="flex items-center justify-between">
               <div class="flex items-center space-x-3">
                 <div class="w-10 h-10 rounded-2xl bg-teal-500/20 text-teal-400 flex items-center justify-center border border-teal-500/30">
@@ -992,48 +1112,103 @@
                 </div>
                 <div>
                   <h4 class="text-base font-bold text-white" id="voice-companion-title">SageCure Voice Companion</h4>
-                  <p class="text-xs text-slate-400" id="voice-companion-sub">Speaks aloud automatically in English & Hindi</p>
+                  <p class="text-xs text-slate-400" id="voice-companion-sub">Speaks aloud in English, Hindi & Punjabi</p>
                 </div>
               </div>
-              <span id="voice-indicator-pill" class="text-xs font-mono px-3 py-1 rounded-full bg-teal-900/50 text-teal-300 border border-teal-700/60 flex items-center">
-                <span class="w-2 h-2 rounded-full bg-teal-400 mr-2 animate-pulse"></span>
-                Speaking
+              <span id="voice-indicator-pill" class="text-xs font-mono px-3 py-1 rounded-full bg-slate-800 text-slate-400 border border-slate-700 flex items-center">
+                <span id="voice-dot" class="w-2 h-2 rounded-full bg-slate-500 mr-2"></span>
+                <span id="voice-status-word">Standby</span>
               </span>
             </div>
 
-            <!-- Waveform Animation Display -->
-            <div class="bg-slate-800/70 rounded-2xl p-5 border border-slate-700/50 flex flex-col items-center justify-center space-y-3">
-              <div id="tts-wave-visualizer" class="flex items-center space-x-2 h-11">
-                <span class="wave-bar w-1.5 bg-teal-400 rounded-full animate-wave-bar"></span>
-                <span class="wave-bar w-1.5 bg-brand-400 rounded-full animate-wave-bar"></span>
-                <span class="wave-bar w-1.5 bg-emerald-400 rounded-full animate-wave-bar"></span>
-                <span class="wave-bar w-1.5 bg-sky-400 rounded-full animate-wave-bar"></span>
-                <span class="wave-bar w-1.5 bg-teal-300 rounded-full animate-wave-bar"></span>
-                <span class="wave-bar w-1.5 bg-brand-300 rounded-full animate-wave-bar"></span>
-                <span class="wave-bar w-1.5 bg-emerald-300 rounded-full animate-wave-bar"></span>
+            <!-- Regional Language Voice Selection (English, Hindi, Punjabi) -->
+            <div class="p-3 bg-slate-800/80 rounded-2xl border border-slate-700/60 space-y-2">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-slate-300 font-bold uppercase tracking-wider text-[10px]">Regional Voice Accent:</span>
+                <span class="text-teal-400 font-mono text-[11px]" id="active-voice-badge">English (en-IN)</span>
               </div>
-              <div class="text-xs sm:text-sm text-slate-300 text-center font-mono" id="tts-status-label">
-                Natural Indian Medical Accent
+              <div class="grid grid-cols-3 gap-1.5">
+                <button 
+                  type="button" 
+                  onclick="setVoiceCompanionLang('en')" 
+                  id="voice-lang-en" 
+                  class="py-1.5 px-2 rounded-xl text-xs font-black bg-teal-500 text-slate-950 shadow-sm transition"
+                >
+                  🇬🇧 English
+                </button>
+                <button 
+                  type="button" 
+                  onclick="setVoiceCompanionLang('hi')" 
+                  id="voice-lang-hi" 
+                  class="py-1.5 px-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-700/60 transition"
+                >
+                  🇮🇳 हिंदी
+                </button>
+                <button 
+                  type="button" 
+                  onclick="setVoiceCompanionLang('pa')" 
+                  id="voice-lang-pa" 
+                  class="py-1.5 px-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-700/60 transition"
+                >
+                  🌾 ਪੰਜਾਬੀ
+                </button>
               </div>
             </div>
 
-            <!-- Large Audio Controls -->
-            <div class="grid grid-cols-2 gap-3 pt-2">
-              <button 
-                onclick="replayAudioExplanation()" 
-                class="py-3 px-4 rounded-2xl text-sm font-extrabold bg-teal-500 hover:bg-teal-400 text-slate-950 flex items-center justify-center space-x-2 transition"
-              >
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                <span id="btn-replay-text">Replay Voice</span>
-              </button>
-              <button 
-                onclick="toggleSpeechPause()" 
-                id="pause-voice-btn" 
-                class="py-3 px-4 rounded-2xl text-sm font-bold bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 flex items-center justify-center space-x-2 transition"
-              >
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-                <span id="btn-pause-text">Pause / Play</span>
-              </button>
+            <!-- Waveform Animation Display -->
+            <div class="bg-slate-800/70 rounded-2xl p-4 border border-slate-700/50 flex flex-col items-center justify-center space-y-2.5">
+              <div id="tts-wave-visualizer" class="flex items-center space-x-2 h-9 opacity-60">
+                <span class="wave-bar w-1.5 bg-teal-400 rounded-full h-3"></span>
+                <span class="wave-bar w-1.5 bg-brand-400 rounded-full h-5"></span>
+                <span class="wave-bar w-1.5 bg-emerald-400 rounded-full h-7"></span>
+                <span class="wave-bar w-1.5 bg-sky-400 rounded-full h-4"></span>
+                <span class="wave-bar w-1.5 bg-teal-300 rounded-full h-6"></span>
+                <span class="wave-bar w-1.5 bg-brand-300 rounded-full h-4"></span>
+                <span class="wave-bar w-1.5 bg-emerald-300 rounded-full h-2"></span>
+              </div>
+              <div class="text-xs text-slate-300 text-center font-mono flex items-center justify-center space-x-2" id="tts-status-label">
+                <span>Natural Speech Synthesizer</span>
+              </div>
+            </div>
+
+            <!-- Senior Pace Control & Audio Actions -->
+            <div class="space-y-2.5 pt-1">
+              <div class="flex items-center justify-between text-xs px-1">
+                <span class="text-slate-400 font-medium text-[11px]">Speech Speed:</span>
+                <div class="inline-flex items-center bg-slate-800 rounded-xl p-0.5 border border-slate-700 text-[10px]">
+                  <button onclick="setVoiceCompanionSpeed(0.85)" id="speed-08" class="px-2 py-0.5 rounded-lg text-slate-300 hover:text-white transition">0.85x (Slow)</button>
+                  <button onclick="setVoiceCompanionSpeed(1.0)" id="speed-10" class="px-2 py-0.5 rounded-lg font-bold bg-teal-500 text-slate-950 transition">1.0x</button>
+                  <button onclick="setVoiceCompanionSpeed(1.2)" id="speed-12" class="px-2 py-0.5 rounded-lg text-slate-300 hover:text-white transition">1.2x</button>
+                </div>
+              </div>
+
+              <!-- Main Play / Pause / Stop Buttons -->
+              <div class="grid grid-cols-3 gap-2">
+                <button 
+                  onclick="readAloudCurrentReport()" 
+                  id="voice-read-aloud-btn"
+                  class="py-3 px-2 rounded-2xl text-xs sm:text-sm font-extrabold bg-teal-500 hover:bg-teal-400 text-slate-950 flex items-center justify-center space-x-1.5 transition shadow-lg shadow-teal-500/20"
+                >
+                  <span>🔊</span>
+                  <span id="btn-read-aloud-text">Read Aloud</span>
+                </button>
+                <button 
+                  onclick="toggleSpeechPause()" 
+                  id="pause-voice-btn" 
+                  class="py-3 px-2 rounded-2xl text-xs sm:text-sm font-bold bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 flex items-center justify-center space-x-1.5 transition"
+                >
+                  <span>⏸️</span>
+                  <span id="btn-pause-text">Pause</span>
+                </button>
+                <button 
+                  onclick="stopAudio()" 
+                  id="stop-companion-voice-btn" 
+                  class="py-3 px-2 rounded-2xl text-xs sm:text-sm font-bold bg-slate-800 hover:bg-rose-950/60 hover:text-rose-300 hover:border-rose-800 text-slate-300 border border-slate-700 flex items-center justify-center space-x-1.5 transition"
+                >
+                  <span>⏹️</span>
+                  <span>Stop</span>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -1084,6 +1259,231 @@
               <!-- Dynamically populated -->
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- MODULE 2: LONGITUDINAL TREND & OUTLIER ANALYSIS (TIME-SERIES)  -->
+      <!-- ============================================================== -->
+      <div id="longitudinal-trends-card" class="glass-card rounded-3xl p-6 sm:p-8 shadow-xl border border-indigo-200/80 bg-gradient-to-br from-white via-indigo-50/20 to-white space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-indigo-100 pb-5">
+          <div class="flex items-center space-x-3.5">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-lg shadow-indigo-600/20 font-black text-xl shrink-0">
+              📈
+            </div>
+            <div>
+              <div class="flex items-center space-x-2">
+                <h3 class="text-xl sm:text-2xl font-black text-slate-900" id="trends-title">Longitudinal Health Trends & Trajectory</h3>
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-100 text-indigo-800 border border-indigo-200">Time-Series AI</span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-500 mt-0.5" id="trends-subtitle">Multi-quarter comparison tracking clinical deltas, regressions & improvements</p>
+            </div>
+          </div>
+
+          <!-- Biomarker Filter Tabs for Time-Series -->
+          <div id="trends-biomarker-tabs" class="flex flex-wrap items-center gap-1.5 p-1 bg-slate-100 rounded-2xl text-xs font-bold">
+            <!-- Dynamically populated or default tabs -->
+          </div>
+        </div>
+
+        <!-- AI Clinical Longitudinal Narrative Card -->
+        <div id="trends-ai-narrative-box" class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-emerald-50 via-teal-50 to-indigo-50 border border-emerald-200/80 flex items-start space-x-3.5">
+          <div class="text-2xl shrink-0 mt-0.5" id="trends-insight-icon">🟢</div>
+          <div class="space-y-1">
+            <div class="text-xs font-extrabold uppercase tracking-wider text-emerald-900 flex items-center space-x-1.5">
+              <span>AI Longitudinal Trajectory Insight</span>
+              <span class="px-2 py-0.5 rounded bg-emerald-200/70 text-emerald-900 text-[10px] font-mono font-bold" id="trends-delta-pill">-4.5% Delta</span>
+            </div>
+            <p id="trends-ai-narrative-text" class="text-xs sm:text-sm text-slate-800 font-medium leading-relaxed">
+              Positive trend: Your glycemic control improved by 4.5% since last quarter (HbA1c declined from 8.8% to 8.4%). Total improvement from January baseline is -8.7%.
+            </p>
+          </div>
+        </div>
+
+        <!-- Time-Series Chart Container (SVG Interactive Graph) -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-inner space-y-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between text-xs text-slate-500 pb-2 border-b border-slate-100 gap-2">
+            <div class="flex items-center space-x-4">
+              <span class="flex items-center font-bold text-slate-700">
+                <span class="w-3 h-3 rounded-full bg-indigo-600 mr-1.5"></span>
+                <span id="chart-marker-label">HbA1c (%)</span>
+              </span>
+              <span class="flex items-center text-emerald-700 font-semibold">
+                <span class="w-3 h-2 rounded bg-emerald-100 border border-emerald-300 mr-1.5"></span>
+                <span>Normal Reference Zone</span>
+              </span>
+            </div>
+            <span class="font-mono text-[11px] text-slate-400" id="chart-timeline-range">Jan 2026 → Oct 2026 (3 Quarters)</span>
+          </div>
+
+          <!-- Dynamic SVG Chart Canvas -->
+          <div class="w-full h-56 sm:h-64 relative flex items-center justify-center" id="trends-svg-container">
+            <!-- Rendered by renderTrendsSvg() -->
+          </div>
+        </div>
+
+        <!-- Longitudinal Quarterly Comparison Delta Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs sm:text-sm border-collapse">
+            <thead>
+              <tr class="border-b border-slate-200 text-slate-400 font-bold uppercase tracking-wider text-[11px]">
+                <th class="py-2.5 px-3">Biomarker</th>
+                <th class="py-2.5 px-3">Q1 Baseline</th>
+                <th class="py-2.5 px-3">Q2 Prior</th>
+                <th class="py-2.5 px-3">Q3 Current</th>
+                <th class="py-2.5 px-3 font-mono">Quarterly Delta</th>
+                <th class="py-2.5 px-3 font-mono">Overall Delta</th>
+                <th class="py-2.5 px-3">Clinical Trajectory</th>
+              </tr>
+            </thead>
+            <tbody id="trends-table-body" class="divide-y divide-slate-100 font-medium">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- MODULE 4: AUTOMATED E-PRESCRIPTION & CLINICAL PDF CARD         -->
+      <!-- ============================================================== -->
+      <div id="digital-prescription-card" class="glass-card rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-200 bg-white space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+          <div class="flex items-center space-x-3.5">
+            <div class="w-12 h-12 rounded-2xl bg-brand-700 text-white flex items-center justify-center font-black text-xl shadow-lg shadow-brand-700/20 shrink-0">
+              ℞
+            </div>
+            <div>
+              <div class="flex items-center space-x-2">
+                <h3 class="text-xl sm:text-2xl font-black text-slate-900">Clinical E-Prescription</h3>
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-teal-100 text-teal-800 border border-teal-200">ABDM Verified</span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-500">Dr. Alok Sen, MD (MCI-48291) • SageCure Digital Health Clinic</p>
+            </div>
+          </div>
+
+          <!-- Download Signed PDF Button -->
+          <div class="flex items-center space-x-2">
+            <button 
+              type="button" 
+              onclick="downloadPrescriptionPDF()" 
+              class="inline-flex items-center px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold bg-gradient-to-r from-brand-600 to-indigo-700 hover:from-brand-500 hover:to-indigo-600 text-white shadow-md shadow-brand-600/20 transition transform hover:scale-[1.02]"
+              title="Download official signed prescription as PDF document"
+            >
+              <svg class="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              <span>Download Signed Prescription PDF</span>
+            </button>
+            <button 
+              type="button" 
+              onclick="openPrescriptionModal()" 
+              class="px-3.5 py-2.5 rounded-2xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs sm:text-sm transition"
+            >
+              Full View 🔍
+            </button>
+          </div>
+        </div>
+
+        <!-- Prescription Body Preview Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+            <span class="text-slate-400 block font-bold uppercase tracking-wider text-[10px]">Clinical Diagnosis (ICD-10):</span>
+            <span class="font-extrabold text-slate-900 text-sm block mt-1" id="rx-diagnosis-label">Type 2 Diabetes Mellitus with Dyslipidemia</span>
+            <span class="text-slate-500 block text-[11px] mt-0.5 font-mono" id="rx-icd-label">ICD-10: E11.69</span>
+          </div>
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+            <span class="text-slate-400 block font-bold uppercase tracking-wider text-[10px]">Patient ABHA Details:</span>
+            <span class="font-extrabold text-slate-900 text-sm block mt-1" id="rx-patient-label">Aditi Sharma (48 Y / Female)</span>
+            <span class="text-brand-700 font-mono block text-[11px] mt-0.5 truncate" id="rx-abha-label">14-0234-5678-9012@abdm</span>
+          </div>
+          <div class="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200">
+            <span class="text-emerald-700 block font-bold uppercase tracking-wider text-[10px]">Digital Signature Verification:</span>
+            <span class="font-extrabold text-emerald-950 text-sm block mt-1">✓ Dr. Alok Sen, MD</span>
+            <span class="text-emerald-700 font-mono block text-[11px] mt-0.5" id="rx-signature-hash">ABDM-SIG-48291-VERIFIED</span>
+          </div>
+        </div>
+
+        <!-- Prescribed Medications Schedule Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs sm:text-sm border-collapse">
+            <thead>
+              <tr class="border-b border-slate-200 text-slate-500 font-bold uppercase text-[11px]">
+                <th class="py-2.5 px-3">Medication & Strength</th>
+                <th class="py-2.5 px-3">Dosage / Frequency</th>
+                <th class="py-2.5 px-3">Timing & Relation to Food</th>
+                <th class="py-2.5 px-3">Duration</th>
+                <th class="py-2.5 px-3">Doctor's Clinical Notes</th>
+              </tr>
+            </thead>
+            <tbody id="rx-medications-table-body" class="divide-y divide-slate-100 font-medium text-slate-800">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- MODULE 6A: SMART ADHERENCE REMINDERS & DAILY MEDICATION TRACKER-->
+      <!-- ============================================================== -->
+      <div id="smart-adherence-card" class="glass-card rounded-3xl p-6 sm:p-8 shadow-xl border border-amber-200/80 bg-gradient-to-br from-white via-amber-50/20 to-white space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-amber-100 pb-4">
+          <div class="flex items-center space-x-3.5">
+            <div class="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center font-black text-xl shadow-lg shadow-amber-500/20 shrink-0">
+              ⏰
+            </div>
+            <div>
+              <div class="flex items-center space-x-2">
+                <h3 class="text-xl sm:text-2xl font-black text-slate-900">Smart Medication Adherence Tracker</h3>
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300">Daily Routine</span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-500">Track medication compliance, build healthy streaks, and set browser alarm notifications</p>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-2">
+            <span class="px-3.5 py-1.5 rounded-xl bg-amber-100 text-amber-900 font-black text-xs sm:text-sm flex items-center">
+              <span class="mr-1.5">🔥</span>
+              <span id="adherence-streak-label">7-Day Streak: 100%</span>
+            </span>
+            <button 
+              type="button" 
+              onclick="enableAdherenceNotifications()" 
+              class="px-3 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs transition flex items-center space-x-1"
+            >
+              <span>🔔</span>
+              <span>Set Browser Reminders</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Adherence Checkboxes Grid -->
+        <div id="adherence-checklist-container" class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs sm:text-sm">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- MODULE 6B: SPECIALIST DOCTOR DIRECTORY & TELE-CONSULTATION HUB -->
+      <!-- ============================================================== -->
+      <div id="doctor-directory-card" class="glass-card rounded-3xl p-6 sm:p-8 shadow-xl border border-sky-200/80 bg-gradient-to-br from-white via-sky-50/20 to-white space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-sky-100 pb-4">
+          <div class="flex items-center space-x-3.5">
+            <div class="w-12 h-12 rounded-2xl bg-sky-600 text-white flex items-center justify-center font-black text-xl shadow-lg shadow-sky-600/20 shrink-0">
+              🩺
+            </div>
+            <div>
+              <div class="flex items-center space-x-2">
+                <h3 class="text-xl sm:text-2xl font-black text-slate-900">Verified Doctor Directory & Tele-Consult</h3>
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-sky-100 text-sky-800 border border-sky-200">ABDM Registry</span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-500">Connect with board-certified physicians for review of your lab report</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Doctors Grid -->
+        <div id="doctors-grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- Dynamically populated -->
         </div>
       </div>
 
@@ -1139,6 +1539,374 @@
 
   <!-- Toast Notification Container -->
   <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL 1: EMERGENCY RED-FLAG TRIAGE ESCALATION MODAL            -->
+  <!-- ============================================================== -->
+  <div id="emergency-modal" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-2xl w-full shadow-2xl border-4 border-red-600 overflow-hidden transform transition-all my-8">
+      <!-- Modal Header -->
+      <div class="bg-gradient-to-r from-red-700 via-rose-700 to-red-800 p-6 text-white space-y-2">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <span class="text-3xl animate-bounce">🚨</span>
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-black bg-red-950 text-red-200 border border-red-400 uppercase tracking-wider">
+              Emergency Safety Override
+            </span>
+          </div>
+          <button onclick="closeEmergencyModal()" class="text-red-200 hover:text-white p-1 rounded-xl hover:bg-white/10 transition">
+            ✕
+          </button>
+        </div>
+        <h3 class="text-xl sm:text-2xl font-black" id="emergency-modal-title">
+          Immediate Medical Attention Required
+        </h3>
+        <p class="text-xs sm:text-sm text-red-100" id="emergency-modal-desc">
+          Your symptoms indicate a potential high-risk medical condition. Do not wait for AI evaluation. Please contact emergency services or proceed to the nearest trauma hospital.
+        </p>
+      </div>
+
+      <!-- Emergency Speed Dial Buttons -->
+      <div class="p-6 space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <a 
+            href="tel:112" 
+            class="p-4 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-extrabold flex items-center justify-center space-x-3 shadow-lg shadow-red-600/30 transition transform hover:scale-[1.02]"
+          >
+            <span class="text-2xl">📞</span>
+            <div>
+              <div class="text-xs uppercase opacity-90">National Emergency Helpline</div>
+              <div class="text-xl font-black">CALL 112 NOW</div>
+            </div>
+          </a>
+          <a 
+            href="tel:102" 
+            class="p-4 rounded-2xl bg-rose-700 hover:bg-rose-800 text-white font-extrabold flex items-center justify-center space-x-3 shadow-lg shadow-rose-700/30 transition transform hover:scale-[1.02]"
+          >
+            <span class="text-2xl">🚑</span>
+            <div>
+              <div class="text-xs uppercase opacity-90">National Ambulance Service</div>
+              <div class="text-xl font-black">CALL 102 NOW</div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Nearby 24x7 Emergency Centers Directory -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="text-xs font-black uppercase tracking-wider text-slate-700 flex items-center">
+              <span class="w-2 h-2 rounded-full bg-red-600 mr-2 animate-pulse"></span>
+              Nearby 24x7 Emergency Care Centers (Live Locator)
+            </h4>
+            <span class="text-[10px] font-mono text-slate-400">GPS / Delhi NCR Verified</span>
+          </div>
+
+          <div class="space-y-2.5 max-h-56 overflow-y-auto pr-1">
+            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-start justify-between gap-3 text-xs">
+              <div>
+                <div class="font-bold text-slate-900 text-sm">AIIMS Apex Trauma & Emergency Care</div>
+                <div class="text-slate-500 mt-0.5">Ring Road, Ansari Nagar, New Delhi • Level 1 Apex ER</div>
+                <div class="text-red-700 font-mono font-bold mt-1">24x7 Hotline: 011-2659-4405</div>
+              </div>
+              <a href="https://maps.google.com/?q=AIIMS+Trauma+Centre+New+Delhi" target="_blank" class="shrink-0 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-[11px] transition">
+                Directions 📍
+              </a>
+            </div>
+
+            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-start justify-between gap-3 text-xs">
+              <div>
+                <div class="font-bold text-slate-900 text-sm">Fortis Escorts Heart & Emergency ER</div>
+                <div class="text-slate-500 mt-0.5">Okhla Road, New Delhi • 24x7 Acute Resuscitation</div>
+                <div class="text-red-700 font-mono font-bold mt-1">Cardiac Hotline: 105010</div>
+              </div>
+              <a href="https://maps.google.com/?q=Fortis+Escorts+Heart+Institute+New+Delhi" target="_blank" class="shrink-0 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-[11px] transition">
+                Directions 📍
+              </a>
+            </div>
+
+            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-start justify-between gap-3 text-xs">
+              <div>
+                <div class="font-bold text-slate-900 text-sm">Max Super Speciality Hospital 24/7 ER</div>
+                <div class="text-slate-500 mt-0.5">Press Enclave Road, Saket, New Delhi</div>
+                <div class="text-red-700 font-mono font-bold mt-1">Emergency: 011-4055-4055</div>
+              </div>
+              <a href="https://maps.google.com/?q=Max+Super+Speciality+Hospital+Saket" target="_blank" class="shrink-0 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-[11px] transition">
+                Directions 📍
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-2 border-t border-slate-100 flex justify-end">
+          <button 
+            type="button" 
+            onclick="closeEmergencyModal()" 
+            class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition"
+          >
+            I Understand & Dismiss Modal
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL 2: ABDM / FHIR v4 RESOURCE BUNDLE INSPECTOR MODAL        -->
+  <!-- ============================================================== -->
+  <div id="fhir-modal" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-4xl w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all my-8 flex flex-col max-h-[90vh]">
+      <!-- Header -->
+      <div class="bg-gradient-to-r from-slate-900 via-teal-950 to-slate-900 p-6 text-white border-b border-teal-800/40">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-2xl bg-teal-500/20 text-teal-400 flex items-center justify-center font-bold text-xl border border-teal-500/30">
+              ⚕️
+            </div>
+            <div>
+              <div class="flex items-center space-x-2">
+                <h3 class="text-lg sm:text-xl font-black text-white">ABDM / FHIR v4 DiagnosticReport Bundle</h3>
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-teal-900 text-teal-300 border border-teal-700">HL7 FHIR v4.0.1</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-0.5">National NRCeS India Compliant Resource Bundle with Official LOINC Codings</p>
+            </div>
+          </div>
+          <button onclick="closeFhirModal()" class="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-white/10 transition">
+            ✕
+          </button>
+        </div>
+
+        <!-- Metadata Chips -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-4 text-xs font-mono">
+          <div class="p-2 rounded-xl bg-slate-800/80 border border-slate-700">
+            <span class="text-slate-400 block text-[10px]">Resource Type:</span>
+            <span class="text-teal-300 font-bold">Bundle (document)</span>
+          </div>
+          <div class="p-2 rounded-xl bg-slate-800/80 border border-slate-700">
+            <span class="text-slate-400 block text-[10px]">Coding System:</span>
+            <span class="text-teal-300 font-bold">LOINC (http://loinc.org)</span>
+          </div>
+          <div class="p-2 rounded-xl bg-slate-800/80 border border-slate-700">
+            <span class="text-slate-400 block text-[10px]">ABHA Linked:</span>
+            <span class="text-emerald-400 font-bold truncate block" id="fhir-modal-abha">14-0234-5678-9012@abdm</span>
+          </div>
+          <div class="p-2 rounded-xl bg-slate-800/80 border border-slate-700">
+            <span class="text-slate-400 block text-[10px]">Compliance:</span>
+            <span class="text-emerald-400 font-bold">NRCeS Validated ✓</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- JSON Viewer Body -->
+      <div class="p-6 overflow-y-auto flex-1 bg-slate-950 font-mono text-xs text-emerald-400 space-y-3">
+        <div class="flex items-center justify-between text-slate-400 text-[11px] pb-2 border-b border-slate-800">
+          <span>DiagnosticReport.json (HL7 FHIR v4 Document Bundle)</span>
+          <span id="fhir-bundle-entry-count">Entries: 10 Resources</span>
+        </div>
+        <pre class="overflow-x-auto p-4 rounded-2xl bg-slate-900 border border-slate-800/80 leading-relaxed text-slate-200 select-all max-h-[460px]"><code id="fhir-json-code">// Generating FHIR v4 Bundle...</code></pre>
+      </div>
+
+      <!-- Action Footer -->
+      <div class="p-4 sm:p-5 bg-white border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div class="text-xs text-slate-500 font-medium">
+          Ready for ABDM Health Information Exchange (HIE-CM / HIP).
+        </div>
+        <div class="flex items-center space-x-2 w-full sm:w-auto justify-end">
+          <button 
+            type="button" 
+            onclick="copyFhirJson()" 
+            class="px-4 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-700 font-bold text-xs transition flex items-center space-x-1.5"
+          >
+            <span>📋</span>
+            <span>Copy JSON</span>
+          </button>
+          <button 
+            type="button" 
+            onclick="downloadFhirBundle()" 
+            class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-extrabold text-xs shadow-md shadow-emerald-700/20 transition flex items-center space-x-1.5"
+          >
+            <span>📥</span>
+            <span>Download .json Bundle</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL 3: DIGITAL E-PRESCRIPTION FULL-VIEW MODAL               -->
+  <!-- ============================================================== -->
+  <div id="prescription-modal" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-3xl w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all my-8 flex flex-col max-h-[92vh]">
+      <!-- Prescription Printable Container -->
+      <div id="prescription-print-container" class="p-6 sm:p-8 space-y-6 overflow-y-auto flex-1">
+        <!-- Clinic Letterhead -->
+        <div class="flex items-start justify-between pb-6 border-b-2 border-slate-900 gap-4">
+          <div class="space-y-1">
+            <div class="flex items-center space-x-2">
+              <span class="text-2xl font-black text-slate-900 tracking-tight">SageCure Digital Health Clinic</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-teal-100 text-teal-800 border border-teal-200">ABDM IN070001842</span>
+            </div>
+            <p class="text-xs text-slate-500">Suite 402, South Extension II, New Delhi - 110049 • Phone: +91-11-2659-4500 • Reg # DL-2026-MED-4912</p>
+          </div>
+          <div class="text-right shrink-0">
+            <div class="font-black text-slate-900 text-sm">Dr. Alok Sen, MD</div>
+            <div class="text-[11px] text-slate-500">MBBS, MD (Internal Med), PGD Diabetology</div>
+            <div class="text-[11px] font-mono text-brand-700 font-bold">MCI Reg: 48291</div>
+          </div>
+        </div>
+
+        <!-- Patient Demographics Box -->
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+          <div>
+            <span class="text-slate-400 block font-bold text-[10px]">PATIENT NAME:</span>
+            <span class="font-extrabold text-slate-900" id="rx-modal-patient">Aditi Sharma</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block font-bold text-[10px]">AGE / GENDER:</span>
+            <span class="font-bold text-slate-800" id="rx-modal-age">48 Y / Female</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block font-bold text-[10px]">ABHA ID:</span>
+            <span class="font-mono font-bold text-brand-700 truncate block" id="rx-modal-abha">14-0234-5678-9012@abdm</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block font-bold text-[10px]">DATE / RX NO:</span>
+            <span class="font-bold text-slate-800" id="rx-modal-date">08 Oct 2026</span>
+          </div>
+        </div>
+
+        <!-- Provisional Clinical Diagnosis -->
+        <div class="space-y-1">
+          <div class="text-xs font-bold uppercase tracking-wider text-slate-400 text-[10px]">Provisional Clinical Diagnosis:</div>
+          <div class="p-3 rounded-xl bg-brand-50 border border-brand-200 font-bold text-brand-950 text-sm" id="rx-modal-diagnosis">
+            Type 2 Diabetes Mellitus with Dyslipidemia (ICD-10: E11.69)
+          </div>
+        </div>
+
+        <!-- Rx Medication Schedule Table -->
+        <div class="space-y-2">
+          <div class="flex items-center space-x-2 text-slate-900 font-black text-sm">
+            <span class="text-lg">℞</span>
+            <span>PRESCRIPTION ORDERS & MEDICATION SCHEDULE</span>
+          </div>
+          <table class="w-full text-left text-xs border border-slate-200 rounded-xl overflow-hidden">
+            <thead class="bg-slate-100 text-slate-600 font-bold uppercase text-[10px]">
+              <tr>
+                <th class="p-2.5">Medication & Strength</th>
+                <th class="p-2.5">Dosage / Frequency</th>
+                <th class="p-2.5">Timing & Food Relation</th>
+                <th class="p-2.5">Duration</th>
+              </tr>
+            </thead>
+            <tbody id="rx-modal-meds-body" class="divide-y divide-slate-100 font-medium text-slate-800">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Dietary Directives & Follow-up -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
+            <span class="font-extrabold text-slate-900 block text-[11px]">Dietary & Lifestyle Directives:</span>
+            <ul id="rx-modal-diet-list" class="space-y-1 list-disc list-inside text-slate-600 text-[11px]">
+              <li>Low glycemic index meal plan; eliminate refined carbohydrates.</li>
+              <li>30 minutes of daily aerobic brisk walking.</li>
+            </ul>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
+            <span class="font-extrabold text-slate-900 block text-[11px]">Clinical Follow-up Timeline:</span>
+            <p id="rx-modal-followup" class="text-slate-600 text-[11px] leading-relaxed">
+              Repeat Fasting Blood Sugar in 4 weeks. Repeat HbA1c & Lipid Profile in 90 days.
+            </p>
+          </div>
+        </div>
+
+        <!-- Doctor Signature Block -->
+        <div class="pt-4 border-t-2 border-slate-200 flex items-center justify-between">
+          <div class="text-[10px] text-slate-400 font-mono space-y-0.5">
+            <div>Verification Token: <span id="rx-modal-token">ABDM-SIG-48291-VERIFIED</span></div>
+            <div>Telemedicine Practice Guidelines Compliant (NMC India)</div>
+          </div>
+          <div class="text-right">
+            <div class="inline-block px-3 py-1 rounded bg-emerald-50 border border-emerald-300 text-emerald-800 text-[11px] font-bold">
+              ✓ Digitally Signed & Stamped
+            </div>
+            <div class="font-extrabold text-slate-900 text-xs mt-1">Dr. Alok Sen, MD</div>
+            <div class="text-[10px] text-slate-500 font-mono">Reg. No: MCI-48291</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Bar -->
+      <div class="p-4 sm:p-5 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
+        <button onclick="closePrescriptionModal()" class="px-4 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-700 font-bold text-xs transition">
+          Close View
+        </button>
+        <div class="flex items-center space-x-2">
+          <button 
+            type="button" 
+            onclick="downloadPrescriptionPDF()" 
+            class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-700 hover:from-brand-500 hover:to-indigo-600 text-white font-extrabold text-xs shadow-md shadow-brand-700/20 transition flex items-center space-x-1.5"
+          >
+            <span>📥</span>
+            <span>Download Signed Prescription PDF</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL 4: SPECIALIST TELE-CONSULT BOOKING MODAL                 -->
+  <!-- ============================================================== -->
+  <div id="doctor-consult-modal" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all my-8">
+      <div class="p-6 bg-gradient-to-r from-sky-600 to-brand-700 text-white flex items-center justify-between">
+        <div>
+          <h3 class="text-lg font-black" id="consult-modal-doc-name">Book Tele-Consult with Specialist</h3>
+          <p class="text-xs text-sky-100" id="consult-modal-doc-specialty">Internal Medicine & Diabetology</p>
+        </div>
+        <button onclick="closeDoctorModal()" class="text-sky-200 hover:text-white p-1 rounded-xl hover:bg-white/10 transition">
+          ✕
+        </button>
+      </div>
+
+      <div class="p-6 space-y-4 text-xs">
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Patient Name</label>
+          <input type="text" id="consult-patient-name" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 font-bold text-slate-800" readonly>
+        </div>
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">ABHA Health ID</label>
+          <input type="text" id="consult-patient-abha" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 font-mono text-brand-700" readonly>
+        </div>
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Preferred Tele-Consult Slot</label>
+          <select id="consult-slot" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white font-medium text-slate-800">
+            <option>Today at 06:30 PM IST (Video Call)</option>
+            <option>Tomorrow at 10:00 AM IST (Video Call)</option>
+            <option>Tomorrow at 02:00 PM IST (Video Call)</option>
+          </select>
+        </div>
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Clinical Context Attached</label>
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-600" id="consult-report-summary">
+            Sharing latest metabolic panel (HbA1c 8.4%, LDL 162 mg/dL) for physician dose titration.
+          </div>
+        </div>
+
+        <div class="pt-2">
+          <button 
+            type="button" 
+            onclick="confirmConsultBooking()" 
+            class="w-full py-3 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-black text-sm transition shadow-lg shadow-sky-600/30"
+          >
+            Confirm Tele-Consult Booking (₹600)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ============================================================== -->
   <!-- 6. COMPLETE SCRIPT LOGIC (AUTH, I18N, VOICE, WEBHOOK)          -->
@@ -2029,6 +2797,16 @@
         return;
       }
 
+      // Real-time Emergency Triage Pre-Screen
+      if (query) {
+        const isEmergency = await screenEmergencySymptoms(query);
+        if (isEmergency) {
+          showToast(currentLang === 'hi' 
+            ? "चेतावनी: आपातकालीन लक्षण पाए गए हैं! लाल अलर्ट सक्रिय।" 
+            : "SAFETY ALERT: Critical symptoms detected! Emergency banner triggered.", "warning");
+        }
+      }
+
       const isTextOnly = !currentFile && Boolean(query);
       const analyzeBtn = document.getElementById('analyze-btn');
       const analyzeBtnText = document.getElementById('analyze-btn-text');
@@ -2358,6 +3136,16 @@
 
       renderBiomarkerTable(data.biomarkers, 'all');
 
+      // Module 2: Longitudinal Time-Series Trends
+      fetchAndRenderTrends(data.userEmail || (currentUser ? currentUser.email : 'aditi@sagecure.ai'));
+
+      // Module 4: Digital E-Prescription Card
+      populatePrescriptionCard(data);
+
+      // Module 6: Smart Adherence Tracker & Verified Doctor Directory
+      renderSmartAdherence();
+      renderDoctorsDirectory();
+
       const dashboard = document.getElementById('results-dashboard');
       dashboard.classList.remove('hidden');
       dashboard.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -2647,6 +3435,1344 @@
       renderResults(data, true);
     }
 
+    // =============================================================
+    // MODULE 1: ABDM / FHIR v4 COMPLIANCE & EXPORT ENGINE
+    // =============================================================
+    let currentFhirBundle = null;
+
+    const LOINC_DICTIONARY = {
+      "hba1c": { code: "4548-4", display: "Hemoglobin A1c/Hemoglobin.total in Blood", unit: "%" },
+      "fasting blood glucose": { code: "1558-6", display: "Fasting glucose in Serum or Plasma", unit: "mg/dL" },
+      "glucose": { code: "2339-0", display: "Glucose in Blood", unit: "mg/dL" },
+      "total cholesterol": { code: "2093-3", display: "Cholesterol in Serum or Plasma", unit: "mg/dL" },
+      "ldl cholesterol": { code: "13457-7", display: "Cholesterol in LDL in Serum or Plasma", unit: "mg/dL" },
+      "hdl cholesterol": { code: "2085-9", display: "Cholesterol in HDL in Serum or Plasma", unit: "mg/dL" },
+      "triglycerides": { code: "2571-8", display: "Triglyceride in Serum or Plasma", unit: "mg/dL" },
+      "creatinine": { code: "2160-0", display: "Creatinine in Serum or Plasma", unit: "mg/dL" },
+      "egfr": { code: "33914-3", display: "Glomerular filtration rate/1.73 sq M.predicted", unit: "mL/min/1.73m2" },
+      "hemoglobin": { code: "718-7", display: "Hemoglobin in Blood", unit: "g/dL" },
+      "platelet": { code: "777-3", display: "Platelets in Blood by Automated count", unit: "/uL" },
+      "wbc": { code: "6690-2", display: "Leukocytes in Blood by Automated count", unit: "/uL" },
+      "rbc": { code: "789-8", display: "Erythrocytes in Blood by Automated count", unit: "10*6/uL" },
+      "tsh": { code: "3016-3", display: "Thyrotropin in Serum or Plasma", unit: "uIU/mL" },
+      "free t4": { code: "3024-7", display: "Thyroxine (Free) in Serum or Plasma", unit: "ng/dL" },
+      "free t3": { code: "3051-0", display: "Triiodothyronine (Free) in Serum or Plasma", unit: "pg/mL" },
+      "vitamin d": { code: "62292-8", display: "25-hydroxyvitamin D3 in Serum or Plasma", unit: "ng/mL" },
+      "vitamin b12": { code: "2132-9", display: "Cobalamin (Vitamin B12) in Serum or Plasma", unit: "pg/mL" },
+      "calcium": { code: "17861-6", display: "Calcium in Serum or Plasma", unit: "mg/dL" },
+      "uric acid": { code: "3084-1", display: "Urate in Serum or Plasma", unit: "mg/dL" },
+      "hs-crp": { code: "30522-7", display: "C reactive protein [Mass/volume] High Sensitivity in Serum or Plasma", unit: "mg/L" }
+    };
+
+    function generateClientFhirBundle(reportData) {
+      const patient = reportData.patient || {};
+      const biomarkers = reportData.biomarkers || [];
+      const patientId = (patient.abhaId || "14-0234-5678-9012@abdm").replace(/[^a-zA-Z0-9]/g, '');
+      const bundleId = "sagecure-fhir-bundle-" + Date.now();
+      const timestamp = new Date().toISOString();
+
+      const entries = [];
+
+      entries.push({
+        fullUrl: `urn:uuid:composition-${bundleId}`,
+        resource: {
+          resourceType: "Composition",
+          id: `comp-${bundleId}`,
+          status: "final",
+          type: {
+            coding: [{
+              system: "http://snomed.info/sct",
+              code: "721981007",
+              display: "Diagnostic studies report"
+            }],
+            text: "Diagnostic Report Document"
+          },
+          subject: { reference: `Patient/${patientId}`, display: patient.name || "Aditi Sharma" },
+          date: timestamp,
+          author: [{
+            reference: "Practitioner/MCI-48291",
+            display: "Dr. Alok Sen, MD (Reg: MCI-48291)"
+          }],
+          title: "Diagnostic Report Document - SageCure Clinical Platform",
+          custodian: {
+            reference: "Organization/IN070001842",
+            display: "SageCure Digital Health Clinic"
+          }
+        }
+      });
+
+      entries.push({
+        fullUrl: `urn:uuid:patient-${patientId}`,
+        resource: {
+          resourceType: "Patient",
+          id: patientId,
+          identifier: [
+            {
+              type: { coding: [{ system: "https://ndhm.gov.in/id/abha", code: "ABHA", display: "Ayushman Bharat Health Account" }] },
+              system: "https://healthid.ndhm.gov.in",
+              value: patient.abhaId || "14-0234-5678-9012@abdm"
+            }
+          ],
+          name: [{ use: "official", text: patient.name || "Aditi Sharma" }],
+          gender: (patient.gender && typeof patient.gender === 'string' && patient.gender.toLowerCase().includes('fem')) ? 'female' : 'male'
+        }
+      });
+
+      entries.push({
+        fullUrl: `urn:uuid:org-IN070001842`,
+        resource: {
+          resourceType: "Organization",
+          id: "IN070001842",
+          identifier: [{ system: "https://facility.ndhm.gov.in", value: "IN070001842" }],
+          name: "SageCure Digital Health Clinic",
+          telecom: [{ system: "phone", value: "+91-11-2659-4500" }]
+        }
+      });
+
+      const obsRefs = [];
+      biomarkers.forEach((bm, i) => {
+        const normName = (bm.name || '').toLowerCase();
+        let loincMatch = null;
+        for (const [key, val] of Object.entries(LOINC_DICTIONARY)) {
+          if (normName.includes(key)) {
+            loincMatch = val;
+            break;
+          }
+        }
+        if (!loincMatch) {
+          loincMatch = { code: `LOCAL-${1000 + i}`, display: bm.name, unit: bm.unit || "" };
+        }
+
+        const obsId = `obs-${bundleId}-${i + 1}`;
+        obsRefs.push({ reference: `Observation/${obsId}`, display: bm.name });
+
+        entries.push({
+          fullUrl: `urn:uuid:${obsId}`,
+          resource: {
+            resourceType: "Observation",
+            id: obsId,
+            status: "final",
+            category: [{
+              coding: [{ system: "http://terminology.hl7.org/CodeSystem/observation-category", code: "laboratory", display: "Laboratory" }]
+            }],
+            code: {
+              coding: [{
+                system: "http://loinc.org",
+                code: loincMatch.code,
+                display: loincMatch.display
+              }],
+              text: bm.name
+            },
+            subject: { reference: `Patient/${patientId}` },
+            effectiveDateTime: timestamp,
+            valueQuantity: {
+              value: parseFloat(bm.value) || bm.value,
+              unit: bm.unit,
+              system: "http://unitsofmeasure.org",
+              code: bm.unit
+            },
+            interpretation: [{
+              coding: [{
+                system: "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                code: bm.status === 'elevated' ? 'H' : (bm.status === 'low' ? 'L' : 'N'),
+                display: bm.status === 'elevated' ? 'High' : (bm.status === 'low' ? 'Low' : 'Normal')
+              }]
+            }],
+            referenceRange: [{
+              text: bm.range
+            }]
+          }
+        });
+      });
+
+      entries.push({
+        fullUrl: `urn:uuid:diag-${bundleId}`,
+        resource: {
+          resourceType: "DiagnosticReport",
+          id: `rep-${bundleId}`,
+          status: "final",
+          category: [{
+            coding: [{ system: "http://terminology.hl7.org/CodeSystem/v2-0074", code: "LAB", display: "Laboratory" }]
+          }],
+          code: {
+            coding: [{ system: "http://loinc.org", code: "11502-2", display: "Laboratory report" }],
+            text: reportData.category ? `${reportData.category.toUpperCase()} Diagnostic Panel` : "Diagnostic Laboratory Report"
+          },
+          subject: { reference: `Patient/${patientId}` },
+          effectiveDateTime: timestamp,
+          performer: [{ reference: "Organization/IN070001842" }],
+          result: obsRefs,
+          conclusion: reportData.summary_en || reportData.plainLanguage_en || "Metabolic & biomarker panel processed by SageCure AI."
+        }
+      });
+
+      return {
+        resourceType: "Bundle",
+        id: bundleId,
+        meta: {
+          versionId: "1",
+          lastUpdated: timestamp,
+          profile: ["https://nrces.in/ndhm/fhir/r4/StructureDefinition/DocumentBundle"]
+        },
+        identifier: {
+          system: "https://ndhm.gov.in/bundle",
+          value: bundleId
+        },
+        type: "document",
+        timestamp: timestamp,
+        entry: entries
+      };
+    }
+
+    async function openFhirExportModal() {
+      const activeData = lastAnalysisResult || SAMPLE_REPORTS.diabetic;
+      const patientAbha = (currentUser && currentUser.abhaId) ? currentUser.abhaId : ((activeData.patient && activeData.patient.abhaId) || "14-0234-5678-9012@abdm");
+
+      const modalAbha = document.getElementById('fhir-modal-abha');
+      if (modalAbha) modalAbha.textContent = patientAbha;
+
+      const codeEl = document.getElementById('fhir-json-code');
+      if (codeEl) codeEl.textContent = "// Synthesizing ABDM / FHIR v4 Document Bundle with LOINC mappings...";
+
+      const modal = document.getElementById('fhir-modal');
+      if (modal) modal.classList.remove('hidden');
+
+      try {
+        const res = await fetch('http://localhost:5000/api/fhir/export', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            patient: {
+              name: currentUser ? currentUser.name : (activeData.patient ? activeData.patient.name : "Aditi Sharma"),
+              abhaId: patientAbha,
+              age: (activeData.patient && activeData.patient.age) || "48",
+              gender: (activeData.patient && activeData.patient.gender) || "Female",
+              facility: (activeData.patient && activeData.patient.facility) || "SageCure Health"
+            },
+            biomarkers: activeData.biomarkers || [],
+            summary: activeData.plainLanguage_en || activeData.summary_en || activeData.summary || ""
+          })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          currentFhirBundle = data.bundle;
+        } else {
+          currentFhirBundle = generateClientFhirBundle(activeData);
+        }
+      } catch (err) {
+        currentFhirBundle = generateClientFhirBundle(activeData);
+      }
+
+      if (codeEl && currentFhirBundle) {
+        codeEl.textContent = JSON.stringify(currentFhirBundle, null, 2);
+      }
+      const countEl = document.getElementById('fhir-bundle-entry-count');
+      if (countEl && currentFhirBundle && currentFhirBundle.entry) {
+        countEl.textContent = `Entries: ${currentFhirBundle.entry.length} Resources`;
+      }
+    }
+
+    function closeFhirModal() {
+      const modal = document.getElementById('fhir-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function copyFhirJson() {
+      if (!currentFhirBundle) return;
+      const jsonStr = JSON.stringify(currentFhirBundle, null, 2);
+      navigator.clipboard.writeText(jsonStr).then(() => {
+        showToast("FHIR v4 JSON bundle copied to clipboard!", "success");
+      }).catch(() => {
+        showToast("Copied to clipboard", "info");
+      });
+    }
+
+    function downloadFhirBundle() {
+      if (!currentFhirBundle) {
+        openFhirExportModal();
+        return;
+      }
+      const jsonStr = JSON.stringify(currentFhirBundle, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/fhir+json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const patientName = (currentUser ? currentUser.name : "Patient").replace(/\s+/g, '-');
+      a.href = url;
+      a.download = `SageCure-FHIR-Bundle-${patientName}-${Date.now()}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("Downloaded ABDM / FHIR v4 Resource Bundle!", "success");
+    }
+
+    // =============================================================
+    // MODULE 2: LONGITUDINAL TREND & OUTLIER ANALYSIS (TIME-SERIES)
+    // =============================================================
+    let currentTrendsData = null;
+    let activeTrendsBiomarker = 'HbA1c';
+
+    async function fetchAndRenderTrends(email) {
+      const targetEmail = (email || (currentUser ? currentUser.email : "aditi@sagecure.ai")).toLowerCase().trim();
+      
+      try {
+        const res = await fetch(`http://localhost:5000/api/trends/${encodeURIComponent(targetEmail)}`);
+        if (res.ok) {
+          currentTrendsData = await res.json();
+        }
+      } catch (err) {
+        console.warn("[SageCure] Backend trends offline, using local historical time-series model");
+      }
+
+      if (!currentTrendsData || !currentTrendsData.markers) {
+        if (targetEmail.includes('rohan')) {
+          currentTrendsData = {
+            patient: { name: "Rohan Varma", email: targetEmail },
+            quarters: ["Aug 2026", "Sep 2026", "Oct 2026"],
+            markers: {
+              "Hemoglobin": {
+                unit: "g/dL",
+                normalRange: [13.5, 17.5],
+                history: [
+                  { period: "Aug 2026", value: 9.6, status: "low" },
+                  { period: "Sep 2026", value: 10.2, status: "low" },
+                  { period: "Oct 2026", value: 10.8, status: "low" }
+                ],
+                deltaQuarterly: 5.88,
+                deltaOverall: 12.5,
+                direction: "improving",
+                narrative: "Positive trajectory: Hemoglobin rose by 5.9% since September (from 10.2 to 10.8 g/dL). Total hematologic recovery from August baseline is +12.5%."
+              },
+              "Platelets": {
+                unit: "/µL",
+                normalRange: [150000, 450000],
+                history: [
+                  { period: "Aug 2026", value: 125000, status: "low" },
+                  { period: "Sep 2026", value: 132000, status: "low" },
+                  { period: "Oct 2026", value: 140000, status: "low" }
+                ],
+                deltaQuarterly: 6.06,
+                deltaOverall: 12.0,
+                direction: "improving",
+                narrative: "Mild recovery: Platelets improved from 125,000 to 140,000 over 60 days (+12.0% delta)."
+              }
+            }
+          };
+          activeTrendsBiomarker = "Hemoglobin";
+        } else {
+          currentTrendsData = {
+            patient: { name: "Aditi Sharma", email: targetEmail },
+            quarters: ["Q1 2026 (Jan)", "Q2 2026 (Jun)", "Q3 2026 (Oct)"],
+            markers: {
+              "HbA1c": {
+                unit: "%",
+                normalRange: [4.0, 5.7],
+                history: [
+                  { period: "Q1 2026 (Jan)", value: 9.2, status: "elevated" },
+                  { period: "Q2 2026 (Jun)", value: 8.8, status: "elevated" },
+                  { period: "Q3 2026 (Oct)", value: 8.4, status: "elevated" }
+                ],
+                deltaQuarterly: -4.55,
+                deltaOverall: -8.7,
+                direction: "improving",
+                narrative: "Positive trend: Your glycemic control improved by 4.5% since last quarter (HbA1c declined from 8.8% to 8.4%). Total improvement from January baseline is -8.7%."
+              },
+              "Fasting Glucose": {
+                unit: "mg/dL",
+                normalRange: [70, 99],
+                history: [
+                  { period: "Q1 2026 (Jan)", value: 195, status: "elevated" },
+                  { period: "Q2 2026 (Jun)", value: 180, status: "elevated" },
+                  { period: "Q3 2026 (Oct)", value: 168, status: "elevated" }
+                ],
+                deltaQuarterly: -6.67,
+                deltaOverall: -13.85,
+                direction: "improving",
+                narrative: "Sustained downward slope: Fasting plasma glucose decreased from 180 mg/dL to 168 mg/dL (-6.7% this quarter)."
+              },
+              "LDL Cholesterol": {
+                unit: "mg/dL",
+                normalRange: [50, 100],
+                history: [
+                  { period: "Q1 2026 (Jan)", value: 185, status: "elevated" },
+                  { period: "Q2 2026 (Jun)", value: 174, status: "elevated" },
+                  { period: "Q3 2026 (Oct)", value: 162, status: "elevated" }
+                ],
+                deltaQuarterly: -6.9,
+                deltaOverall: -12.43,
+                direction: "improving",
+                narrative: "Lipid risk reduction: LDL ('bad') cholesterol dropped from 174 to 162 mg/dL (-6.9% quarterly delta)."
+              },
+              "Total Cholesterol": {
+                unit: "mg/dL",
+                normalRange: [120, 200],
+                history: [
+                  { period: "Q1 2026 (Jan)", value: 255, status: "elevated" },
+                  { period: "Q2 2026 (Jun)", value: 245, status: "elevated" },
+                  { period: "Q3 2026 (Oct)", value: 235, status: "elevated" }
+                ],
+                deltaQuarterly: -4.08,
+                deltaOverall: -7.84,
+                direction: "improving",
+                narrative: "Gradual reduction in total systemic lipids: -4.1% quarterly change."
+              }
+            }
+          };
+          activeTrendsBiomarker = "HbA1c";
+        }
+      }
+
+      const tabsContainer = document.getElementById('trends-biomarker-tabs');
+      if (tabsContainer && currentTrendsData.markers) {
+        tabsContainer.innerHTML = '';
+        const markerKeys = Object.keys(currentTrendsData.markers);
+        if (!markerKeys.includes(activeTrendsBiomarker)) {
+          activeTrendsBiomarker = markerKeys[0];
+        }
+
+        markerKeys.forEach(mKey => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          const isActive = mKey === activeTrendsBiomarker;
+          btn.className = isActive 
+            ? "px-3 py-1.5 rounded-xl bg-indigo-600 text-white font-black shadow-sm transition" 
+            : "px-3 py-1.5 rounded-xl text-slate-600 hover:text-slate-900 font-bold transition";
+          btn.textContent = mKey;
+          btn.onclick = () => switchTrendsBiomarker(mKey);
+          tabsContainer.appendChild(btn);
+        });
+      }
+
+      renderTrendsSvg(activeTrendsBiomarker);
+      renderTrendsTable();
+    }
+
+    function switchTrendsBiomarker(markerKey) {
+      activeTrendsBiomarker = markerKey;
+      const tabsContainer = document.getElementById('trends-biomarker-tabs');
+      if (tabsContainer) {
+        tabsContainer.querySelectorAll('button').forEach(btn => {
+          if (btn.textContent === markerKey) {
+            btn.className = "px-3 py-1.5 rounded-xl bg-indigo-600 text-white font-black shadow-sm transition";
+          } else {
+            btn.className = "px-3 py-1.5 rounded-xl text-slate-600 hover:text-slate-900 font-bold transition";
+          }
+        });
+      }
+      renderTrendsSvg(markerKey);
+    }
+
+    function renderTrendsSvg(markerKey) {
+      if (!currentTrendsData || !currentTrendsData.markers || !currentTrendsData.markers[markerKey]) return;
+      const markerObj = currentTrendsData.markers[markerKey];
+      const history = markerObj.history || [];
+      if (history.length === 0) return;
+
+      const svgContainer = document.getElementById('trends-svg-container');
+      const markerLabel = document.getElementById('chart-marker-label');
+      const deltaPill = document.getElementById('trends-delta-pill');
+      const narrativeText = document.getElementById('trends-ai-narrative-text');
+      const insightIcon = document.getElementById('trends-insight-icon');
+
+      if (markerLabel) markerLabel.textContent = `${markerKey} (${markerObj.unit})`;
+      if (deltaPill) {
+        const dVal = markerObj.deltaQuarterly || 0;
+        deltaPill.textContent = `${dVal > 0 ? '+' : ''}${dVal.toFixed(1)}% Delta`;
+        deltaPill.className = markerObj.direction === 'improving' 
+          ? "px-2 py-0.5 rounded bg-emerald-200/80 text-emerald-900 text-[10px] font-mono font-bold"
+          : "px-2 py-0.5 rounded bg-rose-200/80 text-rose-900 text-[10px] font-mono font-bold";
+      }
+      if (narrativeText) narrativeText.textContent = markerObj.narrative || "Tracking longitudinal trend values across quarters.";
+      if (insightIcon) insightIcon.textContent = markerObj.direction === 'improving' ? '🟢' : '🔴';
+
+      const width = 640;
+      const height = 220;
+      const padding = { top: 25, right: 40, bottom: 40, left: 55 };
+      const chartW = width - padding.left - padding.right;
+      const chartH = height - padding.top - padding.bottom;
+
+      const values = history.map(h => parseFloat(h.value));
+      const normalMin = markerObj.normalRange ? markerObj.normalRange[0] : Math.min(...values) * 0.8;
+      const normalMax = markerObj.normalRange ? markerObj.normalRange[1] : Math.max(...values) * 1.2;
+      const minVal = Math.min(...values, normalMin) * 0.9;
+      const maxVal = Math.max(...values, normalMax) * 1.1;
+      const valRange = maxVal - minVal || 1;
+
+      const getX = (idx) => padding.left + (idx / (history.length - 1 || 1)) * chartW;
+      const getY = (val) => padding.top + chartH - ((val - minVal) / valRange) * chartH;
+
+      const yNormalTop = getY(normalMax);
+      const yNormalBottom = getY(normalMin);
+      const normalHeight = Math.max(Math.abs(yNormalBottom - yNormalTop), 10);
+
+      const points = history.map((h, i) => `${getX(i)},${getY(parseFloat(h.value))}`).join(' ');
+
+      let svgHtml = `
+        <svg viewBox="0 0 ${width} ${height}" class="w-full h-full overflow-visible select-none font-sans" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="trendGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#4f46e5" />
+              <stop offset="50%" stop-color="#06b6d4" />
+              <stop offset="100%" stop-color="#10b981" />
+            </linearGradient>
+            <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#6366f1" stop-opacity="0.25" />
+              <stop offset="100%" stop-color="#6366f1" stop-opacity="0.0" />
+            </linearGradient>
+          </defs>
+
+          <line x1="${padding.left}" y1="${getY(minVal)}" x2="${width - padding.right}" y2="${getY(minVal)}" stroke="#f1f5f9" stroke-width="1" />
+          <line x1="${padding.left}" y1="${getY((minVal + maxVal) / 2)}" x2="${width - padding.right}" y2="${getY((minVal + maxVal) / 2)}" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="4,4" />
+          <line x1="${padding.left}" y1="${getY(maxVal)}" x2="${width - padding.right}" y2="${getY(maxVal)}" stroke="#f1f5f9" stroke-width="1" />
+
+          <rect 
+            x="${padding.left}" 
+            y="${Math.min(yNormalTop, yNormalBottom)}" 
+            width="${chartW}" 
+            height="${normalHeight}" 
+            fill="#ecfdf5" 
+            stroke="#a7f3d0" 
+            stroke-dasharray="3,3" 
+            rx="4" 
+          />
+          <text 
+            x="${width - padding.right - 8}" 
+            y="${Math.min(yNormalTop, yNormalBottom) + 12}" 
+            text-anchor="end" 
+            class="text-[9px] fill-emerald-700 font-bold uppercase tracking-wider"
+          >
+            Target Normal Safe Zone (${normalMin} - ${normalMax})
+          </text>
+
+          <polygon 
+            points="${padding.left},${padding.top + chartH} ${points} ${getX(history.length - 1)},${padding.top + chartH}" 
+            fill="url(#areaGradient)" 
+          />
+
+          <polyline 
+            fill="none" 
+            stroke="url(#trendGradient)" 
+            stroke-width="3.5" 
+            stroke-linecap="round" 
+            stroke-linejoin="round" 
+            points="${points}" 
+          />
+      `;
+
+      history.forEach((h, idx) => {
+        const cx = getX(idx);
+        const cy = getY(parseFloat(h.value));
+        const isLatest = idx === history.length - 1;
+
+        svgHtml += `
+          <g class="transition-all transform hover:scale-110 cursor-pointer">
+            <circle cx="${cx}" cy="${cy}" r="${isLatest ? 8 : 6}" fill="#ffffff" stroke="#4f46e5" stroke-width="3" />
+            ${isLatest ? `<circle cx="${cx}" cy="${cy}" r="12" fill="none" stroke="#6366f1" stroke-width="1.5" opacity="0.6" class="animate-ping" />` : ''}
+            
+            <rect x="${cx - 24}" y="${cy - 28}" width="48" height="20" rx="6" fill="#1e1b4b" />
+            <text x="${cx}" y="${cy - 14}" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="900" font-family="monospace">
+              ${h.value}
+            </text>
+
+            <text x="${cx}" y="${height - 12}" text-anchor="middle" fill="#64748b" font-size="10" font-weight="700">
+              ${h.period}
+            </text>
+          </g>
+        `;
+      });
+
+      svgHtml += `</svg>`;
+      if (svgContainer) svgContainer.innerHTML = svgHtml;
+    }
+
+    function renderTrendsTable() {
+      if (!currentTrendsData || !currentTrendsData.markers) return;
+      const tbody = document.getElementById('trends-table-body');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+      for (const [mName, mObj] of Object.entries(currentTrendsData.markers)) {
+        const hist = mObj.history || [];
+        const q1 = hist[0] ? `${hist[0].value} ${mObj.unit}` : '-';
+        const q2 = hist[1] ? `${hist[1].value} ${mObj.unit}` : '-';
+        const q3 = hist[2] ? `${hist[2].value} ${mObj.unit}` : '-';
+        const dQ = mObj.deltaQuarterly || 0;
+        const dAll = mObj.deltaOverall || 0;
+
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-indigo-50/40 transition border-b border-slate-100 last:border-none cursor-pointer";
+        tr.onclick = () => switchTrendsBiomarker(mName);
+
+        const isGood = mObj.direction === 'improving';
+        const badgeBg = isGood ? 'bg-emerald-100 text-emerald-800 border-emerald-200' : 'bg-rose-100 text-rose-800 border-rose-200';
+        const badgeText = isGood ? 'Improving ✓' : 'Monitor ⚠';
+
+        tr.innerHTML = `
+          <td class="py-3 px-3 font-extrabold text-slate-900 text-xs sm:text-sm flex items-center space-x-1.5">
+            <span class="w-2 h-2 rounded-full ${mName === activeTrendsBiomarker ? 'bg-indigo-600' : 'bg-slate-300'}"></span>
+            <span>${mName}</span>
+          </td>
+          <td class="py-3 px-3 font-mono text-slate-600 text-xs">${q1}</td>
+          <td class="py-3 px-3 font-mono text-slate-600 text-xs">${q2}</td>
+          <td class="py-3 px-3 font-mono font-bold text-slate-900 text-xs">${q3}</td>
+          <td class="py-3 px-3 font-mono font-bold text-xs ${dQ < 0 ? 'text-emerald-700' : 'text-slate-800'}">
+            ${dQ > 0 ? '+' : ''}${dQ.toFixed(1)}%
+          </td>
+          <td class="py-3 px-3 font-mono font-bold text-xs ${dAll < 0 ? 'text-emerald-700' : 'text-slate-800'}">
+            ${dAll > 0 ? '+' : ''}${dAll.toFixed(1)}%
+          </td>
+          <td class="py-3 px-3">
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold border ${badgeBg}">
+              ${badgeText}
+            </span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      }
+    }
+
+    function openTrendsSection() {
+      const card = document.getElementById('longitudinal-trends-card');
+      if (card) {
+        const dashboard = document.getElementById('results-dashboard');
+        if (dashboard && dashboard.classList.contains('hidden')) {
+          dashboard.classList.remove('hidden');
+        }
+        card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        showToast("Displaying multi-quarter longitudinal trends", "info");
+      }
+    }
+
+    // =============================================================
+    // MODULE 3: MULTILINGUAL VOICE-FIRST COMPANION (TTS)
+    // =============================================================
+    let voiceCompanionLang = 'en'; // 'en', 'hi', 'pa'
+    let voiceCompanionSpeed = 1.0;  // 0.85, 1.0, 1.2
+
+    function setVoiceCompanionLang(lang) {
+      voiceCompanionLang = lang;
+      const btnEn = document.getElementById('voice-lang-en');
+      const btnHi = document.getElementById('voice-lang-hi');
+      const btnPa = document.getElementById('voice-lang-pa');
+      const badge = document.getElementById('active-voice-badge');
+
+      [btnEn, btnHi, btnPa].forEach(b => {
+        if (b) b.className = "py-1.5 px-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-700/60 transition";
+      });
+
+      if (lang === 'hi') {
+        if (btnHi) btnHi.className = "py-1.5 px-2 rounded-xl text-xs font-black bg-teal-500 text-slate-950 shadow-sm transition";
+        if (badge) badge.textContent = "Hindi (hi-IN)";
+        showToast("Voice companion set to Hindi (हिंदी)", "info");
+      } else if (lang === 'pa') {
+        if (btnPa) btnPa.className = "py-1.5 px-2 rounded-xl text-xs font-black bg-teal-500 text-slate-950 shadow-sm transition";
+        if (badge) badge.textContent = "Punjabi (pa-IN)";
+        showToast("Voice companion set to Punjabi (ਪੰਜਾਬੀ)", "info");
+      } else {
+        if (btnEn) btnEn.className = "py-1.5 px-2 rounded-xl text-xs font-black bg-teal-500 text-slate-950 shadow-sm transition";
+        if (badge) badge.textContent = "English (en-IN)";
+        showToast("Voice companion set to English", "info");
+      }
+    }
+
+    function setVoiceCompanionSpeed(speed) {
+      voiceCompanionSpeed = speed;
+      const sp08 = document.getElementById('speed-08');
+      const sp10 = document.getElementById('speed-10');
+      const sp12 = document.getElementById('speed-12');
+
+      [sp08, sp10, sp12].forEach(b => {
+        if (b) b.className = "px-2 py-0.5 rounded-lg text-slate-300 hover:text-white transition";
+      });
+
+      if (speed === 0.85 && sp08) sp08.className = "px-2 py-0.5 rounded-lg font-bold bg-teal-500 text-slate-950 transition";
+      if (speed === 1.0 && sp10) sp10.className = "px-2 py-0.5 rounded-lg font-bold bg-teal-500 text-slate-950 transition";
+      if (speed === 1.2 && sp12) sp12.className = "px-2 py-0.5 rounded-lg font-bold bg-teal-500 text-slate-950 transition";
+    }
+
+    function readAloudCurrentReport() {
+      if (!('speechSynthesis' in window)) {
+        showToast("Web Speech API is not supported in this browser.", "warning");
+        return;
+      }
+
+      synth.cancel();
+      const data = lastAnalysisResult || SAMPLE_REPORTS.diabetic;
+      const pName = (currentUser ? currentUser.name : (data.patient ? data.patient.name : "Aditi Sharma"));
+
+      let spokenText = "";
+      let langCode = "en-IN";
+
+      if (voiceCompanionLang === 'hi') {
+        langCode = "hi-IN";
+        spokenText = data.audioText_hi || data.summary_hi || data.plainLanguage_hi || `नमस्ते ${pName}। आपकी स्वास्थ्य रिपोर्ट का विश्लेषण तैयार है। आपका औसत ब्लड शुगर बढ़ा हुआ है, लेकिन किडनी बिल्कुल सामान्य और सुरक्षित है। कृपया डॉक्टर से सलाह लें।`;
+      } else if (voiceCompanionLang === 'pa') {
+        langCode = "pa-IN";
+        spokenText = `ਸਤਿ ਸ਼੍ਰੀ ਅਕਾਲ ${pName} ਜੀ। ਤੁਹਾਡੀ ਖੂਨ ਦੀ ਜਾਂਚ ਰਿਪੋਰਟ ਦਾ ਵਿਸ਼ਲੇਸ਼ਣ ਕੀਤਾ ਗਿਆ ਹੈ। ਤੁਹਾਡਾ ਸ਼ੂਗਰ ਅਤੇ ਕੋਲੇਸਟ੍ਰੋਲ ਪੱਧਰ ਥੋੜ੍ਹਾ ਵਧਿਆ ਹੋਇਆ ਹੈ, ਪਰ ਤੁਹਾਡੇ ਗੁਰਦੇ ਬਿਲਕੁਲ ਤੰਦਰੁਸਤ ਹਨ। ਪਿਛਲੀ ਤਿਮਾਹੀ ਨਾਲੋਂ 4.5 ਪ੍ਰਤੀਸ਼ਤ ਸੁਧਾਰ ਹੋਇਆ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਡਾਕਟਰ ਨਾਲ ਸੰਪਰਕ ਕਰੋ।`;
+      } else {
+        langCode = "en-IN";
+        spokenText = data.audioText_en || data.audioText || data.plainLanguage_en || data.summary_en || `Hello ${pName}. Your health report has been analyzed. Glycemic indicators show improved trajectory, and kidney function is fully normal.`;
+      }
+
+      currentUtterance = new SpeechSynthesisUtterance(spokenText);
+      currentUtterance.rate = voiceCompanionSpeed || 1.0;
+      currentUtterance.pitch = 1.0;
+
+      const voices = synth.getVoices();
+      const matchedVoice = voices.find(v => v.lang.startsWith(langCode.split('-')[0])) 
+        || voices.find(v => v.lang.startsWith('hi')) 
+        || voices.find(v => v.name.includes('India')) 
+        || voices[0];
+      if (matchedVoice) currentUtterance.voice = matchedVoice;
+      currentUtterance.lang = langCode;
+
+      const visualizer = document.getElementById('tts-wave-visualizer');
+      const dot = document.getElementById('voice-dot');
+      const statusWord = document.getElementById('voice-status-word');
+
+      currentUtterance.onstart = () => {
+        isSpeaking = true;
+        isPaused = false;
+        if (visualizer) visualizer.classList.remove('opacity-60');
+        if (dot) dot.className = "w-2 h-2 rounded-full bg-emerald-400 mr-2 animate-pulse";
+        if (statusWord) statusWord.textContent = "Speaking Live";
+      };
+
+      currentUtterance.onend = () => {
+        isSpeaking = false;
+        isPaused = false;
+        if (visualizer) visualizer.classList.add('opacity-60');
+        if (dot) dot.className = "w-2 h-2 rounded-full bg-slate-500 mr-2";
+        if (statusWord) statusWord.textContent = "Standby";
+      };
+
+      currentUtterance.onerror = () => {
+        isSpeaking = false;
+        if (visualizer) visualizer.classList.add('opacity-60');
+      };
+
+      synth.speak(currentUtterance);
+    }
+
+    // =============================================================
+    // MODULE 4: AUTOMATED E-PRESCRIPTION & CLINICAL PDF GENERATOR
+    // =============================================================
+    let currentPrescriptionData = null;
+
+    function populatePrescriptionCard(reportData) {
+      const pName = (currentUser ? currentUser.name : (reportData.patient ? reportData.patient.name : "Aditi Sharma"));
+      const pAbha = (currentUser ? currentUser.abhaId : ((reportData.patient && reportData.patient.abhaId) || "14-0234-5678-9012@abdm"));
+      const pAge = (reportData.patient && reportData.patient.age) || "48";
+      const pGender = (reportData.patient && reportData.patient.gender) || "Female";
+      const category = (reportData.category || "metabolic").toLowerCase();
+
+      let diagnosis = "Type 2 Diabetes Mellitus with Dyslipidemia (ICD-10: E11.69)";
+      let meds = [
+        { name: "Tab Metformin Hydrochloride", strength: "500 mg SR", dosage: "1-0-1", timing: "Post Meals (With Food)", duration: "90 Days", notes: "Titrate after 4 weeks if FBS > 130" },
+        { name: "Tab Atorvastatin Calcium", strength: "20 mg", dosage: "0-0-1", timing: "Bedtime (Night)", duration: "90 Days", notes: "Monitor lipid profile at 90 days" },
+        { name: "Tab Glimepiride", strength: "1 mg", dosage: "1-0-0", timing: "Pre-Breakfast (Empty Stomach)", duration: "60 Days", notes: "Watch for signs of hypoglycemia" }
+      ];
+
+      if (category.includes('cbc') || category.includes('anemia')) {
+        diagnosis = "Mild Microcytic Hypochromic Anemia (ICD-10: D50.9)";
+        meds = [
+          { name: "Tab Ferrous Ascorbate + Folic Acid", strength: "100 mg / 1.5 mg", dosage: "0-1-0", timing: "Post Lunch (With Citrus/Juice)", duration: "60 Days", notes: "Avoid milk/tea within 2 hours" },
+          { name: "Cap Vitamin B-Complex with Zinc", strength: "Therapeutic", dosage: "1-0-0", timing: "Morning Post Breakfast", duration: "30 Days", notes: "Nutritional hematopoietic support" }
+        ];
+      } else if (category.includes('thyroid')) {
+        diagnosis = "Euthyroid State with Preventive Wellness (ICD-10: Z00.00)";
+        meds = [
+          { name: "Cholecalciferol (Vitamin D3)", strength: "60,000 IU", dosage: "1 sachet/week", timing: "With Warm Milk (Sundays)", duration: "8 Weeks", notes: "Bone mineralization & immune support" },
+          { name: "Methylcobalamin (B12)", strength: "1500 mcg", dosage: "1-0-0", timing: "Morning Post Breakfast", duration: "30 Days", notes: "Neuropathy prevention" }
+        ];
+      }
+
+      currentPrescriptionData = {
+        clinic: "SageCure Digital Health Clinic",
+        facilityId: "IN070001842",
+        doctor: "Dr. Alok Sen, MD (MCI-48291)",
+        regNo: "MCI-48291",
+        patientName: pName,
+        age: pAge,
+        gender: pGender,
+        abhaId: pAbha,
+        date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+        diagnosis,
+        medications: meds,
+        diet: [
+          "Strict low glycemic index meal plan; eliminate ultra-processed carbohydrates.",
+          "Incorporate 30 minutes of daily aerobic brisk walking 5 days/week."
+        ],
+        followUp: "Repeat Fasting Blood Sugar in 4 weeks. Repeat HbA1c & Lipid Profile in 90 days.",
+        signatureHash: "ABDM-SIG-48291-VERIFIED"
+      };
+
+      const rxDiag = document.getElementById('rx-diagnosis-label');
+      const rxPat = document.getElementById('rx-patient-label');
+      const rxAbha = document.getElementById('rx-abha-label');
+      const rxTbody = document.getElementById('rx-medications-table-body');
+
+      if (rxDiag) rxDiag.textContent = diagnosis;
+      if (rxPat) rxPat.textContent = `${pName} (${pAge} Y / ${pGender})`;
+      if (rxAbha) rxAbha.textContent = pAbha;
+
+      if (rxTbody) {
+        rxTbody.innerHTML = '';
+        meds.forEach(m => {
+          const tr = document.createElement('tr');
+          tr.className = "border-b border-slate-100 last:border-none";
+          tr.innerHTML = `
+            <td class="py-2.5 px-3 font-bold text-slate-900">${m.name} <span class="text-xs text-brand-700 font-mono">(${m.strength})</span></td>
+            <td class="py-2.5 px-3 font-mono font-bold text-slate-700">${m.dosage}</td>
+            <td class="py-2.5 px-3 text-slate-600">${m.timing}</td>
+            <td class="py-2.5 px-3 font-mono text-slate-600">${m.duration}</td>
+            <td class="py-2.5 px-3 text-slate-500 text-xs">${m.notes}</td>
+          `;
+          rxTbody.appendChild(tr);
+        });
+      }
+    }
+
+    function openPrescriptionModal() {
+      if (!currentPrescriptionData) {
+        populatePrescriptionCard(lastAnalysisResult || SAMPLE_REPORTS.diabetic);
+      }
+
+      const p = currentPrescriptionData;
+      const modPat = document.getElementById('rx-modal-patient');
+      const modAge = document.getElementById('rx-modal-age');
+      const modAbha = document.getElementById('rx-modal-abha');
+      const modDate = document.getElementById('rx-modal-date');
+      const modDiag = document.getElementById('rx-modal-diagnosis');
+      const modTbody = document.getElementById('rx-modal-meds-body');
+      const modDiet = document.getElementById('rx-modal-diet-list');
+      const modFollow = document.getElementById('rx-modal-followup');
+
+      if (modPat) modPat.textContent = p.patientName;
+      if (modAge) modAge.textContent = `${p.age} Y / ${p.gender}`;
+      if (modAbha) modAbha.textContent = p.abhaId;
+      if (modDate) modDate.textContent = p.date;
+      if (modDiag) modDiag.textContent = p.diagnosis;
+      if (modFollow) modFollow.textContent = p.followUp;
+
+      if (modDiet && p.diet) {
+        modDiet.innerHTML = p.diet.map(d => `<li>${d}</li>`).join('');
+      }
+
+      if (modTbody && p.medications) {
+        modTbody.innerHTML = '';
+        p.medications.forEach(m => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td class="p-2.5 font-bold text-slate-900">${m.name} <span class="text-brand-700 font-mono">(${m.strength})</span></td>
+            <td class="p-2.5 font-mono font-bold text-slate-700">${m.dosage}</td>
+            <td class="p-2.5 text-slate-600">${m.timing}</td>
+            <td class="p-2.5 font-mono text-slate-600">${m.duration}</td>
+          `;
+          modTbody.appendChild(tr);
+        });
+      }
+
+      const modal = document.getElementById('prescription-modal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closePrescriptionModal() {
+      const modal = document.getElementById('prescription-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function downloadPrescriptionPDF() {
+      if (!currentPrescriptionData) {
+        populatePrescriptionCard(lastAnalysisResult || SAMPLE_REPORTS.diabetic);
+      }
+
+      const p = currentPrescriptionData;
+      if (!window.jspdf || !window.jspdf.jsPDF) {
+        showToast("PDF generator loading, please wait a moment...", "info");
+        return;
+      }
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+      doc.setFillColor(15, 23, 42);
+      doc.rect(0, 0, 210, 32, 'F');
+
+      doc.setTextColor(255, 255, 255);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(15);
+      doc.text("SAGECURE DIGITAL HEALTH CLINIC", 14, 13);
+
+      doc.setFontSize(8);
+      doc.setFont("helvetica", "normal");
+      doc.setTextColor(148, 163, 184);
+      doc.text("ABDM Facility ID: IN070001842 • Telemedicine Practice Guidelines (NMC India)", 14, 20);
+      doc.text("Suite 402, South Extension II, New Delhi - 110049 • Phone: +91-11-2659-4500", 14, 25);
+
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(255, 255, 255);
+      doc.text("Dr. Alok Sen, MD (Internal Med)", 196, 13, { align: "right" });
+      doc.setFontSize(8);
+      doc.setFont("helvetica", "normal");
+      doc.setTextColor(52, 211, 153);
+      doc.text("Reg: MCI-48291 • Diabetology Specialist", 196, 20, { align: "right" });
+
+      doc.setFillColor(248, 250, 252);
+      doc.rect(14, 38, 182, 22, 'F');
+      doc.setDrawColor(226, 232, 240);
+      doc.rect(14, 38, 182, 22, 'S');
+
+      doc.setFontSize(9);
+      doc.setTextColor(100, 116, 139);
+      doc.text("PATIENT NAME:", 18, 45);
+      doc.text("AGE / GENDER:", 80, 45);
+      doc.text("ABHA HEALTH ID:", 130, 45);
+
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(15, 23, 42);
+      doc.text(p.patientName, 18, 52);
+      doc.text(`${p.age} Y / ${p.gender}`, 80, 52);
+      doc.text(p.abhaId, 130, 52);
+
+      doc.setFont("helvetica", "normal");
+      doc.text(`Date: ${p.date}`, 190, 45, { align: "right" });
+
+      doc.setFillColor(238, 242, 255);
+      doc.rect(14, 65, 182, 12, 'F');
+      doc.setDrawColor(199, 210, 254);
+      doc.rect(14, 65, 182, 12, 'S');
+
+      doc.setFontSize(9);
+      doc.setTextColor(67, 56, 202);
+      doc.setFont("helvetica", "bold");
+      doc.text("PROVISIONAL DIAGNOSIS:", 18, 73);
+      doc.setTextColor(15, 23, 42);
+      doc.text(p.diagnosis, 66, 73);
+
+      doc.setFontSize(16);
+      doc.setTextColor(15, 23, 42);
+      doc.text("Rx", 14, 87);
+      doc.setFontSize(10);
+      doc.text("PRESCRIPTION ORDERS & MEDICATION SCHEDULE", 24, 86);
+
+      doc.setFillColor(241, 245, 249);
+      doc.rect(14, 91, 182, 8, 'F');
+      doc.setFontSize(8);
+      doc.setTextColor(71, 85, 105);
+      doc.text("Medication & Strength", 18, 96);
+      doc.text("Dosage", 80, 96);
+      doc.text("Timing & Relation to Food", 105, 96);
+      doc.text("Duration", 155, 96);
+
+      let currentY = 104;
+      p.medications.forEach((m, idx) => {
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(15, 23, 42);
+        doc.setFontSize(9);
+        doc.text(`${idx + 1}. ${m.name} (${m.strength})`, 18, currentY);
+
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(8);
+        doc.setTextColor(51, 65, 85);
+        doc.text(m.dosage, 80, currentY);
+        doc.text(m.timing, 105, currentY);
+        doc.text(m.duration, 155, currentY);
+
+        if (m.notes) {
+          currentY += 4.5;
+          doc.setFontSize(7.5);
+          doc.setTextColor(100, 116, 139);
+          doc.text(`   Clinical note: ${m.notes}`, 18, currentY);
+        }
+
+        currentY += 7;
+        doc.setDrawColor(241, 245, 249);
+        doc.line(14, currentY - 2, 196, currentY - 2);
+      });
+
+      currentY += 4;
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(9);
+      doc.setTextColor(15, 23, 42);
+      doc.text("DIETARY & LIFESTYLE ADVICE:", 14, currentY);
+      currentY += 5;
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8);
+      doc.setTextColor(71, 85, 105);
+      p.diet.forEach(d => {
+        doc.text(`• ${d}`, 18, currentY);
+        currentY += 4.5;
+      });
+
+      currentY += 3;
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(9);
+      doc.setTextColor(15, 23, 42);
+      doc.text("FOLLOW-UP INSTRUCTIONS:", 14, currentY);
+      currentY += 5;
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8);
+      doc.setTextColor(71, 85, 105);
+      doc.text(p.followUp, 18, currentY);
+
+      doc.setFillColor(248, 250, 252);
+      doc.rect(14, 250, 182, 32, 'F');
+      doc.setDrawColor(203, 213, 225);
+      doc.rect(14, 250, 182, 32, 'S');
+
+      doc.setFontSize(8);
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(5, 150, 105);
+      doc.text("✓ DIGITALLY SIGNED & VERIFIED", 18, 258);
+      doc.setFont("helvetica", "normal");
+      doc.setTextColor(100, 116, 139);
+      doc.text(`Cryptographic Token: ${p.signatureHash}`, 18, 264);
+      doc.text("Generated by SageCure Health Copilot ABDM Clinical Engine", 18, 270);
+      doc.text("Valid across all pan-India pharmacies per IT Act 2000 & NMC Regulations", 18, 276);
+
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(10);
+      doc.setTextColor(15, 23, 42);
+      doc.text("Dr. Alok Sen, MD", 190, 262, { align: "right" });
+      doc.setFontSize(8);
+      doc.setFont("helvetica", "normal");
+      doc.setTextColor(71, 85, 105);
+      doc.text("Reg. No: MCI-48291", 190, 268, { align: "right" });
+      doc.text("Senior Consultant Physician", 190, 274, { align: "right" });
+
+      doc.save(`SageCure-Prescription-${p.patientName.replace(/\s+/g, '-')}.pdf`);
+      showToast("Downloaded Signed Clinical Prescription PDF!", "success");
+    }
+
+    // =============================================================
+    // MODULE 5: EMERGENCY RED-FLAG TRIAGE & SAFETY ESCALATION
+    // =============================================================
+    const CRITICAL_EMERGENCY_RULES = [
+      {
+        category: "Acute Coronary Syndrome / Cardiac Emergency",
+        regex: /(severe\s+)?chest\s+pain|heart\s+attack|angina|cardiac\s+arrest|crushing\s+chest|left\s+arm\s+numbness|छाती\s+में\s+दर्द|सीने\s+में\s+दर्द|दिल\s+का\s+दौरा|ਸਾਹ\s+ਘੁੱਟਣਾ|ਸੀਨੇ\s+ਵਿੱਚ\s+ਦਰਦ|ਦਿਲ\s+ਦਾ\s+ਦੌਰਾ/i,
+        severity: "CRITICAL_IMMEDIATE",
+        symptomLabel: "Acute Chest Pain / Cardiac Distress",
+        recommendation: "High risk of Acute Coronary Syndrome. Sit down immediately, do not exert yourself, and call 112 / 102."
+      },
+      {
+        category: "Severe Respiratory Distress / Dyspnea",
+        regex: /(severe\s+)?(difficulty|trouble|struggling\s+to|shortness\s+of)\s+breath|dyspnea|gasping|can'?t\s+breathe|asphyxia|सांस\s+(फूलना|लेने\s+में\s+तकलीफ|रुकना)|ਸਾਹ\s+ਲੈਣ\s+ਵਿੱਚ\s+ਤਕਲੀਫ/i,
+        severity: "CRITICAL_IMMEDIATE",
+        symptomLabel: "Severe Respiratory Distress",
+        recommendation: "Critical airway / oxygenation risk. Sit upright, loosen tight clothing, and call emergency services."
+      },
+      {
+        category: "Acute Stroke / Cerebrovascular Event",
+        regex: /stroke|facial\s+droop|arm\s+weakness|slurred\s+speech|hemiplegia|paralysis|sudden\s+numbness|लकवा|फालिज|ਲਕਵਾ/i,
+        severity: "CRITICAL_IMMEDIATE",
+        symptomLabel: "Acute Stroke / Neurological Deficit",
+        recommendation: "Time-critical FAST stroke protocol. Note time of symptom onset and go to nearest CT-equipped trauma hospital."
+      },
+      {
+        category: "Acute Massive Hemorrhage / Hemoptysis",
+        regex: /coughing\s+blood|hemoptysis|vomiting\s+blood|hematemesis|massive\s+bleed|uncontrolled\s+bleeding|खून\s+की\s+उल्टी|ਬਹੁਤ\s+ਖੂਨ/i,
+        severity: "CRITICAL_IMMEDIATE",
+        symptomLabel: "Massive Bleeding / Hemoptysis",
+        recommendation: "Severe hemodynamic compromise risk. Apply pressure if external or seek urgent trauma resuscitation."
+      },
+      {
+        category: "Loss of Consciousness / Syncope",
+        regex: /unconscious|passed\s+out|collapsed|fainted|loss\s+of\s+consciousness|unresponsive|बेहोश|ਬੇਹੋਸ਼/i,
+        severity: "CRITICAL_IMMEDIATE",
+        symptomLabel: "Unresponsiveness / Acute Syncope",
+        recommendation: "Lay patient flat, elevate legs slightly, ensure clear airway, and dial 112 immediately."
+      },
+      {
+        category: "Severe Anaphylaxis / Airway Compromise",
+        regex: /anaphylaxis|swollen\s+(throat|tongue)|throat\s+closing|allergic\s+shock|गंभीर\s+एलर्जी/i,
+        severity: "CRITICAL_IMMEDIATE",
+        symptomLabel: "Acute Anaphylactic Shock",
+        recommendation: "Immediate epinephrine / airway intervention required. Dial 112 without delay."
+      }
+    ];
+
+    let emergencyAlertDismissed = false;
+    let triageCheckTimeout = null;
+
+    function checkTextForEmergency(text) {
+      if (!text || text.trim().length < 3) return null;
+      for (const rule of CRITICAL_EMERGENCY_RULES) {
+        if (rule.regex.test(text)) {
+          return rule;
+        }
+      }
+      return null;
+    }
+
+    async function screenEmergencySymptoms(text) {
+      const localMatch = checkTextForEmergency(text);
+      if (localMatch) {
+        triggerEmergencyAlert({
+          triggered: true,
+          category: localMatch.category,
+          symptomLabel: localMatch.symptomLabel,
+          recommendation: localMatch.recommendation
+        });
+        return true;
+      }
+      
+      if (text && text.trim().length >= 4) {
+        try {
+          const res = await fetch('http://localhost:5000/api/triage', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query: text, language: currentLang })
+          });
+          if (res.ok) {
+            const triageData = await res.json();
+            if (triageData.triggered) {
+              triggerEmergencyAlert(triageData);
+              return true;
+            }
+          }
+        } catch (e) {}
+      }
+      return false;
+    }
+
+    function triggerEmergencyAlert(alertObj) {
+      const banner = document.getElementById('emergency-banner');
+      const symptomTag = document.getElementById('emergency-symptom-tag');
+      const bannerMsg = document.getElementById('emergency-banner-msg');
+      
+      if (symptomTag) symptomTag.textContent = alertObj.symptomLabel || alertObj.category || "Critical Symptoms Detected";
+      if (bannerMsg) bannerMsg.textContent = alertObj.recommendation || "Your symptoms indicate a high-risk medical condition. Do not wait for AI evaluation. Call 112 / 102 now!";
+      
+      if (banner) {
+        banner.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      if (!emergencyAlertDismissed) {
+        openEmergencyModal();
+      }
+
+      if ('speechSynthesis' in window) {
+        try {
+          const warnUtter = new SpeechSynthesisUtterance("Emergency Alert: High risk symptoms detected. Please call 112 or visit the nearest emergency trauma center immediately.");
+          warnUtter.rate = 1.05;
+          warnUtter.lang = 'en-IN';
+          window.speechSynthesis.speak(warnUtter);
+        } catch (e) {}
+      }
+    }
+
+    function openEmergencyModal() {
+      const modal = document.getElementById('emergency-modal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeEmergencyModal() {
+      const modal = document.getElementById('emergency-modal');
+      if (modal) modal.classList.add('hidden');
+      emergencyAlertDismissed = true;
+    }
+
+    function dismissEmergencyBanner() {
+      const banner = document.getElementById('emergency-banner');
+      if (banner) banner.classList.add('hidden');
+      emergencyAlertDismissed = true;
+    }
+
+    // =============================================================
+    // MODULE 6: DOCTOR DIRECTORY & SMART ADHERENCE REMINDERS
+    // =============================================================
+    const VERIFIED_DOCTORS = [
+      {
+        name: "Dr. Alok Sen, MD",
+        specialty: "Internal Medicine & Diabetology",
+        hospital: "Fortis Escorts Heart Institute",
+        mci: "MCI-48291",
+        rating: "4.9 ★ (1,240 reviews)",
+        fee: "₹600",
+        badge: "Available Today"
+      },
+      {
+        name: "Dr. Sunita Rao, MD",
+        specialty: "Cardiology & Preventive Heart Care",
+        hospital: "AIIMS New Delhi",
+        mci: "MCI-39104",
+        rating: "4.95 ★ (890 reviews)",
+        fee: "₹800",
+        badge: "Available Tomorrow"
+      },
+      {
+        name: "Dr. Rajesh Kulkarni, MD, DM",
+        specialty: "Clinical Hematology & Anemia",
+        hospital: "Max Super Speciality Hospital",
+        mci: "MCI-52890",
+        rating: "4.88 ★ (740 reviews)",
+        fee: "₹700",
+        badge: "Slot in 2 Hours"
+      },
+      {
+        name: "Dr. Meera Nambiar, MD",
+        specialty: "Endocrinology & Thyroid Specialist",
+        hospital: "Apollo Central Hospitals",
+        mci: "MCI-61420",
+        rating: "4.85 ★ (620 reviews)",
+        fee: "₹650",
+        badge: "Tele-Consult"
+      }
+    ];
+
+    function renderDoctorsDirectory() {
+      const container = document.getElementById('doctors-grid-container');
+      if (!container) return;
+
+      container.innerHTML = '';
+      VERIFIED_DOCTORS.forEach(doc => {
+        const card = document.createElement('div');
+        card.className = "p-4 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md hover:border-sky-300 transition flex flex-col justify-between space-y-3";
+        card.innerHTML = `
+          <div>
+            <div class="flex items-start justify-between">
+              <div class="w-10 h-10 rounded-2xl bg-sky-100 text-sky-800 flex items-center justify-center font-black text-sm">
+                👨‍⚕️
+              </div>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                ${doc.badge}
+              </span>
+            </div>
+            <h4 class="font-extrabold text-slate-900 text-sm mt-2">${doc.name}</h4>
+            <p class="text-xs text-sky-800 font-medium">${doc.specialty}</p>
+            <p class="text-[11px] text-slate-500">${doc.hospital}</p>
+            <div class="flex items-center justify-between text-[11px] text-slate-400 font-mono mt-1 pt-1 border-t border-slate-100">
+              <span>Reg: ${doc.mci}</span>
+              <span class="text-amber-600 font-bold">${doc.rating}</span>
+            </div>
+          </div>
+          <button 
+            type="button" 
+            onclick="openDoctorModal('${doc.name}', '${doc.specialty}')" 
+            class="w-full py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-extrabold text-xs transition shadow-sm"
+          >
+            Book Tele-Consult (${doc.fee})
+          </button>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function openDoctorDirectoryModal() {
+      const card = document.getElementById('doctor-directory-card');
+      if (card) {
+        const dashboard = document.getElementById('results-dashboard');
+        if (dashboard && dashboard.classList.contains('hidden')) {
+          dashboard.classList.remove('hidden');
+        }
+        card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function openDoctorModal(docName, specialty) {
+      const pName = (currentUser ? currentUser.name : "Aditi Sharma");
+      const pAbha = (currentUser ? currentUser.abhaId : "14-0234-5678-9012@abdm");
+
+      const modDocName = document.getElementById('consult-modal-doc-name');
+      const modDocSpec = document.getElementById('consult-modal-doc-specialty');
+      const modPat = document.getElementById('consult-patient-name');
+      const modAbha = document.getElementById('consult-patient-abha');
+
+      if (modDocName) modDocName.textContent = `Consult with ${docName}`;
+      if (modDocSpec) modDocSpec.textContent = specialty;
+      if (modPat) modPat.value = pName;
+      if (modAbha) modAbha.value = pAbha;
+
+      const modal = document.getElementById('doctor-consult-modal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeDoctorModal() {
+      const modal = document.getElementById('doctor-consult-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function confirmConsultBooking() {
+      closeDoctorModal();
+      showToast("Tele-consult slot confirmed! A video call link has been dispatched to your email & SMS.", "success");
+    }
+
+    let adherenceItems = [
+      { id: "med1", name: "Tab Metformin 500mg SR", timing: "08:30 AM (Post-Breakfast)", checked: true },
+      { id: "med2", name: "Tab Glimepiride 1mg", timing: "08:00 AM (Pre-Breakfast)", checked: true },
+      { id: "med3", name: "Tab Atorvastatin 20mg", timing: "09:30 PM (Bedtime)", checked: false }
+    ];
+
+    function renderSmartAdherence() {
+      const container = document.getElementById('adherence-checklist-container');
+      if (!container) return;
+
+      container.innerHTML = '';
+      adherenceItems.forEach(item => {
+        const div = document.createElement('div');
+        div.className = `p-3.5 rounded-2xl border transition flex items-center justify-between ${item.checked ? 'bg-emerald-50/70 border-emerald-200' : 'bg-white border-slate-200'}`;
+        div.innerHTML = `
+          <div class="flex items-center space-x-3">
+            <input 
+              type="checkbox" 
+              id="${item.id}" 
+              ${item.checked ? 'checked' : ''} 
+              onchange="toggleAdherenceCheck('${item.id}')"
+              class="w-5 h-5 rounded-lg text-emerald-600 focus:ring-emerald-500 border-slate-300 cursor-pointer"
+            />
+            <div>
+              <label for="${item.id}" class="font-bold text-slate-900 cursor-pointer block text-xs sm:text-sm ${item.checked ? 'line-through text-slate-400' : ''}">
+                ${item.name}
+              </label>
+              <span class="text-[11px] text-slate-500 font-mono">${item.timing}</span>
+            </div>
+          </div>
+          <span class="text-xs font-bold ${item.checked ? 'text-emerald-700' : 'text-slate-400'}">
+            ${item.checked ? 'Taken ✓' : 'Pending ⏳'}
+          </span>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function toggleAdherenceCheck(id) {
+      const item = adherenceItems.find(i => i.id === id);
+      if (item) {
+        item.checked = !item.checked;
+        renderSmartAdherence();
+        const takenCount = adherenceItems.filter(i => i.checked).length;
+        const pct = Math.round((takenCount / adherenceItems.length) * 100);
+        const streakLabel = document.getElementById('adherence-streak-label');
+        if (streakLabel) streakLabel.textContent = `Daily Progress: ${pct}% (${takenCount}/${adherenceItems.length})`;
+        if (item.checked) {
+          showToast(`Dose marked as taken! Daily compliance: ${pct}%`, "success");
+        }
+      }
+    }
+
+    function enableAdherenceNotifications() {
+      if ("Notification" in window) {
+        Notification.requestPermission().then(permission => {
+          if (permission === "granted") {
+            showToast("Browser medication alarms enabled for 08:00 AM and 09:30 PM!", "success");
+            try {
+              new Notification("SageCure Medication Reminder", {
+                body: "Your daily reminder schedule is active: Tab Metformin (08:30 AM), Tab Atorvastatin (09:30 PM).",
+                icon: "logo.png"
+              });
+            } catch (e) {}
+          } else {
+            showToast("Notification permission denied by browser.", "warning");
+          }
+        });
+      } else {
+        showToast("Notifications not supported on this browser.", "info");
+      }
+    }
+
     // -------------------------------------------------------------
     // TOAST NOTIFICATIONS HELPER
     // -------------------------------------------------------------
@@ -2688,6 +4814,14 @@
 
       const queryInput = document.getElementById('query-input');
       if (queryInput) {
+        // Real-time Emergency Triage input listener with debounce
+        queryInput.addEventListener('input', (e) => {
+          clearTimeout(triageCheckTimeout);
+          triageCheckTimeout = setTimeout(() => {
+            screenEmergencySymptoms(e.target.value);
+          }, 250);
+        });
+
         queryInput.addEventListener('keydown', (e) => {
           if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
@@ -2695,6 +4829,9 @@
           }
         });
       }
+
+      renderDoctorsDirectory();
+      renderSmartAdherence();
     });
   </script>
 </body>

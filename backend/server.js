@@ -9,6 +9,10 @@ const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const { createClient } = require('@supabase/supabase-js');
+const { buildFhirV4Bundle, findLoincMapping, LOINC_DICTIONARY } = require('./fhirEngine');
+const { evaluateEmergencyTriage, EMERGENCY_CENTERS } = require('./triageEngine');
+const { analyzeLongitudinalTrends } = require('./trendEngine');
+const { generateDigitalPrescription } = require('./prescriptionEngine');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -600,6 +604,40 @@ async function handleAnalysisRequest(req, res) {
       file: uploadedFile ? uploadedFile.originalname : '(none)'
     });
 
+    // 0. Immediate Safety Escalation & Emergency Red-Flag Triage Guardrail
+    const triageScreen = evaluateEmergencyTriage(userQuery, lang);
+    if (triageScreen.isEmergency) {
+      console.warn(`[SageCure Triage Guardrail] EMERGENCY RED FLAG OVERRIDE: "${userQuery}" (${triageScreen.category})`);
+      return res.json({
+        success: true,
+        isEmergency: true,
+        triageLevel: 'CRITICAL_RED',
+        emergencyAlert: triageScreen,
+        userEmail: activeEmail,
+        language: lang,
+        query: userQuery,
+        summary: triageScreen.directive,
+        plainLanguage: triageScreen.directive,
+        plainLanguage_en: triageScreen.directive,
+        plainLanguage_hi: triageScreen.directive,
+        patient: {
+          name: activeName,
+          abhaId: abhaId || "14-0234-5678-9012@abdm",
+          facility: "SageCure Emergency Red-Flag Escalation"
+        },
+        takeaways: [
+          "Call 112 or 102 immediately.",
+          "Do not delay for AI assessment or text processing.",
+          "Proceed to nearest emergency hospital facility."
+        ],
+        actions: [
+          { icon: "🚨", title: "Dial 112 / 102", desc: "Emergency services dispatch" },
+          { icon: "🏥", title: "Nearest Trauma ER", desc: "Immediate clinical intervention" }
+        ],
+        biomarkers: []
+      });
+    }
+
     // 1. Forward to Make.com Webhook URL (as multipart/form-data & URL query params)
     let makeResponseStatus = 'unreached';
     let makeCustomData = null;
@@ -738,8 +776,22 @@ async function handleAnalysisRequest(req, res) {
         isHi ? "घर पर आराम और देखभाल के क्या उपाय हैं?" : "What self-care and monitoring measures are advised?"
       ],
       actions: Array.isArray(dynamicRecommendations) ? dynamicRecommendations : [],
-      biomarkers: biomarkers
+      biomarkers: biomarkers,
+      isEmergency: false,
+      triageLevel: 'STANDARD'
     };
+
+    // 2.5 Generate ABDM / FHIR v4 Bundle and Digital E-Prescription
+    try {
+      responsePayload.fhirBundle = buildFhirV4Bundle(responsePayload, responsePayload.patient);
+    } catch (fhirErr) {
+      console.warn('[SageCure FHIR Engine] Bundle build warning:', fhirErr.message);
+    }
+    try {
+      responsePayload.prescription = generateDigitalPrescription(responsePayload, responsePayload.patient);
+    } catch (rxErr) {
+      console.warn('[SageCure Prescription Engine] Build warning:', rxErr.message);
+    }
 
     // 3. Prepare new report item for storage
     const reportTitle = userQuery ? `Query: ${userQuery.substring(0, 40)}` : (uploadedFile ? uploadedFile.originalname : 'Clinical Search Evaluation.pdf');
@@ -751,6 +803,9 @@ async function handleAnalysisRequest(req, res) {
       summary_en: (typeof dynamicSummary === 'string' ? dynamicSummary.substring(0, 140) : 'Clinical Search Analysis') + '...',
       summary_hi: (typeof querySynthesis.summary_hi === 'string' ? querySynthesis.summary_hi.substring(0, 140) : 'क्लिनिकल सर्च विश्लेषण') + '...',
       category: querySynthesis.category || 'general_search',
+      biomarkers: biomarkers,
+      fhirBundle: responsePayload.fhirBundle,
+      prescription: responsePayload.prescription,
       fullData: responsePayload
     };
 
@@ -822,6 +877,218 @@ async function handleAnalysisRequest(req, res) {
 // Support both /api/upload and /api/chat endpoints
 app.post('/api/upload', upload.single('document'), handleAnalysisRequest);
 app.post('/api/chat', upload.single('document'), handleAnalysisRequest);
+
+// -------------------------------------------------------------
+// 1. EMERGENCY RED-FLAG TRIAGE API
+// -------------------------------------------------------------
+app.post('/api/triage', (req, res) => {
+  const { query, language } = req.body || {};
+  const triage = evaluateEmergencyTriage(query, language || 'en');
+  res.json({ success: true, ...triage });
+});
+
+// -------------------------------------------------------------
+// 2. ABDM / FHIR v4 RESOURCE EXPORT APIS
+// -------------------------------------------------------------
+app.post('/api/fhir/export', (req, res) => {
+  try {
+    const body = req.body || {};
+    let reportData = body.reportData;
+    let patient = body.patient;
+
+    if (!reportData && body.reportId) {
+      const db = getUsersDB();
+      for (const [email, user] of Object.entries(db)) {
+        const rep = (user.reports || []).find(r => r.id === body.reportId);
+        if (rep) {
+          reportData = rep;
+          if (!patient) patient = { name: user.name, abhaId: user.abhaId, email: user.email };
+          break;
+        }
+      }
+    }
+
+    if (!reportData) {
+      reportData = body;
+    }
+
+    const bundle = buildFhirV4Bundle(reportData, patient || reportData.patient || {});
+    res.json({ success: true, bundle });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.get('/api/fhir/bundle/:reportId', (req, res) => {
+  try {
+    const reportId = req.params.reportId;
+    const db = getUsersDB();
+    let foundReport = null;
+    let foundUser = null;
+    for (const [email, user] of Object.entries(db)) {
+      const rep = (user.reports || []).find(r => r.id === reportId);
+      if (rep) {
+        foundReport = rep;
+        foundUser = user;
+        break;
+      }
+    }
+    if (!foundReport) {
+      return res.status(404).json({ success: false, error: 'Report not found' });
+    }
+    const bundle = buildFhirV4Bundle(foundReport, {
+      name: foundUser.name,
+      abhaId: foundUser.abhaId,
+      email: foundUser.email
+    });
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Content-Disposition', `attachment; filename="SageCure-FHIR-Bundle-${reportId}.json"`);
+    res.json(bundle);
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// -------------------------------------------------------------
+// 3. LONGITUDINAL HEALTH TRENDS & TIME-SERIES API
+// -------------------------------------------------------------
+app.get('/api/trends/:email', (req, res) => {
+  try {
+    const email = req.params.email.toLowerCase().trim();
+    const db = getUsersDB();
+    const user = db[email];
+    if (!user) return res.status(404).json({ success: false, error: 'User not found' });
+    const trends = analyzeLongitudinalTrends(user.reports || []);
+    res.json({
+      success: true,
+      email,
+      patientName: user.name,
+      abhaId: user.abhaId,
+      ...trends
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// -------------------------------------------------------------
+// 4. AUTOMATED E-PRESCRIPTION APIS
+// -------------------------------------------------------------
+app.post('/api/prescription/generate', (req, res) => {
+  try {
+    const body = req.body || {};
+    let reportData = body.reportData;
+    let patient = body.patient;
+
+    if (!reportData && body.reportId) {
+      const db = getUsersDB();
+      for (const [email, user] of Object.entries(db)) {
+        const rep = (user.reports || []).find(r => r.id === body.reportId);
+        if (rep) {
+          reportData = rep;
+          if (!patient) patient = { name: user.name, abhaId: user.abhaId, email: user.email };
+          break;
+        }
+      }
+    }
+
+    if (!reportData) {
+      reportData = body;
+    }
+
+    const prescription = generateDigitalPrescription(reportData, patient || reportData.patient || {});
+    res.json({ success: true, prescription });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.get('/api/prescription/:reportId', (req, res) => {
+  try {
+    const reportId = req.params.reportId;
+    const db = getUsersDB();
+    let foundReport = null;
+    let foundUser = null;
+    for (const [email, user] of Object.entries(db)) {
+      const rep = (user.reports || []).find(r => r.id === reportId);
+      if (rep) {
+        foundReport = rep;
+        foundUser = user;
+        break;
+      }
+    }
+    if (!foundReport) {
+      return res.status(404).json({ success: false, error: 'Report not found' });
+    }
+    const prescription = generateDigitalPrescription(foundReport, {
+      name: foundUser.name,
+      abhaId: foundUser.abhaId,
+      email: foundUser.email
+    });
+    res.json({ success: true, prescription });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// -------------------------------------------------------------
+// 5. DOCTOR DIRECTORY API
+// -------------------------------------------------------------
+app.get('/api/doctors', (req, res) => {
+  res.json({
+    success: true,
+    doctors: [
+      {
+        id: 'doc-1',
+        name: 'Dr. Alok Sen',
+        qualifications: 'MBBS, MD (Internal Medicine), PGD Diabetology',
+        specialty: 'Internal Medicine & Diabetology',
+        experience: '18 Years Experience',
+        hospital: 'Apollo Hospitals & SageCure Telehealth',
+        regNo: 'MCI-48291',
+        rating: '4.9 ⭐ (420+ reviews)',
+        availableToday: true,
+        consultFee: '₹600'
+      },
+      {
+        id: 'doc-2',
+        name: 'Dr. Priya Nair',
+        qualifications: 'MBBS, MD, DM (Cardiology)',
+        specialty: 'Cardiology & Vascular Health',
+        experience: '14 Years Experience',
+        hospital: 'Fortis Escorts Heart Institute',
+        regNo: 'DMC-29401',
+        rating: '4.95 ⭐ (310+ reviews)',
+        availableToday: true,
+        consultFee: '₹900'
+      },
+      {
+        id: 'doc-3',
+        name: 'Dr. Vikram Seth',
+        qualifications: 'MBBS, MD (Pathology), DNB (Hematology)',
+        specialty: 'Clinical Hematology & Anemia Specialist',
+        experience: '12 Years Experience',
+        hospital: 'Metropolis Healthcare & AIIMS Ex-Faculty',
+        regNo: 'MCI-38192',
+        rating: '4.8 ⭐ (180+ reviews)',
+        availableToday: false,
+        consultFee: '₹750'
+      },
+      {
+        id: 'doc-4',
+        name: 'Dr. Sunita Rao',
+        qualifications: 'MBBS, DNB (Family Medicine)',
+        specialty: 'Preventative Health & Senior Care',
+        experience: '16 Years Experience',
+        hospital: 'Max Super Speciality Hospital',
+        regNo: 'KMC-51928',
+        rating: '4.9 ⭐ (510+ reviews)',
+        availableToday: true,
+        consultFee: '₹500'
+      }
+    ]
+  });
+});
 
 // Start Express server
 const server = app.listen(PORT, () => {

@@ -1,155 +1,658 @@
 {
   "aditi@sagecure.ai": {
-    "name": "Aditi",
+    "name": "Aditi Sharma",
     "email": "aditi@sagecure.ai",
     "password": "password123",
-    "abhaId": "14-1404-7212-4038@abdm",
-    "createdAt": "2026-10-08T09:32:13.205Z",
+    "abhaId": "14-0234-5678-9012@abdm",
+    "createdAt": "2026-10-01T10:00:00Z",
     "reports": [
       {
-        "id": "rep-1791454877530",
-        "title": "Query: मुझे तेज बुखार है",
-        "date": "08 अक्टू॰ 2026",
-        "facility": "सेजक्योर क्लिनिकल सर्च इंजन",
-        "summary_en": "बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान 38°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रत...",
-        "summary_hi": "बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान 38°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रत...",
-        "category": "febrile",
-        "fullData": {
-          "success": true,
-          "userEmail": "aditi@sagecure.ai",
-          "language": "hi",
-          "query": "मुझे तेज बुखार है",
-          "makeStatus": "500 Internal Server Error",
-          "databaseSource": "local",
+        "id": "rep-1791461343786",
+        "title": "Query: what is my HbA1c level",
+        "date": "08 Oct 2026",
+        "facility": "SageCure Clinical Retrieval Engine",
+        "summary_en": "Active clinical evidence retrieval for glycemic and lipid query: Glycemic control shows elevated HbA1c (8.4%), correlating to an estimated a...",
+        "summary_hi": "शुगर और मेटाबॉलिक प्रोफाइल पर सक्रिय क्लिनिकल खोज सारांश: पिछले तीन महीनों का औसत ब्लड शुगर (HbA1c: 8.4%) बढ़ा हुआ है। एलडीएल (खराब) कोलेस्ट्...",
+        "category": "metabolic",
+        "biomarkers": [
+          {
+            "name": "HbA1c (Glycated Hemoglobin)",
+            "value": 8.4,
+            "unit": "%",
+            "range": "< 5.7",
+            "status": "elevated",
+            "statusLabel": "High (Diabetic)",
+            "percent": 84
+          },
+          {
+            "name": "Fasting Blood Glucose (FBS)",
+            "value": 168,
+            "unit": "mg/dL",
+            "range": "70 - 99",
+            "status": "elevated",
+            "statusLabel": "Elevated",
+            "percent": 80
+          },
+          {
+            "name": "LDL Cholesterol (Bad)",
+            "value": 162,
+            "unit": "mg/dL",
+            "range": "< 100",
+            "status": "elevated",
+            "statusLabel": "High",
+            "percent": 82
+          },
+          {
+            "name": "eGFR (Kidney Filtration)",
+            "value": 92,
+            "unit": "mL/min/1.73m²",
+            "range": "> 90",
+            "status": "normal",
+            "statusLabel": "Optimal",
+            "percent": 65
+          }
+        ],
+        "fhirBundle": {
+          "resourceType": "Bundle",
+          "id": "sagecure-bundle-1791461343785",
+          "meta": {
+            "versionId": "1.0",
+            "lastUpdated": "2026-10-08T12:09:03.785Z",
+            "profile": [
+              "https://nrces.in/ndhm/fhir/r4/StructureDefinition/DiagnosticReportRecord"
+            ]
+          },
+          "identifier": {
+            "system": "https://sagecure.ai/fhir/bundles",
+            "value": "sagecure-bundle-1791461343785"
+          },
+          "type": "document",
+          "timestamp": "2026-10-08T12:09:03.785Z",
+          "entry": [
+            {
+              "fullUrl": "urn:uuid:Composition-rep-1791461343785",
+              "resource": {
+                "resourceType": "Composition",
+                "id": "Composition-rep-1791461343785",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/DiagnosticReportRecord"
+                  ]
+                },
+                "status": "final",
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "11502-2",
+                      "display": "Laboratory report"
+                    }
+                  ],
+                  "text": "Diagnostic Laboratory Report"
+                },
+                "subject": {
+                  "reference": "Patient/Patient-ABDM-14023456789012abdm",
+                  "display": "Aditi Sharma"
+                },
+                "date": "2026-10-08T12:09:03.785Z",
+                "author": [
+                  {
+                    "reference": "Organization/Org-SageCure-IN070001842",
+                    "display": "SageCure Clinical Retrieval Engine"
+                  }
+                ],
+                "title": "SageCure Clinical Diagnostic Health Record",
+                "custodian": {
+                  "reference": "Organization/Org-SageCure-IN070001842",
+                  "display": "SageCure Clinical Retrieval Engine"
+                },
+                "section": [
+                  {
+                    "title": "Diagnostic Findings & Observations",
+                    "code": {
+                      "coding": [
+                        {
+                          "system": "http://loinc.org",
+                          "code": "24323-8",
+                          "display": "Comprehensive laboratory panel"
+                        }
+                      ]
+                    },
+                    "entry": [
+                      {
+                        "reference": "urn:uuid:Observation-rep-1791461343785-1",
+                        "display": "HbA1c (Glycated Hemoglobin): 8.4 %"
+                      },
+                      {
+                        "reference": "urn:uuid:Observation-rep-1791461343785-2",
+                        "display": "Fasting Blood Glucose (FBS): 168 mg/dL"
+                      },
+                      {
+                        "reference": "urn:uuid:Observation-rep-1791461343785-3",
+                        "display": "LDL Cholesterol (Bad): 162 mg/dL"
+                      },
+                      {
+                        "reference": "urn:uuid:Observation-rep-1791461343785-4",
+                        "display": "eGFR (Kidney Filtration): 92 mL/min/1.73m²"
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:Patient-ABDM-14023456789012abdm",
+              "resource": {
+                "resourceType": "Patient",
+                "id": "Patient-ABDM-14023456789012abdm",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Patient"
+                  ]
+                },
+                "identifier": [
+                  {
+                    "type": {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                          "code": "MR",
+                          "display": "Medical Record Number"
+                        }
+                      ]
+                    },
+                    "system": "https://healthid.ndhm.gov.in",
+                    "value": "14-0234-5678-9012@abdm"
+                  }
+                ],
+                "name": [
+                  {
+                    "use": "official",
+                    "text": "Aditi Sharma"
+                  }
+                ],
+                "gender": "female"
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:Org-SageCure-IN070001842",
+              "resource": {
+                "resourceType": "Organization",
+                "id": "Org-SageCure-IN070001842",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Organization"
+                  ]
+                },
+                "identifier": [
+                  {
+                    "system": "https://facility.ndhm.gov.in",
+                    "value": "IN070001842"
+                  }
+                ],
+                "name": "SageCure Clinical Retrieval Engine",
+                "telecom": [
+                  {
+                    "system": "phone",
+                    "value": "+91-11-2659-4500"
+                  },
+                  {
+                    "system": "url",
+                    "value": "https://sagecure.ai"
+                  }
+                ]
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:Practitioner-MCI-48291",
+              "resource": {
+                "resourceType": "Practitioner",
+                "id": "Practitioner-MCI-48291",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Practitioner"
+                  ]
+                },
+                "identifier": [
+                  {
+                    "system": "https://doctor.ndhm.gov.in",
+                    "value": "MCI-48291"
+                  }
+                ],
+                "name": [
+                  {
+                    "text": "Dr. Alok Sen, MD"
+                  }
+                ],
+                "qualification": [
+                  {
+                    "code": {
+                      "text": "MBBS, MD (Internal Medicine & Clinical Diabetology)"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:DiagnosticReport-rep-1791461343785",
+              "resource": {
+                "resourceType": "DiagnosticReport",
+                "id": "DiagnosticReport-rep-1791461343785",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/DiagnosticReportLab"
+                  ]
+                },
+                "status": "final",
+                "category": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                        "code": "LAB",
+                        "display": "Laboratory"
+                      }
+                    ]
+                  }
+                ],
+                "code": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "24323-8",
+                      "display": "Comprehensive Laboratory Findings Panel"
+                    }
+                  ],
+                  "text": "Comprehensive Clinical Lab Report"
+                },
+                "subject": {
+                  "reference": "Patient/Patient-ABDM-14023456789012abdm",
+                  "display": "Aditi Sharma"
+                },
+                "effectiveDateTime": "2026-10-08T12:09:03.785Z",
+                "issued": "2026-10-08T12:09:03.785Z",
+                "performer": [
+                  {
+                    "reference": "Organization/Org-SageCure-IN070001842",
+                    "display": "SageCure Clinical Retrieval Engine"
+                  },
+                  {
+                    "reference": "Practitioner/Practitioner-MCI-48291",
+                    "display": "Dr. Alok Sen, MD"
+                  }
+                ],
+                "result": [
+                  {
+                    "reference": "urn:uuid:Observation-rep-1791461343785-1",
+                    "display": "HbA1c (Glycated Hemoglobin): 8.4 %"
+                  },
+                  {
+                    "reference": "urn:uuid:Observation-rep-1791461343785-2",
+                    "display": "Fasting Blood Glucose (FBS): 168 mg/dL"
+                  },
+                  {
+                    "reference": "urn:uuid:Observation-rep-1791461343785-3",
+                    "display": "LDL Cholesterol (Bad): 162 mg/dL"
+                  },
+                  {
+                    "reference": "urn:uuid:Observation-rep-1791461343785-4",
+                    "display": "eGFR (Kidney Filtration): 92 mL/min/1.73m²"
+                  }
+                ],
+                "conclusion": "Active clinical evidence retrieval for glycemic and lipid query: Glycemic control shows elevated HbA1c (8.4%), correlating to an estimated average glucose of ~194 mg/dL over the prior 90 days. Concurrently, LDL cholesterol is elevated at 162 mg/dL. Kidney filtration (eGFR > 90) remains preserved and robust."
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:Observation-rep-1791461343785-1",
+              "resource": {
+                "resourceType": "Observation",
+                "id": "Observation-rep-1791461343785-1",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                  ]
+                },
+                "status": "final",
+                "category": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                        "code": "laboratory",
+                        "display": "Laboratory"
+                      }
+                    ]
+                  }
+                ],
+                "code": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "4548-4",
+                      "display": "Hemoglobin A1c/Hemoglobin.total in Blood"
+                    }
+                  ],
+                  "text": "HbA1c (Glycated Hemoglobin)"
+                },
+                "subject": {
+                  "reference": "Patient/Patient-ABDM-14023456789012abdm",
+                  "display": "Aditi Sharma"
+                },
+                "effectiveDateTime": "2026-10-08T12:09:03.785Z",
+                "issued": "2026-10-08T12:09:03.785Z",
+                "performer": [
+                  {
+                    "reference": "Organization/Org-SageCure-IN070001842",
+                    "display": "SageCure Clinical Retrieval Engine"
+                  }
+                ],
+                "valueQuantity": {
+                  "value": 8.4,
+                  "unit": "%",
+                  "system": "http://unitsofmeasure.org",
+                  "code": "%"
+                },
+                "interpretation": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                        "code": "H",
+                        "display": "High"
+                      }
+                    ],
+                    "text": "High (Diabetic)"
+                  }
+                ],
+                "referenceRange": [
+                  {
+                    "text": "< 5.7"
+                  }
+                ]
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:Observation-rep-1791461343785-2",
+              "resource": {
+                "resourceType": "Observation",
+                "id": "Observation-rep-1791461343785-2",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                  ]
+                },
+                "status": "final",
+                "category": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                        "code": "laboratory",
+                        "display": "Laboratory"
+                      }
+                    ]
+                  }
+                ],
+                "code": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "1558-6",
+                      "display": "Fasting glucose [Mass/volume] in Blood"
+                    }
+                  ],
+                  "text": "Fasting Blood Glucose (FBS)"
+                },
+                "subject": {
+                  "reference": "Patient/Patient-ABDM-14023456789012abdm",
+                  "display": "Aditi Sharma"
+                },
+                "effectiveDateTime": "2026-10-08T12:09:03.785Z",
+                "issued": "2026-10-08T12:09:03.785Z",
+                "performer": [
+                  {
+                    "reference": "Organization/Org-SageCure-IN070001842",
+                    "display": "SageCure Clinical Retrieval Engine"
+                  }
+                ],
+                "valueQuantity": {
+                  "value": 168,
+                  "unit": "mg/dL",
+                  "system": "http://unitsofmeasure.org",
+                  "code": "mg/dL"
+                },
+                "interpretation": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                        "code": "H",
+                        "display": "High"
+                      }
+                    ],
+                    "text": "Elevated"
+                  }
+                ],
+                "referenceRange": [
+                  {
+                    "text": "70 - 99"
+                  }
+                ]
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:Observation-rep-1791461343785-3",
+              "resource": {
+                "resourceType": "Observation",
+                "id": "Observation-rep-1791461343785-3",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                  ]
+                },
+                "status": "final",
+                "category": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                        "code": "laboratory",
+                        "display": "Laboratory"
+                      }
+                    ]
+                  }
+                ],
+                "code": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "2093-3",
+                      "display": "Cholesterol [Mass/volume] in Serum or Plasma"
+                    }
+                  ],
+                  "text": "LDL Cholesterol (Bad)"
+                },
+                "subject": {
+                  "reference": "Patient/Patient-ABDM-14023456789012abdm",
+                  "display": "Aditi Sharma"
+                },
+                "effectiveDateTime": "2026-10-08T12:09:03.785Z",
+                "issued": "2026-10-08T12:09:03.785Z",
+                "performer": [
+                  {
+                    "reference": "Organization/Org-SageCure-IN070001842",
+                    "display": "SageCure Clinical Retrieval Engine"
+                  }
+                ],
+                "valueQuantity": {
+                  "value": 162,
+                  "unit": "mg/dL",
+                  "system": "http://unitsofmeasure.org",
+                  "code": "mg/dL"
+                },
+                "interpretation": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                        "code": "H",
+                        "display": "High"
+                      }
+                    ],
+                    "text": "High"
+                  }
+                ],
+                "referenceRange": [
+                  {
+                    "text": "< 100"
+                  }
+                ]
+              }
+            },
+            {
+              "fullUrl": "urn:uuid:Observation-rep-1791461343785-4",
+              "resource": {
+                "resourceType": "Observation",
+                "id": "Observation-rep-1791461343785-4",
+                "meta": {
+                  "profile": [
+                    "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                  ]
+                },
+                "status": "final",
+                "category": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                        "code": "laboratory",
+                        "display": "Laboratory"
+                      }
+                    ]
+                  }
+                ],
+                "code": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "33914-3",
+                      "display": "Glomerular filtration rate/1.73 sq M.predicted"
+                    }
+                  ],
+                  "text": "eGFR (Kidney Filtration)"
+                },
+                "subject": {
+                  "reference": "Patient/Patient-ABDM-14023456789012abdm",
+                  "display": "Aditi Sharma"
+                },
+                "effectiveDateTime": "2026-10-08T12:09:03.785Z",
+                "issued": "2026-10-08T12:09:03.785Z",
+                "performer": [
+                  {
+                    "reference": "Organization/Org-SageCure-IN070001842",
+                    "display": "SageCure Clinical Retrieval Engine"
+                  }
+                ],
+                "valueQuantity": {
+                  "value": 92,
+                  "unit": "mL/min/1.73m²",
+                  "system": "http://unitsofmeasure.org",
+                  "code": "mL/min/1.73m²"
+                },
+                "interpretation": [
+                  {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                        "code": "N",
+                        "display": "Normal"
+                      }
+                    ],
+                    "text": "Optimal"
+                  }
+                ],
+                "referenceRange": [
+                  {
+                    "text": "> 90"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "prescription": {
+          "prescriptionId": "SC-RX-343785",
+          "date": "08 Oct 2026",
+          "timestamp": "2026-10-08T12:09:03.785Z",
+          "clinic": {
+            "name": "SageCure Digital Health Clinic & Diagnostic Center",
+            "tagline": "ABDM Verified Telemedicine & Clinical Diagnostics Hub",
+            "abdmFacilityId": "IN070001842",
+            "licenseNumber": "DL-2026-MED-4912",
+            "address": "Suite 402, Healthcare Innovation Wing, South Extension II, New Delhi - 110049",
+            "telecom": "+91-11-2659-4500",
+            "email": "clinical@sagecure.ai",
+            "website": "https://sagecure.ai"
+          },
+          "doctor": {
+            "name": "Dr. Alok Sen",
+            "qualification": "MBBS, MD (Internal Medicine), PGD Diabetology",
+            "registrationNumber": "MCI-48291 (Medical Council of India)",
+            "designation": "Senior Consultant Physician & Diabetologist",
+            "signatureText": "Dr. Alok Sen, MD (Digitally Signed)",
+            "verificationHash": "ABDM-SIG-1A11B6AC22A-48291"
+          },
           "patient": {
             "name": "Aditi Sharma",
             "age": "42",
-            "gender": "पुरुष/महिला",
+            "gender": "Adult",
             "abhaId": "14-0234-5678-9012@abdm",
-            "facility": "सेजक्योर क्लिनिकल सर्च इंजन",
-            "date": "08 अक्टू॰ 2026",
-            "confidence": "99.4% Verified"
+            "facility": "Apollo Diagnostics"
           },
-          "summary": "बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान 38°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रतिक्रिया है। इस दौरान शरीर में पानी और इलेक्ट्रोलाइट्स की कमी न होने दें। यदि बुखार के साथ गर्दन में अकड़न, सांस लेने में तकलीफ या अत्यधिक कमजोरी हो, तो तत्काल डॉक्टर से परामर्श करें।",
-          "retrievedEvidence": [
-            "NICE क्लिनिकल गाइडलाइन्स: 38.0°C (100.4°F) से ऊपर शरीर का तापमान बुखार माना जाता है। दवा का उद्देश्य शारीरिक बेचैनी कम करना है।",
-            "विश्व स्वास्थ्य संगठन (WHO) प्रोटोकॉल: तापमान बढ़ने पर शरीर से 10% अधिक पसीना और पानी नष्ट होता है, अतः ओआरएस व तरल पदार्थ अनिवार्य हैं।",
-            "दवा संबंधी परामर्श: पैरासिटामोल बुखार की प्राथमिक सुरक्षित दवा है। खाली पेट तेज दर्दनिवारक दवाएं बिना डॉक्टर की सलाह के न लें।",
-            "खतरे के संकेत: यदि बुखार 3 दिन से अधिक रहे, 103°F से अधिक हो या चकत्ते हों, तो तुरंत नजदीकी अस्पताल में डॉक्टर को दिखाएं।"
-          ],
-          "recommendations": [
+          "clinicalEvaluation": {
+            "diagnosis": "Type 2 Diabetes Mellitus with Dyslipidemia (Elevated HbA1c 8.4% & LDL 162 mg/dL)",
+            "icd10": "E11.69 (Type 2 Diabetes Mellitus with Other Specified Complications)",
+            "summary": "Active clinical evidence retrieval for glycemic and lipid query: Glycemic control shows elevated HbA1c (8.4%), correlating to an estimated average glucose of ~194 mg/dL over the prior 90 days. Concurrently, LDL cholesterol is elevated at 162 mg/dL. Kidney filtration (eGFR > 90) remains preserved and robust."
+          },
+          "medications": [
             {
-              "icon": "💧",
-              "title": "भरपूर तरल आहार",
-              "desc": "दिन भर में 2.5 से 3 लीटर पानी, ओआरएस, नारियल पानी या सूप पिएं ताकि डिहाइड्रेशन न हो।"
+              "name": "Tab. Metformin Hydrochloride Sustained Release",
+              "strength": "500 mg",
+              "dosage": "1 Tablet Twice Daily (BD)",
+              "timing": "Immediately After Breakfast & Dinner",
+              "duration": "90 Days",
+              "instructions": "Helps sensitize peripheral insulin receptors. Swallow whole, do not crush."
             },
             {
-              "icon": "🌡️",
-              "title": "तापमान का रिकॉर्ड रखें",
-              "desc": "हर 4 से 6 घंटे में डिजिटल थर्मामीटर से बुखार नापें और डायरी में लिखें।"
+              "name": "Tab. Atorvastatin Calcium",
+              "strength": "10 mg",
+              "dosage": "1 Tablet Once Daily (HS)",
+              "timing": "At Bedtime",
+              "duration": "90 Days",
+              "instructions": "Cardioprotective lipid regulation. Lowers atherogenic LDL cholesterol."
             },
             {
-              "icon": "🛌",
-              "title": "पर्याप्त आराम",
-              "desc": "हवादार कमरे में आराम करें, हल्के सूती कपड़े पहनें और माथे पर ताजे पानी की पट्टी रखें।"
-            },
-            {
-              "icon": "🩺",
-              "title": "डॉक्टर से परामर्श",
-              "desc": "यदि बुखार 48 घंटे से ज्यादा रहे तो सीबीसी और आवश्यक खून की जांच करवाएं।"
+              "name": "Cap. Vitamin D3 (Cholecalciferol)",
+              "strength": "60,000 IU",
+              "dosage": "1 Capsule Once Weekly",
+              "timing": "Sunday Morning with Milk",
+              "duration": "8 Weeks",
+              "instructions": "Immune and metabolic supportive therapy."
             }
           ],
-          "plainLanguage": "बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान 38°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रतिक्रिया है। इस दौरान शरीर में पानी और इलेक्ट्रोलाइट्स की कमी न होने दें। यदि बुखार के साथ गर्दन में अकड़न, सांस लेने में तकलीफ या अत्यधिक कमजोरी हो, तो तत्काल डॉक्टर से परामर्श करें।",
-          "plainLanguage_en": "Active clinical search results for fever symptoms: An elevated body temperature (febrile state) is a physiological immune response to infection or systemic inflammation. Core temperatures ≥ 38.0°C (100.4°F) require monitored fluid replenishment and symptom management. Red flag symptoms such as stiff neck, confusion, breathing difficulty, or persistent vomiting require urgent medical evaluation.",
-          "plainLanguage_hi": "बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान 38°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रतिक्रिया है। इस दौरान शरीर में पानी और इलेक्ट्रोलाइट्स की कमी न होने दें। यदि बुखार के साथ गर्दन में अकड़न, सांस लेने में तकलीफ या अत्यधिक कमजोरी हो, तो तत्काल डॉक्टर से परामर्श करें।",
-          "audioText": "नमस्ते Aditi Sharma। बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान 38°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रतिक्रिया है। इस दौरान शरीर में पानी और इलेक्ट्रोलाइट्स की कमी न होने दें। यदि बुखार के साथ गर्दन में अकड़न, सांस लेने में तकलीफ या अत्यधिक कमजोरी हो, तो तत्काल डॉक्टर से परामर्श करें।",
-          "audioText_en": "नमस्ते Aditi Sharma। बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान 38°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रतिक्रिया है। इस दौरान शरीर में पानी और इलेक्ट्रोलाइट्स की कमी न होने दें। यदि बुखार के साथ गर्दन में अकड़न, सांस लेने में तकलीफ या अत्यधिक कमजोरी हो, तो तत्काल डॉक्टर से परामर्श करें।",
-          "audioText_hi": "नमस्ते Aditi Sharma। बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान 38°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रतिक्रिया है। इस दौरान शरीर में पानी और इलेक्ट्रोलाइट्स की कमी न होने दें। यदि बुखार के साथ गर्दन में अकड़न, सांस लेने में तकलीफ या अत्यधिक कमजोरी हो, तो तत्काल डॉक्टर से परामर्श करें।",
-          "takeaways": [
-            "NICE क्लिनिकल गाइडलाइन्स: 38.0°C (100.4°F) से ऊपर शरीर का तापमान बुखार माना जाता है। दवा का उद्देश्य शारीरिक बेचैनी कम करना है।",
-            "विश्व स्वास्थ्य संगठन (WHO) प्रोटोकॉल: तापमान बढ़ने पर शरीर से 10% अधिक पसीना और पानी नष्ट होता है, अतः ओआरएस व तरल पदार्थ अनिवार्य हैं।",
-            "दवा संबंधी परामर्श: पैरासिटामोल बुखार की प्राथमिक सुरक्षित दवा है। खाली पेट तेज दर्दनिवारक दवाएं बिना डॉक्टर की सलाह के न लें।"
+          "dietaryDirectives": [
+            "Adopt a strict Low Glycemic Index (GI) meal pattern: prioritize raw salads, whole pulses, and millets.",
+            "Completely eliminate refined sugars, sweetened fruit beverages, and packaged ultra-processed snacks.",
+            "Maintain 30 minutes of moderate-intensity aerobic brisk walking at least 5 days a week."
           ],
-          "questions": [
-            "क्या मुझे इस लक्षण के लिए तुरंत डॉक्टर को दिखाना चाहिए?",
-            "मुझे कौन सी दवा या जांच की आवश्यकता हो सकती है?",
-            "घर पर आराम और देखभाल के क्या उपाय हैं?"
-          ],
-          "actions": [
-            {
-              "icon": "💧",
-              "title": "भरपूर तरल आहार",
-              "desc": "दिन भर में 2.5 से 3 लीटर पानी, ओआरएस, नारियल पानी या सूप पिएं ताकि डिहाइड्रेशन न हो।"
-            },
-            {
-              "icon": "🌡️",
-              "title": "तापमान का रिकॉर्ड रखें",
-              "desc": "हर 4 से 6 घंटे में डिजिटल थर्मामीटर से बुखार नापें और डायरी में लिखें।"
-            },
-            {
-              "icon": "🛌",
-              "title": "पर्याप्त आराम",
-              "desc": "हवादार कमरे में आराम करें, हल्के सूती कपड़े पहनें और माथे पर ताजे पानी की पट्टी रखें।"
-            },
-            {
-              "icon": "🩺",
-              "title": "डॉक्टर से परामर्श",
-              "desc": "यदि बुखार 48 घंटे से ज्यादा रहे तो सीबीसी और आवश्यक खून की जांच करवाएं।"
-            }
-          ],
-          "biomarkers": [
-            {
-              "name": "शारीरिक तापमान",
-              "value": "38.6",
-              "unit": "°C (101.5°F)",
-              "range": "36.5 - 37.5",
-              "status": "elevated",
-              "statusLabel": "बढ़ा हुआ (बुखार)",
-              "percent": 85
-            },
-            {
-              "name": "अनुमानित हृदय गति",
-              "value": "98",
-              "unit": "bpm",
-              "range": "60 - 100",
-              "status": "normal",
-              "statusLabel": "सामान्य सीमा",
-              "percent": 65
-            },
-            {
-              "name": "श्वसन दर",
-              "value": "18",
-              "unit": "breaths/min",
-              "range": "12 - 20",
-              "status": "normal",
-              "statusLabel": "सामान्य",
-              "percent": 50
-            },
-            {
-              "name": "ऑक्सीजन सेचुरेशन (SpO2)",
-              "value": "98",
-              "unit": "%",
-              "range": "95 - 100",
-              "status": "normal",
-              "statusLabel": "उत्कृष्ट",
-              "percent": 95
-            }
-          ]
-        }
-      },
-      {
-        "id": "rep-1791454868041",
-        "title": "Query: High blood pressure 140/90",
-        "date": "08 Oct 2026",
-        "facility": "SageCure Clinical Retrieval Engine",
-        "summary_en": "Active clinical evidence retrieval for blood pressure and cardiovascular query: Blood pressure readings reflect arterial vascular resistance...",
-        "summary_hi": "ब्लड प्रेशर (BP) और हृदय स्वास्थ्य पर सक्रिय क्लिनिकल खोज सारांश: रक्तचाप धमनियों में रक्त के प्रवाह के दबाव को दर्शाता है। अमेरिकन हार्ट एस...",
-        "category": "cardiovascular",
+          "followUp": "Repeat Fasting Blood Sugar in 4 weeks. Repeat HbA1c & Lipid Profile in 90 days.",
+          "statutoryNotice": "This electronic prescription complies with the Telemedicine Practice Guidelines issued by NMC India & ABDM EHR Standards 2026."
+        },
         "fullData": {
           "success": true,
           "userEmail": "aditi@sagecure.ai",
           "language": "en",
-          "query": "High blood pressure 140/90",
+          "query": "what is my HbA1c level",
           "makeStatus": "500 Internal Server Error",
           "databaseSource": "local",
           "patient": {
@@ -161,44 +664,39 @@
             "date": "08 Oct 2026",
             "confidence": "99.4% Verified"
           },
-          "summary": "Active clinical evidence retrieval for blood pressure and cardiovascular query: Blood pressure readings reflect arterial vascular resistance. Consistent systolic pressure ≥ 130 mmHg or diastolic ≥ 80 mmHg meets Stage 1 Hypertension criteria under AHA/ACC guidelines. Lifestyle sodium reduction (< 2,000 mg/day) and potassium-rich nutrition are frontline interventions.",
+          "summary": "Active clinical evidence retrieval for glycemic and lipid query: Glycemic control shows elevated HbA1c (8.4%), correlating to an estimated average glucose of ~194 mg/dL over the prior 90 days. Concurrently, LDL cholesterol is elevated at 162 mg/dL. Kidney filtration (eGFR > 90) remains preserved and robust.",
           "retrievedEvidence": [
-            "AHA/ACC 2024 Hypertension Guidelines: Normal BP is defined as < 120/80 mmHg. Stage 1 Hypertension begins at 130-139 systolic or 80-89 diastolic. Ambulatory monitoring confirms true readings.",
-            "DASH Dietary Clinical Trials: Dietary Approaches to Stop Hypertension (rich in fruits, vegetables, and low-fat dairy) lowers systolic BP by 8–14 mmHg without medication.",
-            "Emergency Red Flag Warning: BP readings exceeding 180/120 mmHg accompanied by chest pain, shortness of breath, or visual disturbances represent a hypertensive crisis requiring immediate emergency care."
+            "American Diabetes Association (ADA 2026 Standards): Target HbA1c for non-pregnant adults is generally < 7.0%; values ≥ 8.0% warrant pharmacological dose titration or regimen escalation.",
+            "Cardiovascular Lipid Consensus: Elevated LDL cholesterol (> 100 mg/dL) combined with hyperglycemia increases atherosclerotic cardiovascular risk; lifestyle and statin therapy are advised.",
+            "Renal Function Marker: Preserved eGFR (92 mL/min/1.73m²) confirms that diabetic microvascular nephropathy is not currently present."
           ],
           "recommendations": [
             {
-              "icon": "🧂",
-              "title": "Sodium Restriction",
-              "desc": "Reduce table salt to less than 1 level teaspoon (2,000 mg sodium) daily."
-            },
-            {
-              "icon": "📉",
-              "title": "BP Diary Logging",
-              "desc": "Log blood pressure twice daily (morning and evening) in a seated, relaxed state."
+              "icon": "🥗",
+              "title": "Low Glycemic Index Nutrition",
+              "desc": "Prioritize legumes, leafy greens, raw salads, and eliminate refined flours and sugary beverages."
             },
             {
               "icon": "🏃",
-              "title": "Cardio Exercise",
-              "desc": "Engage in 30 minutes of moderate aerobic activity like brisk walking 5 days a week."
+              "title": "Aerobic Activity",
+              "desc": "Engage in 30 minutes of moderate aerobic brisk walking 5 days a week to upregulate GLUT-4 insulin receptors."
             },
             {
               "icon": "🩺",
-              "title": "Cardiology Review",
-              "desc": "Consult a physician for anti-hypertensive regimen review if readings stay consistently elevated."
+              "title": "Physician Consultation",
+              "desc": "Schedule a follow-up with your endocrinologist to evaluate oral glycemic medication dosage."
             }
           ],
-          "plainLanguage": "Active clinical evidence retrieval for blood pressure and cardiovascular query: Blood pressure readings reflect arterial vascular resistance. Consistent systolic pressure ≥ 130 mmHg or diastolic ≥ 80 mmHg meets Stage 1 Hypertension criteria under AHA/ACC guidelines. Lifestyle sodium reduction (< 2,000 mg/day) and potassium-rich nutrition are frontline interventions.",
-          "plainLanguage_en": "Active clinical evidence retrieval for blood pressure and cardiovascular query: Blood pressure readings reflect arterial vascular resistance. Consistent systolic pressure ≥ 130 mmHg or diastolic ≥ 80 mmHg meets Stage 1 Hypertension criteria under AHA/ACC guidelines. Lifestyle sodium reduction (< 2,000 mg/day) and potassium-rich nutrition are frontline interventions.",
-          "plainLanguage_hi": "ब्लड प्रेशर (BP) और हृदय स्वास्थ्य पर सक्रिय क्लिनिकल खोज सारांश: रक्तचाप धमनियों में रक्त के प्रवाह के दबाव को दर्शाता है। अमेरिकन हार्ट एसोसिएशन के अनुसार 130/80 mmHg से अधिक माप हाइपरटेंशन का संकेत है। दैनिक नमक की मात्रा कम करना (5 ग्राम से कम) और नियमित जांच अत्यंत आवश्यक है।",
-          "audioText": "Hello Aditi Sharma. Active clinical evidence retrieval for blood pressure and cardiovascular query: Blood pressure readings reflect arterial vascular resistance. Consistent systolic pressure ≥ 130 mmHg or diastolic ≥ 80 mmHg meets Stage 1 Hypertension criteria under AHA/ACC guidelines. Lifestyle sodium reduction (< 2,000 mg/day) and potassium-rich nutrition are frontline interventions.",
-          "audioText_en": "Hello Aditi Sharma. Active clinical evidence retrieval for blood pressure and cardiovascular query: Blood pressure readings reflect arterial vascular resistance. Consistent systolic pressure ≥ 130 mmHg or diastolic ≥ 80 mmHg meets Stage 1 Hypertension criteria under AHA/ACC guidelines. Lifestyle sodium reduction (< 2,000 mg/day) and potassium-rich nutrition are frontline interventions.",
-          "audioText_hi": "ब्लड प्रेशर (BP) और हृदय स्वास्थ्य पर सक्रिय क्लिनिकल खोज सारांश: रक्तचाप धमनियों में रक्त के प्रवाह के दबाव को दर्शाता है। अमेरिकन हार्ट एसोसिएशन के अनुसार 130/80 mmHg से अधिक माप हाइपरटेंशन का संकेत है। दैनिक नमक की मात्रा कम करना (5 ग्राम से कम) और नियमित जांच अत्यंत आवश्यक है।",
+          "plainLanguage": "Active clinical evidence retrieval for glycemic and lipid query: Glycemic control shows elevated HbA1c (8.4%), correlating to an estimated average glucose of ~194 mg/dL over the prior 90 days. Concurrently, LDL cholesterol is elevated at 162 mg/dL. Kidney filtration (eGFR > 90) remains preserved and robust.",
+          "plainLanguage_en": "Active clinical evidence retrieval for glycemic and lipid query: Glycemic control shows elevated HbA1c (8.4%), correlating to an estimated average glucose of ~194 mg/dL over the prior 90 days. Concurrently, LDL cholesterol is elevated at 162 mg/dL. Kidney filtration (eGFR > 90) remains preserved and robust.",
+          "plainLanguage_hi": "शुगर और मेटाबॉलिक प्रोफाइल पर सक्रिय क्लिनिकल खोज सारांश: पिछले तीन महीनों का औसत ब्लड शुगर (HbA1c: 8.4%) बढ़ा हुआ है। एलडीएल (खराब) कोलेस्ट्रॉल 162 mg/dL पर है। अच्छी खबर यह है कि आपकी किडनी की कार्यक्षमता (eGFR > 90) पूरी तरह स्वस्थ और सुरक्षित है।",
+          "audioText": "Hello Aditi Sharma. Active clinical evidence retrieval for glycemic and lipid query: Glycemic control shows elevated HbA1c (8.4%), correlating to an estimated average glucose of ~194 mg/dL over the prior 90 days. Concurrently, LDL cholesterol is elevated at 162 mg/dL. Kidney filtration (eGFR > 90) remains preserved and robust.",
+          "audioText_en": "Hello Aditi Sharma. Active clinical evidence retrieval for glycemic and lipid query: Glycemic control shows elevated HbA1c (8.4%), correlating to an estimated average glucose of ~194 mg/dL over the prior 90 days. Concurrently, LDL cholesterol is elevated at 162 mg/dL. Kidney filtration (eGFR > 90) remains preserved and robust.",
+          "audioText_hi": "शुगर और मेटाबॉलिक प्रोफाइल पर सक्रिय क्लिनिकल खोज सारांश: पिछले तीन महीनों का औसत ब्लड शुगर (HbA1c: 8.4%) बढ़ा हुआ है। एलडीएल (खराब) कोलेस्ट्रॉल 162 mg/dL पर है। अच्छी खबर यह है कि आपकी किडनी की कार्यक्षमता (eGFR > 90) पूरी तरह स्वस्थ और सुरक्षित है।",
           "takeaways": [
-            "AHA/ACC 2024 Hypertension Guidelines: Normal BP is defined as < 120/80 mmHg. Stage 1 Hypertension begins at 130-139 systolic or 80-89 diastolic. Ambulatory monitoring confirms true readings.",
-            "DASH Dietary Clinical Trials: Dietary Approaches to Stop Hypertension (rich in fruits, vegetables, and low-fat dairy) lowers systolic BP by 8–14 mmHg without medication.",
-            "Emergency Red Flag Warning: BP readings exceeding 180/120 mmHg accompanied by chest pain, shortness of breath, or visual disturbances represent a hypertensive crisis requiring immediate emergency care."
+            "American Diabetes Association (ADA 2026 Standards): Target HbA1c for non-pregnant adults is generally < 7.0%; values ≥ 8.0% warrant pharmacological dose titration or regimen escalation.",
+            "Cardiovascular Lipid Consensus: Elevated LDL cholesterol (> 100 mg/dL) combined with hyperglycemia increases atherosclerotic cardiovascular risk; lifestyle and statin therapy are advised.",
+            "Renal Function Marker: Preserved eGFR (92 mL/min/1.73m²) confirms that diabetic microvascular nephropathy is not currently present."
           ],
           "questions": [
             "Should I see a doctor immediately for these symptoms?",
@@ -207,751 +705,1018 @@
           ],
           "actions": [
             {
-              "icon": "🧂",
-              "title": "Sodium Restriction",
-              "desc": "Reduce table salt to less than 1 level teaspoon (2,000 mg sodium) daily."
-            },
-            {
-              "icon": "📉",
-              "title": "BP Diary Logging",
-              "desc": "Log blood pressure twice daily (morning and evening) in a seated, relaxed state."
+              "icon": "🥗",
+              "title": "Low Glycemic Index Nutrition",
+              "desc": "Prioritize legumes, leafy greens, raw salads, and eliminate refined flours and sugary beverages."
             },
             {
               "icon": "🏃",
-              "title": "Cardio Exercise",
-              "desc": "Engage in 30 minutes of moderate aerobic activity like brisk walking 5 days a week."
+              "title": "Aerobic Activity",
+              "desc": "Engage in 30 minutes of moderate aerobic brisk walking 5 days a week to upregulate GLUT-4 insulin receptors."
             },
             {
               "icon": "🩺",
-              "title": "Cardiology Review",
-              "desc": "Consult a physician for anti-hypertensive regimen review if readings stay consistently elevated."
+              "title": "Physician Consultation",
+              "desc": "Schedule a follow-up with your endocrinologist to evaluate oral glycemic medication dosage."
             }
           ],
           "biomarkers": [
             {
-              "name": "Systolic BP",
-              "value": "138",
-              "unit": "mmHg",
-              "range": "< 120",
+              "name": "HbA1c (Glycated Hemoglobin)",
+              "value": 8.4,
+              "unit": "%",
+              "range": "< 5.7",
               "status": "elevated",
-              "statusLabel": "Elevated (Stage 1)",
+              "statusLabel": "High (Diabetic)",
+              "percent": 84
+            },
+            {
+              "name": "Fasting Blood Glucose (FBS)",
+              "value": 168,
+              "unit": "mg/dL",
+              "range": "70 - 99",
+              "status": "elevated",
+              "statusLabel": "Elevated",
+              "percent": 80
+            },
+            {
+              "name": "LDL Cholesterol (Bad)",
+              "value": 162,
+              "unit": "mg/dL",
+              "range": "< 100",
+              "status": "elevated",
+              "statusLabel": "High",
+              "percent": 82
+            },
+            {
+              "name": "eGFR (Kidney Filtration)",
+              "value": 92,
+              "unit": "mL/min/1.73m²",
+              "range": "> 90",
+              "status": "normal",
+              "statusLabel": "Optimal",
+              "percent": 65
+            }
+          ],
+          "isEmergency": false,
+          "triageLevel": "STANDARD",
+          "fhirBundle": {
+            "resourceType": "Bundle",
+            "id": "sagecure-bundle-1791461343785",
+            "meta": {
+              "versionId": "1.0",
+              "lastUpdated": "2026-10-08T12:09:03.785Z",
+              "profile": [
+                "https://nrces.in/ndhm/fhir/r4/StructureDefinition/DiagnosticReportRecord"
+              ]
+            },
+            "identifier": {
+              "system": "https://sagecure.ai/fhir/bundles",
+              "value": "sagecure-bundle-1791461343785"
+            },
+            "type": "document",
+            "timestamp": "2026-10-08T12:09:03.785Z",
+            "entry": [
+              {
+                "fullUrl": "urn:uuid:Composition-rep-1791461343785",
+                "resource": {
+                  "resourceType": "Composition",
+                  "id": "Composition-rep-1791461343785",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/DiagnosticReportRecord"
+                    ]
+                  },
+                  "status": "final",
+                  "type": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "11502-2",
+                        "display": "Laboratory report"
+                      }
+                    ],
+                    "text": "Diagnostic Laboratory Report"
+                  },
+                  "subject": {
+                    "reference": "Patient/Patient-ABDM-14023456789012abdm",
+                    "display": "Aditi Sharma"
+                  },
+                  "date": "2026-10-08T12:09:03.785Z",
+                  "author": [
+                    {
+                      "reference": "Organization/Org-SageCure-IN070001842",
+                      "display": "SageCure Clinical Retrieval Engine"
+                    }
+                  ],
+                  "title": "SageCure Clinical Diagnostic Health Record",
+                  "custodian": {
+                    "reference": "Organization/Org-SageCure-IN070001842",
+                    "display": "SageCure Clinical Retrieval Engine"
+                  },
+                  "section": [
+                    {
+                      "title": "Diagnostic Findings & Observations",
+                      "code": {
+                        "coding": [
+                          {
+                            "system": "http://loinc.org",
+                            "code": "24323-8",
+                            "display": "Comprehensive laboratory panel"
+                          }
+                        ]
+                      },
+                      "entry": [
+                        {
+                          "reference": "urn:uuid:Observation-rep-1791461343785-1",
+                          "display": "HbA1c (Glycated Hemoglobin): 8.4 %"
+                        },
+                        {
+                          "reference": "urn:uuid:Observation-rep-1791461343785-2",
+                          "display": "Fasting Blood Glucose (FBS): 168 mg/dL"
+                        },
+                        {
+                          "reference": "urn:uuid:Observation-rep-1791461343785-3",
+                          "display": "LDL Cholesterol (Bad): 162 mg/dL"
+                        },
+                        {
+                          "reference": "urn:uuid:Observation-rep-1791461343785-4",
+                          "display": "eGFR (Kidney Filtration): 92 mL/min/1.73m²"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:Patient-ABDM-14023456789012abdm",
+                "resource": {
+                  "resourceType": "Patient",
+                  "id": "Patient-ABDM-14023456789012abdm",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Patient"
+                    ]
+                  },
+                  "identifier": [
+                    {
+                      "type": {
+                        "coding": [
+                          {
+                            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                            "code": "MR",
+                            "display": "Medical Record Number"
+                          }
+                        ]
+                      },
+                      "system": "https://healthid.ndhm.gov.in",
+                      "value": "14-0234-5678-9012@abdm"
+                    }
+                  ],
+                  "name": [
+                    {
+                      "use": "official",
+                      "text": "Aditi Sharma"
+                    }
+                  ],
+                  "gender": "female"
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:Org-SageCure-IN070001842",
+                "resource": {
+                  "resourceType": "Organization",
+                  "id": "Org-SageCure-IN070001842",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Organization"
+                    ]
+                  },
+                  "identifier": [
+                    {
+                      "system": "https://facility.ndhm.gov.in",
+                      "value": "IN070001842"
+                    }
+                  ],
+                  "name": "SageCure Clinical Retrieval Engine",
+                  "telecom": [
+                    {
+                      "system": "phone",
+                      "value": "+91-11-2659-4500"
+                    },
+                    {
+                      "system": "url",
+                      "value": "https://sagecure.ai"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:Practitioner-MCI-48291",
+                "resource": {
+                  "resourceType": "Practitioner",
+                  "id": "Practitioner-MCI-48291",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Practitioner"
+                    ]
+                  },
+                  "identifier": [
+                    {
+                      "system": "https://doctor.ndhm.gov.in",
+                      "value": "MCI-48291"
+                    }
+                  ],
+                  "name": [
+                    {
+                      "text": "Dr. Alok Sen, MD"
+                    }
+                  ],
+                  "qualification": [
+                    {
+                      "code": {
+                        "text": "MBBS, MD (Internal Medicine & Clinical Diabetology)"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:DiagnosticReport-rep-1791461343785",
+                "resource": {
+                  "resourceType": "DiagnosticReport",
+                  "id": "DiagnosticReport-rep-1791461343785",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/DiagnosticReportLab"
+                    ]
+                  },
+                  "status": "final",
+                  "category": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                          "code": "LAB",
+                          "display": "Laboratory"
+                        }
+                      ]
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "24323-8",
+                        "display": "Comprehensive Laboratory Findings Panel"
+                      }
+                    ],
+                    "text": "Comprehensive Clinical Lab Report"
+                  },
+                  "subject": {
+                    "reference": "Patient/Patient-ABDM-14023456789012abdm",
+                    "display": "Aditi Sharma"
+                  },
+                  "effectiveDateTime": "2026-10-08T12:09:03.785Z",
+                  "issued": "2026-10-08T12:09:03.785Z",
+                  "performer": [
+                    {
+                      "reference": "Organization/Org-SageCure-IN070001842",
+                      "display": "SageCure Clinical Retrieval Engine"
+                    },
+                    {
+                      "reference": "Practitioner/Practitioner-MCI-48291",
+                      "display": "Dr. Alok Sen, MD"
+                    }
+                  ],
+                  "result": [
+                    {
+                      "reference": "urn:uuid:Observation-rep-1791461343785-1",
+                      "display": "HbA1c (Glycated Hemoglobin): 8.4 %"
+                    },
+                    {
+                      "reference": "urn:uuid:Observation-rep-1791461343785-2",
+                      "display": "Fasting Blood Glucose (FBS): 168 mg/dL"
+                    },
+                    {
+                      "reference": "urn:uuid:Observation-rep-1791461343785-3",
+                      "display": "LDL Cholesterol (Bad): 162 mg/dL"
+                    },
+                    {
+                      "reference": "urn:uuid:Observation-rep-1791461343785-4",
+                      "display": "eGFR (Kidney Filtration): 92 mL/min/1.73m²"
+                    }
+                  ],
+                  "conclusion": "Active clinical evidence retrieval for glycemic and lipid query: Glycemic control shows elevated HbA1c (8.4%), correlating to an estimated average glucose of ~194 mg/dL over the prior 90 days. Concurrently, LDL cholesterol is elevated at 162 mg/dL. Kidney filtration (eGFR > 90) remains preserved and robust."
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:Observation-rep-1791461343785-1",
+                "resource": {
+                  "resourceType": "Observation",
+                  "id": "Observation-rep-1791461343785-1",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                    ]
+                  },
+                  "status": "final",
+                  "category": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                          "code": "laboratory",
+                          "display": "Laboratory"
+                        }
+                      ]
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "4548-4",
+                        "display": "Hemoglobin A1c/Hemoglobin.total in Blood"
+                      }
+                    ],
+                    "text": "HbA1c (Glycated Hemoglobin)"
+                  },
+                  "subject": {
+                    "reference": "Patient/Patient-ABDM-14023456789012abdm",
+                    "display": "Aditi Sharma"
+                  },
+                  "effectiveDateTime": "2026-10-08T12:09:03.785Z",
+                  "issued": "2026-10-08T12:09:03.785Z",
+                  "performer": [
+                    {
+                      "reference": "Organization/Org-SageCure-IN070001842",
+                      "display": "SageCure Clinical Retrieval Engine"
+                    }
+                  ],
+                  "valueQuantity": {
+                    "value": 8.4,
+                    "unit": "%",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "%"
+                  },
+                  "interpretation": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                          "code": "H",
+                          "display": "High"
+                        }
+                      ],
+                      "text": "High (Diabetic)"
+                    }
+                  ],
+                  "referenceRange": [
+                    {
+                      "text": "< 5.7"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:Observation-rep-1791461343785-2",
+                "resource": {
+                  "resourceType": "Observation",
+                  "id": "Observation-rep-1791461343785-2",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                    ]
+                  },
+                  "status": "final",
+                  "category": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                          "code": "laboratory",
+                          "display": "Laboratory"
+                        }
+                      ]
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "1558-6",
+                        "display": "Fasting glucose [Mass/volume] in Blood"
+                      }
+                    ],
+                    "text": "Fasting Blood Glucose (FBS)"
+                  },
+                  "subject": {
+                    "reference": "Patient/Patient-ABDM-14023456789012abdm",
+                    "display": "Aditi Sharma"
+                  },
+                  "effectiveDateTime": "2026-10-08T12:09:03.785Z",
+                  "issued": "2026-10-08T12:09:03.785Z",
+                  "performer": [
+                    {
+                      "reference": "Organization/Org-SageCure-IN070001842",
+                      "display": "SageCure Clinical Retrieval Engine"
+                    }
+                  ],
+                  "valueQuantity": {
+                    "value": 168,
+                    "unit": "mg/dL",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "mg/dL"
+                  },
+                  "interpretation": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                          "code": "H",
+                          "display": "High"
+                        }
+                      ],
+                      "text": "Elevated"
+                    }
+                  ],
+                  "referenceRange": [
+                    {
+                      "text": "70 - 99"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:Observation-rep-1791461343785-3",
+                "resource": {
+                  "resourceType": "Observation",
+                  "id": "Observation-rep-1791461343785-3",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                    ]
+                  },
+                  "status": "final",
+                  "category": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                          "code": "laboratory",
+                          "display": "Laboratory"
+                        }
+                      ]
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "2093-3",
+                        "display": "Cholesterol [Mass/volume] in Serum or Plasma"
+                      }
+                    ],
+                    "text": "LDL Cholesterol (Bad)"
+                  },
+                  "subject": {
+                    "reference": "Patient/Patient-ABDM-14023456789012abdm",
+                    "display": "Aditi Sharma"
+                  },
+                  "effectiveDateTime": "2026-10-08T12:09:03.785Z",
+                  "issued": "2026-10-08T12:09:03.785Z",
+                  "performer": [
+                    {
+                      "reference": "Organization/Org-SageCure-IN070001842",
+                      "display": "SageCure Clinical Retrieval Engine"
+                    }
+                  ],
+                  "valueQuantity": {
+                    "value": 162,
+                    "unit": "mg/dL",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "mg/dL"
+                  },
+                  "interpretation": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                          "code": "H",
+                          "display": "High"
+                        }
+                      ],
+                      "text": "High"
+                    }
+                  ],
+                  "referenceRange": [
+                    {
+                      "text": "< 100"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullUrl": "urn:uuid:Observation-rep-1791461343785-4",
+                "resource": {
+                  "resourceType": "Observation",
+                  "id": "Observation-rep-1791461343785-4",
+                  "meta": {
+                    "profile": [
+                      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/Observation"
+                    ]
+                  },
+                  "status": "final",
+                  "category": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                          "code": "laboratory",
+                          "display": "Laboratory"
+                        }
+                      ]
+                    }
+                  ],
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "33914-3",
+                        "display": "Glomerular filtration rate/1.73 sq M.predicted"
+                      }
+                    ],
+                    "text": "eGFR (Kidney Filtration)"
+                  },
+                  "subject": {
+                    "reference": "Patient/Patient-ABDM-14023456789012abdm",
+                    "display": "Aditi Sharma"
+                  },
+                  "effectiveDateTime": "2026-10-08T12:09:03.785Z",
+                  "issued": "2026-10-08T12:09:03.785Z",
+                  "performer": [
+                    {
+                      "reference": "Organization/Org-SageCure-IN070001842",
+                      "display": "SageCure Clinical Retrieval Engine"
+                    }
+                  ],
+                  "valueQuantity": {
+                    "value": 92,
+                    "unit": "mL/min/1.73m²",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "mL/min/1.73m²"
+                  },
+                  "interpretation": [
+                    {
+                      "coding": [
+                        {
+                          "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                          "code": "N",
+                          "display": "Normal"
+                        }
+                      ],
+                      "text": "Optimal"
+                    }
+                  ],
+                  "referenceRange": [
+                    {
+                      "text": "> 90"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "prescription": {
+            "prescriptionId": "SC-RX-343785",
+            "date": "08 Oct 2026",
+            "timestamp": "2026-10-08T12:09:03.785Z",
+            "clinic": {
+              "name": "SageCure Digital Health Clinic & Diagnostic Center",
+              "tagline": "ABDM Verified Telemedicine & Clinical Diagnostics Hub",
+              "abdmFacilityId": "IN070001842",
+              "licenseNumber": "DL-2026-MED-4912",
+              "address": "Suite 402, Healthcare Innovation Wing, South Extension II, New Delhi - 110049",
+              "telecom": "+91-11-2659-4500",
+              "email": "clinical@sagecure.ai",
+              "website": "https://sagecure.ai"
+            },
+            "doctor": {
+              "name": "Dr. Alok Sen",
+              "qualification": "MBBS, MD (Internal Medicine), PGD Diabetology",
+              "registrationNumber": "MCI-48291 (Medical Council of India)",
+              "designation": "Senior Consultant Physician & Diabetologist",
+              "signatureText": "Dr. Alok Sen, MD (Digitally Signed)",
+              "verificationHash": "ABDM-SIG-1A11B6AC22A-48291"
+            },
+            "patient": {
+              "name": "Aditi Sharma",
+              "age": "42",
+              "gender": "Adult",
+              "abhaId": "14-0234-5678-9012@abdm",
+              "facility": "Apollo Diagnostics"
+            },
+            "clinicalEvaluation": {
+              "diagnosis": "Type 2 Diabetes Mellitus with Dyslipidemia (Elevated HbA1c 8.4% & LDL 162 mg/dL)",
+              "icd10": "E11.69 (Type 2 Diabetes Mellitus with Other Specified Complications)",
+              "summary": "Active clinical evidence retrieval for glycemic and lipid query: Glycemic control shows elevated HbA1c (8.4%), correlating to an estimated average glucose of ~194 mg/dL over the prior 90 days. Concurrently, LDL cholesterol is elevated at 162 mg/dL. Kidney filtration (eGFR > 90) remains preserved and robust."
+            },
+            "medications": [
+              {
+                "name": "Tab. Metformin Hydrochloride Sustained Release",
+                "strength": "500 mg",
+                "dosage": "1 Tablet Twice Daily (BD)",
+                "timing": "Immediately After Breakfast & Dinner",
+                "duration": "90 Days",
+                "instructions": "Helps sensitize peripheral insulin receptors. Swallow whole, do not crush."
+              },
+              {
+                "name": "Tab. Atorvastatin Calcium",
+                "strength": "10 mg",
+                "dosage": "1 Tablet Once Daily (HS)",
+                "timing": "At Bedtime",
+                "duration": "90 Days",
+                "instructions": "Cardioprotective lipid regulation. Lowers atherogenic LDL cholesterol."
+              },
+              {
+                "name": "Cap. Vitamin D3 (Cholecalciferol)",
+                "strength": "60,000 IU",
+                "dosage": "1 Capsule Once Weekly",
+                "timing": "Sunday Morning with Milk",
+                "duration": "8 Weeks",
+                "instructions": "Immune and metabolic supportive therapy."
+              }
+            ],
+            "dietaryDirectives": [
+              "Adopt a strict Low Glycemic Index (GI) meal pattern: prioritize raw salads, whole pulses, and millets.",
+              "Completely eliminate refined sugars, sweetened fruit beverages, and packaged ultra-processed snacks.",
+              "Maintain 30 minutes of moderate-intensity aerobic brisk walking at least 5 days a week."
+            ],
+            "followUp": "Repeat Fasting Blood Sugar in 4 weeks. Repeat HbA1c & Lipid Profile in 90 days.",
+            "statutoryNotice": "This electronic prescription complies with the Telemedicine Practice Guidelines issued by NMC India & ABDM EHR Standards 2026."
+          }
+        }
+      },
+      {
+        "id": "rep-aditi-q3-2026",
+        "title": "Diabetic & Lipid Panel (Q3 2026).pdf",
+        "date": "08 Oct 2026",
+        "facility": "Apollo Diagnostics Central Lab",
+        "summary_en": "Elevated HbA1c (8.4%) and LDL cholesterol (162 mg/dL). Kidney function robust with eGFR > 90.",
+        "summary_hi": "बढ़ा हुआ एचबीए1सी (8.4%) और एलडीएल कोलेस्ट्रॉल (162 mg/dL)। किडनी सुरक्षित है।",
+        "category": "metabolic",
+        "biomarkers": [
+          {
+            "name": "HbA1c (Glycated Hemoglobin)",
+            "value": 8.4,
+            "unit": "%",
+            "range": "< 5.7",
+            "status": "elevated",
+            "statusLabel": "High (Diabetic)",
+            "percent": 84
+          },
+          {
+            "name": "Fasting Blood Glucose",
+            "value": 168,
+            "unit": "mg/dL",
+            "range": "70 - 99",
+            "status": "elevated",
+            "statusLabel": "Elevated",
+            "percent": 80
+          },
+          {
+            "name": "LDL Cholesterol (Bad)",
+            "value": 162,
+            "unit": "mg/dL",
+            "range": "< 100",
+            "status": "elevated",
+            "statusLabel": "High",
+            "percent": 82
+          },
+          {
+            "name": "Triglycerides",
+            "value": 195,
+            "unit": "mg/dL",
+            "range": "< 150",
+            "status": "elevated",
+            "statusLabel": "Borderline High",
+            "percent": 75
+          },
+          {
+            "name": "eGFR (Kidney Filtration)",
+            "value": 92,
+            "unit": "mL/min/1.73m²",
+            "range": "> 90",
+            "status": "normal",
+            "statusLabel": "Optimal",
+            "percent": 65
+          }
+        ],
+        "fullData": {
+          "success": true,
+          "userEmail": "aditi@sagecure.ai",
+          "language": "en",
+          "query": "Diabetic & Lipid Panel Q3",
+          "patient": {
+            "name": "Aditi Sharma",
+            "age": "48 Y",
+            "gender": "Female",
+            "abhaId": "14-0234-5678-9012@abdm",
+            "facility": "Apollo Diagnostics Central Lab",
+            "date": "08 Oct 2026",
+            "confidence": "99.4% FHIR"
+          },
+          "summary": "Your Q3 blood test shows that your average blood sugar over the last 3 months is elevated. Your HbA1c is 8.4%, down from 8.8% last quarter. LDL cholesterol is 162 mg/dL, down from 175 mg/dL. Kidney function remains optimal.",
+          "plainLanguage": "Your Q3 blood test shows that your average blood sugar over the last 3 months is elevated. Your HbA1c is 8.4%, down from 8.8% last quarter. LDL cholesterol is 162 mg/dL, down from 175 mg/dL. Kidney function remains optimal.",
+          "plainLanguage_en": "Your Q3 blood test shows that your average blood sugar over the last 3 months is elevated. Your HbA1c is 8.4%, down from 8.8% last quarter. LDL cholesterol is 162 mg/dL, down from 175 mg/dL. Kidney function remains optimal.",
+          "plainLanguage_hi": "आपकी Q3 रक्त जांच से पता चलता है कि पिछले 3 महीनों का औसत ब्लड शुगर बढ़ा हुआ है (HbA1c 8.4%), जो पिछली तिमाही (8.8%) से सुधरा है। एलडीएल 162 mg/dL है। किडनी सामान्य रूप से कार्य कर रही है।",
+          "plainLanguage_pa": "ਤੁਹਾਡੀ Q3 ਖੂਨ ਦੀ ਜਾਂਚ ਤੋਂ ਪਤਾ ਲੱਗਦਾ ਹੈ ਕਿ ਪਿਛਲੇ 3 ਮਹੀਨਿਆਂ ਦੀ ਔਸਤ ਬਲੱਡ ਸ਼ੂਗਰ (HbA1c 8.4%) ਹੈ, ਜੋ ਪਿਛਲੀ ਤਿਮਾਹੀ (8.8%) ਨਾਲੋਂ 4.5% ਘਟੀ ਹੈ। ਗੁਰਦੇ ਪੂਰੀ ਤਰ੍ਹਾਂ ਤੰਦਰੁਸਤ ਹਨ।",
+          "audioText": "Hello Aditi. Your Q3 diabetic and lipid evaluation is ready. Your HbA1c is 8.4 percent, showing positive glycemic improvement from 8.8 percent last quarter. Your kidneys are functioning optimally.",
+          "audioText_en": "Hello Aditi. Your Q3 diabetic and lipid evaluation is ready. Your HbA1c is 8.4 percent, showing positive glycemic improvement from 8.8 percent last quarter. Your kidneys are functioning optimally.",
+          "audioText_hi": "नमस्ते अदिति जी। आपकी Q3 रिपोर्ट तैयार है। आपका एचबीए1सी 8.4 प्रतिशत है, जिसमें पिछली तिमाही की तुलना में 4.5 प्रतिशत सुधार हुआ है। आपकी किडनी पूरी तरह स्वस्थ है।",
+          "audioText_pa": "ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ ਅਦਿੱਤੀ ਜੀ। ਤੁਹਾਡੀ Q3 ਰਿਪੋਰਟ ਦਾ ਵਿਸ਼ਲੇਸ਼ਣ ਤਿਆਰ ਹੈ। ਤੁਹਾਡਾ ਐਚਬੀਏ1ਸੀ 8.4 ਪ੍ਰਤੀਸ਼ਤ ਹੈ, ਜਿਸ ਵਿੱਚ ਪਿਛਲੀ ਤਿਮਾਹੀ ਨਾਲੋਂ 4.5 ਪ੍ਰਤੀਸ਼ਤ ਸੁਧਾਰ ਆਇਆ ਹੈ। ਗੁਰਦੇ ਸੁਰੱਖਿਅਤ ਹਨ।",
+          "biomarkers": [
+            {
+              "name": "HbA1c (Glycated Hemoglobin)",
+              "value": 8.4,
+              "unit": "%",
+              "range": "< 5.7",
+              "status": "elevated",
+              "statusLabel": "High (Diabetic)",
+              "percent": 84
+            },
+            {
+              "name": "Fasting Blood Glucose",
+              "value": 168,
+              "unit": "mg/dL",
+              "range": "70 - 99",
+              "status": "elevated",
+              "statusLabel": "Elevated",
+              "percent": 80
+            },
+            {
+              "name": "LDL Cholesterol (Bad)",
+              "value": 162,
+              "unit": "mg/dL",
+              "range": "< 100",
+              "status": "elevated",
+              "statusLabel": "High",
+              "percent": 82
+            },
+            {
+              "name": "Triglycerides",
+              "value": 195,
+              "unit": "mg/dL",
+              "range": "< 150",
+              "status": "elevated",
+              "statusLabel": "Borderline High",
               "percent": 75
             },
             {
-              "name": "Diastolic BP",
-              "value": "88",
-              "unit": "mmHg",
-              "range": "< 80",
-              "status": "elevated",
-              "statusLabel": "Elevated",
-              "percent": 70
-            },
-            {
-              "name": "Pulse Rate",
-              "value": "78",
-              "unit": "bpm",
-              "range": "60 - 100",
-              "status": "normal",
-              "statusLabel": "Normal",
-              "percent": 50
-            },
-            {
-              "name": "SpO2 (Oxygen)",
-              "value": "98",
-              "unit": "%",
-              "range": "95 - 100",
+              "name": "eGFR (Kidney Filtration)",
+              "value": 92,
+              "unit": "mL/min/1.73m²",
+              "range": "> 90",
               "status": "normal",
               "statusLabel": "Optimal",
-              "percent": 95
+              "percent": 65
             }
-          ]
-        }
-      },
-      {
-        "id": "rep-1791454838376",
-        "title": "Query: I have fever",
-        "date": "08 Oct 2026",
-        "facility": "SageCure Clinical Retrieval Engine",
-        "summary_en": "Active clinical search results for fever symptoms: An elevated body temperature (febrile state) is a physiological immune response to infect...",
-        "summary_hi": "बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान 38°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रत...",
-        "category": "febrile",
-        "fullData": {
-          "success": true,
-          "userEmail": "aditi@sagecure.ai",
-          "language": "en",
-          "query": "I have fever",
-          "makeStatus": "500 Internal Server Error",
-          "databaseSource": "local",
-          "patient": {
-            "name": "Aditi Sharma",
-            "age": "42",
-            "gender": "Adult",
-            "abhaId": "14-0234-5678-9012@abdm",
-            "facility": "SageCure Clinical Retrieval Engine",
-            "date": "08 Oct 2026",
-            "confidence": "99.4% Verified"
-          },
-          "summary": "Active clinical search results for fever symptoms: An elevated body temperature (febrile state) is a physiological immune response to infection or systemic inflammation. Core temperatures ≥ 38.0°C (100.4°F) require monitored fluid replenishment and symptom management. Red flag symptoms such as stiff neck, confusion, breathing difficulty, or persistent vomiting require urgent medical evaluation.",
+          ],
           "retrievedEvidence": [
-            "NICE Guidelines (CG160): Core body temperature exceeding 38.0°C (100.4°F) constitutes fever. Antipyretic therapy is indicated for physical distress rather than sole suppression.",
-            "WHO Infectious Protocol: Insensible fluid losses increase by ~10% for every 1°C increase above normal body temperature; continuous electrolyte replenishment is primary care.",
-            "Pharmacology Review: Paracetamol (Acetaminophen) remains first-line antipyretic (500–650 mg every 4–6 hours, max 4g/24h). Avoid combining multiple NSAIDs simultaneously.",
-            "Clinical Red Flags: Seek emergency clinical triage if fever lasts > 72 hours, exceeds 39.5°C (103°F), or presents with petechial rash or shortness of breath."
+            "ADA Guidelines 2026: Non-pregnant adult HbA1c target is < 7.0%. HbA1c of 8.4% indicates positive response to metformin with ongoing titration needed.",
+            "Longitudinal Trend Analysis: HbA1c decreased by 4.5% compared to Q2 (8.8% to 8.4%), and 8.7% compared to January baseline (9.2%).",
+            "Lipid Consensus: LDL reduction from 175 to 162 mg/dL demonstrates statin responsiveness; maintain daily Atorvastatin."
           ],
           "recommendations": [
             {
-              "icon": "💧",
-              "title": "Electrolyte Rehydration",
-              "desc": "Drink 2.5 to 3 liters of water, ORS solution, clear broths, or coconut water throughout the day."
+              "icon": "🥗",
+              "title": "Low GI Nutrition",
+              "desc": "Maintain leafy greens, legumes, and eliminate refined carbohydrates."
             },
             {
-              "icon": "🌡️",
-              "title": "Temperature Tracking",
-              "desc": "Record your temperature every 4 to 6 hours before administering antipyretics."
-            },
-            {
-              "icon": "🛌",
-              "title": "Rest & Ventilation",
-              "desc": "Rest in a well-ventilated, ambient temperature room wearing light, breathable clothing."
+              "icon": "🏃",
+              "title": "Aerobic Walking",
+              "desc": "Walk 30 minutes briskly 5 days a week to stimulate insulin receptor activity."
             },
             {
               "icon": "🩺",
-              "title": "Physician Evaluation",
-              "desc": "Schedule a medical consultation for CBC, dengue, or malarial screening if fever persists over 48 hours."
+              "title": "Physician Review",
+              "desc": "Schedule a consult with your diabetologist to verify metformin dosage."
             }
-          ],
-          "plainLanguage": "Active clinical search results for fever symptoms: An elevated body temperature (febrile state) is a physiological immune response to infection or systemic inflammation. Core temperatures ≥ 38.0°C (100.4°F) require monitored fluid replenishment and symptom management. Red flag symptoms such as stiff neck, confusion, breathing difficulty, or persistent vomiting require urgent medical evaluation.",
-          "plainLanguage_en": "Active clinical search results for fever symptoms: An elevated body temperature (febrile state) is a physiological immune response to infection or systemic inflammation. Core temperatures ≥ 38.0°C (100.4°F) require monitored fluid replenishment and symptom management. Red flag symptoms such as stiff neck, confusion, breathing difficulty, or persistent vomiting require urgent medical evaluation.",
-          "plainLanguage_hi": "बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान 38°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रतिक्रिया है। इस दौरान शरीर में पानी और इलेक्ट्रोलाइट्स की कमी न होने दें। यदि बुखार के साथ गर्दन में अकड़न, सांस लेने में तकलीफ या अत्यधिक कमजोरी हो, तो तत्काल डॉक्टर से परामर्श करें।",
-          "audioText": "Hello Aditi Sharma. Active clinical search results for fever symptoms: An elevated body temperature (febrile state) is a physiological immune response to infection or systemic inflammation. Core temperatures ≥ 38.0°C (100.4°F) require monitored fluid replenishment and symptom management. Red flag symptoms such as stiff neck, confusion, breathing difficulty, or persistent vomiting require urgent medical evaluation.",
-          "audioText_en": "Hello Aditi Sharma. Active clinical search results for fever symptoms: An elevated body temperature (febrile state) is a physiological immune response to infection or systemic inflammation. Core temperatures ≥ 38.0°C (100.4°F) require monitored fluid replenishment and symptom management. Red flag symptoms such as stiff neck, confusion, breathing difficulty, or persistent vomiting require urgent medical evaluation.",
-          "audioText_hi": "बुखार (Fever) के लक्षणों पर सक्रिय क्लिनिकल खोज सारांश: शरीर का तापमान 38°C (100.4°F) या अधिक होना संक्रमण से लड़ने की स्वाभाविक शारीरिक प्रतिक्रिया है। इस दौरान शरीर में पानी और इलेक्ट्रोलाइट्स की कमी न होने दें। यदि बुखार के साथ गर्दन में अकड़न, सांस लेने में तकलीफ या अत्यधिक कमजोरी हो, तो तत्काल डॉक्टर से परामर्श करें।",
-          "takeaways": [
-            "NICE Guidelines (CG160): Core body temperature exceeding 38.0°C (100.4°F) constitutes fever. Antipyretic therapy is indicated for physical distress rather than sole suppression.",
-            "WHO Infectious Protocol: Insensible fluid losses increase by ~10% for every 1°C increase above normal body temperature; continuous electrolyte replenishment is primary care.",
-            "Pharmacology Review: Paracetamol (Acetaminophen) remains first-line antipyretic (500–650 mg every 4–6 hours, max 4g/24h). Avoid combining multiple NSAIDs simultaneously."
-          ],
-          "questions": [
-            "Should I see a doctor immediately for these symptoms?",
-            "What diagnostic tests or medication might be recommended?",
-            "What self-care and monitoring measures are advised?"
-          ],
-          "actions": [
-            {
-              "icon": "💧",
-              "title": "Electrolyte Rehydration",
-              "desc": "Drink 2.5 to 3 liters of water, ORS solution, clear broths, or coconut water throughout the day."
-            },
-            {
-              "icon": "🌡️",
-              "title": "Temperature Tracking",
-              "desc": "Record your temperature every 4 to 6 hours before administering antipyretics."
-            },
-            {
-              "icon": "🛌",
-              "title": "Rest & Ventilation",
-              "desc": "Rest in a well-ventilated, ambient temperature room wearing light, breathable clothing."
-            },
-            {
-              "icon": "🩺",
-              "title": "Physician Evaluation",
-              "desc": "Schedule a medical consultation for CBC, dengue, or malarial screening if fever persists over 48 hours."
-            }
-          ],
+          ]
+        }
+      },
+      {
+        "id": "rep-aditi-q2-2026",
+        "title": "Glycemic & Lipid Panel (Q2 2026).pdf",
+        "date": "15 Jun 2026",
+        "facility": "Apollo Diagnostics Central Lab",
+        "summary_en": "Elevated HbA1c (8.8%) and LDL cholesterol (175 mg/dL). Fasting Glucose 182 mg/dL.",
+        "summary_hi": "एचबीए1सी (8.8%) और एलडीएल कोलेस्ट्रॉल (175 mg/dL) बढ़ा हुआ था।",
+        "category": "metabolic",
+        "biomarkers": [
+          {
+            "name": "HbA1c (Glycated Hemoglobin)",
+            "value": 8.8,
+            "unit": "%",
+            "range": "< 5.7",
+            "status": "elevated",
+            "statusLabel": "High",
+            "percent": 88
+          },
+          {
+            "name": "Fasting Blood Glucose",
+            "value": 182,
+            "unit": "mg/dL",
+            "range": "70 - 99",
+            "status": "elevated",
+            "statusLabel": "Elevated",
+            "percent": 86
+          },
+          {
+            "name": "LDL Cholesterol (Bad)",
+            "value": 175,
+            "unit": "mg/dL",
+            "range": "< 100",
+            "status": "elevated",
+            "statusLabel": "High",
+            "percent": 87
+          },
+          {
+            "name": "Triglycerides",
+            "value": 210,
+            "unit": "mg/dL",
+            "range": "< 150",
+            "status": "elevated",
+            "statusLabel": "High",
+            "percent": 80
+          },
+          {
+            "name": "eGFR (Kidney Filtration)",
+            "value": 90,
+            "unit": "mL/min/1.73m²",
+            "range": "> 90",
+            "status": "normal",
+            "statusLabel": "Optimal",
+            "percent": 65
+          }
+        ],
+        "fullData": {
+          "success": true,
+          "summary": "Q2 Glycemic Evaluation: HbA1c 8.8%, Fasting Blood Glucose 182 mg/dL, LDL 175 mg/dL.",
           "biomarkers": [
             {
-              "name": "Body Temperature",
-              "value": "38.6",
-              "unit": "°C (101.5°F)",
-              "range": "36.5 - 37.5",
+              "name": "HbA1c (Glycated Hemoglobin)",
+              "value": 8.8,
+              "unit": "%",
+              "range": "< 5.7",
               "status": "elevated",
-              "statusLabel": "Elevated (Fever)",
+              "statusLabel": "High",
+              "percent": 88
+            },
+            {
+              "name": "Fasting Blood Glucose",
+              "value": 182,
+              "unit": "mg/dL",
+              "range": "70 - 99",
+              "status": "elevated",
+              "statusLabel": "Elevated",
+              "percent": 86
+            },
+            {
+              "name": "LDL Cholesterol (Bad)",
+              "value": 175,
+              "unit": "mg/dL",
+              "range": "< 100",
+              "status": "elevated",
+              "statusLabel": "High",
+              "percent": 87
+            },
+            {
+              "name": "Triglycerides",
+              "value": 210,
+              "unit": "mg/dL",
+              "range": "< 150",
+              "status": "elevated",
+              "statusLabel": "High",
+              "percent": 80
+            },
+            {
+              "name": "eGFR (Kidney Filtration)",
+              "value": 90,
+              "unit": "mL/min/1.73m²",
+              "range": "> 90",
+              "status": "normal",
+              "statusLabel": "Optimal",
+              "percent": 65
+            }
+          ]
+        }
+      },
+      {
+        "id": "rep-aditi-q1-2026",
+        "title": "Baseline Diabetic Screen (Q1 2026).pdf",
+        "date": "10 Jan 2026",
+        "facility": "Apollo Diagnostics Central Lab",
+        "summary_en": "Baseline Screen: HbA1c markedly high at 9.2%, LDL 188 mg/dL, Fasting Glucose 198 mg/dL.",
+        "summary_hi": "प्रारंभिक जांच: एचबीए1सी 9.2% और एलडीएल 188 mg/dL पर था।",
+        "category": "metabolic",
+        "biomarkers": [
+          {
+            "name": "HbA1c (Glycated Hemoglobin)",
+            "value": 9.2,
+            "unit": "%",
+            "range": "< 5.7",
+            "status": "elevated",
+            "statusLabel": "High",
+            "percent": 92
+          },
+          {
+            "name": "Fasting Blood Glucose",
+            "value": 198,
+            "unit": "mg/dL",
+            "range": "70 - 99",
+            "status": "elevated",
+            "statusLabel": "Elevated",
+            "percent": 92
+          },
+          {
+            "name": "LDL Cholesterol (Bad)",
+            "value": 188,
+            "unit": "mg/dL",
+            "range": "< 100",
+            "status": "elevated",
+            "statusLabel": "High",
+            "percent": 90
+          },
+          {
+            "name": "Triglycerides",
+            "value": 230,
+            "unit": "mg/dL",
+            "range": "< 150",
+            "status": "elevated",
+            "statusLabel": "High",
+            "percent": 85
+          },
+          {
+            "name": "eGFR (Kidney Filtration)",
+            "value": 88,
+            "unit": "mL/min/1.73m²",
+            "range": "> 90",
+            "status": "normal",
+            "statusLabel": "Normal",
+            "percent": 60
+          }
+        ],
+        "fullData": {
+          "success": true,
+          "summary": "Q1 Baseline Metabolic Screen: HbA1c 9.2%, Fasting Glucose 198 mg/dL, LDL 188 mg/dL.",
+          "biomarkers": [
+            {
+              "name": "HbA1c (Glycated Hemoglobin)",
+              "value": 9.2,
+              "unit": "%",
+              "range": "< 5.7",
+              "status": "elevated",
+              "statusLabel": "High",
+              "percent": 92
+            },
+            {
+              "name": "Fasting Blood Glucose",
+              "value": 198,
+              "unit": "mg/dL",
+              "range": "70 - 99",
+              "status": "elevated",
+              "statusLabel": "Elevated",
+              "percent": 92
+            },
+            {
+              "name": "LDL Cholesterol (Bad)",
+              "value": 188,
+              "unit": "mg/dL",
+              "range": "< 100",
+              "status": "elevated",
+              "statusLabel": "High",
+              "percent": 90
+            },
+            {
+              "name": "Triglycerides",
+              "value": 230,
+              "unit": "mg/dL",
+              "range": "< 150",
+              "status": "elevated",
+              "statusLabel": "High",
               "percent": 85
             },
             {
-              "name": "Heart Rate (Pulse)",
-              "value": "98",
-              "unit": "bpm",
-              "range": "60 - 100",
-              "status": "normal",
-              "statusLabel": "Borderline Optimal",
-              "percent": 65
-            },
-            {
-              "name": "Respiratory Rate",
-              "value": "18",
-              "unit": "breaths/min",
-              "range": "12 - 20",
-              "status": "normal",
-              "statusLabel": "Normal",
-              "percent": 50
-            },
-            {
-              "name": "Oxygen Saturation (SpO2)",
-              "value": "98",
-              "unit": "%",
-              "range": "95 - 100",
-              "status": "normal",
-              "statusLabel": "Optimal",
-              "percent": 95
-            }
-          ]
-        }
-      },
-      {
-        "id": "rep-1791453006171",
-        "title": "diabetic_panel_report.pdf",
-        "date": "08 Oct 2026",
-        "facility": "Apollo Diagnostics Central Lab",
-        "summary_en": "Your blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is ...",
-        "summary_hi": "आपकी खून की जांच से पता चलता है कि आपके शुगर और कोलेस्ट्रॉल स्तर पर विशेष ध्यान देने की जरूरत है। आपका एचबीए1सी (HbA1c) ...",
-        "category": "metabolic",
-        "fullData": {
-          "success": true,
-          "userEmail": "aditi@sagecure.ai",
-          "language": "en",
-          "makeStatus": "500 Internal Server Error",
-          "databaseSource": "local",
-          "patient": {
-            "name": "Aditi",
-            "age": "48",
-            "gender": "Female",
-            "abhaId": "14-1404-7212-4038@abdm",
-            "facility": "Apollo Diagnostics Central Lab",
-            "date": "08 Oct 2026",
-            "confidence": "99.4%"
-          },
-          "plainLanguage": "Regarding your inquiry \"I have fever\":\n\nYour blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is 8.4%, reflecting higher average glucose levels over the last 90 days. Concurrently, your LDL cholesterol is at 162 mg/dL. Your kidney filtration is strong and preserved with an eGFR of 92 mL/min. We advise scheduling an appointment with your physician to evaluate your glycemic management and lipid regimen.",
-          "plainLanguage_en": "Your blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is 8.4%, reflecting higher average glucose levels over the last 90 days. Concurrently, your LDL cholesterol is at 162 mg/dL. Your kidney filtration is strong and preserved with an eGFR of 92 mL/min. We advise scheduling an appointment with your physician to evaluate your glycemic management and lipid regimen.",
-          "plainLanguage_hi": "आपकी खून की जांच से पता चलता है कि आपके शुगर और कोलेस्ट्रॉल स्तर पर विशेष ध्यान देने की जरूरत है। आपका एचबीए1सी (HbA1c) 8.4% है, जो पिछले 3 महीनों में शुगर का स्तर अधिक रहने का संकेत है। साथ ही एलडीएल (खराब) कोलेस्ट्रॉल 162 mg/dL पर है। अच्छी खबर यह है कि आपकी किडनी बहुत स्वस्थ काम कर रही है (eGFR 92)। कृपया अपने डॉक्टर से परामर्श कर दवा और परहेज की योजना बनाएं।",
-          "audioText": "Regarding your inquiry: Hello Aditi. Your blood test report has been analyzed. Your HbA1c is 8.4 percent, indicating higher than target blood sugar levels over the past 3 months. In addition, your LDL cholesterol is 162 milligrams per deciliter, which is above the optimal range. The good news is your kidney and liver markers are in healthy ranges. We recommend sharing these observations with your doctor.",
-          "audioText_en": "Hello Aditi. Your blood test report has been analyzed. Your HbA1c is 8.4 percent, indicating higher than target blood sugar levels over the past 3 months. In addition, your LDL cholesterol is 162 milligrams per deciliter, which is above the optimal range. The good news is your kidney and liver markers are in healthy ranges. We recommend sharing these observations with your doctor.",
-          "audioText_hi": "नमस्ते Aditi। आपकी खून की जांच का विश्लेषण कर लिया गया है। आपका एचबीए1सी 8.4 प्रतिशत है, जो पिछले तीन महीनों में शुगर बढ़ने का संकेत देता है। साथ ही एलडीएल कोलेस्ट्रॉल भी बढ़ा हुआ है। राहत की बात यह है कि आपकी किडनी सुरक्षित है। कृपया अपने डॉक्टर से मिलकर परामर्श लें।",
-          "takeaways": [
-            "Glycemic control is above recommended targets (HbA1c: 8.4%).",
-            "Lipid panel shows elevated LDL (162 mg/dL) and borderline HDL (44 mg/dL).",
-            "Renal function is healthy and normal with eGFR > 90."
-          ],
-          "takeaways_en": [
-            "Glycemic control is above recommended targets (HbA1c: 8.4%).",
-            "Lipid panel shows elevated LDL (162 mg/dL) and borderline HDL (44 mg/dL).",
-            "Renal function is healthy and normal with eGFR > 90."
-          ],
-          "takeaways_hi": [
-            "तीन महीने का औसत शुगर स्तर बढ़ा हुआ है (HbA1c: 8.4%)।",
-            "कोलेस्ट्रॉल प्रोफाइल में एलडीएल (162 mg/dL) बढ़ा हुआ है।",
-            "किडनी की कार्यप्रणाली (eGFR > 90) बिल्कुल सामान्य और सुरक्षित है।"
-          ],
-          "questions": [
-            "Should my diabetes medication dose be adjusted based on this 8.4% HbA1c?",
-            "Do you recommend starting a cholesterol-lowering medication such as a statin?",
-            "When should we re-test my lipid profile and blood sugar?"
-          ],
-          "questions_en": [
-            "Should my diabetes medication dose be adjusted based on this 8.4% HbA1c?",
-            "Do you recommend starting a cholesterol-lowering medication such as a statin?",
-            "When should we re-test my lipid profile and blood sugar?"
-          ],
-          "questions_hi": [
-            "क्या 8.4% एचबीए1सी को देखते हुए मेरी दवाओं की खुराक बदलने की जरूरत है?",
-            "क्या मुझे कोलेस्ट्रॉल घटाने के लिए स्टेटिन जैसी दवा शुरू करनी चाहिए?",
-            "अगली बार लिपिड और शुगर टेस्ट कब कराना चाहिए?"
-          ],
-          "actions": [
-            {
-              "icon": "🥗",
-              "title": "Low Glycemic Index Nutrition",
-              "desc": "Prioritize legumes, leafy greens, and cut simple carbohydrates."
-            },
-            {
-              "icon": "🏃",
-              "title": "Daily Physical Activity",
-              "desc": "Aim for 30 minutes of aerobic exercise 5 days a week."
-            },
-            {
-              "icon": "🩺",
-              "title": "Clinical Follow-up",
-              "desc": "Schedule an endocrinologist evaluation within the next 7 to 10 days."
-            }
-          ],
-          "actions_en": [
-            {
-              "icon": "🥗",
-              "title": "Low Glycemic Index Nutrition",
-              "desc": "Prioritize legumes, leafy greens, and cut simple carbohydrates."
-            },
-            {
-              "icon": "🏃",
-              "title": "Daily Physical Activity",
-              "desc": "Aim for 30 minutes of aerobic exercise 5 days a week."
-            },
-            {
-              "icon": "🩺",
-              "title": "Clinical Follow-up",
-              "desc": "Schedule an endocrinologist evaluation within the next 7 to 10 days."
-            }
-          ],
-          "actions_hi": [
-            {
-              "icon": "🥗",
-              "title": "कम ग्लाइसेमिक इंडेक्स आहार",
-              "desc": "दालें, हरी पत्तेदार सब्जियां और सलाद खाएं; मीठा और मैदा बंद करें।"
-            },
-            {
-              "icon": "🏃",
-              "title": "नियमित 30 मिनट सैर",
-              "desc": "हफ्ते में 5 दिन कम से कम 30 मिनट तेज सैर इंसुलिन सुधारती है।"
-            },
-            {
-              "icon": "🩺",
-              "title": "डॉक्टर से परामर्श",
-              "desc": "अगले 7 से 10 दिनों में विशेषज्ञ डॉक्टर से मिलकर रिपोर्ट दिखाएं।"
-            }
-          ],
-          "biomarkers": [
-            {
-              "name": "HbA1c (Glycated Hemoglobin)",
-              "value": 8.4,
-              "unit": "%",
-              "range": "< 5.7",
-              "status": "elevated",
-              "statusLabel": "High (Diabetic)",
-              "percent": 84
-            },
-            {
-              "name": "Fasting Blood Glucose (FBS)",
-              "value": 168,
-              "unit": "mg/dL",
-              "range": "70 - 99",
-              "status": "elevated",
-              "statusLabel": "Elevated",
-              "percent": 80
-            },
-            {
-              "name": "Total Cholesterol",
-              "value": 235,
-              "unit": "mg/dL",
-              "range": "< 200",
-              "status": "elevated",
-              "statusLabel": "High",
-              "percent": 78
-            },
-            {
-              "name": "LDL Cholesterol (Bad)",
-              "value": 162,
-              "unit": "mg/dL",
-              "range": "< 100",
-              "status": "elevated",
-              "statusLabel": "High",
-              "percent": 82
-            },
-            {
-              "name": "HDL Cholesterol (Good)",
-              "value": 44,
-              "unit": "mg/dL",
-              "range": "> 50",
-              "status": "low",
-              "statusLabel": "Borderline Low",
-              "percent": 35
-            },
-            {
-              "name": "Serum Creatinine",
-              "value": 0.85,
-              "unit": "mg/dL",
-              "range": "0.5 - 1.1",
-              "status": "normal",
-              "statusLabel": "Normal",
-              "percent": 50
-            },
-            {
               "name": "eGFR (Kidney Filtration)",
-              "value": 92,
+              "value": 88,
               "unit": "mL/min/1.73m²",
               "range": "> 90",
               "status": "normal",
-              "statusLabel": "Optimal",
-              "percent": 65
-            },
-            {
-              "name": "Estimated Avg Glucose (eAG)",
-              "value": 194,
-              "unit": "mg/dL",
-              "range": "90 - 120",
-              "status": "elevated",
-              "statusLabel": "Elevated",
-              "percent": 82
-            }
-          ]
-        }
-      },
-      {
-        "id": "rep-1791452806048",
-        "title": "WhatsApp Image 2026-10-08 at 12.20.49 PM.jpeg",
-        "date": "08 Oct 2026",
-        "facility": "Apollo Diagnostics Central Lab",
-        "summary_en": "Your blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is ...",
-        "summary_hi": "आपकी खून की जांच से पता चलता है कि आपके शुगर और कोलेस्ट्रॉल स्तर पर विशेष ध्यान देने की जरूरत है। आपका एचबीए1सी (HbA1c) ...",
-        "category": "metabolic",
-        "fullData": {
-          "success": true,
-          "userEmail": "aditi@sagecure.ai",
-          "language": "en",
-          "makeStatus": "500 Internal Server Error",
-          "databaseSource": "local",
-          "patient": {
-            "name": "Aditi",
-            "age": "48",
-            "gender": "Female",
-            "abhaId": "14-1404-7212-4038@abdm",
-            "facility": "Apollo Diagnostics Central Lab",
-            "date": "08 Oct 2026",
-            "confidence": "99.4%"
-          },
-          "plainLanguage": "Regarding your inquiry \"fever\":\n\nYour blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is 8.4%, reflecting higher average glucose levels over the last 90 days. Concurrently, your LDL cholesterol is at 162 mg/dL. Your kidney filtration is strong and preserved with an eGFR of 92 mL/min. We advise scheduling an appointment with your physician to evaluate your glycemic management and lipid regimen.",
-          "plainLanguage_en": "Your blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is 8.4%, reflecting higher average glucose levels over the last 90 days. Concurrently, your LDL cholesterol is at 162 mg/dL. Your kidney filtration is strong and preserved with an eGFR of 92 mL/min. We advise scheduling an appointment with your physician to evaluate your glycemic management and lipid regimen.",
-          "plainLanguage_hi": "आपकी खून की जांच से पता चलता है कि आपके शुगर और कोलेस्ट्रॉल स्तर पर विशेष ध्यान देने की जरूरत है। आपका एचबीए1सी (HbA1c) 8.4% है, जो पिछले 3 महीनों में शुगर का स्तर अधिक रहने का संकेत है। साथ ही एलडीएल (खराब) कोलेस्ट्रॉल 162 mg/dL पर है। अच्छी खबर यह है कि आपकी किडनी बहुत स्वस्थ काम कर रही है (eGFR 92)। कृपया अपने डॉक्टर से परामर्श कर दवा और परहेज की योजना बनाएं।",
-          "audioText": "Regarding your inquiry: Hello Aditi. Your blood test report has been analyzed. Your HbA1c is 8.4 percent, indicating higher than target blood sugar levels over the past 3 months. In addition, your LDL cholesterol is 162 milligrams per deciliter, which is above the optimal range. The good news is your kidney and liver markers are in healthy ranges. We recommend sharing these observations with your doctor.",
-          "audioText_en": "Hello Aditi. Your blood test report has been analyzed. Your HbA1c is 8.4 percent, indicating higher than target blood sugar levels over the past 3 months. In addition, your LDL cholesterol is 162 milligrams per deciliter, which is above the optimal range. The good news is your kidney and liver markers are in healthy ranges. We recommend sharing these observations with your doctor.",
-          "audioText_hi": "नमस्ते Aditi। आपकी खून की जांच का विश्लेषण कर लिया गया है। आपका एचबीए1सी 8.4 प्रतिशत है, जो पिछले तीन महीनों में शुगर बढ़ने का संकेत देता है। साथ ही एलडीएल कोलेस्ट्रॉल भी बढ़ा हुआ है। राहत की बात यह है कि आपकी किडनी सुरक्षित है। कृपया अपने डॉक्टर से मिलकर परामर्श लें।",
-          "takeaways": [
-            "Glycemic control is above recommended targets (HbA1c: 8.4%).",
-            "Lipid panel shows elevated LDL (162 mg/dL) and borderline HDL (44 mg/dL).",
-            "Renal function is healthy and normal with eGFR > 90."
-          ],
-          "takeaways_en": [
-            "Glycemic control is above recommended targets (HbA1c: 8.4%).",
-            "Lipid panel shows elevated LDL (162 mg/dL) and borderline HDL (44 mg/dL).",
-            "Renal function is healthy and normal with eGFR > 90."
-          ],
-          "takeaways_hi": [
-            "तीन महीने का औसत शुगर स्तर बढ़ा हुआ है (HbA1c: 8.4%)।",
-            "कोलेस्ट्रॉल प्रोफाइल में एलडीएल (162 mg/dL) बढ़ा हुआ है।",
-            "किडनी की कार्यप्रणाली (eGFR > 90) बिल्कुल सामान्य और सुरक्षित है।"
-          ],
-          "questions": [
-            "Should my diabetes medication dose be adjusted based on this 8.4% HbA1c?",
-            "Do you recommend starting a cholesterol-lowering medication such as a statin?",
-            "When should we re-test my lipid profile and blood sugar?"
-          ],
-          "questions_en": [
-            "Should my diabetes medication dose be adjusted based on this 8.4% HbA1c?",
-            "Do you recommend starting a cholesterol-lowering medication such as a statin?",
-            "When should we re-test my lipid profile and blood sugar?"
-          ],
-          "questions_hi": [
-            "क्या 8.4% एचबीए1सी को देखते हुए मेरी दवाओं की खुराक बदलने की जरूरत है?",
-            "क्या मुझे कोलेस्ट्रॉल घटाने के लिए स्टेटिन जैसी दवा शुरू करनी चाहिए?",
-            "अगली बार लिपिड और शुगर टेस्ट कब कराना चाहिए?"
-          ],
-          "actions": [
-            {
-              "icon": "🥗",
-              "title": "Low Glycemic Index Nutrition",
-              "desc": "Prioritize legumes, leafy greens, and cut simple carbohydrates."
-            },
-            {
-              "icon": "🏃",
-              "title": "Daily Physical Activity",
-              "desc": "Aim for 30 minutes of aerobic exercise 5 days a week."
-            },
-            {
-              "icon": "🩺",
-              "title": "Clinical Follow-up",
-              "desc": "Schedule an endocrinologist evaluation within the next 7 to 10 days."
-            }
-          ],
-          "actions_en": [
-            {
-              "icon": "🥗",
-              "title": "Low Glycemic Index Nutrition",
-              "desc": "Prioritize legumes, leafy greens, and cut simple carbohydrates."
-            },
-            {
-              "icon": "🏃",
-              "title": "Daily Physical Activity",
-              "desc": "Aim for 30 minutes of aerobic exercise 5 days a week."
-            },
-            {
-              "icon": "🩺",
-              "title": "Clinical Follow-up",
-              "desc": "Schedule an endocrinologist evaluation within the next 7 to 10 days."
-            }
-          ],
-          "actions_hi": [
-            {
-              "icon": "🥗",
-              "title": "कम ग्लाइसेमिक इंडेक्स आहार",
-              "desc": "दालें, हरी पत्तेदार सब्जियां और सलाद खाएं; मीठा और मैदा बंद करें।"
-            },
-            {
-              "icon": "🏃",
-              "title": "नियमित 30 मिनट सैर",
-              "desc": "हफ्ते में 5 दिन कम से कम 30 मिनट तेज सैर इंसुलिन सुधारती है।"
-            },
-            {
-              "icon": "🩺",
-              "title": "डॉक्टर से परामर्श",
-              "desc": "अगले 7 से 10 दिनों में विशेषज्ञ डॉक्टर से मिलकर रिपोर्ट दिखाएं।"
-            }
-          ],
-          "biomarkers": [
-            {
-              "name": "HbA1c (Glycated Hemoglobin)",
-              "value": 8.4,
-              "unit": "%",
-              "range": "< 5.7",
-              "status": "elevated",
-              "statusLabel": "High (Diabetic)",
-              "percent": 84
-            },
-            {
-              "name": "Fasting Blood Glucose (FBS)",
-              "value": 168,
-              "unit": "mg/dL",
-              "range": "70 - 99",
-              "status": "elevated",
-              "statusLabel": "Elevated",
-              "percent": 80
-            },
-            {
-              "name": "Total Cholesterol",
-              "value": 235,
-              "unit": "mg/dL",
-              "range": "< 200",
-              "status": "elevated",
-              "statusLabel": "High",
-              "percent": 78
-            },
-            {
-              "name": "LDL Cholesterol (Bad)",
-              "value": 162,
-              "unit": "mg/dL",
-              "range": "< 100",
-              "status": "elevated",
-              "statusLabel": "High",
-              "percent": 82
-            },
-            {
-              "name": "HDL Cholesterol (Good)",
-              "value": 44,
-              "unit": "mg/dL",
-              "range": "> 50",
-              "status": "low",
-              "statusLabel": "Borderline Low",
-              "percent": 35
-            },
-            {
-              "name": "Serum Creatinine",
-              "value": 0.85,
-              "unit": "mg/dL",
-              "range": "0.5 - 1.1",
-              "status": "normal",
               "statusLabel": "Normal",
-              "percent": 50
-            },
-            {
-              "name": "eGFR (Kidney Filtration)",
-              "value": 92,
-              "unit": "mL/min/1.73m²",
-              "range": "> 90",
-              "status": "normal",
-              "statusLabel": "Optimal",
-              "percent": 65
-            },
-            {
-              "name": "Estimated Avg Glucose (eAG)",
-              "value": 194,
-              "unit": "mg/dL",
-              "range": "90 - 120",
-              "status": "elevated",
-              "statusLabel": "Elevated",
-              "percent": 82
-            }
-          ]
-        }
-      },
-      {
-        "id": "rep-1791452308232",
-        "title": "WhatsApp Image 2026-10-08 at 12.20.49 PM.jpeg",
-        "date": "08 Oct 2026",
-        "facility": "Apollo Diagnostics Central Lab",
-        "summary_en": "Your blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is ...",
-        "summary_hi": "आपकी खून की जांच से पता चलता है कि आपके शुगर और कोलेस्ट्रॉल स्तर पर विशेष ध्यान देने की जरूरत है। आपका एचबीए1सी (HbA1c) ...",
-        "category": "metabolic",
-        "fullData": {
-          "success": true,
-          "userEmail": "aditi@sagecure.ai",
-          "language": "en",
-          "makeStatus": "200 OK",
-          "databaseSource": "local",
-          "patient": {
-            "name": "Aditi",
-            "age": "48",
-            "gender": "Female",
-            "abhaId": "14-1404-7212-4038@abdm",
-            "facility": "Apollo Diagnostics Central Lab",
-            "date": "08 Oct 2026",
-            "confidence": "99.4%"
-          },
-          "plainLanguage": "Regarding your inquiry \"Explain my HbA1c and lipid levels in simple terms.\":\n\nYour blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is 8.4%, reflecting higher average glucose levels over the last 90 days. Concurrently, your LDL cholesterol is at 162 mg/dL. Your kidney filtration is strong and preserved with an eGFR of 92 mL/min. We advise scheduling an appointment with your physician to evaluate your glycemic management and lipid regimen.",
-          "plainLanguage_en": "Your blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is 8.4%, reflecting higher average glucose levels over the last 90 days. Concurrently, your LDL cholesterol is at 162 mg/dL. Your kidney filtration is strong and preserved with an eGFR of 92 mL/min. We advise scheduling an appointment with your physician to evaluate your glycemic management and lipid regimen.",
-          "plainLanguage_hi": "आपकी खून की जांच से पता चलता है कि आपके शुगर और कोलेस्ट्रॉल स्तर पर विशेष ध्यान देने की जरूरत है। आपका एचबीए1सी (HbA1c) 8.4% है, जो पिछले 3 महीनों में शुगर का स्तर अधिक रहने का संकेत है। साथ ही एलडीएल (खराब) कोलेस्ट्रॉल 162 mg/dL पर है। अच्छी खबर यह है कि आपकी किडनी बहुत स्वस्थ काम कर रही है (eGFR 92)। कृपया अपने डॉक्टर से परामर्श कर दवा और परहेज की योजना बनाएं।",
-          "audioText": "Regarding your inquiry: Hello Aditi. Your blood test report has been analyzed. Your HbA1c is 8.4 percent, indicating higher than target blood sugar levels over the past 3 months. In addition, your LDL cholesterol is 162 milligrams per deciliter, which is above the optimal range. The good news is your kidney and liver markers are in healthy ranges. We recommend sharing these observations with your doctor.",
-          "audioText_en": "Hello Aditi. Your blood test report has been analyzed. Your HbA1c is 8.4 percent, indicating higher than target blood sugar levels over the past 3 months. In addition, your LDL cholesterol is 162 milligrams per deciliter, which is above the optimal range. The good news is your kidney and liver markers are in healthy ranges. We recommend sharing these observations with your doctor.",
-          "audioText_hi": "नमस्ते Aditi। आपकी खून की जांच का विश्लेषण कर लिया गया है। आपका एचबीए1सी 8.4 प्रतिशत है, जो पिछले तीन महीनों में शुगर बढ़ने का संकेत देता है। साथ ही एलडीएल कोलेस्ट्रॉल भी बढ़ा हुआ है। राहत की बात यह है कि आपकी किडनी सुरक्षित है। कृपया अपने डॉक्टर से मिलकर परामर्श लें।",
-          "takeaways": [
-            "Glycemic control is above recommended targets (HbA1c: 8.4%).",
-            "Lipid panel shows elevated LDL (162 mg/dL) and borderline HDL (44 mg/dL).",
-            "Renal function is healthy and normal with eGFR > 90."
-          ],
-          "takeaways_en": [
-            "Glycemic control is above recommended targets (HbA1c: 8.4%).",
-            "Lipid panel shows elevated LDL (162 mg/dL) and borderline HDL (44 mg/dL).",
-            "Renal function is healthy and normal with eGFR > 90."
-          ],
-          "takeaways_hi": [
-            "तीन महीने का औसत शुगर स्तर बढ़ा हुआ है (HbA1c: 8.4%)।",
-            "कोलेस्ट्रॉल प्रोफाइल में एलडीएल (162 mg/dL) बढ़ा हुआ है।",
-            "किडनी की कार्यप्रणाली (eGFR > 90) बिल्कुल सामान्य और सुरक्षित है।"
-          ],
-          "questions": [
-            "Should my diabetes medication dose be adjusted based on this 8.4% HbA1c?",
-            "Do you recommend starting a cholesterol-lowering medication such as a statin?",
-            "When should we re-test my lipid profile and blood sugar?"
-          ],
-          "questions_en": [
-            "Should my diabetes medication dose be adjusted based on this 8.4% HbA1c?",
-            "Do you recommend starting a cholesterol-lowering medication such as a statin?",
-            "When should we re-test my lipid profile and blood sugar?"
-          ],
-          "questions_hi": [
-            "क्या 8.4% एचबीए1सी को देखते हुए मेरी दवाओं की खुराक बदलने की जरूरत है?",
-            "क्या मुझे कोलेस्ट्रॉल घटाने के लिए स्टेटिन जैसी दवा शुरू करनी चाहिए?",
-            "अगली बार लिपिड और शुगर टेस्ट कब कराना चाहिए?"
-          ],
-          "actions": [
-            {
-              "icon": "🥗",
-              "title": "Low Glycemic Index Nutrition",
-              "desc": "Prioritize legumes, leafy greens, and cut simple carbohydrates."
-            },
-            {
-              "icon": "🏃",
-              "title": "Daily Physical Activity",
-              "desc": "Aim for 30 minutes of aerobic exercise 5 days a week."
-            },
-            {
-              "icon": "🩺",
-              "title": "Clinical Follow-up",
-              "desc": "Schedule an endocrinologist evaluation within the next 7 to 10 days."
-            }
-          ],
-          "actions_en": [
-            {
-              "icon": "🥗",
-              "title": "Low Glycemic Index Nutrition",
-              "desc": "Prioritize legumes, leafy greens, and cut simple carbohydrates."
-            },
-            {
-              "icon": "🏃",
-              "title": "Daily Physical Activity",
-              "desc": "Aim for 30 minutes of aerobic exercise 5 days a week."
-            },
-            {
-              "icon": "🩺",
-              "title": "Clinical Follow-up",
-              "desc": "Schedule an endocrinologist evaluation within the next 7 to 10 days."
-            }
-          ],
-          "actions_hi": [
-            {
-              "icon": "🥗",
-              "title": "कम ग्लाइसेमिक इंडेक्स आहार",
-              "desc": "दालें, हरी पत्तेदार सब्जियां और सलाद खाएं; मीठा और मैदा बंद करें।"
-            },
-            {
-              "icon": "🏃",
-              "title": "नियमित 30 मिनट सैर",
-              "desc": "हफ्ते में 5 दिन कम से कम 30 मिनट तेज सैर इंसुलिन सुधारती है।"
-            },
-            {
-              "icon": "🩺",
-              "title": "डॉक्टर से परामर्श",
-              "desc": "अगले 7 से 10 दिनों में विशेषज्ञ डॉक्टर से मिलकर रिपोर्ट दिखाएं।"
-            }
-          ],
-          "biomarkers": [
-            {
-              "name": "HbA1c (Glycated Hemoglobin)",
-              "value": 8.4,
-              "unit": "%",
-              "range": "< 5.7",
-              "status": "elevated",
-              "statusLabel": "High (Diabetic)",
-              "percent": 84
-            },
-            {
-              "name": "Fasting Blood Glucose (FBS)",
-              "value": 168,
-              "unit": "mg/dL",
-              "range": "70 - 99",
-              "status": "elevated",
-              "statusLabel": "Elevated",
-              "percent": 80
-            },
-            {
-              "name": "Total Cholesterol",
-              "value": 235,
-              "unit": "mg/dL",
-              "range": "< 200",
-              "status": "elevated",
-              "statusLabel": "High",
-              "percent": 78
-            },
-            {
-              "name": "LDL Cholesterol (Bad)",
-              "value": 162,
-              "unit": "mg/dL",
-              "range": "< 100",
-              "status": "elevated",
-              "statusLabel": "High",
-              "percent": 82
-            },
-            {
-              "name": "HDL Cholesterol (Good)",
-              "value": 44,
-              "unit": "mg/dL",
-              "range": "> 50",
-              "status": "low",
-              "statusLabel": "Borderline Low",
-              "percent": 35
-            },
-            {
-              "name": "Serum Creatinine",
-              "value": 0.85,
-              "unit": "mg/dL",
-              "range": "0.5 - 1.1",
-              "status": "normal",
-              "statusLabel": "Normal",
-              "percent": 50
-            },
-            {
-              "name": "eGFR (Kidney Filtration)",
-              "value": 92,
-              "unit": "mL/min/1.73m²",
-              "range": "> 90",
-              "status": "normal",
-              "statusLabel": "Optimal",
-              "percent": 65
-            },
-            {
-              "name": "Estimated Avg Glucose (eAG)",
-              "value": 194,
-              "unit": "mg/dL",
-              "range": "90 - 120",
-              "status": "elevated",
-              "statusLabel": "Elevated",
-              "percent": 82
+              "percent": 60
             }
           ]
         }
@@ -966,198 +1731,313 @@
     "createdAt": "2026-10-02T11:30:00Z",
     "reports": [
       {
-        "id": "rep-1791444583713",
-        "title": "METABOLIC Report.pdf",
-        "date": "08 अक्टू॰ 2026",
-        "facility": "अपोलो डायग्नोस्टिक्स सेंट्रल लैब",
-        "summary_en": "Your blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is ...",
-        "summary_hi": "आपकी खून की जांच से पता चलता है कि आपके शुगर और कोलेस्ट्रॉल स्तर पर विशेष ध्यान देने की जरूरत है। आपका एचबीए1सी (HbA1c) ...",
-        "category": "metabolic",
+        "id": "rep-rohan-oct-2026",
+        "title": "Complete Blood Count (CBC) - Oct 2026.pdf",
+        "date": "06 Oct 2026",
+        "facility": "Metropolis Healthcare",
+        "summary_en": "Mild microcytic anemia with hemoglobin recovering to 10.8 g/dL (up from 10.2). Platelets 140,000 /µL.",
+        "summary_hi": "हल्का एनीमिया, हीमोग्लोबिन बढ़कर 10.8 g/dL हुआ (पहले 10.2 था)। संक्रमण रहित।",
+        "category": "hematology",
+        "biomarkers": [
+          {
+            "name": "Hemoglobin (Hb)",
+            "value": 10.8,
+            "unit": "g/dL",
+            "range": "13.5 - 17.5",
+            "status": "low",
+            "statusLabel": "Mild Low",
+            "percent": 32
+          },
+          {
+            "name": "RBC Count",
+            "value": 3.9,
+            "unit": "mil/µL",
+            "range": "4.3 - 5.9",
+            "status": "low",
+            "statusLabel": "Low",
+            "percent": 30
+          },
+          {
+            "name": "Platelet Count",
+            "value": 140000,
+            "unit": "/µL",
+            "range": "150,000 - 450,000",
+            "status": "low",
+            "statusLabel": "Borderline Low",
+            "percent": 28
+          },
+          {
+            "name": "WBC Total (Leukocytes)",
+            "value": 6800,
+            "unit": "/µL",
+            "range": "4,500 - 11,000",
+            "status": "normal",
+            "statusLabel": "Normal",
+            "percent": 52
+          }
+        ],
         "fullData": {
           "success": true,
           "userEmail": "rohan@sagecure.ai",
-          "language": "hi",
-          "makeStatus": "200 OK",
+          "language": "en",
+          "query": "CBC Hematology Panel Oct 2026",
           "patient": {
             "name": "Rohan Varma",
-            "age": "48",
-            "gender": "महिला",
-            "abhaId": "14-0234-5678-9012@abdm",
-            "facility": "अपोलो डायग्नोस्टिक्स सेंट्रल लैब",
-            "date": "08 अक्टू॰ 2026",
-            "confidence": "99.4%"
+            "age": "34 Y",
+            "gender": "Male",
+            "abhaId": "22-9811-4321-7654@abdm",
+            "facility": "Metropolis Healthcare",
+            "date": "06 Oct 2026",
+            "confidence": "99.1% FHIR"
           },
-          "plainLanguage": "आपके सवाल \"क्या मेरा हीमोग्लोबिन ठीक है?\" के संदर्भ में:\n\nआपकी खून की जांच से पता चलता है कि आपके शुगर और कोलेस्ट्रॉल स्तर पर विशेष ध्यान देने की जरूरत है। आपका एचबीए1सी (HbA1c) 8.4% है, जो पिछले 3 महीनों में शुगर का स्तर अधिक रहने का संकेत है। साथ ही एलडीएल (खराब) कोलेस्ट्रॉल 162 mg/dL पर है। अच्छी खबर यह है कि आपकी किडनी बहुत स्वस्थ काम कर रही है (eGFR 92)। कृपया अपने डॉक्टर से परामर्श कर दवा और परहेज की योजना बनाएं।",
-          "plainLanguage_en": "Your blood test report indicates that your glycemic control and lipid profile require clinical attention. Your HbA1c is 8.4%, reflecting higher average glucose levels over the last 90 days. Concurrently, your LDL cholesterol is at 162 mg/dL. Your kidney filtration is strong and preserved with an eGFR of 92 mL/min. We advise scheduling an appointment with your physician to evaluate your glycemic management and lipid regimen.",
-          "plainLanguage_hi": "आपकी खून की जांच से पता चलता है कि आपके शुगर और कोलेस्ट्रॉल स्तर पर विशेष ध्यान देने की जरूरत है। आपका एचबीए1सी (HbA1c) 8.4% है, जो पिछले 3 महीनों में शुगर का स्तर अधिक रहने का संकेत है। साथ ही एलडीएल (खराब) कोलेस्ट्रॉल 162 mg/dL पर है। अच्छी खबर यह है कि आपकी किडनी बहुत स्वस्थ काम कर रही है (eGFR 92)। कृपया अपने डॉक्टर से परामर्श कर दवा और परहेज की योजना बनाएं।",
-          "audioText": "आपके सवाल के संबंध में: नमस्ते Rohan Varma। आपकी खून की जांच का विश्लेषण कर लिया गया है। आपका एचबीए1सी 8.4 प्रतिशत है, जो पिछले तीन महीनों में शुगर बढ़ने का संकेत देता है। साथ ही एलडीएल कोलेस्ट्रॉल भी बढ़ा हुआ है। राहत की बात यह है कि आपकी किडनी सुरक्षित है। कृपया अपने डॉक्टर से मिलकर परामर्श लें।",
-          "audioText_en": "Hello Rohan Varma. Your blood test report has been analyzed. Your HbA1c is 8.4 percent, indicating higher than target blood sugar levels over the past 3 months. In addition, your LDL cholesterol is 162 milligrams per deciliter, which is above the optimal range. The good news is your kidney and liver markers are in healthy ranges. We recommend sharing these observations with your doctor.",
-          "audioText_hi": "नमस्ते Rohan Varma। आपकी खून की जांच का विश्लेषण कर लिया गया है। आपका एचबीए1सी 8.4 प्रतिशत है, जो पिछले तीन महीनों में शुगर बढ़ने का संकेत देता है। साथ ही एलडीएल कोलेस्ट्रॉल भी बढ़ा हुआ है। राहत की बात यह है कि आपकी किडनी सुरक्षित है। कृपया अपने डॉक्टर से मिलकर परामर्श लें।",
-          "takeaways": [
-            "तीन महीने का औसत शुगर स्तर बढ़ा हुआ है (HbA1c: 8.4%)।",
-            "कोलेस्ट्रॉल प्रोफाइल में एलडीएल (162 mg/dL) बढ़ा हुआ है।",
-            "किडनी की कार्यप्रणाली (eGFR > 90) बिल्कुल सामान्य और सुरक्षित है।"
-          ],
-          "takeaways_en": [
-            "Glycemic control is above recommended targets (HbA1c: 8.4%).",
-            "Lipid panel shows elevated LDL (162 mg/dL) and borderline HDL (44 mg/dL).",
-            "Renal function is healthy and normal with eGFR > 90."
-          ],
-          "takeaways_hi": [
-            "तीन महीने का औसत शुगर स्तर बढ़ा हुआ है (HbA1c: 8.4%)।",
-            "कोलेस्ट्रॉल प्रोफाइल में एलडीएल (162 mg/dL) बढ़ा हुआ है।",
-            "किडनी की कार्यप्रणाली (eGFR > 90) बिल्कुल सामान्य और सुरक्षित है।"
-          ],
-          "questions": [
-            "क्या 8.4% एचबीए1सी को देखते हुए मेरी दवाओं की खुराक बदलने की जरूरत है?",
-            "क्या मुझे कोलेस्ट्रॉल घटाने के लिए स्टेटिन जैसी दवा शुरू करनी चाहिए?",
-            "अगली बार लिपिड और शुगर टेस्ट कब कराना चाहिए?"
-          ],
-          "questions_en": [
-            "Should my diabetes medication dose be adjusted based on this 8.4% HbA1c?",
-            "Do you recommend starting a cholesterol-lowering medication such as a statin?",
-            "When should we re-test my lipid profile and blood sugar?"
-          ],
-          "questions_hi": [
-            "क्या 8.4% एचबीए1सी को देखते हुए मेरी दवाओं की खुराक बदलने की जरूरत है?",
-            "क्या मुझे कोलेस्ट्रॉल घटाने के लिए स्टेटिन जैसी दवा शुरू करनी चाहिए?",
-            "अगली बार लिपिड और शुगर टेस्ट कब कराना चाहिए?"
-          ],
-          "actions": [
-            {
-              "icon": "🥗",
-              "title": "कम ग्लाइसेमिक इंडेक्स आहार",
-              "desc": "दालें, हरी पत्तेदार सब्जियां और सलाद खाएं; मीठा और मैदा बंद करें।"
-            },
-            {
-              "icon": "🏃",
-              "title": "नियमित 30 मिनट सैर",
-              "desc": "हफ्ते में 5 दिन कम से कम 30 मिनट तेज सैर इंसुलिन सुधारती है।"
-            },
-            {
-              "icon": "🩺",
-              "title": "डॉक्टर से परामर्श",
-              "desc": "अगले 7 से 10 दिनों में विशेषज्ञ डॉक्टर से मिलकर रिपोर्ट दिखाएं।"
-            }
-          ],
-          "actions_en": [
-            {
-              "icon": "🥗",
-              "title": "Low Glycemic Index Nutrition",
-              "desc": "Prioritize legumes, leafy greens, and cut simple carbohydrates."
-            },
-            {
-              "icon": "🏃",
-              "title": "Daily Physical Activity",
-              "desc": "Aim for 30 minutes of aerobic exercise 5 days a week."
-            },
-            {
-              "icon": "🩺",
-              "title": "Clinical Follow-up",
-              "desc": "Schedule an endocrinologist evaluation within the next 7 to 10 days."
-            }
-          ],
-          "actions_hi": [
-            {
-              "icon": "🥗",
-              "title": "कम ग्लाइसेमिक इंडेक्स आहार",
-              "desc": "दालें, हरी पत्तेदार सब्जियां और सलाद खाएं; मीठा और मैदा बंद करें।"
-            },
-            {
-              "icon": "🏃",
-              "title": "नियमित 30 मिनट सैर",
-              "desc": "हफ्ते में 5 दिन कम से कम 30 मिनट तेज सैर इंसुलिन सुधारती है।"
-            },
-            {
-              "icon": "🩺",
-              "title": "डॉक्टर से परामर्श",
-              "desc": "अगले 7 से 10 दिनों में विशेषज्ञ डॉक्टर से मिलकर रिपोर्ट दिखाएं।"
-            }
-          ],
+          "summary": "Your Complete Blood Count shows mild anemia, but with positive recovery. Hemoglobin has increased to 10.8 g/dL compared to 10.2 g/dL last month (+5.9%). White blood cells are normal with zero signs of infection.",
+          "plainLanguage": "Your Complete Blood Count shows mild anemia, but with positive recovery. Hemoglobin has increased to 10.8 g/dL compared to 10.2 g/dL last month (+5.9%). White blood cells are normal with zero signs of infection.",
+          "plainLanguage_en": "Your Complete Blood Count shows mild anemia, but with positive recovery. Hemoglobin has increased to 10.8 g/dL compared to 10.2 g/dL last month (+5.9%). White blood cells are normal with zero signs of infection.",
+          "plainLanguage_hi": "आपकी सीबीसी रिपोर्ट में हल्का एनीमिया है, लेकिन हीमोग्लोबिन 10.2 से बढ़कर 10.8 g/dL (+5.9%) हो गया है। श्वेत रक्त कणिकाएं सामान्य हैं।",
+          "plainLanguage_pa": "ਤੁਹਾਡੀ ਸੀਬੀਸੀ ਰਿਪੋਰਟ ਵਿੱਚ ਹੀਮੋਗਲੋਬਿਨ 10.2 ਤੋਂ ਵੱਧ ਕੇ 10.8 g/dL (+5.9%) ਹੋ ਗਿਆ ਹੈ ਜੋ ਕਿ ਚੰਗੀ ਰਿਕਵਰੀ ਦਰਸਾਉਂਦਾ ਹੈ। ਸਫੈਦ ਸੈੱਲ ਬਿਲਕੁਲ ਆਮ ਹਨ।",
+          "audioText": "Hello Rohan. Your CBC panel shows mild microcytic anemia, but your hemoglobin has improved by 5.9 percent over the past month to 10.8 grams per deciliter. Continue your prescribed iron regimen.",
+          "audioText_en": "Hello Rohan. Your CBC panel shows mild microcytic anemia, but your hemoglobin has improved by 5.9 percent over the past month to 10.8 grams per deciliter. Continue your prescribed iron regimen.",
+          "audioText_hi": "नमस्ते रोहन जी। आपकी सीबीसी जांच में हीमोग्लोबिन 10.2 से सुधरकर 10.8 g/dL हो गया है। आयरन और विटामिन सी युक्त आहार जारी रखें।",
+          "audioText_pa": "ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ ਰੋਹਨ ਜੀ। ਤੁਹਾਡਾ ਹੀਮੋਗਲੋਬਿਨ ਪਿਛਲੇ ਮਹੀਨੇ ਨਾਲੋਂ 5.9 ਪ੍ਰਤੀਸ਼ਤ ਵਧ ਕੇ 10.8 ਗ੍ਰਾਮ ਪ੍ਰਤੀ ਡੈਸੀਲੀਟਰ ਹੋ ਗਿਆ ਹੈ। ਖੁਰਾਕ ਦਾ ਧਿਆਨ ਰੱਖੋ।",
           "biomarkers": [
             {
-              "name": "एचबीए1सी (HbA1c ग्लाइकेटेड)",
-              "value": 8.4,
-              "unit": "%",
-              "range": "< 5.7",
-              "status": "elevated",
-              "statusLabel": "उच्च (डायबिटिक)",
-              "percent": 84
-            },
-            {
-              "name": "फास्टिंग ब्लड शुगर (FBS)",
-              "value": 168,
-              "unit": "mg/dL",
-              "range": "70 - 99",
-              "status": "elevated",
-              "statusLabel": "बढ़ा हुआ",
-              "percent": 80
-            },
-            {
-              "name": "कुल कोलेस्ट्रॉल",
-              "value": 235,
-              "unit": "mg/dL",
-              "range": "< 200",
-              "status": "elevated",
-              "statusLabel": "उच्च",
-              "percent": 78
-            },
-            {
-              "name": "एलडीएल कोलेस्ट्रॉल (खराब)",
-              "value": 162,
-              "unit": "mg/dL",
-              "range": "< 100",
-              "status": "elevated",
-              "statusLabel": "उच्च",
-              "percent": 82
-            },
-            {
-              "name": "एचडीएल कोलेस्ट्रॉल (अच्छा)",
-              "value": 44,
-              "unit": "mg/dL",
-              "range": "> 50",
+              "name": "Hemoglobin (Hb)",
+              "value": 10.8,
+              "unit": "g/dL",
+              "range": "13.5 - 17.5",
               "status": "low",
-              "statusLabel": "सीमा पर कम",
-              "percent": 35
+              "statusLabel": "Mild Low",
+              "percent": 32
             },
             {
-              "name": "सीरम क्रिएटिनिन",
-              "value": 0.85,
-              "unit": "mg/dL",
-              "range": "0.5 - 1.1",
+              "name": "RBC Count",
+              "value": 3.9,
+              "unit": "mil/µL",
+              "range": "4.3 - 5.9",
+              "status": "low",
+              "statusLabel": "Low",
+              "percent": 30
+            },
+            {
+              "name": "Platelet Count",
+              "value": 140000,
+              "unit": "/µL",
+              "range": "150,000 - 450,000",
+              "status": "low",
+              "statusLabel": "Borderline Low",
+              "percent": 28
+            },
+            {
+              "name": "WBC Total (Leukocytes)",
+              "value": 6800,
+              "unit": "/µL",
+              "range": "4,500 - 11,000",
               "status": "normal",
-              "statusLabel": "सामान्य",
-              "percent": 50
+              "statusLabel": "Normal",
+              "percent": 52
+            }
+          ],
+          "retrievedEvidence": [
+            "WHO Hematology: Hemoglobin trajectory from 9.6 to 10.2 to 10.8 g/dL over 60 days confirms functional erythropoiesis response to oral iron.",
+            "Longitudinal Trend: Hemoglobin is up +5.9% since September and +12.5% since August baseline.",
+            "Dietary Protocol: Combine iron-rich legumes and amla; avoid tea/coffee near meal times."
+          ],
+          "recommendations": [
+            {
+              "icon": "🥩",
+              "title": "Iron & Vitamin C Nutrition",
+              "desc": "Consume spinach, lentils, beets, accompanied by citrus fruits or amla."
             },
             {
-              "name": "ईजीएफआर (किडनी फिल्ट्रेशन)",
-              "value": 92,
-              "unit": "mL/min/1.73m²",
-              "range": "> 90",
-              "status": "normal",
-              "statusLabel": "उत्कृष्ट",
-              "percent": 65
+              "icon": "☕",
+              "title": "Avoid Tea/Coffee with Meals",
+              "desc": "Tannins inhibit iron absorption; separate tea from meals by 2 hours."
             },
             {
-              "name": "अनुमानित औसत शुगर (eAG)",
-              "value": 194,
-              "unit": "mg/dL",
-              "range": "90 - 120",
-              "status": "elevated",
-              "statusLabel": "बढ़ा हुआ",
-              "percent": 82
+              "icon": "🩸",
+              "title": "Ferritin Re-Check",
+              "desc": "Schedule a ferritin and iron profile in 30 days."
             }
           ]
         }
       },
       {
-        "id": "rep-102",
-        "title": "Complete Blood Count (CBC)",
-        "date": "06 Oct 2026",
+        "id": "rep-rohan-sep-2026",
+        "title": "Complete Blood Count (CBC) - Sep 2026.pdf",
+        "date": "05 Sep 2026",
         "facility": "Metropolis Healthcare",
-        "summary_en": "Mild microcytic anemia detected with hemoglobin 10.8 g/dL. Platelets 140,000.",
-        "summary_hi": "हल्का एनीमिया पाया गया (हीमोग्लोबिन 10.8)। संक्रमण रहित और सुरक्षित।",
-        "category": "hematology"
+        "summary_en": "Hemoglobin 10.2 g/dL, RBC 3.7 mil/µL, Platelets 132,000 /µL, WBC 6,500 /µL.",
+        "summary_hi": "हीमोग्लोबिन 10.2 g/dL, आरबीसी 3.7 mil/µL, प्लेटलेट्स 132,000 /µL।",
+        "category": "hematology",
+        "biomarkers": [
+          {
+            "name": "Hemoglobin (Hb)",
+            "value": 10.2,
+            "unit": "g/dL",
+            "range": "13.5 - 17.5",
+            "status": "low",
+            "statusLabel": "Low",
+            "percent": 28
+          },
+          {
+            "name": "RBC Count",
+            "value": 3.7,
+            "unit": "mil/µL",
+            "range": "4.3 - 5.9",
+            "status": "low",
+            "statusLabel": "Low",
+            "percent": 27
+          },
+          {
+            "name": "Platelet Count",
+            "value": 132000,
+            "unit": "/µL",
+            "range": "150,000 - 450,000",
+            "status": "low",
+            "statusLabel": "Low",
+            "percent": 25
+          },
+          {
+            "name": "WBC Total (Leukocytes)",
+            "value": 6500,
+            "unit": "/µL",
+            "range": "4,500 - 11,000",
+            "status": "normal",
+            "statusLabel": "Normal",
+            "percent": 50
+          }
+        ],
+        "fullData": {
+          "success": true,
+          "summary": "CBC Follow-up Sep 2026: Hemoglobin 10.2 g/dL, Platelets 132,000 /µL.",
+          "biomarkers": [
+            {
+              "name": "Hemoglobin (Hb)",
+              "value": 10.2,
+              "unit": "g/dL",
+              "range": "13.5 - 17.5",
+              "status": "low",
+              "statusLabel": "Low",
+              "percent": 28
+            },
+            {
+              "name": "RBC Count",
+              "value": 3.7,
+              "unit": "mil/µL",
+              "range": "4.3 - 5.9",
+              "status": "low",
+              "statusLabel": "Low",
+              "percent": 27
+            },
+            {
+              "name": "Platelet Count",
+              "value": 132000,
+              "unit": "/µL",
+              "range": "150,000 - 450,000",
+              "status": "low",
+              "statusLabel": "Low",
+              "percent": 25
+            },
+            {
+              "name": "WBC Total (Leukocytes)",
+              "value": 6500,
+              "unit": "/µL",
+              "range": "4,500 - 11,000",
+              "status": "normal",
+              "statusLabel": "Normal",
+              "percent": 50
+            }
+          ]
+        }
+      },
+      {
+        "id": "rep-rohan-aug-2026",
+        "title": "Baseline CBC Anemia Panel - Aug 2026.pdf",
+        "date": "02 Aug 2026",
+        "facility": "Metropolis Healthcare",
+        "summary_en": "Baseline Screen: Hemoglobin low at 9.6 g/dL, Platelets 125,000 /µL.",
+        "summary_hi": "शुरुआती जांच: हीमोग्लोबिन 9.6 g/dL, प्लेटलेट्स 125,000 /µL।",
+        "category": "hematology",
+        "biomarkers": [
+          {
+            "name": "Hemoglobin (Hb)",
+            "value": 9.6,
+            "unit": "g/dL",
+            "range": "13.5 - 17.5",
+            "status": "low",
+            "statusLabel": "Low",
+            "percent": 22
+          },
+          {
+            "name": "RBC Count",
+            "value": 3.4,
+            "unit": "mil/µL",
+            "range": "4.3 - 5.9",
+            "status": "low",
+            "statusLabel": "Low",
+            "percent": 22
+          },
+          {
+            "name": "Platelet Count",
+            "value": 125000,
+            "unit": "/µL",
+            "range": "150,000 - 450,000",
+            "status": "low",
+            "statusLabel": "Low",
+            "percent": 22
+          },
+          {
+            "name": "WBC Total (Leukocytes)",
+            "value": 6400,
+            "unit": "/µL",
+            "range": "4,500 - 11,000",
+            "status": "normal",
+            "statusLabel": "Normal",
+            "percent": 48
+          }
+        ],
+        "fullData": {
+          "success": true,
+          "summary": "Baseline CBC Screen Aug 2026: Hemoglobin 9.6 g/dL, Platelets 125,000 /µL.",
+          "biomarkers": [
+            {
+              "name": "Hemoglobin (Hb)",
+              "value": 9.6,
+              "unit": "g/dL",
+              "range": "13.5 - 17.5",
+              "status": "low",
+              "statusLabel": "Low",
+              "percent": 22
+            },
+            {
+              "name": "RBC Count",
+              "value": 3.4,
+              "unit": "mil/µL",
+              "range": "4.3 - 5.9",
+              "status": "low",
+              "statusLabel": "Low",
+              "percent": 22
+            },
+            {
+              "name": "Platelet Count",
+              "value": 125000,
+              "unit": "/µL",
+              "range": "150,000 - 450,000",
+              "status": "low",
+              "statusLabel": "Low",
+              "percent": 22
+            },
+            {
+              "name": "WBC Total (Leukocytes)",
+              "value": 6400,
+              "unit": "/µL",
+              "range": "4,500 - 11,000",
+              "status": "normal",
+              "statusLabel": "Normal",
+              "percent": 48
+            }
+          ]
+        }
       }
     ]
   }
