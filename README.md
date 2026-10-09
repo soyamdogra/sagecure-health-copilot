@@ -261,3 +261,6 @@ sagecure-health-copilot/
 
 > **IMPORTANT CLINICAL NOTICE**:  
 > SageCure is an AI clinical assistant engineered for educational, clinical decision-support, and informational purposes. It does not replace professional medical evaluation, diagnosis, or clinical judgment. Patients must always consult a licensed medical practitioner before making changes to their treatment, medications, or lifestyle. In case of acute or life-threatening symptoms, immediately dial emergency dispatch (`112` or `102`).
+VIDEO LINK
+
+https://notebooklm.link.google/3YujiXVue67X
